@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IsoXRD v3.3 — Crystallographic Phase & Multi-Sample Notebook</title>
+  <title>IsoXRD v3.4 — Crystallographic Phase & Multi-Sample Notebook</title>
   <style>
     /* Theme 3 (Default): Warm Linen & Terracotta (Speleothem Archival Notebook) */
     :root, [data-theme="linen"] {
@@ -622,7 +622,7 @@
       <span class="brand-title" data-i18n="appTitle">IsoXRD — 결정학 상동정 & 다중 시료 분석 노트</span>
       <span class="brand-sub" data-i18n="appSub">Multi-Sample Diffraction Stack & Integrated-Area Carbonate Analyzer</span>
     </div>
-    <span class="version-tag">v3.3</span>
+    <span class="version-tag">v3.4</span>
   </div>
 
   <div class="header-actions">
@@ -687,7 +687,7 @@
       </div>
       <div class="dropzone" id="dropzone">
         <div style="font-weight:700; margin-bottom:2px;" data-i18n="dropTitle">여기에 여러 XRD 파일 동시 드래그/클릭</div>
-        <div style="font-size:11px; color:var(--muted);">PANalytical .xrdml (.csv XML), .csv, .txt, .xy</div>
+        <div style="font-size:11px; color:var(--muted);">.xrdml, HighScore .txt (Pos/Counts), .csv, .xy</div>
         <input type="file" id="fileInput" accept=".xrdml,.xml,.csv,.txt,.xy" multiple style="display:none" />
       </div>
       <div class="sample-list" id="sampleList"></div>
@@ -807,7 +807,7 @@
       </div>
 
       <div class="chart-footer">
-        <span data-i18n="chartHint">💡 드래그: 구간 확대 / 더블클릭: 초기화 / 상단 [Linen / Journal / Blueprint] 테마 선택 자동 기억</span>
+        <span data-i18n="chartHint">💡 드래그: 구간 확대 / 더블클릭: 초기화 / 다열 HighScore TXT 및 XRDML 자동 인식 지원</span>
         <span class="mono" id="presetSourceBadge">Preset JSON: loading...</span>
       </div>
     </div>
@@ -885,7 +885,6 @@
       </div>
     </div>
 
-    <!-- 1. In-text Methods Statement -->
     <div class="cite-section">
       <div class="cite-section-header">
         <span data-i18n="citeSec1">1. 논문 본문 / Methods 표기 예시 (In-Text Statement)</span>
@@ -894,7 +893,6 @@
       <div class="cite-code" id="citeTextStatement"></div>
     </div>
 
-    <!-- 2. Standard Reference (APA / Journal Style) -->
     <div class="cite-section">
       <div class="cite-section-header">
         <span data-i18n="citeSec2">2. 참고문헌 표기 (Reference Format)</span>
@@ -903,7 +901,6 @@
       <div class="cite-code" id="citeTextApa"></div>
     </div>
 
-    <!-- 3. BibTeX -->
     <div class="cite-section">
       <div class="cite-section-header">
         <span data-i18n="citeSec3">3. BibTeX (LaTeX / Overleaf)</span>
@@ -977,7 +974,6 @@
 
 <script>
 (function() {
-  // Replace with your permanent Zenodo DOI once you want it hardcoded for all visitors
   const DEFAULT_DOI = "10.5281/zenodo.xxxxxxx";
 
   const I18N = {
@@ -1017,7 +1013,7 @@
       rangeLbl: "2θ:",
       btnApply: "적용",
       btnReset: "전체",
-      chartHint: "💡 드래그: 구간 확대 / 더블클릭: 초기화 / 상단 [Linen / Journal / Blueprint] 테마 선택 자동 기억",
+      chartHint: "💡 드래그: 구간 확대 / 더블클릭: 초기화 / 다열 HighScore TXT 및 XRDML 자동 인식 지원",
       subTabPeaks: "활성 시료 피크 & 적분 면적표",
       subTabBatch: "다중 시료 일괄 정량 요약표 (Batch Summary)",
       tableHint: "행 클릭 시 차트에서 해당 피크 강조",
@@ -1101,7 +1097,7 @@
       rangeLbl: "2θ:",
       btnApply: "Apply",
       btnReset: "Full",
-      chartHint: "💡 Drag: Zoom in / Double-click: Reset / Selected theme [Linen / Journal / Blueprint] is saved automatically",
+      chartHint: "💡 Drag: Zoom in / Double-click: Reset / Multi-column HighScore TXT & XRDML supported",
       subTabPeaks: "Active Sample Peaks & Integrated Area",
       subTabBatch: "Multi-Sample Batch Quantitative Summary",
       tableHint: "Click a row to highlight the peak on the chart",
@@ -1280,10 +1276,10 @@
     document.getElementById("linkZenodoDoi").href = doiUrl;
 
     document.getElementById("citeTextStatement").textContent =
-      `X-ray diffraction (XRD) baseline subtraction, non-linear sample height displacement correction (Δ2θ = s₀ + s₁cosθ), mineral phase identification, and integrated-area carbonate quantification were performed using IsoXRD v3.3 (Yang, 2026; ${doiUrl}).`;
+      `X-ray diffraction (XRD) baseline subtraction, non-linear sample height displacement correction (Δ2θ = s₀ + s₁cosθ), mineral phase identification, and integrated-area carbonate quantification were performed using IsoXRD v3.4 (Yang, 2026; ${doiUrl}).`;
 
     document.getElementById("citeTextApa").textContent =
-      `Yang, Y.-S. (2026). IsoXRD: Lightweight Browser-Based XRD Phase Identification and Semi-Quantitative Carbonate Analysis Tool (Version 3.3) [Computer software]. Zenodo. ${doiUrl}`;
+      `Yang, Y.-S. (2026). IsoXRD: Lightweight Browser-Based XRD Phase Identification and Semi-Quantitative Carbonate Analysis Tool (Version 3.4) [Computer software]. Zenodo. ${doiUrl}`;
 
     document.getElementById("citeTextBib").textContent =
 `@software{Yang_IsoXRD_2026,
@@ -1292,7 +1288,7 @@
   month        = nov,
   year         = 2026,
   publisher    = {Zenodo},
-  version      = {v3.3},
+  version      = {v3.4},
   doi          = {${cleanDoi}},
   url          = {${doiUrl}}
 }`;
@@ -1970,6 +1966,13 @@
     const pal = THEME_CHART_PALETTE[currentTheme].traces;
     let loaded = 0;
 
+    // Clear demo samples automatically when user uploads their first real files
+    const isOnlyDemo = samples.length > 0 && samples.every(s => s.isDemo);
+    if (isOnlyDemo) {
+      samples = [];
+      activeSampleIdx = 0;
+    }
+
     files.forEach(file => {
       const reader = new FileReader();
       reader.onload = e => {
@@ -1987,6 +1990,7 @@
             name: file.name,
             color,
             visible: true,
+            isDemo: false,
             rawX: parsed.x,
             rawY: parsed.y,
             smoothY: [], baseY: [], netY: [],
@@ -2046,16 +2050,60 @@
     return { x: xVals, y: yVals };
   }
 
+  // Enhanced parser supporting 2-column CSV/XY and multi-column PANalytical HighScore TSV/TXT exports
   function parseDelimitedText(text) {
     const lines = text.split(/\r?\n/);
     const x = [], y = [];
+    let posCol = -1;
+    let intCol = -1;
+    let isTabDelimited = false;
+
+    for (let i = 0; i < Math.min(40, lines.length); i++) {
+      const rawLine = lines[i].trim();
+      if (!rawLine) continue;
+      if (rawLine.includes("\t")) {
+        const cols = rawLine.split("\t").map(c => c.trim());
+        const pIdx = cols.findIndex(c => /pos|2theta|2θ|angle/i.test(c));
+        const iIdx = cols.findIndex(c => /intensity|counts|iobs|yobs/i.test(c));
+        if (pIdx !== -1 && iIdx !== -1) {
+          posCol = pIdx;
+          intCol = iIdx;
+          isTabDelimited = true;
+          break;
+        }
+      }
+    }
+
     for (const line of lines) {
-      const parts = line.trim().split(/[\s,;]+/);
-      if (parts.length >= 2) {
-        const a = parseFloat(parts[0]), b = parseFloat(parts[1]);
-        if (!isNaN(a) && !isNaN(b) && a > 0 && a < 180) {
-          x.push(a);
-          y.push(b);
+      if (!line.trim()) continue;
+      if (posCol !== -1 && intCol !== -1 && isTabDelimited) {
+        const cols = line.split("\t");
+        if (cols.length > Math.max(posCol, intCol)) {
+          const a = parseFloat(cols[posCol]);
+          const b = parseFloat(cols[intCol]);
+          if (!isNaN(a) && !isNaN(b) && a > 0 && a < 180) {
+            x.push(a);
+            y.push(b);
+          }
+        }
+      } else {
+        const parts = line.trim().split(/[\s,;]+/);
+        if (parts.length >= 2) {
+          // If first column is an integer index (1, 2, 3...) and there are >= 3 columns, use 2nd and last column
+          if (parts.length >= 3 && /^\d+$/.test(parts[0]) && parseFloat(parts[1]) > 0 && parseFloat(parts[1]) < 180) {
+            const a = parseFloat(parts[1]);
+            const b = parseFloat(parts[parts.length - 1]);
+            if (!isNaN(a) && !isNaN(b)) {
+              x.push(a);
+              y.push(b);
+              continue;
+            }
+          }
+          const a = parseFloat(parts[0]), b = parseFloat(parts[1]);
+          if (!isNaN(a) && !isNaN(b) && a > 0 && a < 180) {
+            x.push(a);
+            y.push(b);
+          }
         }
       }
     }
@@ -2430,11 +2478,12 @@
 
   document.getElementById("btnReloadRemotePreset").onclick = loadExternalPresetJson;
 
-  // Boot
+  // Boot (mark demo samples with isDemo: true so real uploads replace them cleanly)
   setTheme(currentTheme, false);
   renderCitationTexts();
   renderDbPills();
   loadDemoPreset("core_suite");
+  samples.forEach(s => s.isDemo = true);
   loadExternalPresetJson();
 })();
 </script>
