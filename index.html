@@ -3,29 +3,78 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IsoXRD v3.0 — Editorial Mineralogical Diffraction & Multi-Sample Console</title>
+  <title>IsoXRD v3.1 — Multi-Theme Crystallographic & Carbonate Analyzer</title>
   <style>
-    :root {
-      --bg: #f6f3ec;
-      --surface: #fdfbf7;
-      --surface-subtle: #f1ede3;
-      --border: #dfd8c8;
-      --border-strong: #c7bda8;
-      --text: #1c1917;
-      --text-secondary: #57534e;
-      --muted: #78716c;
-      --primary: #1b4d3e;        /* Deep Forest / Malachite Ink */
-      --primary-hover: #13382d;
-      --primary-soft: #e8f1ee;
-      --accent: #9a3412;         /* Hematite / Rust Ink */
-      --accent-soft: #faece6;
-      --blue-ink: #1e40af;       /* Azurite Ink */
-      --amber-ink: #92400e;      /* Ochre Ink */
+    /* Theme 1: Nature / Science Journal (Default) */
+    :root, [data-theme="journal"] {
+      --bg: #f4f4f5;
+      --surface: #ffffff;
+      --surface-subtle: #f8fafc;
+      --border: #e4e4e7;
+      --border-strong: #d4d4d8;
+      --text: #18181b;
+      --text-secondary: #52525b;
+      --muted: #71717a;
+      --primary: #1d4ed8;        /* Academic Cobalt */
+      --primary-hover: #1e40af;
+      --primary-soft: #eff6ff;
+      --primary-border: #bfdbfe;
+      --accent: #9f1239;         /* Journal Burgundy */
+      --blue-ink: #1d4ed8;
+      --chart-bg: #ffffff;
+      --chart-grid: #f1f5f9;
+      --chart-frame: #18181b;
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
       --serif: "Georgia", "Noto Serif KR", "Times New Roman", serif;
       --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
-      --shadow-sm: 0 1px 2px rgba(28, 25, 23, 0.04);
-      --shadow-md: 0 4px 12px rgba(28, 25, 23, 0.06);
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+      --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.07);
+    }
+
+    /* Theme 2: Prussian Blueprint (Crystallographic Grid & Navy Ink) */
+    [data-theme="blueprint"] {
+      --bg: #eaf0f6;
+      --surface: #f8fbff;
+      --surface-subtle: #edf3fa;
+      --border: #cbd8e8;
+      --border-strong: #9fb4ce;
+      --text: #0f2942;
+      --text-secondary: #334e68;
+      --muted: #627d98;
+      --primary: #1e3a5f;        /* Prussian Navy Ink */
+      --primary-hover: #102a43;
+      --primary-soft: #dce8f5;
+      --primary-border: #9fb4ce;
+      --accent: #b45309;         /* Brass / Ochre Ink */
+      --blue-ink: #1e40af;
+      --chart-bg: #fcfdff;
+      --chart-grid: #e3ecf5;
+      --chart-frame: #1e3a5f;
+      --shadow-sm: 0 1px 2px rgba(15, 41, 66, 0.05);
+      --shadow-md: 0 4px 12px rgba(15, 41, 66, 0.08);
+    }
+
+    /* Theme 3: Warm Linen & Terracotta (Speleothem Archival Notebook) */
+    [data-theme="linen"] {
+      --bg: #f5f0e6;
+      --surface: #fcfaf5;
+      --surface-subtle: #f3ede0;
+      --border: #e2d9c8;
+      --border-strong: #c8bba4;
+      --text: #27272a;
+      --text-secondary: #52525b;
+      --muted: #78716c;
+      --primary: #a84a28;        /* Speleothem Terracotta */
+      --primary-hover: #8a3b1e;
+      --primary-soft: #f9ebe4;
+      --primary-border: #e7c3b3;
+      --accent: #a84a28;
+      --blue-ink: #1e40af;
+      --chart-bg: #fffdf9;
+      --chart-grid: #f2ece0;
+      --chart-frame: #44403c;
+      --shadow-sm: 0 1px 2px rgba(39, 39, 42, 0.04);
+      --shadow-md: 0 4px 12px rgba(39, 39, 42, 0.07);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -36,30 +85,32 @@
       font-size: 13px;
       line-height: 1.5;
       -webkit-font-smoothing: antialiased;
+      transition: background-color 0.2s, color 0.2s;
     }
 
-    /* Editorial Notebook Top Bar */
+    /* Header */
     header {
       background: var(--surface);
       border-bottom: 1px solid var(--border-strong);
-      padding: 12px 24px;
+      padding: 11px 24px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 14px;
+      gap: 12px;
       flex-wrap: wrap;
       position: sticky;
       top: 0;
       z-index: 30;
       box-shadow: var(--shadow-sm);
+      transition: background-color 0.2s, border-color 0.2s;
     }
-    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand { display: flex; align-items: center; gap: 11px; }
     .brand-emblem {
       width: 34px;
       height: 34px;
       border-radius: 7px;
       background: var(--primary);
-      color: #fdfbf7;
+      color: #ffffff;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -67,12 +118,12 @@
       font-weight: 700;
       font-size: 16px;
       letter-spacing: -0.02em;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
+      transition: background-color 0.2s;
     }
     .brand-title {
       font-family: var(--serif);
       font-weight: 700;
-      font-size: 16.5px;
+      font-size: 16px;
       color: var(--text);
       letter-spacing: -0.01em;
     }
@@ -87,12 +138,48 @@
       font-weight: 700;
       color: var(--primary);
       background: var(--primary-soft);
-      border: 1px solid #b8d4cb;
+      border: 1px solid var(--primary-border);
       padding: 2px 8px;
       border-radius: 999px;
     }
 
     .header-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+    /* Theme Switcher Pill Bar */
+    .theme-switcher {
+      display: inline-flex;
+      border: 1px solid var(--border-strong);
+      border-radius: 7px;
+      overflow: hidden;
+      background: var(--surface-subtle);
+      padding: 2px;
+      gap: 2px;
+    }
+    .theme-btn {
+      border: none;
+      background: transparent;
+      box-shadow: none;
+      padding: 4px 9px;
+      font-size: 11.5px;
+      font-weight: 600;
+      border-radius: 5px;
+      color: var(--text-secondary);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .theme-btn:hover { background: rgba(0,0,0,0.04); color: var(--text); }
+    .theme-btn.active {
+      background: var(--primary);
+      color: #ffffff;
+    }
+    .swatch-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+      border: 1px solid rgba(255,255,255,0.6);
+    }
 
     select, input[type="number"], input[type="text"], textarea {
       border: 1px solid var(--border-strong);
@@ -102,7 +189,6 @@
       font-family: inherit;
       background: #ffffff;
       color: var(--text);
-      transition: border-color 0.15s;
     }
     select:focus, input:focus, textarea:focus {
       outline: none;
@@ -124,7 +210,7 @@
     button:hover { background: var(--surface-subtle); }
     button.btn-primary {
       background: var(--primary);
-      color: #fdfbf7;
+      color: #ffffff;
       border-color: var(--primary);
     }
     button.btn-primary:hover { background: var(--primary-hover); }
@@ -147,10 +233,11 @@
     .kpi-card {
       background: var(--surface);
       border: 1px solid var(--border);
+      border-top: 3px solid var(--primary);
       border-radius: 8px;
-      padding: 11px 15px;
+      padding: 10px 15px;
       box-shadow: var(--shadow-sm);
-      position: relative;
+      transition: background-color 0.2s, border-color 0.2s;
     }
     .kpi-label {
       font-size: 11px;
@@ -186,6 +273,7 @@
       border-radius: 9px;
       padding: 14px 16px;
       box-shadow: var(--shadow-sm);
+      transition: background-color 0.2s, border-color 0.2s;
     }
     .card-header {
       display: flex;
@@ -202,7 +290,6 @@
       color: var(--text);
     }
 
-    /* Multi-file Dropzone & Sample Queue */
     .dropzone {
       border: 1.5px dashed var(--border-strong);
       border-radius: 7px;
@@ -269,7 +356,6 @@
     }
     input[type="range"] { width: 100%; accent-color: var(--primary); }
 
-    /* Integrated Area Carbonate Bar */
     .ratio-box {
       margin-top: 12px;
       padding: 10px 11px;
@@ -280,13 +366,13 @@
     .ratio-bar {
       height: 10px;
       border-radius: 999px;
-      background: #e5e0d5;
+      background: var(--border);
       overflow: hidden;
       display: flex;
       margin: 7px 0 6px;
     }
-    .ratio-cal { background: #9a3412; transition: width 0.25s; }
-    .ratio-ara { background: #1e40af; transition: width 0.25s; }
+    .ratio-cal { background: var(--accent); transition: width 0.25s; }
+    .ratio-ara { background: var(--blue-ink); transition: width 0.25s; }
 
     .rank-list { display: flex; flex-direction: column; gap: 5px; }
     .rank-item {
@@ -362,7 +448,7 @@
     }
     .segmented button.active {
       background: var(--primary);
-      color: #fdfbf7;
+      color: #ffffff;
     }
 
     #svgChartWrapper {
@@ -371,7 +457,7 @@
       min-height: 340px;
       border: 1px solid var(--border-strong);
       border-radius: 7px;
-      background: #ffffff;
+      background: var(--chart-bg);
       position: relative;
       overflow: hidden;
     }
@@ -386,7 +472,6 @@
       gap: 6px;
     }
 
-    /* Table Tabs (Single Peak Table vs Multi-Sample Batch Summary) */
     .sub-tabs {
       display: flex;
       gap: 8px;
@@ -403,7 +488,7 @@
     }
     .sub-tab-btn.active {
       background: var(--primary-soft);
-      border-color: #b8d4cb;
+      border-color: var(--primary-border);
       color: var(--primary);
     }
 
@@ -428,17 +513,17 @@
     }
     td {
       padding: 6px 10px;
-      border-bottom: 1px solid #f0ece1;
+      border-bottom: 1px solid var(--border);
       font-family: var(--mono);
       font-variant-numeric: tabular-nums;
     }
-    tr:hover td { background: #faf8f2; cursor: pointer; }
+    tr:hover td { background: var(--surface-subtle); cursor: pointer; }
     tr.selected td { background: var(--primary-soft); }
 
     /* Modal */
     .modal-backdrop {
       position: fixed; inset: 0;
-      background: rgba(28, 25, 23, 0.45);
+      background: rgba(15, 23, 42, 0.45);
       display: none;
       align-items: center;
       justify-content: center;
@@ -475,25 +560,39 @@
     .tab-pane.active { display: block; }
   </style>
 </head>
-<body>
+<body data-theme="journal">
 
 <header>
   <div class="brand">
     <div class="brand-emblem">Xr</div>
     <div>
       <span class="brand-title" data-i18n="appTitle">IsoXRD — 결정학 상동정 & 다중 시료 분석 노트</span>
-      <span class="brand-sub" data-i18n="appSub">Editorial Diffraction Notebook · Multi-Sample Stack & Integrated Area Quantification</span>
+      <span class="brand-sub" data-i18n="appSub">Multi-Sample Diffraction Stack & Integrated-Area Carbonate Analyzer</span>
     </div>
-    <span class="version-tag">v3.0</span>
+    <span class="version-tag">v3.1</span>
   </div>
+
   <div class="header-actions">
+    <!-- 3-Theme Live Switcher -->
+    <div class="theme-switcher" id="themeSwitcher" title="Select Visual Style">
+      <button class="theme-btn active" data-theme-val="journal">
+        <span class="swatch-dot" style="background:#1d4ed8;"></span>1. Journal
+      </button>
+      <button class="theme-btn" data-theme-val="blueprint">
+        <span class="swatch-dot" style="background:#1e3a5f;"></span>2. Blueprint
+      </button>
+      <button class="theme-btn" data-theme-val="linen">
+        <span class="swatch-dot" style="background:#a84a28;"></span>3. Linen
+      </button>
+    </div>
+
     <select id="demoSelect" title="Load Demo Suite">
       <option value="core_suite">Demo Suite: Speleothem Core (3 Depths Stack)</option>
       <option value="aragonite">Demo 1: WDS2_170 (Aragonite, +0.49°)</option>
       <option value="mixture">Demo 2: Calcite-Aragonite Mix (75% / 25%)</option>
       <option value="calcite">Demo 3: Pure Speleothem Calcite (+0.35°)</option>
     </select>
-    <button id="btnPubMode" data-i18n="pubModeBtn">출판용 흑백/고대비</button>
+    <button id="btnPubMode" data-i18n="pubModeBtn">출판용 흑백</button>
     <button id="btnExportCsv" data-i18n="exportCsv">결과 CSV</button>
     <button id="btnExportSvg" data-i18n="exportSvg">논문용 SVG</button>
     <button id="btnLang" class="btn-primary">English</button>
@@ -503,7 +602,7 @@
 <div class="kpi-strip">
   <div class="kpi-card">
     <div class="kpi-label" data-i18n="kpiFile">활성 시료 / 스택 수</div>
-    <div class="kpi-val" id="kpiFileName">Core_Top_01 (1/3)</div>
+    <div class="kpi-val" id="kpiFileName">Core_05mm_Top (1/3)</div>
     <div class="kpi-sub" id="kpiRangeInfo">15.00° – 65.00° (Cu Kα1)</div>
   </div>
   <div class="kpi-card">
@@ -561,7 +660,6 @@
         <input type="range" id="sliderS1" min="-0.8" max="0.8" step="0.005" value="0" />
       </div>
 
-      <!-- Integrated Area Carbonate Ratio + User RIR Factor -->
       <div class="ratio-box">
         <div style="display:flex; justify-content:space-between; align-items:center; font-size:11.5px; font-weight:700;">
           <span data-i18n="carbTitle">적분 면적 기반 탄산염 비율</span>
@@ -655,12 +753,12 @@
       </div>
 
       <div class="chart-footer">
-        <span data-i18n="chartHint">💡 드래그: 구간 확대 / 더블클릭: 초기화 / 라벨 충돌 자동 회피 적용됨 (출판용 SVG 내보내기 지원)</span>
+        <span data-i18n="chartHint">💡 상단 [1. Journal / 2. Blueprint / 3. Linen] 버튼으로 테마를 실시간 비교해 보세요.</span>
         <span class="mono" id="presetSourceBadge">Preset JSON: loading...</span>
       </div>
     </div>
 
-    <!-- Bottom Tabbed Tables: Single Peak Table vs Batch Multi-Sample Summary -->
+    <!-- Bottom Tabbed Tables -->
     <div class="card">
       <div class="card-header">
         <div class="sub-tabs">
@@ -670,7 +768,6 @@
         <span style="font-size:11px; color:var(--muted);" id="tableRightHint" data-i18n="tableHint">행 클릭 시 차트에서 해당 피크 강조</span>
       </div>
 
-      <!-- Pane 1: Single Sample Peak & Integrated Area Table -->
       <div id="panePeaks" class="table-wrap">
         <table>
           <thead>
@@ -690,7 +787,6 @@
         </table>
       </div>
 
-      <!-- Pane 2: Multi-Sample Batch Summary Table -->
       <div id="paneBatch" class="table-wrap" style="display:none;">
         <table>
           <thead>
@@ -751,7 +847,7 @@
         <input type="text" id="capMinName" data-i18n-ph="phCapEn" placeholder="영문명 (예: Lab_Calcite_Std)" />
         <input type="text" id="capMinKo" data-i18n-ph="phCapKo" placeholder="한글명 (예: 표준방해석)" />
         <input type="text" id="capMinFormula" data-i18n-ph="phFormula" placeholder="화학식 (예: CaCO3)" />
-        <input type="color" id="capMinColor" value="#1e40af" style="height:30px; width:100%;" />
+        <input type="color" id="capMinColor" value="#1d4ed8" style="height:30px; width:100%;" />
       </div>
       <button class="btn-primary" id="btnCaptureSpectrum" data-i18n="btnCapture">현재 상위 검출 피크 저장</button>
     </div>
@@ -778,9 +874,9 @@
   const I18N = {
     ko: {
       appTitle: "IsoXRD — 결정학 상동정 & 다중 시료 분석 노트",
-      appSub: "Editorial Diffraction Notebook · Multi-Sample Stack & Integrated Area Quantification",
-      pubModeBtn: "출판용 흑백/고대비",
-      pubModeBtnActive: "에디토리얼 컬러 모드",
+      appSub: "Multi-Sample Diffraction Stack & Integrated-Area Carbonate Analyzer",
+      pubModeBtn: "출판용 흑백",
+      pubModeBtnActive: "테마 컬러 복귀",
       exportCsv: "결과 CSV",
       exportSvg: "논문용 SVG",
       langBtn: "English",
@@ -811,7 +907,7 @@
       rangeLbl: "2θ:",
       btnApply: "적용",
       btnReset: "전체",
-      chartHint: "💡 드래그: 구간 확대 / 더블클릭: 초기화 / 라벨 충돌 자동 회피 적용됨 (출판용 SVG 내보내기 지원)",
+      chartHint: "💡 상단 [1. Journal / 2. Blueprint / 3. Linen] 버튼으로 테마를 실시간 비교해 보세요.",
       subTabPeaks: "활성 시료 피크 & 적분 면적표",
       subTabBatch: "다중 시료 일괄 정량 요약표 (Batch Summary)",
       tableHint: "행 클릭 시 차트에서 해당 피크 강조",
@@ -853,9 +949,9 @@
     },
     en: {
       appTitle: "IsoXRD — Crystallographic Phase & Multi-Sample Notebook",
-      appSub: "Editorial Diffraction Notebook · Multi-Sample Stack & Integrated Area Quantification",
+      appSub: "Multi-Sample Diffraction Stack & Integrated-Area Carbonate Analyzer",
       pubModeBtn: "Publication B&W",
-      pubModeBtnActive: "Editorial Color",
+      pubModeBtnActive: "Restore Theme Color",
       exportCsv: "Export CSV",
       exportSvg: "Publication SVG",
       langBtn: "한국어",
@@ -886,7 +982,7 @@
       rangeLbl: "2θ:",
       btnApply: "Apply",
       btnReset: "Full",
-      chartHint: "💡 Drag: Zoom in / Double-click: Reset / Smart collision-free peak labels enabled",
+      chartHint: "💡 Click [1. Journal / 2. Blueprint / 3. Linen] at the top to preview and compare visual themes.",
       subTabPeaks: "Active Sample Peaks & Integrated Area",
       subTabBatch: "Multi-Sample Batch Quantitative Summary",
       tableHint: "Click a row to highlight the peak on the chart",
@@ -928,11 +1024,34 @@
     }
   };
 
-  const SAMPLE_COLORS = ["#1b4d3e", "#9a3412", "#1e40af", "#6b21a8", "#0f766e", "#b45309", "#374151"];
+  // Theme-specific chart & trace palettes
+  const THEME_CHART_PALETTE = {
+    journal: {
+      bg: "#ffffff",
+      grid: "#f1f5f9",
+      frame: "#18181b",
+      text: "#18181b",
+      traces: ["#1d4ed8", "#9f1239", "#047857", "#6d28d9", "#b45309", "#0e7490", "#374151"]
+    },
+    blueprint: {
+      bg: "#fcfdff",
+      grid: "#e3ecf5",
+      frame: "#1e3a5f",
+      text: "#0f2942",
+      traces: ["#1e3a5f", "#b45309", "#0284c7", "#0f766e", "#6d28d9", "#be123c", "#334e68"]
+    },
+    linen: {
+      bg: "#fffdf9",
+      grid: "#f2ece0",
+      frame: "#44403c",
+      text: "#27272a",
+      traces: ["#a84a28", "#1b4d3e", "#1e40af", "#854d0e", "#6b21a8", "#0f766e", "#44403c"]
+    }
+  };
 
   const CORE_MINERALS = [
     {
-      id: "calcite", name: "Calcite", nameKo: "방해석", formula: "CaCO3", color: "#9a3412", active: true,
+      id: "calcite", name: "Calcite", nameKo: "방해석", formula: "CaCO3", color: "#9f1239", active: true,
       peaks: [
         [29.40, 100, 3.035, "(104)"], [39.40, 18, 2.285, "(113)"], [43.15, 18, 2.095, "(202)"],
         [47.50, 17, 1.913, "(018)"], [48.51, 17, 1.875, "(116)"], [35.97, 14, 2.495, "(110)"],
@@ -940,7 +1059,7 @@
       ]
     },
     {
-      id: "aragonite", name: "Aragonite", nameKo: "아라고나이트", formula: "CaCO3", color: "#1e40af", active: true,
+      id: "aragonite", name: "Aragonite", nameKo: "아라고나이트", formula: "CaCO3", color: "#1d4ed8", active: true,
       peaks: [
         [26.21, 100, 3.396, "(111)"], [45.85, 65, 1.977, "(221)"], [27.22, 52, 3.273, "(021)"],
         [33.13, 46, 2.702, "(012)"], [37.88, 38, 2.373, "(112)"], [36.12, 33, 2.484, "(200)"],
@@ -950,7 +1069,7 @@
       ]
     },
     {
-      id: "dolomite", name: "Dolomite", nameKo: "돌로마이트", formula: "CaMg(CO3)2", color: "#15803d", active: true,
+      id: "dolomite", name: "Dolomite", nameKo: "돌로마이트", formula: "CaMg(CO3)2", color: "#047857", active: true,
       peaks: [
         [30.96, 100, 2.886, "(104)"], [41.13, 30, 2.193, "(113)"], [50.54, 20, 1.804, "(018)"],
         [51.07, 20, 1.787, "(116)"], [44.94, 15, 2.015, "(202)"], [37.36, 10, 2.405, "(110)"]
@@ -1011,12 +1130,12 @@
       peaks: [[28.27,94,3.154,"(111)"],[47.00,100,1.932,"(220)"],[55.76,35,1.647,"(311)"]] }
   ];
 
-  // State
   let minerals = JSON.parse(JSON.stringify(CORE_MINERALS));
   let lang = "ko";
+  let currentTheme = "journal";
   let pubMode = false;
-  let viewMode = "stack"; // 'stack' or 'single'
-  let samples = [];       // Array of { id, name, color, visible, rawX, rawY, smoothY, baseY, netY, s0, s1, peaks, ranked, calArea, araArea, calPct, araPct }
+  let viewMode = "stack";
+  let samples = [];
   let activeSampleIdx = 0;
   let selectedPeakIdx = -1;
   let viewMin = 15, viewMax = 65;
@@ -1025,6 +1144,18 @@
   const memStore = {};
   function safeGet(k) { try { return window.localStorage.getItem(k); } catch (e) { return memStore[k] || null; } }
   function safeSet(k, v) { try { window.localStorage.setItem(k, v); } catch (e) { memStore[k] = v; } }
+
+  function setTheme(themeKey) {
+    currentTheme = themeKey;
+    document.body.setAttribute("data-theme", themeKey);
+    document.querySelectorAll("#themeSwitcher .theme-btn").forEach(btn => {
+      btn.classList.toggle("active", btn.dataset.themeVal === themeKey);
+    });
+    const pal = THEME_CHART_PALETTE[currentTheme].traces;
+    samples.forEach((s, i) => { s.color = pal[i % pal.length]; });
+    renderSampleList();
+    renderChart();
+  }
 
   function mergeMinerals(list, defaultActive = false) {
     if (!Array.isArray(list)) return;
@@ -1063,14 +1194,13 @@
       badge.style.color = "var(--primary)";
     } catch (err) {
       mergeMinerals(LAB_PRESET_FALLBACK, false);
-      badge.textContent = "Preset JSON: archival lab library (19 phases)";
+      badge.textContent = "Preset JSON: built-in lab library (19 phases)";
       badge.style.color = "var(--muted)";
     }
     renderDbPills();
     reprocessAllSamples();
   }
 
-  // Signal processing utilities
   function smoothArray(arr, win) {
     if (win <= 1) return arr.slice();
     const half = Math.floor(win / 2);
@@ -1109,7 +1239,6 @@
     return std2T + (s0 + s1 * Math.cos(rad));
   }
 
-  // Trapezoidal integrated peak area around peak index (half-width ~ 0.35 deg)
   function computeIntegratedArea(xArr, netArr, peakIdx, stepDeg) {
     const halfPts = Math.max(3, Math.round(0.35 / Math.max(0.001, stepDeg)));
     const start = Math.max(0, peakIdx - halfPts);
@@ -1175,7 +1304,6 @@
     sample.peaks = peaks;
     sample.ranked = scoreSampleMinerals(sample);
 
-    // Assign labels
     const dict = I18N[lang];
     const candidateMins = sample.ranked.filter(r => r.score >= 30 || r.min.active).map(r => r.min);
     const pool = candidateMins.length ? candidateMins : minerals;
@@ -1200,7 +1328,6 @@
       p.matchDiff = bestMatch ? bestMatch.diff : null;
     });
 
-    // Integrated Area Carbonate Ratio (Calcite 104 vs Aragonite 111 + 021)
     const findArea = (target2T) => {
       const p = peaks.find(dp => Math.abs(dp.corr2T - target2T) <= 0.18);
       return p ? p.area : 0;
@@ -1469,7 +1596,6 @@
     });
   }
 
-  // Collision-aware smart label layout & Publication-Ready SVG Renderer
   function renderChart() {
     const svg = document.getElementById("xrdSvg");
     const W = 980, H = 430;
@@ -1483,16 +1609,17 @@
     const showRaw = document.getElementById("chkRaw").checked;
     const showLabels = document.getElementById("chkLabels").checked;
 
-    const gridColor = pubMode ? "#e5e7eb" : "#f1ede3";
-    const frameColor = pubMode ? "#111827" : "#a89f91";
-    const textColor = pubMode ? "#111827" : "#44403c";
+    const pal = THEME_CHART_PALETTE[currentTheme];
+    const bgColor = pubMode ? "#ffffff" : pal.bg;
+    const gridColor = pubMode ? "#e5e7eb" : pal.grid;
+    const frameColor = pubMode ? "#111827" : pal.frame;
+    const textColor = pubMode ? "#111827" : pal.text;
 
     const xToPx = x => padL + ((x - viewMin) / Math.max(0.1, viewMax - viewMin)) * plotW;
 
-    let html = `<rect x="0" y="0" width="${W}" height="${H}" fill="#ffffff" />`;
-    html += `<rect x="${padL}" y="${padT}" width="${plotW}" height="${plotH}" fill="#ffffff" stroke="${frameColor}" stroke-width="1.2" />`;
+    let html = `<rect x="0" y="0" width="${W}" height="${H}" fill="${bgColor}" />`;
+    html += `<rect x="${padL}" y="${padT}" width="${plotW}" height="${plotH}" fill="${bgColor}" stroke="${frameColor}" stroke-width="1.2" />`;
 
-    // X-axis ticks (Publication inward ticks)
     const span = viewMax - viewMin;
     const tickStep = span <= 10 ? 1 : (span <= 25 ? 2 : 5);
     const firstTick = Math.ceil(viewMin / tickStep) * tickStep;
@@ -1504,7 +1631,6 @@
     }
     html += `<text x="${padL + plotW / 2}" y="${H - 8}" font-size="12" font-weight="700" fill="${textColor}" text-anchor="middle" font-family="Georgia, serif">Diffraction Angle 2θ (degrees)</text>`;
 
-    // Reference mineral sticks aligned to active sample's displacement
     minerals.filter(m => m.active).forEach(min => {
       const stickCol = pubMode ? "#4b5563" : min.color;
       min.peaks.forEach(([std2T, relI]) => {
@@ -1527,7 +1653,6 @@
     const bandH = (plotH * 0.86) / stackCount;
 
     visibleSamples.forEach((samp, sIdx) => {
-      // Top-down stacking order (index 0 at top, last at bottom)
       const yBasePx = padT + plotH - 12 - (stackCount - 1 - sIdx) * bandH;
       const traceArr = document.getElementById("chkBaseline").checked ? samp.netY : samp.smoothY;
 
@@ -1549,7 +1674,7 @@
           const py = yBasePx - Math.max(0, samp.rawY[i] - (document.getElementById("chkBaseline").checked ? samp.baseY[i] : 0)) * scaleY;
           ptsR += `${xToPx(samp.rawX[i]).toFixed(1)},${py.toFixed(1)} `;
         }
-        html += `<polyline fill="none" stroke="#d1d5db" stroke-width="0.9" points="${ptsR}" />`;
+        html += `<polyline fill="none" stroke="#cbd5e1" stroke-width="0.9" points="${ptsR}" />`;
       }
 
       if (inViewIdx.length) {
@@ -1561,17 +1686,15 @@
         }
         const isCurrent = samp.id === activeSample.id;
         const strokeCol = pubMode ? "#111827" : samp.color;
-        const strokeW = isCurrent ? "1.7" : "1.2";
+        const strokeW = isCurrent ? "1.75" : "1.2";
         const dash = (pubMode && !isCurrent) ? (sIdx % 2 === 1 ? "5,3" : "2,2") : "none";
         html += `<polyline fill="none" stroke="${strokeCol}" stroke-width="${strokeW}" stroke-dasharray="${dash}" points="${pts}" />`;
       }
 
-      // Sample label tag on right side of trace
       if (viewMode === "stack") {
         html += `<text x="${padL + plotW - 8}" y="${yBasePx - 6}" font-size="10.5" font-weight="700" fill="${pubMode ? '#111827' : samp.color}" text-anchor="end" font-family="ui-monospace, monospace">${samp.name} (Cal ${samp.calPct}%)</text>`;
       }
 
-      // Smart collision-avoidance peak labels for active sample
       if (samp.id === activeSample.id) {
         const placedBoxes = [];
         const candidatePeaks = samp.peaks
@@ -1585,9 +1708,9 @@
           const isSel = p.idx === selectedPeakIdx;
 
           if (isSel) {
-            html += `<line x1="${px}" y1="${padT}" x2="${px}" y2="${padT + plotH}" stroke="#9a3412" stroke-width="1.2" stroke-dasharray="3,3" />`;
+            html += `<line x1="${px}" y1="${padT}" x2="${px}" y2="${padT + plotH}" stroke="#9f1239" stroke-width="1.2" stroke-dasharray="3,3" />`;
           }
-          html += `<circle cx="${px}" cy="${py}" r="${isSel ? 4.2 : 2.5}" fill="${isSel ? '#9a3412' : (pubMode ? '#111827' : samp.color)}" />`;
+          html += `<circle cx="${px}" cy="${py}" r="${isSel ? 4.2 : 2.5}" fill="${isSel ? '#9f1239' : (pubMode ? '#111827' : samp.color)}" />`;
 
           if (showLabels) {
             const labelStr = `${p.corr2T.toFixed(2)}°`;
@@ -1595,7 +1718,6 @@
             const boxH = 12;
             let lblY = Math.max(padT + 12, py - 7);
 
-            // Collision avoidance: nudge upward if overlapping an already placed label
             for (let attempt = 0; attempt < 5; attempt++) {
               const overlap = placedBoxes.some(b =>
                 Math.abs(b.x - px) < (b.w + boxW) * 0.52 && Math.abs(b.y - lblY) < boxH
@@ -1608,22 +1730,19 @@
             if (py - lblY > 14) {
               html += `<line x1="${px}" y1="${py - 3}" x2="${px}" y2="${lblY + 2}" stroke="#9ca3af" stroke-width="0.7" />`;
             }
-            html += `<text x="${px}" y="${lblY}" font-size="9.5" font-weight="700" fill="${isSel ? '#9a3412' : textColor}" text-anchor="middle" font-family="ui-monospace, monospace">${labelStr}</text>`;
+            html += `<text x="${px}" y="${lblY}" font-size="9.5" font-weight="700" fill="${isSel ? '#9f1239' : textColor}" text-anchor="middle" font-family="ui-monospace, monospace">${labelStr}</text>`;
           }
         });
       }
     });
 
-    // Y-axis title
     html += `<text x="18" y="${padT + plotH / 2}" font-size="12" font-weight="700" fill="${textColor}" text-anchor="middle" font-family="Georgia, serif" transform="rotate(-90 18 ${padT + plotH / 2})">Normalized Intensity (a.u.)</text>`;
-
-    html += `<rect id="zoomRect" x="0" y="${padT}" width="0" height="${plotH}" fill="rgba(27,77,62,0.14)" stroke="#1b4d3e" stroke-dasharray="3,2" visibility="hidden" />`;
-    html += `<line id="crossX" x1="0" y1="${padT}" x2="0" y2="${padT + plotH}" stroke="#78716c" stroke-width="0.9" stroke-dasharray="2,2" visibility="hidden" />`;
+    html += `<rect id="zoomRect" x="0" y="${padT}" width="0" height="${plotH}" fill="rgba(29,78,216,0.12)" stroke="${frameColor}" stroke-dasharray="3,2" visibility="hidden" />`;
+    html += `<line id="crossX" x1="0" y1="${padT}" x2="0" y2="${padT + plotH}" stroke="#94a3b8" stroke-width="0.9" stroke-dasharray="2,2" visibility="hidden" />`;
 
     svg.innerHTML = html;
   }
 
-  // Synthetic Spectrum Generator
   function buildSyntheticSample(id, name, color, peaks, shiftDeg) {
     const n = 2200, minT = 15, maxT = 65;
     const x = [], y = [];
@@ -1648,33 +1767,33 @@
     samples = [];
     activeSampleIdx = 0;
     selectedPeakIdx = -1;
+    const pal = THEME_CHART_PALETTE[currentTheme].traces;
 
     if (mode === "core_suite") {
-      // 3-depth Speleothem diagenetic transect (Aragonite -> Mix -> Calcite)
-      samples.push(buildSyntheticSample("s1", "Core_05mm_Top (Aragonite)", SAMPLE_COLORS[0], [
+      samples.push(buildSyntheticSample("s1", "Core_05mm_Top (Aragonite)", pal[0], [
         [26.21, 320], [45.85, 210], [27.22, 165], [33.13, 145], [37.88, 120], [36.12, 105], [48.31, 100]
       ], 0.22));
-      samples.push(buildSyntheticSample("s2", "Core_42mm_Mid (Transition)", SAMPLE_COLORS[1], [
+      samples.push(buildSyntheticSample("s2", "Core_42mm_Mid (Transition)", pal[1], [
         [29.40, 290], [39.40, 52], [43.15, 52], [47.50, 48], [48.51, 48],
         [26.21, 160], [45.85, 105], [27.22, 82], [33.13, 72]
       ], 0.15));
-      samples.push(buildSyntheticSample("s3", "Core_88mm_Base (Calcite)", SAMPLE_COLORS[2], [
+      samples.push(buildSyntheticSample("s3", "Core_88mm_Base (Calcite)", pal[2], [
         [29.40, 480], [39.40, 86], [43.15, 86], [47.50, 82], [48.51, 82], [35.97, 68], [23.02, 58]
       ], 0.35));
       viewMode = "stack";
     } else if (mode === "aragonite") {
-      samples.push(buildSyntheticSample("s1", "WDS2_170 (Aragonite)", SAMPLE_COLORS[0], [
+      samples.push(buildSyntheticSample("s1", "WDS2_170 (Aragonite)", pal[0], [
         [26.21, 150], [27.22, 60], [33.13, 78], [36.12, 98], [37.88, 70], [38.41, 85], [42.90, 258], [45.85, 407]
       ], 0.49));
       viewMode = "single";
     } else if (mode === "mixture") {
-      samples.push(buildSyntheticSample("s1", "Mix_Cal75_Ara25", SAMPLE_COLORS[1], [
+      samples.push(buildSyntheticSample("s1", "Mix_Cal75_Ara25", pal[1], [
         [29.40, 360], [39.40, 65], [43.15, 65], [47.50, 60], [48.51, 60],
         [26.21, 120], [45.85, 78], [27.22, 62], [33.13, 55]
       ], 0.15));
       viewMode = "single";
     } else {
-      samples.push(buildSyntheticSample("s1", "Speleothem_Calcite", SAMPLE_COLORS[2], [
+      samples.push(buildSyntheticSample("s1", "Speleothem_Calcite", pal[2], [
         [29.40, 480], [39.40, 86], [43.15, 86], [47.50, 82], [48.51, 82], [35.97, 68], [23.02, 58]
       ], 0.35));
       viewMode = "single";
@@ -1690,10 +1809,10 @@
     reprocessAllSamples(true);
   }
 
-  // Multi-file loader (.xrdml or 2-col CSV/TXT/XY)
   function handleFiles(fileList) {
     if (!fileList || !fileList.length) return;
     const files = Array.from(fileList);
+    const pal = THEME_CHART_PALETTE[currentTheme].traces;
     let loaded = 0;
 
     files.forEach(file => {
@@ -1707,7 +1826,7 @@
           parsed = parseDelimitedText(text);
         }
         if (parsed && parsed.x.length > 10) {
-          const color = SAMPLE_COLORS[samples.length % SAMPLE_COLORS.length];
+          const color = pal[samples.length % pal.length];
           const newSample = {
             id: "samp_" + Date.now() + "_" + Math.random().toString(36).slice(2, 6),
             name: file.name,
@@ -1808,7 +1927,11 @@
     reprocessAllSamples(false);
   }
 
-  // Event listeners
+  // Theme switcher binding
+  document.querySelectorAll("#themeSwitcher .theme-btn").forEach(btn => {
+    btn.onclick = () => setTheme(btn.dataset.themeVal);
+  });
+
   const dropzone = document.getElementById("dropzone");
   const fileInput = document.getElementById("fileInput");
   dropzone.onclick = () => fileInput.click();
@@ -1915,7 +2038,6 @@
     renderChart();
   };
 
-  // Interactive SVG zoom & readout
   const svgEl = document.getElementById("xrdSvg");
   let dragStartPx = null;
   svgEl.onmousedown = e => {
@@ -1971,7 +2093,6 @@
   };
   svgEl.ondblclick = () => document.getElementById("btnResetZoom").click();
 
-  // Export CSV (exports Batch Summary if multiple samples loaded, plus active peak list)
   document.getElementById("btnExportCsv").onclick = () => {
     const s = samples[activeSampleIdx];
     if (!s) return;
@@ -1997,7 +2118,7 @@
     const blob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8;" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = "IsoXRD_Publication_Figure.svg";
+    a.download = `IsoXRD_${currentTheme}_Figure.svg`;
     a.click();
   };
 
@@ -2006,7 +2127,6 @@
     applyLanguage();
   };
 
-  // Custom DB Modal
   const modal = document.getElementById("dbModalBackdrop");
   document.getElementById("btnOpenDbModal").onclick = () => { modal.classList.add("open"); renderCustomDbList(); };
   document.getElementById("btnCloseDbModal").onclick = () => modal.classList.remove("open");
@@ -2123,7 +2243,6 @@
 
   document.getElementById("btnReloadRemotePreset").onclick = loadExternalPresetJson;
 
-  // Boot with 3-sample Speleothem Core Suite
   renderDbPills();
   loadDemoPreset("core_suite");
   loadExternalPresetJson();
