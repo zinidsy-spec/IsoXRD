@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IsoXRD v3.2 — Crystallographic Phase & Multi-Sample Notebook</title>
+  <title>IsoXRD v3.3 — Crystallographic Phase & Multi-Sample Notebook</title>
   <style>
     /* Theme 3 (Default): Warm Linen & Terracotta (Speleothem Archival Notebook) */
     :root, [data-theme="linen"] {
@@ -214,6 +214,16 @@
       border-color: var(--primary);
     }
     button.btn-primary:hover { background: var(--primary-hover); }
+    button.btn-cite {
+      background: var(--primary-soft);
+      color: var(--primary);
+      border-color: var(--primary-border);
+    }
+    button.btn-cite:hover {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+    }
     button.btn-sm { padding: 3px 8px; font-size: 11px; }
     button.btn-ghost {
       border-color: transparent;
@@ -520,7 +530,7 @@
     tr:hover td { background: var(--surface-subtle); cursor: pointer; }
     tr.selected td { background: var(--primary-soft); }
 
-    /* Modal */
+    /* Modals */
     .modal-backdrop {
       position: fixed; inset: 0;
       background: rgba(15, 23, 42, 0.45);
@@ -536,10 +546,10 @@
       border: 1px solid var(--border-strong);
       border-radius: 10px;
       width: 100%;
-      max-width: 650px;
+      max-width: 660px;
       max-height: 88vh;
       overflow-y: auto;
-      padding: 18px 22px;
+      padding: 20px 24px;
       box-shadow: var(--shadow-md);
     }
     .tabs { display: flex; gap: 6px; border-bottom: 1px solid var(--border-strong); margin: 10px 0 12px; }
@@ -558,6 +568,49 @@
     }
     .tab-pane { display: none; }
     .tab-pane.active { display: block; }
+
+    /* Citation Box Styling */
+    .cite-section {
+      margin-top: 12px;
+      padding: 11px 13px;
+      border-radius: 8px;
+      background: #ffffff;
+      border: 1px solid var(--border-strong);
+    }
+    .cite-section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--text-secondary);
+    }
+    .cite-code {
+      font-family: var(--mono);
+      font-size: 11.5px;
+      line-height: 1.5;
+      color: var(--text);
+      background: var(--surface-subtle);
+      padding: 8px 10px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      white-space: pre-wrap;
+      word-break: break-word;
+      user-select: all;
+    }
+    .doi-badge-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding: 10px 12px;
+      border-radius: 8px;
+      background: var(--primary-soft);
+      border: 1px solid var(--primary-border);
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body data-theme="linen">
@@ -569,7 +622,7 @@
       <span class="brand-title" data-i18n="appTitle">IsoXRD — 결정학 상동정 & 다중 시료 분석 노트</span>
       <span class="brand-sub" data-i18n="appSub">Multi-Sample Diffraction Stack & Integrated-Area Carbonate Analyzer</span>
     </div>
-    <span class="version-tag">v3.2</span>
+    <span class="version-tag">v3.3</span>
   </div>
 
   <div class="header-actions">
@@ -595,6 +648,7 @@
     <button id="btnPubMode" data-i18n="pubModeBtn">출판용 흑백</button>
     <button id="btnExportCsv" data-i18n="exportCsv">결과 CSV</button>
     <button id="btnExportSvg" data-i18n="exportSvg">논문용 SVG</button>
+    <button id="btnOpenCiteModal" class="btn-cite" data-i18n="citeBtn">인용 / DOI</button>
     <button id="btnLang" class="btn-primary">English</button>
   </div>
 </header>
@@ -808,6 +862,58 @@
   </main>
 </div>
 
+<!-- Citation & DOI Modal -->
+<div class="modal-backdrop" id="citeModalBackdrop">
+  <div class="modal">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <h3 style="font-family:var(--serif); font-size:16px;" data-i18n="citeModalTitle">학술 인용 및 Zenodo DOI 안내 (How to Cite IsoXRD)</h3>
+      <button id="btnCloseCiteModal" data-i18n="btnClose">닫기 ✕</button>
+    </div>
+    <p style="font-size:12px; color:var(--text-secondary); margin-top:6px;" data-i18n="citeModalDesc">
+      연구 논문(Methods / Data Availability)이나 학술 발표에 IsoXRD를 활용하신 경우 아래 서지 정보와 Zenodo 영구 DOI를 인용해 주세요.
+    </p>
+
+    <div class="doi-badge-bar">
+      <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+        <span style="font-weight:700; font-size:12px; color:var(--primary);">Zenodo DOI:</span>
+        <input type="text" id="inpZenodoDoi" placeholder="10.5281/zenodo.xxxxxxx" style="width:210px; font-family:var(--mono); font-size:12px;" />
+        <button class="btn-primary btn-sm" id="btnSaveDoi" data-i18n="saveDoiBtn">DOI 반영</button>
+      </div>
+      <div style="display:flex; gap:10px; font-size:11.5px; font-family:var(--mono);">
+        <a href="https://github.com/zinidsy-spec/IsoXRD" target="_blank" rel="noopener" style="color:var(--primary); font-weight:700; text-decoration:none;">GitHub ↗</a>
+        <a id="linkZenodoDoi" href="https://zenodo.org/" target="_blank" rel="noopener" style="color:var(--primary); font-weight:700; text-decoration:none;">Zenodo ↗</a>
+      </div>
+    </div>
+
+    <!-- 1. In-text Methods Statement -->
+    <div class="cite-section">
+      <div class="cite-section-header">
+        <span data-i18n="citeSec1">1. 논문 본문 / Methods 표기 예시 (In-Text Statement)</span>
+        <button class="btn-sm" data-copy-target="citeTextStatement" data-i18n="copyBtn">복사</button>
+      </div>
+      <div class="cite-code" id="citeTextStatement"></div>
+    </div>
+
+    <!-- 2. Standard Reference (APA / Journal Style) -->
+    <div class="cite-section">
+      <div class="cite-section-header">
+        <span data-i18n="citeSec2">2. 참고문헌 표기 (Reference Format)</span>
+        <button class="btn-sm" data-copy-target="citeTextApa" data-i18n="copyBtn">복사</button>
+      </div>
+      <div class="cite-code" id="citeTextApa"></div>
+    </div>
+
+    <!-- 3. BibTeX -->
+    <div class="cite-section">
+      <div class="cite-section-header">
+        <span data-i18n="citeSec3">3. BibTeX (LaTeX / Overleaf)</span>
+        <button class="btn-sm" data-copy-target="citeTextBib" data-i18n="copyBtn">복사</button>
+      </div>
+      <div class="cite-code" id="citeTextBib"></div>
+    </div>
+  </div>
+</div>
+
 <!-- Custom DB Modal -->
 <div class="modal-backdrop" id="dbModalBackdrop">
   <div class="modal">
@@ -871,6 +977,9 @@
 
 <script>
 (function() {
+  // Replace with your permanent Zenodo DOI once you want it hardcoded for all visitors
+  const DEFAULT_DOI = "10.5281/zenodo.xxxxxxx";
+
   const I18N = {
     ko: {
       appTitle: "IsoXRD — 결정학 상동정 & 다중 시료 분석 노트",
@@ -879,6 +988,7 @@
       pubModeBtnActive: "테마 컬러 복귀",
       exportCsv: "결과 CSV",
       exportSvg: "논문용 SVG",
+      citeBtn: "인용 / DOI",
       langBtn: "English",
       kpiFile: "활성 시료 / 스택 수",
       kpiPrimary: "1순위 판별 광물 (Match)",
@@ -922,6 +1032,14 @@
       thSample: "시료명 (Sample)",
       thTopMatch: "1순위 광물 (Match)",
       thShift: "보정 변위 (Δ2θ)",
+      citeModalTitle: "학술 인용 및 Zenodo DOI 안내 (How to Cite IsoXRD)",
+      citeModalDesc: "연구 논문(Methods / Data Availability)이나 학술 발표에 IsoXRD를 활용하신 경우 아래 서지 정보와 Zenodo 영구 DOI를 인용해 주세요.",
+      saveDoiBtn: "DOI 반영",
+      citeSec1: "1. 논문 본문 / Methods 표기 예시 (In-Text Statement)",
+      citeSec2: "2. 참고문헌 표기 (Reference Format)",
+      citeSec3: "3. BibTeX (LaTeX / Overleaf)",
+      copyBtn: "복사",
+      copiedBtn: "복사됨 ✓",
       modalTitle: "광물 표준 DB 추가 및 관리 (Custom Mineral Library)",
       btnClose: "닫기 ✕",
       tab1: "1. 피크 표 붙여넣기 (RRUFF/논문)",
@@ -954,6 +1072,7 @@
       pubModeBtnActive: "Restore Theme Color",
       exportCsv: "Export CSV",
       exportSvg: "Publication SVG",
+      citeBtn: "Cite / DOI",
       langBtn: "한국어",
       kpiFile: "Active Sample / Stack",
       kpiPrimary: "Primary Matched Phase",
@@ -997,6 +1116,14 @@
       thSample: "Sample Name",
       thTopMatch: "Primary Match",
       thShift: "Shift (Δ2θ)",
+      citeModalTitle: "How to Cite IsoXRD & Zenodo DOI",
+      citeModalDesc: "If you use IsoXRD in your research paper (Methods / Data Availability) or presentation, please cite the software using the metadata and Zenodo DOI below.",
+      saveDoiBtn: "Update DOI",
+      citeSec1: "1. In-Text / Methods Section Statement",
+      citeSec2: "2. Reference List Format (APA / Journal Style)",
+      citeSec3: "3. BibTeX (LaTeX / Overleaf)",
+      copyBtn: "Copy",
+      copiedBtn: "Copied ✓",
       modalTitle: "Add & Manage Custom Mineral Library",
       btnClose: "Close ✕",
       tab1: "1. Paste Peak Table (RRUFF/Paper)",
@@ -1136,6 +1263,7 @@
   let minerals = JSON.parse(JSON.stringify(CORE_MINERALS));
   let lang = "ko";
   let currentTheme = safeGet("isoxrd_theme_v3") || "linen";
+  let savedDoi = safeGet("isoxrd_zenodo_doi") || DEFAULT_DOI;
   let pubMode = false;
   let viewMode = "stack";
   let samples = [];
@@ -1143,6 +1271,32 @@
   let selectedPeakIdx = -1;
   let viewMin = 15, viewMax = 65;
   let fullMin = 15, fullMax = 65;
+
+  function renderCitationTexts() {
+    const cleanDoi = (savedDoi || DEFAULT_DOI).replace(/^https?:\/\/doi\.org\//i, "").trim();
+    const doiUrl = cleanDoi.startsWith("10.") ? `https://doi.org/${cleanDoi}` : "https://github.com/zinidsy-spec/IsoXRD";
+
+    document.getElementById("inpZenodoDoi").value = cleanDoi;
+    document.getElementById("linkZenodoDoi").href = doiUrl;
+
+    document.getElementById("citeTextStatement").textContent =
+      `X-ray diffraction (XRD) baseline subtraction, non-linear sample height displacement correction (Δ2θ = s₀ + s₁cosθ), mineral phase identification, and integrated-area carbonate quantification were performed using IsoXRD v3.3 (Yang, 2026; ${doiUrl}).`;
+
+    document.getElementById("citeTextApa").textContent =
+      `Yang, Y.-S. (2026). IsoXRD: Lightweight Browser-Based XRD Phase Identification and Semi-Quantitative Carbonate Analysis Tool (Version 3.3) [Computer software]. Zenodo. ${doiUrl}`;
+
+    document.getElementById("citeTextBib").textContent =
+`@software{Yang_IsoXRD_2026,
+  author       = {Yang, Yun-Seok},
+  title        = {{IsoXRD: Lightweight Browser-Based XRD Phase Identification and Semi-Quantitative Carbonate Analysis Tool}},
+  month        = nov,
+  year         = 2026,
+  publisher    = {Zenodo},
+  version      = {v3.3},
+  doi          = {${cleanDoi}},
+  url          = {${doiUrl}}
+}`;
+  }
 
   function setTheme(themeKey, persist = true) {
     if (!THEME_CHART_PALETTE[themeKey]) themeKey = "linen";
@@ -2127,9 +2281,42 @@
     applyLanguage();
   };
 
+  // Citation Modal Handlers
+  const citeModal = document.getElementById("citeModalBackdrop");
+  document.getElementById("btnOpenCiteModal").onclick = () => {
+    renderCitationTexts();
+    citeModal.classList.add("open");
+  };
+  document.getElementById("btnCloseCiteModal").onclick = () => citeModal.classList.remove("open");
+  citeModal.onclick = e => { if (e.target === citeModal) citeModal.classList.remove("open"); };
+
+  document.getElementById("btnSaveDoi").onclick = () => {
+    const val = document.getElementById("inpZenodoDoi").value.trim();
+    if (val) {
+      savedDoi = val;
+      safeSet("isoxrd_zenodo_doi", savedDoi);
+      renderCitationTexts();
+    }
+  };
+
+  document.querySelectorAll("[data-copy-target]").forEach(btn => {
+    btn.onclick = () => {
+      const targetEl = document.getElementById(btn.dataset.copyTarget);
+      if (!targetEl) return;
+      navigator.clipboard.writeText(targetEl.textContent).then(() => {
+        const dict = I18N[lang];
+        btn.textContent = dict.copiedBtn;
+        setTimeout(() => { btn.textContent = dict.copyBtn; }, 1600);
+      });
+    };
+  });
+
+  // Custom DB Modal
   const modal = document.getElementById("dbModalBackdrop");
   document.getElementById("btnOpenDbModal").onclick = () => { modal.classList.add("open"); renderCustomDbList(); };
   document.getElementById("btnCloseDbModal").onclick = () => modal.classList.remove("open");
+  modal.onclick = e => { if (e.target === modal) modal.classList.remove("open"); };
+
   document.querySelectorAll(".tab-btn").forEach(btn => {
     btn.onclick = () => {
       document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
@@ -2243,8 +2430,9 @@
 
   document.getElementById("btnReloadRemotePreset").onclick = loadExternalPresetJson;
 
-  // Boot with saved theme (default: Linen)
+  // Boot
   setTheme(currentTheme, false);
+  renderCitationTexts();
   renderDbPills();
   loadDemoPreset("core_suite");
   loadExternalPresetJson();
