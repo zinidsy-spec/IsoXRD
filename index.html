@@ -3,10 +3,36 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IsoXRD v3.1 — Multi-Theme Crystallographic & Carbonate Analyzer</title>
+  <title>IsoXRD v3.2 — Crystallographic Phase & Multi-Sample Notebook</title>
   <style>
-    /* Theme 1: Nature / Science Journal (Default) */
-    :root, [data-theme="journal"] {
+    /* Theme 3 (Default): Warm Linen & Terracotta (Speleothem Archival Notebook) */
+    :root, [data-theme="linen"] {
+      --bg: #f5f0e6;
+      --surface: #fcfaf5;
+      --surface-subtle: #f3ede0;
+      --border: #e2d9c8;
+      --border-strong: #c8bba4;
+      --text: #27272a;
+      --text-secondary: #52525b;
+      --muted: #78716c;
+      --primary: #a84a28;        /* Speleothem Terracotta */
+      --primary-hover: #8a3b1e;
+      --primary-soft: #f9ebe4;
+      --primary-border: #e7c3b3;
+      --accent: #a84a28;
+      --blue-ink: #1e40af;
+      --chart-bg: #fffdf9;
+      --chart-grid: #f2ece0;
+      --chart-frame: #44403c;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      --serif: "Georgia", "Noto Serif KR", "Times New Roman", serif;
+      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+      --shadow-sm: 0 1px 2px rgba(39, 39, 42, 0.04);
+      --shadow-md: 0 4px 12px rgba(39, 39, 42, 0.07);
+    }
+
+    /* Theme 1: Nature / Science Journal */
+    [data-theme="journal"] {
       --bg: #f4f4f5;
       --surface: #ffffff;
       --surface-subtle: #f8fafc;
@@ -24,9 +50,6 @@
       --chart-bg: #ffffff;
       --chart-grid: #f1f5f9;
       --chart-frame: #18181b;
-      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-      --serif: "Georgia", "Noto Serif KR", "Times New Roman", serif;
-      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
       --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
       --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.07);
     }
@@ -52,29 +75,6 @@
       --chart-frame: #1e3a5f;
       --shadow-sm: 0 1px 2px rgba(15, 41, 66, 0.05);
       --shadow-md: 0 4px 12px rgba(15, 41, 66, 0.08);
-    }
-
-    /* Theme 3: Warm Linen & Terracotta (Speleothem Archival Notebook) */
-    [data-theme="linen"] {
-      --bg: #f5f0e6;
-      --surface: #fcfaf5;
-      --surface-subtle: #f3ede0;
-      --border: #e2d9c8;
-      --border-strong: #c8bba4;
-      --text: #27272a;
-      --text-secondary: #52525b;
-      --muted: #78716c;
-      --primary: #a84a28;        /* Speleothem Terracotta */
-      --primary-hover: #8a3b1e;
-      --primary-soft: #f9ebe4;
-      --primary-border: #e7c3b3;
-      --accent: #a84a28;
-      --blue-ink: #1e40af;
-      --chart-bg: #fffdf9;
-      --chart-grid: #f2ece0;
-      --chart-frame: #44403c;
-      --shadow-sm: 0 1px 2px rgba(39, 39, 42, 0.04);
-      --shadow-md: 0 4px 12px rgba(39, 39, 42, 0.07);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -560,7 +560,7 @@
     .tab-pane.active { display: block; }
   </style>
 </head>
-<body data-theme="journal">
+<body data-theme="linen">
 
 <header>
   <div class="brand">
@@ -569,20 +569,20 @@
       <span class="brand-title" data-i18n="appTitle">IsoXRD — 결정학 상동정 & 다중 시료 분석 노트</span>
       <span class="brand-sub" data-i18n="appSub">Multi-Sample Diffraction Stack & Integrated-Area Carbonate Analyzer</span>
     </div>
-    <span class="version-tag">v3.1</span>
+    <span class="version-tag">v3.2</span>
   </div>
 
   <div class="header-actions">
-    <!-- 3-Theme Live Switcher -->
+    <!-- 3-Theme Live Switcher (Default: Linen) -->
     <div class="theme-switcher" id="themeSwitcher" title="Select Visual Style">
-      <button class="theme-btn active" data-theme-val="journal">
-        <span class="swatch-dot" style="background:#1d4ed8;"></span>1. Journal
+      <button class="theme-btn active" data-theme-val="linen">
+        <span class="swatch-dot" style="background:#a84a28;"></span>Linen
+      </button>
+      <button class="theme-btn" data-theme-val="journal">
+        <span class="swatch-dot" style="background:#1d4ed8;"></span>Journal
       </button>
       <button class="theme-btn" data-theme-val="blueprint">
-        <span class="swatch-dot" style="background:#1e3a5f;"></span>2. Blueprint
-      </button>
-      <button class="theme-btn" data-theme-val="linen">
-        <span class="swatch-dot" style="background:#a84a28;"></span>3. Linen
+        <span class="swatch-dot" style="background:#1e3a5f;"></span>Blueprint
       </button>
     </div>
 
@@ -753,7 +753,7 @@
       </div>
 
       <div class="chart-footer">
-        <span data-i18n="chartHint">💡 상단 [1. Journal / 2. Blueprint / 3. Linen] 버튼으로 테마를 실시간 비교해 보세요.</span>
+        <span data-i18n="chartHint">💡 드래그: 구간 확대 / 더블클릭: 초기화 / 상단 [Linen / Journal / Blueprint] 테마 선택 자동 기억</span>
         <span class="mono" id="presetSourceBadge">Preset JSON: loading...</span>
       </div>
     </div>
@@ -847,7 +847,7 @@
         <input type="text" id="capMinName" data-i18n-ph="phCapEn" placeholder="영문명 (예: Lab_Calcite_Std)" />
         <input type="text" id="capMinKo" data-i18n-ph="phCapKo" placeholder="한글명 (예: 표준방해석)" />
         <input type="text" id="capMinFormula" data-i18n-ph="phFormula" placeholder="화학식 (예: CaCO3)" />
-        <input type="color" id="capMinColor" value="#1d4ed8" style="height:30px; width:100%;" />
+        <input type="color" id="capMinColor" value="#a84a28" style="height:30px; width:100%;" />
       </div>
       <button class="btn-primary" id="btnCaptureSpectrum" data-i18n="btnCapture">현재 상위 검출 피크 저장</button>
     </div>
@@ -907,7 +907,7 @@
       rangeLbl: "2θ:",
       btnApply: "적용",
       btnReset: "전체",
-      chartHint: "💡 상단 [1. Journal / 2. Blueprint / 3. Linen] 버튼으로 테마를 실시간 비교해 보세요.",
+      chartHint: "💡 드래그: 구간 확대 / 더블클릭: 초기화 / 상단 [Linen / Journal / Blueprint] 테마 선택 자동 기억",
       subTabPeaks: "활성 시료 피크 & 적분 면적표",
       subTabBatch: "다중 시료 일괄 정량 요약표 (Batch Summary)",
       tableHint: "행 클릭 시 차트에서 해당 피크 강조",
@@ -982,7 +982,7 @@
       rangeLbl: "2θ:",
       btnApply: "Apply",
       btnReset: "Full",
-      chartHint: "💡 Click [1. Journal / 2. Blueprint / 3. Linen] at the top to preview and compare visual themes.",
+      chartHint: "💡 Drag: Zoom in / Double-click: Reset / Selected theme [Linen / Journal / Blueprint] is saved automatically",
       subTabPeaks: "Active Sample Peaks & Integrated Area",
       subTabBatch: "Multi-Sample Batch Quantitative Summary",
       tableHint: "Click a row to highlight the peak on the chart",
@@ -1024,8 +1024,14 @@
     }
   };
 
-  // Theme-specific chart & trace palettes
   const THEME_CHART_PALETTE = {
+    linen: {
+      bg: "#fffdf9",
+      grid: "#f2ece0",
+      frame: "#44403c",
+      text: "#27272a",
+      traces: ["#a84a28", "#1b4d3e", "#1e40af", "#854d0e", "#6b21a8", "#0f766e", "#44403c"]
+    },
     journal: {
       bg: "#ffffff",
       grid: "#f1f5f9",
@@ -1039,19 +1045,12 @@
       frame: "#1e3a5f",
       text: "#0f2942",
       traces: ["#1e3a5f", "#b45309", "#0284c7", "#0f766e", "#6d28d9", "#be123c", "#334e68"]
-    },
-    linen: {
-      bg: "#fffdf9",
-      grid: "#f2ece0",
-      frame: "#44403c",
-      text: "#27272a",
-      traces: ["#a84a28", "#1b4d3e", "#1e40af", "#854d0e", "#6b21a8", "#0f766e", "#44403c"]
     }
   };
 
   const CORE_MINERALS = [
     {
-      id: "calcite", name: "Calcite", nameKo: "방해석", formula: "CaCO3", color: "#9f1239", active: true,
+      id: "calcite", name: "Calcite", nameKo: "방해석", formula: "CaCO3", color: "#a84a28", active: true,
       peaks: [
         [29.40, 100, 3.035, "(104)"], [39.40, 18, 2.285, "(113)"], [43.15, 18, 2.095, "(202)"],
         [47.50, 17, 1.913, "(018)"], [48.51, 17, 1.875, "(116)"], [35.97, 14, 2.495, "(110)"],
@@ -1069,7 +1068,7 @@
       ]
     },
     {
-      id: "dolomite", name: "Dolomite", nameKo: "돌로마이트", formula: "CaMg(CO3)2", color: "#047857", active: true,
+      id: "dolomite", name: "Dolomite", nameKo: "돌로마이트", formula: "CaMg(CO3)2", color: "#1b4d3e", active: true,
       peaks: [
         [30.96, 100, 2.886, "(104)"], [41.13, 30, 2.193, "(113)"], [50.54, 20, 1.804, "(018)"],
         [51.07, 20, 1.787, "(116)"], [44.94, 15, 2.015, "(202)"], [37.36, 10, 2.405, "(110)"]
@@ -1130,9 +1129,13 @@
       peaks: [[28.27,94,3.154,"(111)"],[47.00,100,1.932,"(220)"],[55.76,35,1.647,"(311)"]] }
   ];
 
+  const memStore = {};
+  function safeGet(k) { try { return window.localStorage.getItem(k); } catch (e) { return memStore[k] || null; } }
+  function safeSet(k, v) { try { window.localStorage.setItem(k, v); } catch (e) { memStore[k] = v; } }
+
   let minerals = JSON.parse(JSON.stringify(CORE_MINERALS));
   let lang = "ko";
-  let currentTheme = "journal";
+  let currentTheme = safeGet("isoxrd_theme_v3") || "linen";
   let pubMode = false;
   let viewMode = "stack";
   let samples = [];
@@ -1141,12 +1144,10 @@
   let viewMin = 15, viewMax = 65;
   let fullMin = 15, fullMax = 65;
 
-  const memStore = {};
-  function safeGet(k) { try { return window.localStorage.getItem(k); } catch (e) { return memStore[k] || null; } }
-  function safeSet(k, v) { try { window.localStorage.setItem(k, v); } catch (e) { memStore[k] = v; } }
-
-  function setTheme(themeKey) {
+  function setTheme(themeKey, persist = true) {
+    if (!THEME_CHART_PALETTE[themeKey]) themeKey = "linen";
     currentTheme = themeKey;
+    if (persist) safeSet("isoxrd_theme_v3", themeKey);
     document.body.setAttribute("data-theme", themeKey);
     document.querySelectorAll("#themeSwitcher .theme-btn").forEach(btn => {
       btn.classList.toggle("active", btn.dataset.themeVal === themeKey);
@@ -1737,7 +1738,7 @@
     });
 
     html += `<text x="18" y="${padT + plotH / 2}" font-size="12" font-weight="700" fill="${textColor}" text-anchor="middle" font-family="Georgia, serif" transform="rotate(-90 18 ${padT + plotH / 2})">Normalized Intensity (a.u.)</text>`;
-    html += `<rect id="zoomRect" x="0" y="${padT}" width="0" height="${plotH}" fill="rgba(29,78,216,0.12)" stroke="${frameColor}" stroke-dasharray="3,2" visibility="hidden" />`;
+    html += `<rect id="zoomRect" x="0" y="${padT}" width="0" height="${plotH}" fill="rgba(168,74,40,0.12)" stroke="${frameColor}" stroke-dasharray="3,2" visibility="hidden" />`;
     html += `<line id="crossX" x1="0" y1="${padT}" x2="0" y2="${padT + plotH}" stroke="#94a3b8" stroke-width="0.9" stroke-dasharray="2,2" visibility="hidden" />`;
 
     svg.innerHTML = html;
@@ -1927,9 +1928,8 @@
     reprocessAllSamples(false);
   }
 
-  // Theme switcher binding
   document.querySelectorAll("#themeSwitcher .theme-btn").forEach(btn => {
-    btn.onclick = () => setTheme(btn.dataset.themeVal);
+    btn.onclick = () => setTheme(btn.dataset.themeVal, true);
   });
 
   const dropzone = document.getElementById("dropzone");
@@ -2243,6 +2243,8 @@
 
   document.getElementById("btnReloadRemotePreset").onclick = loadExternalPresetJson;
 
+  // Boot with saved theme (default: Linen)
+  setTheme(currentTheme, false);
   renderDbPills();
   loadDemoPreset("core_suite");
   loadExternalPresetJson();
