@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IsoXRD v3.6 — Crystallographic Phase & Multi-Sample Notebook</title>
+  <title>IsoXRD v3.7 — Multi-Phase RIR Weight% & Diffraction Notebook</title>
   <style>
-    /* Theme 3 (Default): Warm Linen & Terracotta (Speleothem Archival Notebook) */
+    /* Theme 3 (Default): Warm Linen & Terracotta */
     :root, [data-theme="linen"] {
       --bg: #f5f0e6;
       --surface: #fcfaf5;
@@ -15,7 +15,7 @@
       --text: #27272a;
       --text-secondary: #52525b;
       --muted: #78716c;
-      --primary: #a84a28;        /* Speleothem Terracotta */
+      --primary: #a84a28;
       --primary-hover: #8a3b1e;
       --primary-soft: #f9ebe4;
       --primary-border: #e7c3b3;
@@ -41,11 +41,11 @@
       --text: #18181b;
       --text-secondary: #52525b;
       --muted: #71717a;
-      --primary: #1d4ed8;        /* Academic Cobalt */
+      --primary: #1d4ed8;
       --primary-hover: #1e40af;
       --primary-soft: #eff6ff;
       --primary-border: #bfdbfe;
-      --accent: #9f1239;         /* Journal Burgundy */
+      --accent: #9f1239;
       --blue-ink: #1d4ed8;
       --chart-bg: #ffffff;
       --chart-grid: #f1f5f9;
@@ -54,7 +54,7 @@
       --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.07);
     }
 
-    /* Theme 2: Prussian Blueprint (Crystallographic Grid & Navy Ink) */
+    /* Theme 2: Prussian Blueprint */
     [data-theme="blueprint"] {
       --bg: #eaf0f6;
       --surface: #f8fbff;
@@ -64,11 +64,11 @@
       --text: #0f2942;
       --text-secondary: #334e68;
       --muted: #627d98;
-      --primary: #1e3a5f;        /* Prussian Navy Ink */
+      --primary: #1e3a5f;
       --primary-hover: #102a43;
       --primary-soft: #dce8f5;
       --primary-border: #9fb4ce;
-      --accent: #b45309;         /* Brass / Ochre Ink */
+      --accent: #b45309;
       --blue-ink: #1e40af;
       --chart-bg: #fcfdff;
       --chart-grid: #e3ecf5;
@@ -85,10 +85,8 @@
       font-size: 13px;
       line-height: 1.5;
       -webkit-font-smoothing: antialiased;
-      transition: background-color 0.2s, color 0.2s;
     }
 
-    /* Header */
     header {
       background: var(--surface);
       border-bottom: 1px solid var(--border-strong);
@@ -102,515 +100,161 @@
       top: 0;
       z-index: 30;
       box-shadow: var(--shadow-sm);
-      transition: background-color 0.2s, border-color 0.2s;
     }
     .brand { display: flex; align-items: center; gap: 11px; }
     .brand-emblem {
-      width: 34px;
-      height: 34px;
-      border-radius: 7px;
-      background: var(--primary);
-      color: #ffffff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--serif);
-      font-weight: 700;
-      font-size: 16px;
-      letter-spacing: -0.02em;
-      transition: background-color 0.2s;
+      width: 34px; height: 34px; border-radius: 7px;
+      background: var(--primary); color: #ffffff;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--serif); font-weight: 700; font-size: 16px;
     }
-    .brand-title {
-      font-family: var(--serif);
-      font-weight: 700;
-      font-size: 16px;
-      color: var(--text);
-      letter-spacing: -0.01em;
-    }
-    .brand-sub {
-      font-size: 11px;
-      color: var(--muted);
-      display: block;
-    }
+    .brand-title { font-family: var(--serif); font-weight: 700; font-size: 16px; }
+    .brand-sub { font-size: 11px; color: var(--muted); display: block; }
     .version-tag {
-      font-family: var(--mono);
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--primary);
-      background: var(--primary-soft);
-      border: 1px solid var(--primary-border);
-      padding: 2px 8px;
-      border-radius: 999px;
+      font-family: var(--mono); font-size: 11px; font-weight: 700;
+      color: var(--primary); background: var(--primary-soft);
+      border: 1px solid var(--primary-border); padding: 2px 8px; border-radius: 999px;
     }
-
     .header-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 
-    /* Theme Switcher Pill Bar */
     .theme-switcher {
-      display: inline-flex;
-      border: 1px solid var(--border-strong);
-      border-radius: 7px;
-      overflow: hidden;
-      background: var(--surface-subtle);
-      padding: 2px;
-      gap: 2px;
+      display: inline-flex; border: 1px solid var(--border-strong);
+      border-radius: 7px; overflow: hidden; background: var(--surface-subtle); padding: 2px; gap: 2px;
     }
     .theme-btn {
-      border: none;
-      background: transparent;
-      box-shadow: none;
-      padding: 4px 9px;
-      font-size: 11.5px;
-      font-weight: 600;
-      border-radius: 5px;
-      color: var(--text-secondary);
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
+      border: none; background: transparent; box-shadow: none; padding: 4px 9px;
+      font-size: 11.5px; font-weight: 600; border-radius: 5px; color: var(--text-secondary);
+      display: inline-flex; align-items: center; gap: 5px;
     }
-    .theme-btn:hover { background: rgba(0,0,0,0.04); color: var(--text); }
-    .theme-btn.active {
-      background: var(--primary);
-      color: #ffffff;
-    }
-    .swatch-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      display: inline-block;
-      border: 1px solid rgba(255,255,255,0.6);
-    }
+    .theme-btn.active { background: var(--primary); color: #ffffff; }
+    .swatch-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
 
     select, input[type="number"], input[type="text"], textarea {
-      border: 1px solid var(--border-strong);
-      border-radius: 6px;
-      padding: 5px 9px;
-      font-size: 12px;
-      font-family: inherit;
-      background: #ffffff;
-      color: var(--text);
+      border: 1px solid var(--border-strong); border-radius: 6px; padding: 5px 9px;
+      font-size: 12px; font-family: inherit; background: #ffffff; color: var(--text);
     }
-    select:focus, input:focus, textarea:focus {
-      outline: none;
-      border-color: var(--primary);
-    }
-
     button {
-      border: 1px solid var(--border-strong);
-      background: #ffffff;
-      color: var(--text);
-      border-radius: 6px;
-      padding: 5px 11px;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.15s;
-      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border-strong); background: #ffffff; color: var(--text);
+      border-radius: 6px; padding: 5px 11px; font-size: 12px; font-weight: 600;
+      cursor: pointer; transition: all 0.15s; box-shadow: var(--shadow-sm);
     }
     button:hover { background: var(--surface-subtle); }
-    button.btn-primary {
-      background: var(--primary);
-      color: #ffffff;
-      border-color: var(--primary);
-    }
+    button.btn-primary { background: var(--primary); color: #ffffff; border-color: var(--primary); }
     button.btn-primary:hover { background: var(--primary-hover); }
-    button.btn-cite {
-      background: var(--primary-soft);
-      color: var(--primary);
-      border-color: var(--primary-border);
-    }
-    button.btn-cite:hover {
-      background: var(--primary);
-      color: #ffffff;
-      border-color: var(--primary);
-    }
+    button.btn-cite { background: var(--primary-soft); color: var(--primary); border-color: var(--primary-border); }
     button.btn-sm { padding: 3px 8px; font-size: 11px; }
-    button.btn-ghost {
-      border-color: transparent;
-      background: transparent;
-      box-shadow: none;
-      color: var(--text-secondary);
-    }
-    button.btn-ghost:hover { background: var(--surface-subtle); color: var(--text); }
+    button.btn-ghost { border-color: transparent; background: transparent; box-shadow: none; color: var(--text-secondary); }
 
-    /* Telemetry Strip */
     .kpi-strip {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(195px, 1fr));
-      gap: 12px;
-      padding: 14px 24px 0;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(195px, 1fr));
+      gap: 12px; padding: 14px 24px 0;
     }
     .kpi-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-top: 3px solid var(--primary);
-      border-radius: 8px;
-      padding: 10px 15px;
-      box-shadow: var(--shadow-sm);
-      transition: background-color 0.2s, border-color 0.2s;
+      background: var(--surface); border: 1px solid var(--border);
+      border-top: 3px solid var(--primary); border-radius: 8px; padding: 10px 15px; box-shadow: var(--shadow-sm);
     }
-    .kpi-label {
-      font-size: 11px;
-      color: var(--muted);
-      font-weight: 700;
-      letter-spacing: 0.02em;
-    }
-    .kpi-val {
-      font-family: var(--mono);
-      font-size: 16px;
-      font-weight: 700;
-      margin-top: 3px;
-      font-variant-numeric: tabular-nums;
-      color: var(--text);
-    }
+    .kpi-label { font-size: 11px; color: var(--muted); font-weight: 700; }
+    .kpi-val { font-family: var(--mono); font-size: 15.5px; font-weight: 700; margin-top: 3px; }
     .kpi-sub { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
 
-    /* Main Workspace Layout */
-    .workspace {
-      display: grid;
-      grid-template-columns: 355px 1fr;
-      gap: 16px;
-      padding: 14px 24px 28px;
-    }
-    @media (max-width: 1024px) {
-      .workspace { grid-template-columns: 1fr; }
-    }
+    .workspace { display: grid; grid-template-columns: 365px 1fr; gap: 16px; padding: 14px 24px 28px; }
+    @media (max-width: 1024px) { .workspace { grid-template-columns: 1fr; } }
     .sidebar { display: flex; flex-direction: column; gap: 14px; }
 
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 9px;
-      padding: 14px 16px;
-      box-shadow: var(--shadow-sm);
-      transition: background-color 0.2s, border-color 0.2s;
-    }
-    .card-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 10px;
-      padding-bottom: 7px;
-      border-bottom: 1px solid var(--border);
-    }
-    .card-title {
-      font-family: var(--serif);
-      font-weight: 700;
-      font-size: 13.5px;
-      color: var(--text);
-    }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 9px; padding: 14px 16px; box-shadow: var(--shadow-sm); }
+    .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; padding-bottom: 7px; border-bottom: 1px solid var(--border); }
+    .card-title { font-family: var(--serif); font-weight: 700; font-size: 13.5px; }
 
     .dropzone {
-      border: 1.5px dashed var(--border-strong);
-      border-radius: 7px;
-      padding: 13px 10px;
-      text-align: center;
-      background: var(--surface-subtle);
-      cursor: pointer;
-      transition: 0.15s;
+      border: 1.5px dashed var(--border-strong); border-radius: 7px; padding: 13px 10px;
+      text-align: center; background: var(--surface-subtle); cursor: pointer;
     }
-    .dropzone:hover, .dropzone.dragover {
-      border-color: var(--primary);
-      background: var(--primary-soft);
-    }
+    .dropzone:hover, .dropzone.dragover { border-color: var(--primary); background: var(--primary-soft); }
 
-    .sample-list {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      margin-top: 9px;
-      max-height: 155px;
-      overflow-y: auto;
-    }
+    .sample-list { display: flex; flex-direction: column; gap: 5px; margin-top: 9px; max-height: 155px; overflow-y: auto; }
     .sample-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 6px;
-      padding: 5px 8px;
-      border-radius: 6px;
-      border: 1px solid var(--border);
-      background: #ffffff;
-      font-size: 11.5px;
-      cursor: pointer;
+      display: flex; align-items: center; justify-content: space-between; gap: 6px;
+      padding: 5px 8px; border-radius: 6px; border: 1px solid var(--border); background: #ffffff; font-size: 11.5px; cursor: pointer;
     }
-    .sample-row.active {
-      border-color: var(--primary);
-      background: var(--primary-soft);
-      font-weight: 600;
-    }
-    .sample-swatch {
-      width: 9px;
-      height: 9px;
-      border-radius: 2px;
-      flex-shrink: 0;
-    }
+    .sample-row.active { border-color: var(--primary); background: var(--primary-soft); font-weight: 600; }
+    .sample-swatch { width: 9px; height: 9px; border-radius: 2px; flex-shrink: 0; }
 
-    .control-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      margin-top: 8px;
-    }
+    .control-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 8px; }
     .control-row label { font-size: 12px; color: var(--text-secondary); font-weight: 500; }
     .mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
 
     .slider-group { margin-top: 8px; }
-    .slider-header {
-      display: flex;
-      justify-content: space-between;
-      font-size: 12px;
-      margin-bottom: 3px;
-      color: var(--text-secondary);
-    }
+    .slider-header { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 3px; color: var(--text-secondary); }
     input[type="range"] { width: 100%; accent-color: var(--primary); }
 
-    .ratio-box {
-      margin-top: 12px;
-      padding: 10px 11px;
-      border-radius: 7px;
-      background: var(--surface-subtle);
-      border: 1px solid var(--border);
+    /* Multi-Phase Stacked Bar & HighScore Style Weight% Table */
+    .quant-box {
+      margin-top: 12px; padding: 10px 11px; border-radius: 7px;
+      background: var(--surface-subtle); border: 1px solid var(--border);
     }
-    .ratio-bar {
-      height: 10px;
-      border-radius: 999px;
-      background: var(--border);
-      overflow: hidden;
-      display: flex;
-      margin: 7px 0 6px;
+    .multi-bar {
+      height: 12px; border-radius: 999px; background: var(--border);
+      overflow: hidden; display: flex; margin: 7px 0 8px;
     }
-    .ratio-cal { background: var(--accent); transition: width 0.25s; }
-    .ratio-ara { background: var(--blue-ink); transition: width 0.25s; }
+    .quant-list { display: flex; flex-direction: column; gap: 4px; }
+    .quant-row {
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 11.5px; padding: 3px 6px; border-radius: 5px; background: #ffffff; border: 1px solid var(--border);
+    }
 
     .rank-list { display: flex; flex-direction: column; gap: 5px; }
     .rank-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 6px 9px;
-      border-radius: 6px;
-      border: 1px solid var(--border);
-      background: #ffffff;
-      cursor: pointer;
-      transition: 0.12s;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 6px 9px; border-radius: 6px; border: 1px solid var(--border); background: #ffffff; cursor: pointer;
     }
     .rank-item:hover { border-color: var(--primary); background: var(--primary-soft); }
-    .rank-dot {
-      width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 6px;
-    }
+    .rank-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; }
 
-    .pill-wrap {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 5px;
-      margin-top: 9px;
-      max-height: 165px;
-      overflow-y: auto;
-      padding-right: 2px;
-    }
+    .pill-wrap { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 9px; max-height: 175px; overflow-y: auto; }
     .db-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 3.5px 8.5px;
-      border-radius: 999px;
-      border: 1px solid var(--border-strong);
-      background: #ffffff;
-      font-size: 11.5px;
-      font-weight: 600;
-      cursor: pointer;
-      user-select: none;
-      transition: 0.12s;
+      display: inline-flex; align-items: center; gap: 5px; padding: 3.5px 8.5px;
+      border-radius: 999px; border: 1px solid var(--border-strong); background: #ffffff;
+      font-size: 11.5px; font-weight: 600; cursor: pointer; user-select: none;
     }
-    .db-pill.active {
-      border-color: var(--primary);
-      background: var(--primary-soft);
-      color: var(--primary);
-    }
+    .db-pill.active { border-color: var(--primary); background: var(--primary-soft); color: var(--primary); }
 
-    /* Main Right Column */
     .main-area { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
-    .chart-toolbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 9px;
-    }
-    .segmented {
-      display: inline-flex;
-      border: 1px solid var(--border-strong);
-      border-radius: 6px;
-      overflow: hidden;
-      background: var(--surface-subtle);
-    }
-    .segmented button {
-      border: none;
-      border-radius: 0;
-      box-shadow: none;
-      background: transparent;
-      padding: 4px 9px;
-      font-size: 11.5px;
-      color: var(--text-secondary);
-    }
-    .segmented button.active {
-      background: var(--primary);
-      color: #ffffff;
-    }
+    .chart-toolbar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 9px; }
+    .segmented { display: inline-flex; border: 1px solid var(--border-strong); border-radius: 6px; overflow: hidden; background: var(--surface-subtle); }
+    .segmented button { border: none; border-radius: 0; box-shadow: none; background: transparent; padding: 4px 9px; font-size: 11.5px; color: var(--text-secondary); }
+    .segmented button.active { background: var(--primary); color: #ffffff; }
 
     #svgChartWrapper {
-      width: 100%;
-      height: 430px;
-      min-height: 340px;
-      border: 1px solid var(--border-strong);
-      border-radius: 7px;
-      background: var(--chart-bg);
-      position: relative;
-      overflow: hidden;
+      width: 100%; height: 430px; min-height: 340px; border: 1px solid var(--border-strong);
+      border-radius: 7px; background: var(--chart-bg); position: relative; overflow: hidden;
     }
     svg#xrdSvg { width: 100%; height: 100%; display: block; cursor: crosshair; }
-    .chart-footer {
-      display: flex;
-      justify-content: space-between;
-      font-size: 11px;
-      color: var(--muted);
-      margin-top: 7px;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
+    .chart-footer { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-top: 7px; flex-wrap: wrap; gap: 6px; }
 
-    .sub-tabs {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-    .sub-tab-btn {
-      padding: 4px 10px;
-      font-size: 12px;
-      border-radius: 6px;
-      border: 1px solid transparent;
-      background: transparent;
-      box-shadow: none;
-      color: var(--text-secondary);
-    }
-    .sub-tab-btn.active {
-      background: var(--primary-soft);
-      border-color: var(--primary-border);
-      color: var(--primary);
-    }
+    .sub-tabs { display: flex; gap: 8px; align-items: center; }
+    .sub-tab-btn { padding: 4px 10px; font-size: 12px; border-radius: 6px; border: 1px solid transparent; background: transparent; box-shadow: none; color: var(--text-secondary); }
+    .sub-tab-btn.active { background: var(--primary-soft); border-color: var(--primary-border); color: var(--primary); }
 
-    .table-wrap {
-      max-height: 310px;
-      overflow: auto;
-      border: 1px solid var(--border);
-      border-radius: 7px;
-      background: #ffffff;
-    }
+    .table-wrap { max-height: 310px; overflow: auto; border: 1px solid var(--border); border-radius: 7px; background: #ffffff; }
     table { width: 100%; border-collapse: collapse; font-size: 12px; }
-    th {
-      position: sticky;
-      top: 0;
-      background: var(--surface-subtle);
-      text-align: left;
-      padding: 7px 10px;
-      font-weight: 700;
-      color: var(--text);
-      border-bottom: 1px solid var(--border-strong);
-      z-index: 2;
-    }
-    td {
-      padding: 6px 10px;
-      border-bottom: 1px solid var(--border);
-      font-family: var(--mono);
-      font-variant-numeric: tabular-nums;
-    }
+    th { position: sticky; top: 0; background: var(--surface-subtle); text-align: left; padding: 7px 10px; font-weight: 700; border-bottom: 1px solid var(--border-strong); z-index: 2; }
+    td { padding: 6px 10px; border-bottom: 1px solid var(--border); font-family: var(--mono); }
     tr:hover td { background: var(--surface-subtle); cursor: pointer; }
     tr.selected td { background: var(--primary-soft); }
 
-    /* Modals */
-    .modal-backdrop {
-      position: fixed; inset: 0;
-      background: rgba(15, 23, 42, 0.45);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 50;
-      padding: 16px;
-    }
+    .modal-backdrop { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.45); display: none; align-items: center; justify-content: center; z-index: 50; padding: 16px; }
     .modal-backdrop.open { display: flex; }
-    .modal {
-      background: var(--surface);
-      border: 1px solid var(--border-strong);
-      border-radius: 10px;
-      width: 100%;
-      max-width: 660px;
-      max-height: 88vh;
-      overflow-y: auto;
-      padding: 20px 24px;
-      box-shadow: var(--shadow-md);
-    }
+    .modal { background: var(--surface); border: 1px solid var(--border-strong); border-radius: 10px; width: 100%; max-width: 660px; max-height: 88vh; overflow-y: auto; padding: 20px 24px; box-shadow: var(--shadow-md); }
     .tabs { display: flex; gap: 6px; border-bottom: 1px solid var(--border-strong); margin: 10px 0 12px; }
-    .tab-btn {
-      border: none;
-      background: transparent;
-      box-shadow: none;
-      border-bottom: 2px solid transparent;
-      border-radius: 0;
-      padding: 6px 10px;
-      color: var(--muted);
-    }
-    .tab-btn.active {
-      color: var(--primary);
-      border-bottom-color: var(--primary);
-    }
+    .tab-btn { border: none; background: transparent; box-shadow: none; border-bottom: 2px solid transparent; border-radius: 0; padding: 6px 10px; color: var(--muted); }
+    .tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
     .tab-pane { display: none; }
     .tab-pane.active { display: block; }
 
-    /* Citation Box Styling */
-    .cite-section {
-      margin-top: 12px;
-      padding: 11px 13px;
-      border-radius: 8px;
-      background: #ffffff;
-      border: 1px solid var(--border-strong);
-    }
-    .cite-section-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 6px;
-      font-size: 11.5px;
-      font-weight: 700;
-      color: var(--text-secondary);
-    }
-    .cite-code {
-      font-family: var(--mono);
-      font-size: 11.5px;
-      line-height: 1.5;
-      color: var(--text);
-      background: var(--surface-subtle);
-      padding: 8px 10px;
-      border-radius: 6px;
-      border: 1px solid var(--border);
-      white-space: pre-wrap;
-      word-break: break-word;
-      user-select: all;
-    }
-    .doi-badge-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      flex-wrap: wrap;
-      padding: 10px 12px;
-      border-radius: 8px;
-      background: var(--primary-soft);
-      border: 1px solid var(--primary-border);
-      margin-top: 10px;
-    }
+    .cite-section { margin-top: 12px; padding: 11px 13px; border-radius: 8px; background: #ffffff; border: 1px solid var(--border-strong); }
+    .cite-section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; font-size: 11.5px; font-weight: 700; color: var(--text-secondary); }
+    .cite-code { font-family: var(--mono); font-size: 11.5px; line-height: 1.5; background: var(--surface-subtle); padding: 8px 10px; border-radius: 6px; border: 1px solid var(--border); white-space: pre-wrap; user-select: all; }
+    .doi-badge-bar { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; padding: 10px 12px; border-radius: 8px; background: var(--primary-soft); border: 1px solid var(--primary-border); margin-top: 10px; }
   </style>
 </head>
 <body data-theme="linen">
@@ -619,26 +263,20 @@
   <div class="brand">
     <div class="brand-emblem">Xr</div>
     <div>
-      <span class="brand-title" data-i18n="appTitle">IsoXRD — 결정학 상동정 & 다중 시료 분석 노트</span>
-      <span class="brand-sub" data-i18n="appSub">Multi-Sample Diffraction Stack & 100%-Normalized Semi-Quantitative Analyzer</span>
+      <span class="brand-title" data-i18n="appTitle">IsoXRD — 결정학 상동정 & 다중 광물 RIR 정량 노트</span>
+      <span class="brand-sub" data-i18n="appSub">Multi-Phase RIR (I/Ic) Weight% Quantification & Diffraction Stack Analyzer</span>
     </div>
-    <span class="version-tag">v3.6</span>
+    <span class="version-tag">v3.7</span>
   </div>
 
   <div class="header-actions">
-    <div class="theme-switcher" id="themeSwitcher" title="Select Visual Style">
-      <button class="theme-btn active" data-theme-val="linen">
-        <span class="swatch-dot" style="background:#a84a28;"></span>Linen
-      </button>
-      <button class="theme-btn" data-theme-val="journal">
-        <span class="swatch-dot" style="background:#1d4ed8;"></span>Journal
-      </button>
-      <button class="theme-btn" data-theme-val="blueprint">
-        <span class="swatch-dot" style="background:#1e3a5f;"></span>Blueprint
-      </button>
+    <div class="theme-switcher" id="themeSwitcher">
+      <button class="theme-btn active" data-theme-val="linen"><span class="swatch-dot" style="background:#a84a28;"></span>Linen</button>
+      <button class="theme-btn" data-theme-val="journal"><span class="swatch-dot" style="background:#1d4ed8;"></span>Journal</button>
+      <button class="theme-btn" data-theme-val="blueprint"><span class="swatch-dot" style="background:#1e3a5f;"></span>Blueprint</button>
     </div>
 
-    <select id="demoSelect" title="Load Demo Suite">
+    <select id="demoSelect">
       <option value="core_suite">Demo Suite: Speleothem Core (3 Depths Stack)</option>
       <option value="aragonite">Demo 1: WDS2_170 (Aragonite, +0.49°)</option>
       <option value="mixture">Demo 2: Calcite-Aragonite Mix (75% / 25%)</option>
@@ -656,8 +294,8 @@
 <div class="kpi-strip">
   <div class="kpi-card">
     <div class="kpi-label" data-i18n="kpiFile">활성 시료 / 스택 수</div>
-    <div class="kpi-val" id="kpiFileName">Core_05mm_Top (1/3)</div>
-    <div class="kpi-sub" id="kpiRangeInfo">15.00° – 65.00° (Cu Kα1)</div>
+    <div class="kpi-val" id="kpiFileName">—</div>
+    <div class="kpi-sub" id="kpiRangeInfo">—</div>
   </div>
   <div class="kpi-card">
     <div class="kpi-label" data-i18n="kpiPrimary">1순위 판별 광물 (Match)</div>
@@ -670,16 +308,15 @@
     <div class="kpi-sub" id="kpiShiftDetail">s₀: 0.000° / s₁: 0.000°</div>
   </div>
   <div class="kpi-card">
-    <div class="kpi-label" data-i18n="kpiCarbKpi">탄산염 적분 면적비 (Cal / Ara)</div>
+    <div class="kpi-label" data-i18n="kpiCarbKpi">최다 함량 광물 (RIR Weight%)</div>
     <div class="kpi-val" id="kpiCarbRatioVal">—</div>
-    <div class="kpi-sub" id="kpiDbStatus">DB: 19 phases loaded</div>
+    <div class="kpi-sub" id="kpiDbStatus">DB: 21 phases loaded</div>
   </div>
 </div>
 
 <div class="workspace">
-  <!-- Left Control Sidebar -->
   <aside class="sidebar">
-    <!-- 1. Multi-File Upload & Stack Manager -->
+    <!-- 1. Multi-File Upload -->
     <div class="card">
       <div class="card-header">
         <span class="card-title" data-i18n="sec1">1. 다중 시료 불러오기 (Multi-Sample)</span>
@@ -693,10 +330,10 @@
       <div class="sample-list" id="sampleList"></div>
     </div>
 
-    <!-- 2. Displacement & Semi-Quantitative Weight% Settings -->
+    <!-- 2. Displacement & Multi-Phase RIR Weight% -->
     <div class="card">
       <div class="card-header">
-        <span class="card-title" data-i18n="sec2">2. 변위 보정 & 100% 반정량 (Weight%)</span>
+        <span class="card-title" data-i18n="sec2">2. 변위 보정 & 다중 광물 Weight%</span>
         <button class="btn-primary btn-sm" id="btnAutoFit" data-i18n="autoFit">자동 보정</button>
       </div>
       <div class="slider-group">
@@ -714,22 +351,14 @@
         <input type="range" id="sliderS1" min="-0.8" max="0.8" step="0.005" value="0" />
       </div>
 
-      <div class="ratio-box">
+      <!-- HighScore-Style Multi-Phase Weight% Box -->
+      <div class="quant-box">
         <div style="display:flex; justify-content:space-between; align-items:center; font-size:11.5px; font-weight:700;">
-          <span data-i18n="carbTitle">활성 광물 100% 정규화 반정량 (Weight%)</span>
-          <span style="font-size:10.5px; color:var(--muted);" title="RIR Multiplier for Aragonite vs Calcite">
-            RIR<sub>Ara/Cal</sub>:
-            <input type="number" id="inpRirFactor" value="1.15" step="0.05" min="0.2" max="5.0" style="width:52px; padding:1px 4px; font-size:11px;" />
-          </span>
+          <span data-i18n="carbTitle">활성 광물 RIR 정량 (Weight% 합계 100%)</span>
+          <span style="font-size:10px; color:var(--muted);">I/I<sub>c</sub> RIR 보정</span>
         </div>
-        <div class="ratio-bar">
-          <div class="ratio-cal" id="barCal" style="width:0%"></div>
-          <div class="ratio-ara" id="barAra" style="width:0%"></div>
-        </div>
-        <div style="display:flex; justify-content:space-between; font-size:11.5px;" class="mono">
-          <span style="color:var(--accent); font-weight:700;" id="txtCalPct">Calcite: 0%</span>
-          <span style="color:var(--blue-ink); font-weight:700;" id="txtAraPct">Aragonite: 0%</span>
-        </div>
+        <div class="multi-bar" id="multiPhaseBar"></div>
+        <div class="quant-list" id="multiPhaseList"></div>
       </div>
 
       <div style="margin-top:10px;">
@@ -741,7 +370,7 @@
     <!-- 3. Peak Detection & Mineral DB -->
     <div class="card">
       <div class="card-header">
-        <span class="card-title" data-i18n="sec3">3. 피크 검출 & 광물 DB</span>
+        <span class="card-title" data-i18n="sec3">3. 피크 검출 & 광물 DB (클릭하여 선택)</span>
         <button class="btn-sm" id="btnToggleAll" data-i18n="toggleAll">전체 토글</button>
       </div>
       <div class="control-row">
@@ -758,7 +387,7 @@
           <span data-i18n="lblPromText">피크 검출 민감도 (Prominence):</span>
           <span class="mono" id="lblProm">3.5%</span>
         </div>
-        <input type="range" id="sliderProm" min="1.0" max="20.0" step="0.5" value="3.5" />
+        <input type="range" id="sliderProm" min="0.5" max="20.0" step="0.5" value="3.5" />
       </div>
       <div class="slider-group">
         <div class="slider-header">
@@ -776,12 +405,11 @@
       <div class="pill-wrap" id="dbPills"></div>
 
       <button class="btn-primary" id="btnOpenDbModal" style="width:100%; margin-top:10px; padding:7px;" data-i18n="openDbBtn">
-        + 광물 DB 추가 / 관리 (Add / Manage DB)
+        + 광물 DB 추가 / RIR 관리 (Add / Manage DB)
       </button>
     </div>
   </aside>
 
-  <!-- Right Chart & Analytical Tables -->
   <main class="main-area">
     <div class="card">
       <div class="chart-toolbar">
@@ -807,7 +435,7 @@
       </div>
 
       <div class="chart-footer">
-        <span data-i18n="chartHint">💡 활성 광물 전체 합계 100% 정규화(Weight%) 반정량 및 HighScore 스타일 요약표 지원</span>
+        <span data-i18n="chartHint">💡 좌측 광물 알약 버튼을 켜고 끌 때마다 해당 광물 조합의 RIR Weight% (합계 100%)가 즉시 재계산됩니다.</span>
         <span class="mono" id="presetSourceBadge">Preset JSON: loading...</span>
       </div>
     </div>
@@ -816,13 +444,30 @@
     <div class="card">
       <div class="card-header">
         <div class="sub-tabs">
-          <button class="sub-tab-btn active" data-subtab="panePeaks" data-i18n="subTabPeaks">활성 시료 피크 & 적분 면적표</button>
-          <button class="sub-tab-btn" data-subtab="paneBatch" data-i18n="subTabBatch">다중 시료 일괄 정량 요약표 (Batch Summary)</button>
+          <button class="sub-tab-btn active" data-subtab="paneBatch" data-i18n="subTabBatch">다중 시료 일괄 정량 요약표 (Weight% 합계 100%)</button>
+          <button class="sub-tab-btn" data-subtab="panePeaks" data-i18n="subTabPeaks">활성 시료 피크 & 적분 면적표</button>
         </div>
-        <span style="font-size:11px; color:var(--muted);" id="tableRightHint" data-i18n="tableHint">행 클릭 시 차트에서 해당 피크 강조</span>
+        <span style="font-size:11px; color:var(--muted);" id="tableRightHint" data-i18n="tableHint">시료 행 클릭 시 해당 스펙트럼 선택</span>
       </div>
 
-      <div id="panePeaks" class="table-wrap">
+      <!-- Default Active Pane: HighScore-style 100% Weight% Batch Summary -->
+      <div id="paneBatch" class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th data-i18n="thSample">시료명 (Sample)</th>
+              <th data-i18n="thTopMatch">1순위 광물 (Match)</th>
+              <th data-i18n="thShift">보정 변위 (Δ2θ)</th>
+              <th data-i18n="thWeightTable">광물별 반정량 Weight% (총합 100.0%)</th>
+            </tr>
+          </thead>
+          <tbody id="batchTableBody"></tbody>
+        </table>
+      </div>
+
+      <!-- Pane 2: Active Sample Peak List -->
+      <div id="panePeaks" class="table-wrap" style="display:none;">
         <table>
           <thead>
             <tr>
@@ -840,22 +485,6 @@
           <tbody id="peakTableBody"></tbody>
         </table>
       </div>
-
-      <!-- HighScore-style 100% Weight% Table -->
-      <div id="paneBatch" class="table-wrap" style="display:none;">
-        <table>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th data-i18n="thSample">시료명 (Sample)</th>
-              <th data-i18n="thTopMatch">1순위 광물 (Match)</th>
-              <th data-i18n="thShift">보정 변위 (Δ2θ)</th>
-              <th data-i18n="thWeightTable">활성 광물별 정규화 반정량 (Weight% 합계 100%)</th>
-            </tr>
-          </thead>
-          <tbody id="batchTableBody"></tbody>
-        </table>
-      </div>
     </div>
   </main>
 </div>
@@ -870,7 +499,6 @@
     <p style="font-size:12px; color:var(--text-secondary); margin-top:6px;" data-i18n="citeModalDesc">
       연구 논문(Methods / Data Availability)이나 학술 발표에 IsoXRD를 활용하신 경우 아래 서지 정보와 Zenodo 영구 DOI를 인용해 주세요.
     </p>
-
     <div class="doi-badge-bar">
       <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
         <span style="font-weight:700; font-size:12px; color:var(--primary);">Zenodo DOI:</span>
@@ -882,7 +510,6 @@
         <a id="linkZenodoDoi" href="https://zenodo.org/" target="_blank" rel="noopener" style="color:var(--primary); font-weight:700; text-decoration:none;">Zenodo ↗</a>
       </div>
     </div>
-
     <div class="cite-section">
       <div class="cite-section-header">
         <span data-i18n="citeSec1">1. 논문 본문 / Methods 표기 예시 (In-Text Statement)</span>
@@ -890,7 +517,6 @@
       </div>
       <div class="cite-code" id="citeTextStatement"></div>
     </div>
-
     <div class="cite-section">
       <div class="cite-section-header">
         <span data-i18n="citeSec2">2. 참고문헌 표기 (Reference Format)</span>
@@ -898,7 +524,6 @@
       </div>
       <div class="cite-code" id="citeTextApa"></div>
     </div>
-
     <div class="cite-section">
       <div class="cite-section-header">
         <span data-i18n="citeSec3">3. BibTeX (LaTeX / Overleaf)</span>
@@ -913,7 +538,7 @@
 <div class="modal-backdrop" id="dbModalBackdrop">
   <div class="modal">
     <div style="display:flex; justify-content:space-between; align-items:center;">
-      <h3 style="font-family:var(--serif); font-size:15px;" data-i18n="modalTitle">광물 표준 DB 추가 및 관리 (Custom Mineral Library)</h3>
+      <h3 style="font-family:var(--serif); font-size:15px;" data-i18n="modalTitle">광물 표준 DB 추가 및 RIR(I/Ic) 관리</h3>
       <button id="btnCloseDbModal" data-i18n="btnClose">닫기 ✕</button>
     </div>
     <div class="tabs">
@@ -923,10 +548,11 @@
     </div>
 
     <div class="tab-pane active" id="tabPaste">
-      <div style="display:grid; grid-template-columns:1fr 1fr 1fr 70px; gap:8px; margin-bottom:8px;">
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr 65px 60px; gap:6px; margin-bottom:8px;">
         <input type="text" id="newMinName" data-i18n-ph="phEnName" placeholder="영문명 (예: Vaterite)" />
         <input type="text" id="newMinKo" data-i18n-ph="phKoName" placeholder="한글명 (예: 바테라이트)" />
         <input type="text" id="newMinFormula" data-i18n-ph="phFormula" placeholder="화학식 (예: CaCO3)" />
+        <input type="number" id="newMinRir" value="1.5" step="0.1" min="0.1" max="20" title="RIR (I/Ic)" placeholder="RIR" />
         <input type="color" id="newMinColor" value="#9d174d" style="height:30px; width:100%;" />
       </div>
       <div style="margin-bottom:6px; font-size:12px;">
@@ -976,8 +602,8 @@
 
   const I18N = {
     ko: {
-      appTitle: "IsoXRD — 결정학 상동정 & 다중 시료 분석 노트",
-      appSub: "Multi-Sample Diffraction Stack & 100%-Normalized Semi-Quantitative Analyzer",
+      appTitle: "IsoXRD — 결정학 상동정 & 다중 광물 RIR 정량 노트",
+      appSub: "Multi-Phase RIR (I/Ic) Weight% Quantification & Diffraction Stack Analyzer",
       pubModeBtn: "출판용 흑백",
       pubModeBtnActive: "테마 컬러 복귀",
       exportCsv: "엑셀 CSV",
@@ -988,17 +614,17 @@
       kpiFile: "활성 시료 / 스택 수",
       kpiPrimary: "1순위 판별 광물 (Match)",
       kpiShift: "보정 변위 (Δ2θ = s₀ + s₁cosθ)",
-      kpiCarbKpi: "탄산염 정규화 비율 (Cal / Ara)",
+      kpiCarbKpi: "최다 함량 광물 (RIR Weight%)",
       sec1: "1. 다중 시료 불러오기 (Multi-Sample)",
       clearBtn: "초기화",
       dropTitle: "여기에 여러 XRD 파일 동시 드래그/클릭",
-      sec2: "2. 변위 보정 & 100% 반정량 (Weight%)",
+      sec2: "2. 변위 보정 & 다중 광물 Weight%",
       autoFit: "자동 보정",
       lblS0Text: "영점 오차 (s₀):",
       lblS1Text: "시료 높이 변위 (s₁·cosθ):",
-      carbTitle: "활성 광물 100% 정규화 반정량 (Weight%)",
+      carbTitle: "활성 광물 RIR 정량 (Weight% 합계 100%)",
       rankTitle: "후보 광물 적합도 순위 (Top 4)",
-      sec3: "3. 피크 검출 & 광물 DB",
+      sec3: "3. 피크 검출 & 광물 DB (클릭하여 선택)",
       toggleAll: "전체 토글",
       lblWavelength: "X-선 파장 (λ):",
       lblPromText: "피크 검출 민감도 (Prominence):",
@@ -1006,16 +632,16 @@
       chkBase: "배경선 제거",
       chkRaw: "원시 곡선",
       chkLbl: "스마트 라벨",
-      openDbBtn: "+ 광물 DB 추가 / 관리 (Add / Manage DB)",
+      openDbBtn: "+ 광물 DB 추가 / RIR 관리 (Add / Manage DB)",
       modeStack: "스택 비교 (Stack)",
       modeSingle: "단일 상세 (Single)",
       rangeLbl: "2θ:",
       btnApply: "적용",
       btnReset: "전체",
-      chartHint: "💡 활성 광물 전체 합계 100% 정규화(Weight%) 반정량 및 HighScore 스타일 요약표 지원",
+      chartHint: "💡 좌측 광물 알약 버튼을 켜고 끌 때마다 해당 광물 조합의 RIR Weight% (합계 100%)가 즉시 재계산됩니다.",
       subTabPeaks: "활성 시료 피크 & 적분 면적표",
-      subTabBatch: "다중 시료 일괄 정량 요약표 (Batch Summary)",
-      tableHint: "행 클릭 시 차트에서 해당 피크 강조",
+      subTabBatch: "다중 시료 일괄 정량 요약표 (Weight% 합계 100%)",
+      tableHint: "시료 행 클릭 시 해당 스펙트럼 선택",
       thObs: "관측 2θ (°)",
       thCorr: "보정 2θ (°)",
       thD: "면간거리 d (Å)",
@@ -1027,7 +653,7 @@
       thSample: "시료명 (Sample)",
       thTopMatch: "1순위 광물 (Match)",
       thShift: "보정 변위 (Δ2θ)",
-      thWeightTable: "활성 광물별 정규화 반정량 (Weight% 합계 100%)",
+      thWeightTable: "광물별 반정량 Weight% (총합 100.0%)",
       citeModalTitle: "학술 인용 및 Zenodo DOI 안내 (How to Cite IsoXRD)",
       citeModalDesc: "연구 논문(Methods / Data Availability)이나 학술 발표에 IsoXRD를 활용하신 경우 아래 서지 정보와 Zenodo 영구 DOI를 인용해 주세요.",
       saveDoiBtn: "DOI 반영",
@@ -1036,7 +662,7 @@
       citeSec3: "3. BibTeX (LaTeX / Overleaf)",
       copyBtn: "복사",
       copiedBtn: "복사됨 ✓",
-      modalTitle: "광물 표준 DB 추가 및 관리 (Custom Mineral Library)",
+      modalTitle: "광물 표준 DB 추가 및 RIR(I/Ic) 관리",
       btnClose: "닫기 ✕",
       tab1: "1. 피크 표 붙여넣기 (RRUFF/논문)",
       tab2: "2. 현재 스펙트럼에서 추출",
@@ -1062,8 +688,8 @@
       unassigned: "미할당 / Unassigned"
     },
     en: {
-      appTitle: "IsoXRD — Crystallographic Phase & Multi-Sample Notebook",
-      appSub: "Multi-Sample Diffraction Stack & 100%-Normalized Semi-Quantitative Analyzer",
+      appTitle: "IsoXRD — Crystallographic Phase & Multi-Phase RIR Notebook",
+      appSub: "Multi-Phase RIR (I/Ic) Weight% Quantification & Diffraction Stack Analyzer",
       pubModeBtn: "Publication B&W",
       pubModeBtnActive: "Restore Theme Color",
       exportCsv: "Excel CSV",
@@ -1074,17 +700,17 @@
       kpiFile: "Active Sample / Stack",
       kpiPrimary: "Primary Matched Phase",
       kpiShift: "Displacement (Δ2θ = s₀ + s₁cosθ)",
-      kpiCarbKpi: "Normalized Ratio (Cal / Ara)",
+      kpiCarbKpi: "Dominant Phase (RIR Weight%)",
       sec1: "1. Multi-Sample Data Loader",
       clearBtn: "Clear",
       dropTitle: "Drag & Drop Multiple XRD Files or Click",
-      sec2: "2. Displacement & 100% Semi-Quant (Weight%)",
+      sec2: "2. Displacement & Multi-Phase Weight%",
       autoFit: "Auto-Fit",
       lblS0Text: "Zero-Point Shift (s₀):",
       lblS1Text: "Sample Height Shift (s₁·cosθ):",
-      carbTitle: "Active Phases 100% Normalized Weight%",
+      carbTitle: "Active Phases RIR Weight% (Sum 100%)",
       rankTitle: "Candidate Phase Ranking (Top 4)",
-      sec3: "3. Peak Detection & Mineral DB",
+      sec3: "3. Peak Detection & Mineral DB (Click to Toggle)",
       toggleAll: "Toggle All",
       lblWavelength: "X-Ray Wavelength (λ):",
       lblPromText: "Peak Prominence Threshold:",
@@ -1092,16 +718,16 @@
       chkBase: "Subtract Baseline",
       chkRaw: "Raw Curve",
       chkLbl: "Smart Labels",
-      openDbBtn: "+ Add / Manage Mineral DB",
+      openDbBtn: "+ Add / Manage Mineral DB & RIR",
       modeStack: "Stack View",
       modeSingle: "Single Detail",
       rangeLbl: "2θ:",
       btnApply: "Apply",
       btnReset: "Full",
-      chartHint: "💡 Active phases normalized to 100% Weight% semi-quant and HighScore style summary table",
+      chartHint: "💡 Toggling mineral pills immediately recalculates 100%-normalized RIR Weight% across selected phases.",
       subTabPeaks: "Active Sample Peaks & Integrated Area",
       subTabBatch: "Multi-Sample 100%-Normalized Weight% Summary",
-      tableHint: "Click a row to highlight the peak on the chart",
+      tableHint: "Click a sample row to inspect its spectrum",
       thObs: "Obs 2θ (°)",
       thCorr: "Corr 2θ (°)",
       thD: "d-Spacing (Å)",
@@ -1113,7 +739,7 @@
       thSample: "Sample Name",
       thTopMatch: "Primary Match",
       thShift: "Shift (Δ2θ)",
-      thWeightTable: "Semi-Quantitative Weight% (Sum 100% for Active Phases)",
+      thWeightTable: "Semi-Quantitative Weight% (Sum 100.0%)",
       citeModalTitle: "How to Cite IsoXRD & Zenodo DOI",
       citeModalDesc: "If you use IsoXRD in your research paper (Methods / Data Availability) or presentation, please cite the software using the metadata and Zenodo DOI below.",
       saveDoiBtn: "Update DOI",
@@ -1122,7 +748,7 @@
       citeSec3: "3. BibTeX (LaTeX / Overleaf)",
       copyBtn: "Copy",
       copiedBtn: "Copied ✓",
-      modalTitle: "Add & Manage Custom Mineral Library",
+      modalTitle: "Add & Manage Custom Mineral Library & RIR (I/Ic)",
       btnClose: "Close ✕",
       tab1: "1. Paste Peak Table (RRUFF/Paper)",
       tab2: "2. Capture from Active Spectrum",
@@ -1151,31 +777,23 @@
 
   const THEME_CHART_PALETTE = {
     linen: {
-      bg: "#fffdf9",
-      grid: "#f2ece0",
-      frame: "#44403c",
-      text: "#27272a",
+      bg: "#fffdf9", grid: "#f2ece0", frame: "#44403c", text: "#27272a",
       traces: ["#a84a28", "#1b4d3e", "#1e40af", "#854d0e", "#6b21a8", "#0f766e", "#44403c"]
     },
     journal: {
-      bg: "#ffffff",
-      grid: "#f1f5f9",
-      frame: "#18181b",
-      text: "#18181b",
+      bg: "#ffffff", grid: "#f1f5f9", frame: "#18181b", text: "#18181b",
       traces: ["#1d4ed8", "#9f1239", "#047857", "#6d28d9", "#b45309", "#0e7490", "#374151"]
     },
     blueprint: {
-      bg: "#fcfdff",
-      grid: "#e3ecf5",
-      frame: "#1e3a5f",
-      text: "#0f2942",
+      bg: "#fcfdff", grid: "#e3ecf5", frame: "#1e3a5f", text: "#0f2942",
       traces: ["#1e3a5f", "#b45309", "#0284c7", "#0f766e", "#6d28d9", "#be123c", "#334e68"]
     }
   };
 
+  // Standard Literature RIR (I/Ic) values included for accurate multi-phase Weight% quantification
   const CORE_MINERALS = [
     {
-      id: "calcite", name: "Calcite", nameKo: "방해석", formula: "CaCO3", color: "#a84a28", active: true,
+      id: "calcite", name: "Calcite", nameKo: "방해석", formula: "CaCO3", color: "#a84a28", rir: 3.20, active: true,
       peaks: [
         [29.40, 100, 3.035, "(104)"], [39.40, 18, 2.285, "(113)"], [43.15, 18, 2.095, "(202)"],
         [47.50, 17, 1.913, "(018)"], [48.51, 17, 1.875, "(116)"], [35.97, 14, 2.495, "(110)"],
@@ -1183,7 +801,7 @@
       ]
     },
     {
-      id: "aragonite", name: "Aragonite", nameKo: "아라고나이트", formula: "CaCO3", color: "#1d4ed8", active: true,
+      id: "aragonite", name: "Aragonite", nameKo: "아라고나이트", formula: "CaCO3", color: "#1d4ed8", rir: 1.15, active: true,
       peaks: [
         [26.21, 100, 3.396, "(111)"], [45.85, 65, 1.977, "(221)"], [27.22, 52, 3.273, "(021)"],
         [33.13, 46, 2.702, "(012)"], [37.88, 38, 2.373, "(112)"], [36.12, 33, 2.484, "(200)"],
@@ -1193,35 +811,35 @@
       ]
     },
     {
-      id: "dolomite", name: "Dolomite", nameKo: "돌로마이트", formula: "CaMg(CO3)2", color: "#1b4d3e", active: true,
+      id: "dolomite", name: "Dolomite", nameKo: "돌로마이트", formula: "CaMg(CO3)2", color: "#1b4d3e", rir: 2.60, active: true,
       peaks: [
         [30.96, 100, 2.886, "(104)"], [41.13, 30, 2.193, "(113)"], [50.54, 20, 1.804, "(018)"],
         [51.07, 20, 1.787, "(116)"], [44.94, 15, 2.015, "(202)"], [37.36, 10, 2.405, "(110)"]
       ]
     },
     {
-      id: "quartz", name: "Quartz", nameKo: "석영", formula: "SiO2", color: "#b45309", active: true,
+      id: "quartz", name: "Quartz", nameKo: "석영", formula: "SiO2", color: "#b45309", rir: 3.40, active: true,
       peaks: [
         [26.64, 100, 3.343, "(101)"], [20.86, 22, 4.255, "(100)"], [50.14, 14, 1.818, "(112)"],
         [36.54, 9, 2.457, "(110)"], [59.96, 9, 1.541, "(211)"], [39.46, 8, 2.282, "(102)"]
       ]
     },
     {
-      id: "pyrite", name: "Pyrite", nameKo: "황철석", formula: "FeS2", color: "#6d28d9", active: false,
+      id: "pyrite", name: "Pyrite", nameKo: "황철석", formula: "FeS2", color: "#6d28d9", rir: 1.60, active: false,
       peaks: [
         [56.28, 100, 1.633, "(311)"], [33.05, 84, 2.709, "(200)"], [37.08, 66, 2.423, "(210)"],
         [40.78, 52, 2.212, "(211)"], [47.43, 40, 1.915, "(220)"], [28.51, 36, 3.128, "(111)"]
       ]
     },
     {
-      id: "halite", name: "Halite", nameKo: "암염", formula: "NaCl", color: "#0e7490", active: false,
+      id: "halite", name: "Halite", nameKo: "암염", formula: "NaCl", color: "#0e7490", rir: 4.40, active: false,
       peaks: [
         [31.69, 100, 2.821, "(200)"], [45.45, 55, 1.994, "(220)"], [56.48, 15, 1.628, "(222)"],
         [27.37, 13, 3.256, "(111)"]
       ]
     },
     {
-      id: "gypsum", name: "Gypsum", nameKo: "석고", formula: "CaSO4·2H2O", color: "#0369a1", active: false,
+      id: "gypsum", name: "Gypsum", nameKo: "석고", formula: "CaSO4·2H2O", color: "#0369a1", rir: 1.80, active: false,
       peaks: [
         [11.59, 100, 7.630, "(020)"], [29.11, 57, 3.065, "(14-1)"], [20.72, 51, 4.283, "(12-1)"],
         [31.10, 28, 2.873, "(002)"], [23.39, 21, 3.800, "(040)"]
@@ -1230,27 +848,35 @@
   ];
 
   const LAB_PRESET_FALLBACK = [
-    { id: "vaterite", name: "Vaterite", nameKo: "바테라이트", formula: "CaCO3", color: "#9d174d",
-      peaks: [[24.90,65,3.573,"(110)"],[27.05,100,3.294,"(112)"],[32.78,95,2.730,"(114)"],[43.85,50,2.063,"(300)"],[49.10,30,1.854,"(304)"],[50.08,45,1.820,"(118)"]] },
-    { id: "magnesite", name: "Magnesite", nameKo: "마그네사이트", formula: "MgCO3", color: "#6b21a8",
-      peaks: [[32.63,100,2.742,"(104)"],[42.99,43,2.102,"(113)"],[53.88,34,1.700,"(116)"],[35.85,12,2.503,"(110)"],[46.81,12,1.939,"(202)"]] },
-    { id: "siderite", name: "Siderite", nameKo: "능철석", formula: "FeCO3", color: "#78350f",
-      peaks: [[32.02,100,2.793,"(104)"],[52.76,35,1.734,"(116)"],[42.31,25,2.134,"(113)"],[24.81,22,3.586,"(012)"],[46.23,20,1.962,"(202)"]] },
-    { id: "anhydrite", name: "Anhydrite", nameKo: "경석고", formula: "CaSO4", color: "#0369a1",
-      peaks: [[25.44,100,3.498,"(002)"],[31.36,33,2.850,"(210)"],[38.63,22,2.329,"(202)"],[40.82,20,2.209,"(212)"],[48.68,15,1.869,"(230)"]] },
-    { id: "muscovite", name: "Muscovite", nameKo: "백운모", formula: "KAl2(AlSi3O10)(OH)2", color: "#047857",
+    { id: "diopside", name: "Diopside", nameKo: "투휘석", formula: "CaMgSi2O6", color: "#16a34a", rir: 1.15,
+      peaks: [[29.80,100,3.000,"(221)"],[30.50,60,2.928,"(310)"],[35.50,55,2.527,"(022)"],[31.10,45,2.873,"(002)"],[27.60,30,3.230,"(220)"]] },
+    { id: "k_feldspar", name: "K-feldspar", nameKo: "칼륨장석", formula: "KAlSi3O8", color: "#854d0e", rir: 0.95,
+      peaks: [[27.50,100,3.242,"(002)"],[21.00,40,4.227,"(201)"],[27.80,35,3.207,"(220)"],[29.50,30,3.026,"(131)"],[23.60,25,3.767,"(111)"]] },
+    { id: "biotite", name: "Biotite", nameKo: "흑운모", formula: "K(Mg,Fe)3(AlSi3O10)(OH)2", color: "#3f3f46", rir: 1.20,
+      peaks: [[8.85,100,9.985,"(001)"],[26.80,85,3.324,"(006)"],[17.80,30,4.980,"(004)"],[19.90,25,4.459,"(020)"],[35.00,20,2.562,"(202)"]] },
+    { id: "apatite", name: "Apatite", nameKo: "인회석", formula: "Ca5(PO4)3(F,Cl,OH)", color: "#0284c7", rir: 1.10,
+      peaks: [[31.78,100,2.813,"(211)"],[25.87,85,3.442,"(002)"],[32.18,70,2.779,"(112)"],[28.93,55,3.084,"(210)"],[34.04,40,2.631,"(300)"]] },
+    { id: "muscovite", name: "Muscovite", nameKo: "백운모", formula: "KAl2(AlSi3O10)(OH)2", color: "#047857", rir: 0.90,
       peaks: [[8.88,95,9.950,"(002)"],[26.82,100,3.321,"(006)"],[17.78,31,4.985,"(004)"],[34.96,25,2.564,"(202)"],[45.42,22,1.995,"(0010)"]] },
-    { id: "kaolinite", name: "Kaolinite", nameKo: "카올리나이트", formula: "Al2Si2O5(OH)4", color: "#0f766e",
+    { id: "vaterite", name: "Vaterite", nameKo: "바테라이트", formula: "CaCO3", color: "#9d174d", rir: 1.30,
+      peaks: [[24.90,65,3.573,"(110)"],[27.05,100,3.294,"(112)"],[32.78,95,2.730,"(114)"],[43.85,50,2.063,"(300)"],[49.10,30,1.854,"(304)"],[50.08,45,1.820,"(118)"]] },
+    { id: "magnesite", name: "Magnesite", nameKo: "마그네사이트", formula: "MgCO3", color: "#6b21a8", rir: 2.30,
+      peaks: [[32.63,100,2.742,"(104)"],[42.99,43,2.102,"(113)"],[53.88,34,1.700,"(116)"],[35.85,12,2.503,"(110)"],[46.81,12,1.939,"(202)"]] },
+    { id: "siderite", name: "Siderite", nameKo: "능철석", formula: "FeCO3", color: "#78350f", rir: 2.80,
+      peaks: [[32.02,100,2.793,"(104)"],[52.76,35,1.734,"(116)"],[42.31,25,2.134,"(113)"],[24.81,22,3.586,"(012)"],[46.23,20,1.962,"(202)"]] },
+    { id: "anhydrite", name: "Anhydrite", nameKo: "경석고", formula: "CaSO4", color: "#0369a1", rir: 2.10,
+      peaks: [[25.44,100,3.498,"(002)"],[31.36,33,2.850,"(210)"],[38.63,22,2.329,"(202)"],[40.82,20,2.209,"(212)"],[48.68,15,1.869,"(230)"]] },
+    { id: "kaolinite", name: "Kaolinite", nameKo: "카올리나이트", formula: "Al2Si2O5(OH)4", color: "#0f766e", rir: 1.00,
       peaks: [[12.36,100,7.155,"(001)"],[24.88,80,3.576,"(002)"],[20.36,35,4.358,"(110)"],[38.45,30,2.339,"(202)"],[62.31,25,1.489,"(060)"]] },
-    { id: "albite", name: "Albite (Plagioclase)", nameKo: "조장석(사장석)", formula: "NaAlSi3O8", color: "#3730a3",
+    { id: "albite", name: "Albite (Plagioclase)", nameKo: "조장석(사장석)", formula: "NaAlSi3O8", color: "#3730a3", rir: 1.10,
       peaks: [[27.93,100,3.192,"(002)"],[22.05,25,4.028,"(201)"],[23.54,20,3.776,"(111)"],[24.22,20,3.672,"(130)"],[30.48,18,2.930,"(041)"]] },
-    { id: "microcline", name: "Microcline (K-Feldspar)", nameKo: "미사장석(알칼리장석)", formula: "KAlSi3O8", color: "#86198f",
+    { id: "microcline", name: "Microcline (K-Feldspar)", nameKo: "미사장석(알칼리장석)", formula: "KAlSi3O8", color: "#86198f", rir: 0.95,
       peaks: [[27.46,100,3.246,"(002)"],[21.05,30,4.217,"(201)"],[25.63,25,3.473,"(112)"],[29.48,22,3.027,"(131)"],[41.80,20,2.159,"(060)"]] },
-    { id: "hematite", name: "Hematite", nameKo: "적철석", formula: "Fe2O3", color: "#991b1b",
+    { id: "hematite", name: "Hematite", nameKo: "적철석", formula: "Fe2O3", color: "#991b1b", rir: 2.40,
       peaks: [[33.15,100,2.700,"(104)"],[35.61,70,2.519,"(110)"],[54.09,45,1.694,"(116)"],[49.48,40,1.841,"(024)"],[24.14,30,3.684,"(012)"],[40.85,20,2.207,"(113)"]] },
-    { id: "goethite", name: "Goethite", nameKo: "침철석", formula: "FeO(OH)", color: "#b45309",
+    { id: "goethite", name: "Goethite", nameKo: "침철석", formula: "FeO(OH)", color: "#b45309", rir: 1.90,
       peaks: [[21.22,100,4.183,"(110)"],[36.65,50,2.450,"(111)"],[33.24,35,2.693,"(130)"],[53.24,30,1.719,"(221)"],[34.70,20,2.583,"(021)"]] },
-    { id: "fluorite", name: "Fluorite", nameKo: "형석", formula: "CaF2", color: "#15803d",
+    { id: "fluorite", name: "Fluorite", nameKo: "형석", formula: "CaF2", color: "#15803d", rir: 3.60,
       peaks: [[28.27,94,3.154,"(111)"],[47.00,100,1.932,"(220)"],[55.76,35,1.647,"(311)"]] }
   ];
 
@@ -1278,10 +904,10 @@
     document.getElementById("linkZenodoDoi").href = doiUrl;
 
     document.getElementById("citeTextStatement").textContent =
-      `X-ray diffraction (XRD) baseline subtraction, non-linear sample height displacement correction (Δ2θ = s₀ + s₁cosθ), mineral phase identification, and 100%-normalized semi-quantitative weight quantification were performed using IsoXRD v3.6 (Yang, 2026; ${doiUrl}).`;
+      `X-ray diffraction (XRD) baseline subtraction, non-linear sample height displacement correction (Δ2θ = s₀ + s₁cosθ), mineral phase identification, and 100%-normalized RIR (I/Ic) semi-quantitative weight quantification were performed using IsoXRD v3.7 (Yang, 2026; ${doiUrl}).`;
 
     document.getElementById("citeTextApa").textContent =
-      `Yang, Y.-S. (2026). IsoXRD: Lightweight Browser-Based XRD Phase Identification and Semi-Quantitative Carbonate Analysis Tool (Version 3.6) [Computer software]. Zenodo. ${doiUrl}`;
+      `Yang, Y.-S. (2026). IsoXRD: Lightweight Browser-Based XRD Phase Identification and Semi-Quantitative Carbonate Analysis Tool (Version 3.7) [Computer software]. Zenodo. ${doiUrl}`;
 
     document.getElementById("citeTextBib").textContent =
 `@software{Yang_IsoXRD_2026,
@@ -1290,7 +916,7 @@
   month        = nov,
   year         = 2026,
   publisher    = {Zenodo},
-  version      = {v3.6},
+  version      = {v3.7},
   doi          = {${cleanDoi}},
   url          = {${doiUrl}}
 }`;
@@ -1317,6 +943,7 @@
       const existing = minerals.find(m => m.id === item.id);
       if (existing) {
         Object.assign(existing, item);
+        if (!existing.rir) existing.rir = 1.2;
       } else {
         minerals.push({
           id: item.id,
@@ -1324,6 +951,7 @@
           nameKo: item.nameKo || item.name || item.id,
           formula: item.formula || "",
           color: item.color || "#57534e",
+          rir: item.rir || 1.2,
           active: item.active !== undefined ? item.active : defaultActive,
           peaks: item.peaks
         });
@@ -1347,7 +975,7 @@
       badge.style.color = "var(--primary)";
     } catch (err) {
       mergeMinerals(LAB_PRESET_FALLBACK, false);
-      badge.textContent = "Preset JSON: built-in lab library (19 phases)";
+      badge.textContent = "Preset JSON: built-in lab library (22 phases)";
       badge.style.color = "var(--muted)";
     }
     renderDbPills();
@@ -1393,7 +1021,7 @@
   }
 
   function computeIntegratedArea(xArr, netArr, peakIdx, stepDeg) {
-    const halfPts = Math.max(3, Math.round(0.35 / Math.max(0.001, stepDeg)));
+    const halfPts = Math.max(3, Math.round(0.32 / Math.max(0.001, stepDeg)));
     const start = Math.max(0, peakIdx - halfPts);
     const end = Math.min(netArr.length - 1, peakIdx + halfPts);
     let area = 0;
@@ -1404,12 +1032,50 @@
     return Math.max(0, area);
   }
 
+  // Direct profile integration around a target 2theta (captures minor 0.5% - 8% peaks regardless of prominence slider!)
+  function measureDirectProfilePeak(sample, targetObs2T, stepDeg) {
+    const sMin = sample.rawX[0], sMax = sample.rawX[sample.rawX.length - 1];
+    if (targetObs2T < sMin + 0.2 || targetObs2T > sMax - 0.2) return { area: 0, netHeight: 0 };
+
+    // Search local maximum within +/- 0.14 deg window
+    let bestIdx = -1, bestVal = -1;
+    for (let i = 0; i < sample.rawX.length; i++) {
+      if (Math.abs(sample.rawX[i] - targetObs2T) <= 0.14) {
+        if (sample.netY[i] > bestVal) {
+          bestVal = sample.netY[i];
+          bestIdx = i;
+        }
+      }
+    }
+    if (bestIdx <= 1 || bestIdx >= sample.netY.length - 2) return { area: 0, netHeight: 0 };
+
+    // Verify it is at least a subtle local crest above local shoulders (+/- 0.35 deg)
+    const shoulderOffset = Math.max(3, Math.round(0.35 / Math.max(0.001, stepDeg)));
+    const leftVal = sample.netY[Math.max(0, bestIdx - shoulderOffset)];
+    const rightVal = sample.netY[Math.min(sample.netY.length - 1, bestIdx + shoulderOffset)];
+    const shoulderBase = 0.5 * (leftVal + rightVal);
+    const localNet = Math.max(0, bestVal - shoulderBase);
+
+    if (localNet <= 15) return { area: 0, netHeight: 0 }; // Filter pure random baseline noise
+
+    // Integrate local net signal above shoulder baseline
+    const start = Math.max(0, bestIdx - shoulderOffset);
+    const end = Math.min(sample.netY.length - 1, bestIdx + shoulderOffset);
+    let area = 0;
+    for (let i = start; i < end; i++) {
+      const dx = sample.rawX[i + 1] - sample.rawX[i];
+      const y1 = Math.max(0, sample.netY[i] - shoulderBase);
+      const y2 = Math.max(0, sample.netY[i + 1] - shoulderBase);
+      area += 0.5 * (y1 + y2) * dx;
+    }
+    return { area, netHeight: localNet };
+  }
+
   function analyzeSample(sample, autoFitFirst = false) {
     const win = parseInt(document.getElementById("sliderSmooth").value, 10);
     const promPct = parseFloat(document.getElementById("sliderProm").value);
     const useBase = document.getElementById("chkBaseline").checked;
     const wl = parseFloat(document.getElementById("wavelengthSelect").value);
-    const rirFactor = parseFloat(document.getElementById("inpRirFactor").value) || 1.15;
 
     sample.smoothY = smoothArray(sample.rawY, win);
     const step = (sample.rawX[sample.rawX.length - 1] - sample.rawX[0]) / Math.max(1, sample.rawX.length - 1);
@@ -1483,53 +1149,43 @@
       p.matchDiff = bestMatch ? bestMatch.diff : null;
     });
 
-    // 100% Normalized Multi-Phase Weight% Semi-Quantitation
+    // HighScore-Style Multi-Phase RIR (I/Ic) Weight% Quantification (Sum = 100.0%)
     const activeMins = minerals.filter(m => m.active);
-    const phaseWeights = {};
+    const phaseWeights = [];
     let totalWeight = 0;
 
     activeMins.forEach(min => {
-      // Find strongest peak area for this mineral in the sample
-      let maxPeakArea = 0;
-      min.peaks.forEach(([std2T]) => {
-        const obsStd2T = stdToObs2Theta(std2T, sample.s0, sample.s1);
-        const matchP = peaks.find(dp => Math.abs(dp.corr2T - obsStd2T) <= 0.22);
-        if (matchP && matchP.area > maxPeakArea) {
-          maxPeakArea = matchP.area;
-        }
-      });
-      // Specific RIR weighting factor (Aragonite vs others)
-      let rir = 1.0;
-      if (min.id === "aragonite") rir = rirFactor;
-      else if (min.id === "quartz" || min.id === "k_feldspar") rir = 1.4;
+      // Find the primary (100% intensity) peak of this mineral
+      const primaryRef = min.peaks.reduce((best, cur) => cur[1] > best[1] ? cur : best, min.peaks[0]);
+      const obsTarget2T = stdToObs2Theta(primaryRef[0], sample.s0, sample.s1);
+      const measured = measureDirectProfilePeak(sample, obsTarget2T, step);
 
-      const w = maxPeakArea > 0 ? (maxPeakArea / rir) : 0;
-      phaseWeights[min.id] = { nameKo: min.nameKo, nameEn: min.name, weight: w };
+      // RIR formula: Weight_i proportional to (I_obs / I_rel_ref) / RIR_i
+      const rir = min.rir || 1.2;
+      const w = measured.area > 0 ? (measured.area / (primaryRef[1] / 100)) / rir : 0;
+      phaseWeights.push({ id: min.id, nameKo: min.nameKo, nameEn: min.name, color: min.color, weight: w });
       totalWeight += w;
     });
 
-    sample.phaseQuant = {};
+    sample.phaseQuantList = [];
     if (totalWeight > 0) {
-      Object.keys(phaseWeights).forEach(id => {
-        sample.phaseQuant[id] = Math.round((phaseWeights[id].weight / totalWeight) * 1000) / 10; // percentage with 1 decimal
+      let runningSum = 0;
+      const sortedW = phaseWeights.sort((a, b) => b.weight - a.weight);
+      sortedW.forEach((item, idx) => {
+        if (item.weight <= 0) {
+          sample.phaseQuantList.push({ ...item, pct: 0 });
+        } else {
+          let pct = Math.round((item.weight / totalWeight) * 1000) / 10;
+          sample.phaseQuantList.push({ ...item, pct });
+          runningSum += pct;
+        }
       });
-    } else {
-      Object.keys(phaseWeights).forEach(id => { sample.phaseQuant[id] = 0; });
+      // Adjust rounding residual on top phase so sum is strictly 100.0%
+      const nonZero = sample.phaseQuantList.filter(x => x.pct > 0);
+      if (nonZero.length > 0 && Math.abs(100 - runningSum) > 0.01) {
+        nonZero[0].pct = Math.max(0, Math.round((nonZero[0].pct + (100 - runningSum)) * 10) / 10);
+      }
     }
-
-    // Binary Calcite vs Aragonite backward compatibility for ratio bar
-    const aCal = sample.phaseQuant["calcite"] || 0;
-    const aAra = sample.phaseQuant["aragonite"] || 0;
-    const sumCaAra = aCal + aAra;
-    if (sumCaAra > 0) {
-      sample.calPct = Math.round((aCal / sumCaAra) * 100);
-      sample.araPct = 100 - sample.calPct;
-    } else {
-      sample.calPct = 0;
-      sample.araPct = 0;
-    }
-    sample.calArea = aCal;
-    sample.araArea = aAra;
   }
 
   function autoFitSampleShift(sample, peaks) {
@@ -1632,12 +1288,38 @@
     document.getElementById("kpiShiftVal").textContent = (midShift >= 0 ? "+" : "") + midShift.toFixed(3) + "°";
     document.getElementById("kpiShiftDetail").textContent = `s₀: ${s.s0.toFixed(3)}° / s₁: ${s.s1.toFixed(3)}°`;
 
-    document.getElementById("barCal").style.width = s.calPct + "%";
-    document.getElementById("barAra").style.width = s.araPct + "%";
-    document.getElementById("txtCalPct").textContent = `Calcite: ${s.calPct}%`;
-    document.getElementById("txtAraPct").textContent = `Aragonite: ${s.araPct}%`;
-    document.getElementById("kpiCarbRatioVal").textContent =
-      (s.calPct > 0 || s.araPct > 0) ? `${s.calPct}% / ${s.araPct}%` : "N/A";
+    // Render Multi-Phase Stacked Bar & Weight% Rows directly in Sidebar
+    const barEl = document.getElementById("multiPhaseBar");
+    const listEl = document.getElementById("multiPhaseList");
+    barEl.innerHTML = "";
+    listEl.innerHTML = "";
+
+    const activeQuant = (s.phaseQuantList || []).filter(item => item.pct > 0);
+    if (activeQuant.length > 0) {
+      const topQ = activeQuant[0];
+      document.getElementById("kpiCarbRatioVal").textContent =
+        `${lang === "ko" ? topQ.nameKo : topQ.nameEn} ${topQ.pct.toFixed(1)}%`;
+
+      activeQuant.forEach(item => {
+        const seg = document.createElement("div");
+        seg.style.width = item.pct + "%";
+        seg.style.background = item.color;
+        seg.title = `${item.nameEn}: ${item.pct.toFixed(1)}%`;
+        barEl.appendChild(seg);
+
+        const r = document.createElement("div");
+        r.className = "quant-row";
+        r.innerHTML = `
+          <span><span class="rank-dot" style="background:${item.color}"></span><strong>${lang === "ko" ? item.nameKo : item.nameEn}</strong></span>
+          <span class="mono" style="font-weight:700; color:var(--text);">${item.pct.toFixed(1)} wt%</span>
+        `;
+        listEl.appendChild(r);
+      });
+    } else {
+      document.getElementById("kpiCarbRatioVal").textContent = "—";
+      listEl.innerHTML = `<div style="font-size:11px; color:var(--muted); text-align:center;">좌측 하단에서 비교할 광물들을 선택해 주세요.</div>`;
+    }
+
     document.getElementById("kpiDbStatus").textContent =
       `DB: ${minerals.length} phases (${minerals.filter(m=>m.active).length} active)`;
 
@@ -1652,6 +1334,8 @@
     const list = document.getElementById("sampleList");
     list.innerHTML = "";
     samples.forEach((s, idx) => {
+      const topQ = (s.phaseQuantList || []).find(x => x.pct > 0);
+      const tag = topQ ? `${topQ.nameEn} ${topQ.pct.toFixed(0)}%` : "—";
       const row = document.createElement("div");
       row.className = "sample-row" + (idx === activeSampleIdx ? " active" : "");
       row.innerHTML = `
@@ -1660,7 +1344,7 @@
           <span class="sample-swatch" style="background:${s.color}"></span>
           <span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${s.name}</span>
         </div>
-        <span class="mono" style="font-size:10.5px; color:var(--muted);">${s.calPct}/${s.araPct}%</span>
+        <span class="mono" style="font-size:10.5px; color:var(--muted);">${tag}</span>
       `;
       const chk = row.querySelector("input");
       chk.onclick = e => {
@@ -1702,7 +1386,7 @@
       div.onclick = () => {
         min.active = !min.active;
         renderDbPills();
-        renderChart();
+        reprocessAllSamples(false);
       };
       box.appendChild(div);
     });
@@ -1759,15 +1443,10 @@
       const topName = top ? `${lang === "ko" ? top.min.nameKo : top.min.name} (${top.score}%)` : "—";
       const midShift = s.s0 + s.s1 * Math.cos(15 * Math.PI / 180);
 
-      // Format active phases weight% string (e.g., Calcite: 94.0%, Dolomite: 4.2%, ...)
-      const quantEntries = Object.entries(s.phaseQuant || {})
-        .filter(([id, wt]) => wt > 0)
-        .sort((a, b) => b[1] - a[1])
-        .map(([id, wt]) => {
-          const mObj = minerals.find(m => m.id === id);
-          const mLabel = mObj ? (lang === "ko" ? mObj.nameKo : mObj.name) : id;
-          return `${mLabel}: <strong>${wt.toFixed(1)}%</strong>`;
-        }).join(" | ");
+      const quantEntries = (s.phaseQuantList || [])
+        .filter(item => item.pct > 0)
+        .map(item => `${lang === "ko" ? item.nameKo : item.nameEn}: <strong>${item.pct.toFixed(1)}%</strong>`)
+        .join(" | ");
 
       const tr = document.createElement("tr");
       if (idx === activeSampleIdx) tr.className = "selected";
@@ -1882,8 +1561,10 @@
       }
 
       if (viewMode === "stack") {
-        const safeName = samp.name.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-        html += `<text x="${padL + plotW - 8}" y="${yBasePx - 6}" font-size="10.5" font-weight="700" fill="${pubMode ? '#111827' : samp.color}" text-anchor="end" font-family="monospace">${safeName} (Cal ${samp.calPct}%)</text>`;
+        const topQ = (samp.phaseQuantList || []).find(x => x.pct > 0);
+        const tag = topQ ? ` (${topQ.nameEn} ${topQ.pct.toFixed(1)}%)` : "";
+        const safeName = (samp.name + tag).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        html += `<text x="${padL + plotW - 8}" y="${yBasePx - 6}" font-size="10.5" font-weight="700" fill="${pubMode ? '#111827' : samp.color}" text-anchor="end" font-family="monospace">${safeName}</text>`;
       }
 
       if (samp.id === activeSample.id) {
@@ -1950,7 +1631,7 @@
     return {
       id, name, color, visible: true, isDemo: true,
       rawX: x, rawY: y, smoothY: [], baseY: [], netY: [],
-      s0: 0, s1: 0, peaks: [], ranked: [], calArea: 0, araArea: 0, calPct: 0, araPct: 0, phaseQuant: {}
+      s0: 0, s1: 0, peaks: [], ranked: [], phaseQuantList: []
     };
   }
 
@@ -2033,7 +1714,7 @@
             rawX: parsed.x,
             rawY: parsed.y,
             smoothY: [], baseY: [], netY: [],
-            s0: 0, s1: 0, peaks: [], ranked: [], calArea: 0, araArea: 0, calPct: 0, araPct: 0, phaseQuant: {}
+            s0: 0, s1: 0, peaks: [], ranked: [], phaseQuantList: []
           };
           analyzeSample(newSample, true);
           samples.push(newSample);
@@ -2225,7 +1906,7 @@
     document.getElementById("lblSmooth").textContent = e.target.value + " pts";
     reprocessAllSamples(false);
   };
-  ["chkBaseline", "chkRaw", "chkLabels", "wavelengthSelect", "inpRirFactor"].forEach(id => {
+  ["chkBaseline", "chkRaw", "chkLabels", "wavelengthSelect"].forEach(id => {
     document.getElementById(id).onchange = () => reprocessAllSamples(false);
   });
 
@@ -2233,7 +1914,7 @@
     const anyOn = minerals.some(m => m.active);
     minerals.forEach(m => m.active = !anyOn);
     renderDbPills();
-    renderChart();
+    reprocessAllSamples(false);
   };
 
   document.querySelectorAll("#viewModeGroup button").forEach(btn => {
@@ -2353,19 +2034,17 @@
     const s = samples[activeSampleIdx];
     if (!s) return;
     let csv = "\uFEFF";
-    csv += "# [100% 정규화 반정량 요약 / BATCH WEIGHT% SUMMARY]\r\n";
-    csv += "시료명 (Sample),1순위 광물 한글 (Primary_KO),1순위 광물 영문 (Primary_EN),적합도 (Score_%),보정변위 (Shift_deg),광물별 반정량 Weight% (Sum 100%)\r\n";
+    csv += "# [100% 정규화 반정량 요약 / BATCH RIR WEIGHT% SUMMARY]\r\n";
+    csv += "시료명 (Sample),1순위 광물 한글 (Primary_KO),1순위 광물 영문 (Primary_EN),적합도 (Score_%),보정변위 (Shift_deg),광물별 반정량 Weight% (Sum 100.0%)\r\n";
     samples.forEach(item => {
       const top = item.ranked[0];
       const sh = item.s0 + item.s1 * Math.cos(15 * Math.PI / 180);
       const koName = top ? top.min.nameKo : "";
       const enName = top ? top.min.name : "";
-      const quantStr = Object.entries(item.phaseQuant || {})
-        .filter(([id, wt]) => wt > 0)
-        .map(([id, wt]) => {
-          const mObj = minerals.find(m => m.id === id);
-          return `${mObj ? mObj.nameKo : id}(${wt.toFixed(1)}%)`;
-        }).join("; ");
+      const quantStr = (item.phaseQuantList || [])
+        .filter(q => q.pct > 0)
+        .map(q => `${q.nameKo}/${q.nameEn}: ${q.pct.toFixed(1)}%`)
+        .join("; ");
       csv += `"${item.name}","${koName}","${enName}",${top ? top.score : 0},${sh.toFixed(4)},"${quantStr}"\r\n`;
     });
 
@@ -2378,7 +2057,7 @@
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = "IsoXRD_v3_6_WeightPercent.csv";
+    a.download = "IsoXRD_v3_7_RIR_WeightPercent.csv";
     a.click();
   };
 
@@ -2477,13 +2156,14 @@
     const customOnly = minerals.filter(m => !CORE_MINERALS.some(c => c.id === m.id));
     const title = lang === "ko" ? `현재 로드된 확장 광물 (${customOnly.length}종): ` : `Loaded Extended Phases (${customOnly.length}): `;
     el.innerHTML = `<strong>${title}</strong>` +
-      customOnly.map(m => `${m.nameKo}(${m.name})`).join(", ");
+      customOnly.map(m => `${m.nameKo}(${m.name}) [RIR=${m.rir || 1.2}]`).join(", ");
   }
 
   document.getElementById("btnSavePastedMin").onclick = () => {
     const name = document.getElementById("newMinName").value.trim();
     const nameKo = document.getElementById("newMinKo").value.trim() || name;
     const formula = document.getElementById("newMinFormula").value.trim();
+    const rirVal = parseFloat(document.getElementById("newMinRir").value) || 1.2;
     const color = document.getElementById("newMinColor").value;
     const unit = document.querySelector('input[name="pasteUnit"]:checked').value;
     const wl = parseFloat(document.getElementById("wavelengthSelect").value);
@@ -2513,7 +2193,7 @@
 
     mergeMinerals([{
       id: name.toLowerCase().replace(/[^a-z0-9]/g, "_"),
-      name, nameKo, formula, color, active: true, peaks: parsed
+      name, nameKo, formula, rir: rirVal, color, active: true, peaks: parsed
     }], true);
     persistCustomList();
     modal.classList.remove("open");
@@ -2532,6 +2212,7 @@
       name,
       nameKo: document.getElementById("capMinKo").value.trim() || name,
       formula: document.getElementById("capMinFormula").value.trim(),
+      rir: 1.5,
       color: document.getElementById("capMinColor").value,
       active: true,
       peaks: top12
