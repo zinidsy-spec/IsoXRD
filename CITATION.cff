@@ -1,0 +1,29 @@
+cff-version: 1.2.0
+message: "If you use this software in your research, please cite it using the metadata from this file."
+type: software
+title: "IsoXRD: Lightweight Browser-Based XRD Phase Identification and Semi-Quantitative Carbonate Analysis Tool"
+version: 3.2.0
+date-released: 2026-11-13
+authors:
+  - family-names: "Yang"
+    given-names: "Yun-Seok"
+    affiliation: "IBS Center for Climate Physics, Pusan National University"
+    # ORCID가 있으시면 아래 주석(#)을 지우고 번호를 입력해 주세요.
+    # orcid: "https://orcid.org/0000-0000-0000-0000"
+repository-code: "https://github.com/zinidsy-spec/IsoXRD"
+url: "https://zinidsy-spec.github.io/IsoXRD/"
+abstract: >-
+  IsoXRD is a zero-installation, client-side web application for X-ray diffraction (XRD)
+  mineral phase identification, non-linear sample displacement correction, multi-sample
+  stack comparison, and integrated-area semi-quantitative carbonate (calcite vs. aragonite)
+  estimation.
+keywords:
+  - "X-ray diffraction"
+  - "XRD"
+  - "mineral phase identification"
+  - "carbonate"
+  - "speleothem"
+  - "calcite"
+  - "aragonite"
+  - "open-source scientific software"
+license: MIT
