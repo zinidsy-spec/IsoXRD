@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IsoXRD v3.4 — Crystallographic Phase & Multi-Sample Notebook</title>
+  <title>IsoXRD v3.5 — Crystallographic Phase & Multi-Sample Notebook</title>
   <style>
     /* Theme 3 (Default): Warm Linen & Terracotta (Speleothem Archival Notebook) */
     :root, [data-theme="linen"] {
@@ -622,11 +622,10 @@
       <span class="brand-title" data-i18n="appTitle">IsoXRD — 결정학 상동정 & 다중 시료 분석 노트</span>
       <span class="brand-sub" data-i18n="appSub">Multi-Sample Diffraction Stack & Integrated-Area Carbonate Analyzer</span>
     </div>
-    <span class="version-tag">v3.4</span>
+    <span class="version-tag">v3.5</span>
   </div>
 
   <div class="header-actions">
-    <!-- 3-Theme Live Switcher (Default: Linen) -->
     <div class="theme-switcher" id="themeSwitcher" title="Select Visual Style">
       <button class="theme-btn active" data-theme-val="linen">
         <span class="swatch-dot" style="background:#a84a28;"></span>Linen
@@ -646,8 +645,9 @@
       <option value="calcite">Demo 3: Pure Speleothem Calcite (+0.35°)</option>
     </select>
     <button id="btnPubMode" data-i18n="pubModeBtn">출판용 흑백</button>
-    <button id="btnExportCsv" data-i18n="exportCsv">결과 CSV</button>
-    <button id="btnExportSvg" data-i18n="exportSvg">논문용 SVG</button>
+    <button id="btnExportCsv" data-i18n="exportCsv">엑셀 CSV</button>
+    <button id="btnExportPng" data-i18n="exportPng">그림 PNG</button>
+    <button id="btnExportSvg" data-i18n="exportSvg">벡터 SVG</button>
     <button id="btnOpenCiteModal" class="btn-cite" data-i18n="citeBtn">인용 / DOI</button>
     <button id="btnLang" class="btn-primary">English</button>
   </div>
@@ -803,11 +803,11 @@
       </div>
 
       <div id="svgChartWrapper">
-        <svg id="xrdSvg" viewBox="0 0 980 430" preserveAspectRatio="none"></svg>
+        <svg id="xrdSvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 430" preserveAspectRatio="none"></svg>
       </div>
 
       <div class="chart-footer">
-        <span data-i18n="chartHint">💡 드래그: 구간 확대 / 더블클릭: 초기화 / 다열 HighScore TXT 및 XRDML 자동 인식 지원</span>
+        <span data-i18n="chartHint">💡 그림 PNG / 벡터 SVG 정상 호환 · 엑셀 CSV 한글 깨짐(UTF-8 BOM) 방지 및 한/영 병기 적용</span>
         <span class="mono" id="presetSourceBadge">Preset JSON: loading...</span>
       </div>
     </div>
@@ -982,8 +982,9 @@
       appSub: "Multi-Sample Diffraction Stack & Integrated-Area Carbonate Analyzer",
       pubModeBtn: "출판용 흑백",
       pubModeBtnActive: "테마 컬러 복귀",
-      exportCsv: "결과 CSV",
-      exportSvg: "논문용 SVG",
+      exportCsv: "엑셀 CSV",
+      exportPng: "그림 PNG",
+      exportSvg: "벡터 SVG",
       citeBtn: "인용 / DOI",
       langBtn: "English",
       kpiFile: "활성 시료 / 스택 수",
@@ -1013,7 +1014,7 @@
       rangeLbl: "2θ:",
       btnApply: "적용",
       btnReset: "전체",
-      chartHint: "💡 드래그: 구간 확대 / 더블클릭: 초기화 / 다열 HighScore TXT 및 XRDML 자동 인식 지원",
+      chartHint: "💡 그림 PNG / 벡터 SVG 정상 호환 · 엑셀 CSV 한글 깨짐(UTF-8 BOM) 방지 및 한/영 병기 적용",
       subTabPeaks: "활성 시료 피크 & 적분 면적표",
       subTabBatch: "다중 시료 일괄 정량 요약표 (Batch Summary)",
       tableHint: "행 클릭 시 차트에서 해당 피크 강조",
@@ -1059,15 +1060,16 @@
       phCapKo: "한글명 (예: 표준방해석)",
       subRankPrefix: "2순위: ",
       singleDominant: "2순위: 단일 상 우세",
-      unassigned: "미할당 (Unassigned)"
+      unassigned: "미할당 / Unassigned"
     },
     en: {
       appTitle: "IsoXRD — Crystallographic Phase & Multi-Sample Notebook",
       appSub: "Multi-Sample Diffraction Stack & Integrated-Area Carbonate Analyzer",
       pubModeBtn: "Publication B&W",
       pubModeBtnActive: "Restore Theme Color",
-      exportCsv: "Export CSV",
-      exportSvg: "Publication SVG",
+      exportCsv: "Excel CSV",
+      exportPng: "Image PNG",
+      exportSvg: "Vector SVG",
       citeBtn: "Cite / DOI",
       langBtn: "한국어",
       kpiFile: "Active Sample / Stack",
@@ -1097,7 +1099,7 @@
       rangeLbl: "2θ:",
       btnApply: "Apply",
       btnReset: "Full",
-      chartHint: "💡 Drag: Zoom in / Double-click: Reset / Multi-column HighScore TXT & XRDML supported",
+      chartHint: "💡 Valid PNG/SVG image export & UTF-8 BOM Excel CSV with bilingual Korean/English labels",
       subTabPeaks: "Active Sample Peaks & Integrated Area",
       subTabBatch: "Multi-Sample Batch Quantitative Summary",
       tableHint: "Click a row to highlight the peak on the chart",
@@ -1276,10 +1278,10 @@
     document.getElementById("linkZenodoDoi").href = doiUrl;
 
     document.getElementById("citeTextStatement").textContent =
-      `X-ray diffraction (XRD) baseline subtraction, non-linear sample height displacement correction (Δ2θ = s₀ + s₁cosθ), mineral phase identification, and integrated-area carbonate quantification were performed using IsoXRD v3.4 (Yang, 2026; ${doiUrl}).`;
+      `X-ray diffraction (XRD) baseline subtraction, non-linear sample height displacement correction (Δ2θ = s₀ + s₁cosθ), mineral phase identification, and integrated-area carbonate quantification were performed using IsoXRD v3.5 (Yang, 2026; ${doiUrl}).`;
 
     document.getElementById("citeTextApa").textContent =
-      `Yang, Y.-S. (2026). IsoXRD: Lightweight Browser-Based XRD Phase Identification and Semi-Quantitative Carbonate Analysis Tool (Version 3.4) [Computer software]. Zenodo. ${doiUrl}`;
+      `Yang, Y.-S. (2026). IsoXRD: Lightweight Browser-Based XRD Phase Identification and Semi-Quantitative Carbonate Analysis Tool (Version 3.5) [Computer software]. Zenodo. ${doiUrl}`;
 
     document.getElementById("citeTextBib").textContent =
 `@software{Yang_IsoXRD_2026,
@@ -1288,7 +1290,7 @@
   month        = nov,
   year         = 2026,
   publisher    = {Zenodo},
-  version      = {v3.4},
+  version      = {v3.5},
   doi          = {${cleanDoi}},
   url          = {${doiUrl}}
 }`;
@@ -1467,7 +1469,8 @@
             const penalty = Math.abs(diff) * 100 - relI * 0.05;
             if (!bestMatch || penalty < bestMatch.penalty) {
               bestMatch = {
-                label: `${lang === "ko" ? min.nameKo : min.name} ${hkl || ""}`,
+                label: `${lang === "ko" ? min.nameKo : min.name} ${hkl || ""}`.trim(),
+                bilingualLabel: `${min.nameKo} / ${min.name} ${hkl || ""}`.trim(),
                 diff,
                 penalty
               };
@@ -1476,6 +1479,7 @@
         });
       });
       p.matchLabel = bestMatch ? bestMatch.label : dict.unassigned;
+      p.matchBilingual = bestMatch ? bestMatch.bilingualLabel : "미할당 / Unassigned";
       p.matchDiff = bestMatch ? bestMatch.diff : null;
     });
 
@@ -1778,7 +1782,7 @@
       const px = xToPx(t);
       html += `<line x1="${px}" y1="${padT}" x2="${px}" y2="${padT + plotH}" stroke="${gridColor}" stroke-width="0.8" />`;
       html += `<line x1="${px}" y1="${padT + plotH}" x2="${px}" y2="${padT + plotH - 5}" stroke="${frameColor}" stroke-width="1.1" />`;
-      html += `<text x="${px}" y="${padT + plotH + 17}" font-size="11" fill="${textColor}" text-anchor="middle" font-family="ui-monospace, monospace">${t.toFixed(0)}°</text>`;
+      html += `<text x="${px}" y="${padT + plotH + 17}" font-size="11" fill="${textColor}" text-anchor="middle" font-family="monospace">${t.toFixed(0)}°</text>`;
     }
     html += `<text x="${padL + plotW / 2}" y="${H - 8}" font-size="12" font-weight="700" fill="${textColor}" text-anchor="middle" font-family="Georgia, serif">Diffraction Angle 2θ (degrees)</text>`;
 
@@ -1825,7 +1829,7 @@
           const py = yBasePx - Math.max(0, samp.rawY[i] - (document.getElementById("chkBaseline").checked ? samp.baseY[i] : 0)) * scaleY;
           ptsR += `${xToPx(samp.rawX[i]).toFixed(1)},${py.toFixed(1)} `;
         }
-        html += `<polyline fill="none" stroke="#cbd5e1" stroke-width="0.9" points="${ptsR}" />`;
+        html += `<polyline fill="none" stroke="#cbd5e1" stroke-width="0.9" points="${ptsR.trim()}" />`;
       }
 
       if (inViewIdx.length) {
@@ -1838,12 +1842,13 @@
         const isCurrent = samp.id === activeSample.id;
         const strokeCol = pubMode ? "#111827" : samp.color;
         const strokeW = isCurrent ? "1.75" : "1.2";
-        const dash = (pubMode && !isCurrent) ? (sIdx % 2 === 1 ? "5,3" : "2,2") : "none";
-        html += `<polyline fill="none" stroke="${strokeCol}" stroke-width="${strokeW}" stroke-dasharray="${dash}" points="${pts}" />`;
+        const dashAttr = (pubMode && !isCurrent) ? `stroke-dasharray="${sIdx % 2 === 1 ? "5,3" : "2,2"}"` : "";
+        html += `<polyline fill="none" stroke="${strokeCol}" stroke-width="${strokeW}" ${dashAttr} points="${pts.trim()}" />`;
       }
 
       if (viewMode === "stack") {
-        html += `<text x="${padL + plotW - 8}" y="${yBasePx - 6}" font-size="10.5" font-weight="700" fill="${pubMode ? '#111827' : samp.color}" text-anchor="end" font-family="ui-monospace, monospace">${samp.name} (Cal ${samp.calPct}%)</text>`;
+        const safeName = samp.name.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        html += `<text x="${padL + plotW - 8}" y="${yBasePx - 6}" font-size="10.5" font-weight="700" fill="${pubMode ? '#111827' : samp.color}" text-anchor="end" font-family="monospace">${safeName} (Cal ${samp.calPct}%)</text>`;
       }
 
       if (samp.id === activeSample.id) {
@@ -1881,7 +1886,7 @@
             if (py - lblY > 14) {
               html += `<line x1="${px}" y1="${py - 3}" x2="${px}" y2="${lblY + 2}" stroke="#9ca3af" stroke-width="0.7" />`;
             }
-            html += `<text x="${px}" y="${lblY}" font-size="9.5" font-weight="700" fill="${isSel ? '#9f1239' : textColor}" text-anchor="middle" font-family="ui-monospace, monospace">${labelStr}</text>`;
+            html += `<text x="${px}" y="${lblY}" font-size="9.5" font-weight="700" fill="${isSel ? '#9f1239' : textColor}" text-anchor="middle" font-family="monospace">${labelStr}</text>`;
           }
         });
       }
@@ -1908,7 +1913,7 @@
       y.push(Math.max(10, val));
     }
     return {
-      id, name, color, visible: true,
+      id, name, color, visible: true, isDemo: true,
       rawX: x, rawY: y, smoothY: [], baseY: [], netY: [],
       s0: 0, s1: 0, peaks: [], ranked: [], calArea: 0, araArea: 0, calPct: 0, araPct: 0
     };
@@ -1966,7 +1971,6 @@
     const pal = THEME_CHART_PALETTE[currentTheme].traces;
     let loaded = 0;
 
-    // Clear demo samples automatically when user uploads their first real files
     const isOnlyDemo = samples.length > 0 && samples.every(s => s.isDemo);
     if (isOnlyDemo) {
       samples = [];
@@ -2050,7 +2054,6 @@
     return { x: xVals, y: yVals };
   }
 
-  // Enhanced parser supporting 2-column CSV/XY and multi-column PANalytical HighScore TSV/TXT exports
   function parseDelimitedText(text) {
     const lines = text.split(/\r?\n/);
     const x = [], y = [];
@@ -2089,7 +2092,6 @@
       } else {
         const parts = line.trim().split(/[\s,;]+/);
         if (parts.length >= 2) {
-          // If first column is an integer index (1, 2, 3...) and there are >= 3 columns, use 2nd and last column
           if (parts.length >= 3 && /^\d+$/.test(parts[0]) && parseFloat(parts[1]) > 0 && parseFloat(parts[1]) < 180) {
             const a = parseFloat(parts[1]);
             const b = parseFloat(parts[parts.length - 1]);
@@ -2295,29 +2297,83 @@
   };
   svgEl.ondblclick = () => document.getElementById("btnResetZoom").click();
 
+  // Build valid standalone SVG string with XML header and explicit xmlns
+  function buildStandaloneSvgString() {
+    const svgNode = document.getElementById("xrdSvg").cloneNode(true);
+    svgNode.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+    svgNode.setAttribute("width", "1960");
+    svgNode.setAttribute("height", "860");
+    // Remove hidden interactive overlays from exported figure
+    const zr = svgNode.querySelector("#zoomRect");
+    const cx = svgNode.querySelector("#crossX");
+    if (zr) zr.remove();
+    if (cx) cx.remove();
+    const serializer = new XMLSerializer();
+    let svgStr = serializer.serializeToString(svgNode);
+    if (!svgStr.startsWith("<?xml")) {
+      svgStr = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n' + svgStr;
+    }
+    return svgStr;
+  }
+
+  // Export CSV with UTF-8 BOM (\uFEFF) + Bilingual Korean/English columns
   document.getElementById("btnExportCsv").onclick = () => {
     const s = samples[activeSampleIdx];
     if (!s) return;
-    let csv = "# BATCH SUMMARY\nSample,Primary_Match,Score_Pct,Shift_deg,Calcite_104_Area,Aragonite_Area,Calcite_Pct,Aragonite_Pct\n";
+    let csv = "\uFEFF";
+    csv += "# [일괄 정량 요약 / BATCH SUMMARY]\r\n";
+    csv += "시료명 (Sample),1순위 광물 한글 (Primary_KO),1순위 광물 영문 (Primary_EN),적합도 (Score_%),보정변위 (Shift_deg),Calcite_104_Area,Aragonite_Area,Calcite_%,Aragonite_%\r\n";
     samples.forEach(item => {
       const top = item.ranked[0];
       const sh = item.s0 + item.s1 * Math.cos(15 * Math.PI / 180);
-      csv += `"${item.name}","${top ? top.min.name : ''}",${top ? top.score : 0},${sh.toFixed(4)},${item.calArea.toFixed(3)},${item.araArea.toFixed(3)},${item.calPct},${item.araPct}\n`;
+      const koName = top ? top.min.nameKo : "";
+      const enName = top ? top.min.name : "";
+      csv += `"${item.name}","${koName}","${enName}",${top ? top.score : 0},${sh.toFixed(4)},${item.calArea.toFixed(3)},${item.araArea.toFixed(3)},${item.calPct},${item.araPct}\r\n`;
     });
-    csv += `\n# ACTIVE SAMPLE PEAKS: ${s.name}\nObs_2Theta,Corr_2Theta,d_Spacing_A,Net_Height,Integrated_Area,Rel_Area_Pct,Matched_Phase,Delta_2Theta\n`;
+
+    csv += `\r\n# [활성 시료 피크 분석 / ACTIVE SAMPLE PEAKS]: ${s.name}\r\n`;
+    csv += "관측_2Theta,보정_2Theta,면간거리_d(A),순수높이_NetHeight,적분면적_Area,상대면적_RelArea(%),매칭광물_한영병기 (Matched_Phase_KO_EN),편차_Delta2Theta\r\n";
     s.peaks.forEach(p => {
-      csv += `${p.obs2T.toFixed(4)},${p.corr2T.toFixed(4)},${p.d.toFixed(5)},${p.net.toFixed(2)},${p.area.toFixed(3)},${p.relArea.toFixed(2)},"${p.matchLabel}",${p.matchDiff !== null ? p.matchDiff.toFixed(4) : ""}\n`;
+      csv += `${p.obs2T.toFixed(4)},${p.corr2T.toFixed(4)},${p.d.toFixed(5)},${p.net.toFixed(2)},${p.area.toFixed(3)},${p.relArea.toFixed(2)},"${p.matchBilingual}",${p.matchDiff !== null ? p.matchDiff.toFixed(4) : ""}\r\n`;
     });
+
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = "IsoXRD_v3_Analysis.csv";
+    a.download = "IsoXRD_v3_5_Analysis.csv";
     a.click();
   };
 
+  // Export High-Resolution PNG Image (2x Retina resolution for PPT / Word)
+  document.getElementById("btnExportPng").onclick = () => {
+    const svgStr = buildStandaloneSvgString();
+    const svgBlob = new Blob([svgStr], { type: "image/svg+xml;charset=utf-8" });
+    const url = URL.createObjectURL(svgBlob);
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = 1960;
+      canvas.height = 860;
+      const ctx = canvas.getContext("2d");
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      URL.revokeObjectURL(url);
+
+      canvas.toBlob(pngBlob => {
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(pngBlob);
+        a.download = `IsoXRD_${currentTheme}_Figure.png`;
+        a.click();
+      }, "image/png");
+    };
+    img.src = url;
+  };
+
+  // Export Valid Vector SVG Image
   document.getElementById("btnExportSvg").onclick = () => {
-    const svgData = document.getElementById("xrdSvg").outerHTML;
-    const blob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8;" });
+    const svgStr = buildStandaloneSvgString();
+    const blob = new Blob([svgStr], { type: "image/svg+xml;charset=utf-8" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
     a.download = `IsoXRD_${currentTheme}_Figure.svg`;
@@ -2478,12 +2534,11 @@
 
   document.getElementById("btnReloadRemotePreset").onclick = loadExternalPresetJson;
 
-  // Boot (mark demo samples with isDemo: true so real uploads replace them cleanly)
+  // Boot
   setTheme(currentTheme, false);
   renderCitationTexts();
   renderDbPills();
   loadDemoPreset("core_suite");
-  samples.forEach(s => s.isDemo = true);
   loadExternalPresetJson();
 })();
 </script>
