@@ -3,74 +3,76 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IsoXRD v2.6 — Mineralogical Field Journal & Phase Analyzer</title>
+  <title>IsoXRD v3.0 — Editorial Mineralogical Diffraction & Multi-Sample Console</title>
   <style>
     :root {
-      --bg: #f4efe4;
-      --bg-pattern: rgba(139, 119, 92, 0.06);
-      --surface: #fbf8f1;
-      --surface-alt: #f2ece0;
-      --border: #d8ccb8;
-      --border-strong: #bca98e;
-      --text: #292524;
-      --muted: #6b6154;
-      --primary: #1b5e4a;       /* Malachite / Jade Ink */
-      --primary-hover: #134637;
-      --primary-soft: #e6f0ec;
-      --accent: #9a3412;        /* Hematite / Terracotta Ink */
-      --accent-soft: #f9ebe4;
-      --amber: #a16207;         /* Ochre / Pyrite Ink */
-      --success: #1b5e4a;
-      --danger: #991b1b;
+      --bg: #f6f3ec;
+      --surface: #fdfbf7;
+      --surface-subtle: #f1ede3;
+      --border: #dfd8c8;
+      --border-strong: #c7bda8;
+      --text: #1c1917;
+      --text-secondary: #57534e;
+      --muted: #78716c;
+      --primary: #1b4d3e;        /* Deep Forest / Malachite Ink */
+      --primary-hover: #13382d;
+      --primary-soft: #e8f1ee;
+      --accent: #9a3412;         /* Hematite / Rust Ink */
+      --accent-soft: #faece6;
+      --blue-ink: #1e40af;       /* Azurite Ink */
+      --amber-ink: #92400e;      /* Ochre Ink */
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-      --serif: Georgia, "Noto Serif KR", "Times New Roman", serif;
+      --serif: "Georgia", "Noto Serif KR", "Times New Roman", serif;
       --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+      --shadow-sm: 0 1px 2px rgba(28, 25, 23, 0.04);
+      --shadow-md: 0 4px 12px rgba(28, 25, 23, 0.06);
     }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: var(--sans);
       background-color: var(--bg);
-      background-image:
-        linear-gradient(to right, var(--bg-pattern) 1px, transparent 1px),
-        linear-gradient(to bottom, var(--bg-pattern) 1px, transparent 1px);
-      background-size: 24px 24px;
       color: var(--text);
       font-size: 13px;
-      line-height: 1.48;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* Archival Field Notebook Header */
+    /* Editorial Notebook Top Bar */
     header {
       background: var(--surface);
-      border-bottom: 2px double var(--border-strong);
-      padding: 12px 22px;
+      border-bottom: 1px solid var(--border-strong);
+      padding: 12px 24px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
+      gap: 14px;
       flex-wrap: wrap;
       position: sticky;
       top: 0;
       z-index: 30;
-      box-shadow: 0 2px 6px rgba(68, 54, 37, 0.06);
+      box-shadow: var(--shadow-sm);
     }
-    .brand { display: flex; align-items: center; gap: 11px; }
-    .brand-stamp {
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand-emblem {
+      width: 34px;
+      height: 34px;
+      border-radius: 7px;
       background: var(--primary);
-      color: #fbf8f1;
+      color: #fdfbf7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-family: var(--serif);
       font-weight: 700;
-      font-size: 15px;
-      padding: 5px 12px;
-      border-radius: 5px;
-      border: 1px solid #124234;
-      letter-spacing: 0.02em;
-      box-shadow: 1px 1px 0 rgba(41, 37, 36, 0.15);
+      font-size: 16px;
+      letter-spacing: -0.02em;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
     }
     .brand-title {
       font-family: var(--serif);
       font-weight: 700;
-      font-size: 16px;
+      font-size: 16.5px;
       color: var(--text);
       letter-spacing: -0.01em;
     }
@@ -78,107 +80,120 @@
       font-size: 11px;
       color: var(--muted);
       display: block;
-      font-style: italic;
     }
-    .badge {
-      background: var(--surface-alt);
-      color: var(--accent);
-      border: 1px solid var(--border-strong);
+    .version-tag {
+      font-family: var(--mono);
       font-size: 11px;
       font-weight: 700;
+      color: var(--primary);
+      background: var(--primary-soft);
+      border: 1px solid #b8d4cb;
       padding: 2px 8px;
-      border-radius: 4px;
-      font-family: var(--mono);
+      border-radius: 999px;
     }
 
     .header-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
     select, input[type="number"], input[type="text"], textarea {
       border: 1px solid var(--border-strong);
-      border-radius: 5px;
-      padding: 5px 8px;
+      border-radius: 6px;
+      padding: 5px 9px;
       font-size: 12px;
       font-family: inherit;
-      background: #fffdf9;
+      background: #ffffff;
       color: var(--text);
+      transition: border-color 0.15s;
     }
+    select:focus, input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
     button {
       border: 1px solid var(--border-strong);
-      background: #fffdf9;
+      background: #ffffff;
       color: var(--text);
-      border-radius: 5px;
-      padding: 5px 10px;
+      border-radius: 6px;
+      padding: 5px 11px;
       font-size: 12px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.15s;
-      box-shadow: 0 1px 0 rgba(68, 54, 37, 0.06);
+      box-shadow: var(--shadow-sm);
     }
-    button:hover { background: var(--surface-alt); }
+    button:hover { background: var(--surface-subtle); }
     button.btn-primary {
       background: var(--primary);
-      color: #fbf8f1;
-      border-color: #134637;
+      color: #fdfbf7;
+      border-color: var(--primary);
     }
     button.btn-primary:hover { background: var(--primary-hover); }
     button.btn-sm { padding: 3px 8px; font-size: 11px; }
+    button.btn-ghost {
+      border-color: transparent;
+      background: transparent;
+      box-shadow: none;
+      color: var(--text-secondary);
+    }
+    button.btn-ghost:hover { background: var(--surface-subtle); color: var(--text); }
 
-    /* Ledger-style Telemetry Strip */
+    /* Telemetry Strip */
     .kpi-strip {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(195px, 1fr));
       gap: 12px;
-      padding: 14px 22px 0;
+      padding: 14px 24px 0;
     }
     .kpi-card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-left: 4px solid var(--border-strong);
-      border-radius: 6px;
-      padding: 10px 14px;
-      box-shadow: 0 1px 2px rgba(68, 54, 37, 0.05);
+      border-radius: 8px;
+      padding: 11px 15px;
+      box-shadow: var(--shadow-sm);
+      position: relative;
     }
-    .kpi-card.accent-jade { border-left-color: var(--primary); }
-    .kpi-card.accent-terra { border-left-color: var(--accent); }
-    .kpi-card.accent-ochre { border-left-color: var(--amber); }
     .kpi-label {
       font-size: 11px;
       color: var(--muted);
       font-weight: 700;
-      letter-spacing: 0.01em;
+      letter-spacing: 0.02em;
     }
     .kpi-val {
       font-family: var(--mono);
       font-size: 16px;
       font-weight: 700;
-      margin-top: 2px;
+      margin-top: 3px;
       font-variant-numeric: tabular-nums;
+      color: var(--text);
     }
-    .kpi-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .kpi-sub { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
 
+    /* Main Workspace Layout */
     .workspace {
       display: grid;
-      grid-template-columns: 345px 1fr;
-      gap: 14px;
-      padding: 14px 22px 26px;
+      grid-template-columns: 355px 1fr;
+      gap: 16px;
+      padding: 14px 24px 28px;
     }
-    @media (max-width: 960px) {
+    @media (max-width: 1024px) {
       .workspace { grid-template-columns: 1fr; }
     }
-    .sidebar { display: flex; flex-direction: column; gap: 12px; }
+    .sidebar { display: flex; flex-direction: column; gap: 14px; }
+
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 7px;
-      padding: 13px 15px;
-      box-shadow: 0 1px 3px rgba(68, 54, 37, 0.05);
+      border-radius: 9px;
+      padding: 14px 16px;
+      box-shadow: var(--shadow-sm);
     }
     .card-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
       margin-bottom: 10px;
-      padding-bottom: 6px;
-      border-bottom: 1px dashed var(--border-strong);
+      padding-bottom: 7px;
+      border-bottom: 1px solid var(--border);
     }
     .card-title {
       font-family: var(--serif);
@@ -187,12 +202,13 @@
       color: var(--text);
     }
 
+    /* Multi-file Dropzone & Sample Queue */
     .dropzone {
       border: 1.5px dashed var(--border-strong);
-      border-radius: 6px;
-      padding: 14px 10px;
+      border-radius: 7px;
+      padding: 13px 10px;
       text-align: center;
-      background: var(--surface-alt);
+      background: var(--surface-subtle);
       cursor: pointer;
       transition: 0.15s;
     }
@@ -200,6 +216,39 @@
       border-color: var(--primary);
       background: var(--primary-soft);
     }
+
+    .sample-list {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      margin-top: 9px;
+      max-height: 155px;
+      overflow-y: auto;
+    }
+    .sample-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      padding: 5px 8px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: #ffffff;
+      font-size: 11.5px;
+      cursor: pointer;
+    }
+    .sample-row.active {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+      font-weight: 600;
+    }
+    .sample-swatch {
+      width: 9px;
+      height: 9px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
     .control-row {
       display: flex;
       align-items: center;
@@ -207,7 +256,7 @@
       gap: 8px;
       margin-top: 8px;
     }
-    .control-row label { font-size: 12px; color: var(--text); font-weight: 500; }
+    .control-row label { font-size: 12px; color: var(--text-secondary); font-weight: 500; }
     .mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
 
     .slider-group { margin-top: 8px; }
@@ -216,44 +265,52 @@
       justify-content: space-between;
       font-size: 12px;
       margin-bottom: 3px;
+      color: var(--text-secondary);
     }
     input[type="range"] { width: 100%; accent-color: var(--primary); }
 
-    .ratio-bar {
-      height: 11px;
-      border-radius: 4px;
-      background: var(--surface-alt);
+    /* Integrated Area Carbonate Bar */
+    .ratio-box {
+      margin-top: 12px;
+      padding: 10px 11px;
+      border-radius: 7px;
+      background: var(--surface-subtle);
       border: 1px solid var(--border);
+    }
+    .ratio-bar {
+      height: 10px;
+      border-radius: 999px;
+      background: #e5e0d5;
       overflow: hidden;
       display: flex;
       margin: 7px 0 6px;
     }
-    .ratio-cal { background: #b91c1c; transition: width 0.25s; }
-    .ratio-ara { background: #1d4ed8; transition: width 0.25s; }
+    .ratio-cal { background: #9a3412; transition: width 0.25s; }
+    .ratio-ara { background: #1e40af; transition: width 0.25s; }
 
-    .rank-list { display: flex; flex-direction: column; gap: 6px; }
+    .rank-list { display: flex; flex-direction: column; gap: 5px; }
     .rank-item {
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 6px 9px;
-      border-radius: 5px;
+      border-radius: 6px;
       border: 1px solid var(--border);
-      background: #fffdf9;
+      background: #ffffff;
       cursor: pointer;
       transition: 0.12s;
     }
     .rank-item:hover { border-color: var(--primary); background: var(--primary-soft); }
     .rank-dot {
-      width: 9px; height: 9px; border-radius: 50%; display: inline-block; margin-right: 6px;
+      width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 6px;
     }
 
     .pill-wrap {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
+      gap: 5px;
       margin-top: 9px;
-      max-height: 175px;
+      max-height: 165px;
       overflow-y: auto;
       padding-right: 2px;
     }
@@ -261,10 +318,10 @@
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      padding: 4px 9px;
-      border-radius: 4px;
+      padding: 3.5px 8.5px;
+      border-radius: 999px;
       border: 1px solid var(--border-strong);
-      background: #fffdf9;
+      background: #ffffff;
       font-size: 11.5px;
       font-weight: 600;
       cursor: pointer;
@@ -277,22 +334,44 @@
       color: var(--primary);
     }
 
-    .main-area { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+    /* Main Right Column */
+    .main-area { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
     .chart-toolbar {
       display: flex;
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 8px;
-      margin-bottom: 8px;
+      margin-bottom: 9px;
     }
-    #svgChartWrapper {
-      width: 100%;
-      height: 395px;
-      min-height: 320px;
+    .segmented {
+      display: inline-flex;
       border: 1px solid var(--border-strong);
       border-radius: 6px;
-      background: #fffdf8;
+      overflow: hidden;
+      background: var(--surface-subtle);
+    }
+    .segmented button {
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
+      background: transparent;
+      padding: 4px 9px;
+      font-size: 11.5px;
+      color: var(--text-secondary);
+    }
+    .segmented button.active {
+      background: var(--primary);
+      color: #fdfbf7;
+    }
+
+    #svgChartWrapper {
+      width: 100%;
+      height: 430px;
+      min-height: 340px;
+      border: 1px solid var(--border-strong);
+      border-radius: 7px;
+      background: #ffffff;
       position: relative;
       overflow: hidden;
     }
@@ -307,38 +386,59 @@
       gap: 6px;
     }
 
+    /* Table Tabs (Single Peak Table vs Multi-Sample Batch Summary) */
+    .sub-tabs {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .sub-tab-btn {
+      padding: 4px 10px;
+      font-size: 12px;
+      border-radius: 6px;
+      border: 1px solid transparent;
+      background: transparent;
+      box-shadow: none;
+      color: var(--text-secondary);
+    }
+    .sub-tab-btn.active {
+      background: var(--primary-soft);
+      border-color: #b8d4cb;
+      color: var(--primary);
+    }
+
     .table-wrap {
-      max-height: 300px;
+      max-height: 310px;
       overflow: auto;
       border: 1px solid var(--border);
-      border-radius: 6px;
-      background: #fffdf9;
+      border-radius: 7px;
+      background: #ffffff;
     }
     table { width: 100%; border-collapse: collapse; font-size: 12px; }
     th {
       position: sticky;
       top: 0;
-      background: var(--surface-alt);
+      background: var(--surface-subtle);
       text-align: left;
       padding: 7px 10px;
       font-weight: 700;
       color: var(--text);
-      border-bottom: 1.5px solid var(--border-strong);
+      border-bottom: 1px solid var(--border-strong);
       z-index: 2;
     }
     td {
       padding: 6px 10px;
-      border-bottom: 1px dashed var(--border);
+      border-bottom: 1px solid #f0ece1;
       font-family: var(--mono);
       font-variant-numeric: tabular-nums;
     }
-    tr:hover td { background: var(--surface-alt); cursor: pointer; }
+    tr:hover td { background: #faf8f2; cursor: pointer; }
     tr.selected td { background: var(--primary-soft); }
 
     /* Modal */
     .modal-backdrop {
       position: fixed; inset: 0;
-      background: rgba(41, 37, 36, 0.45);
+      background: rgba(28, 25, 23, 0.45);
       display: none;
       align-items: center;
       justify-content: center;
@@ -349,13 +449,13 @@
     .modal {
       background: var(--surface);
       border: 1px solid var(--border-strong);
-      border-radius: 8px;
+      border-radius: 10px;
       width: 100%;
-      max-width: 640px;
+      max-width: 650px;
       max-height: 88vh;
       overflow-y: auto;
-      padding: 18px 20px;
-      box-shadow: 0 20px 25px -5px rgba(41, 37, 36, 0.22);
+      padding: 18px 22px;
+      box-shadow: var(--shadow-md);
     }
     .tabs { display: flex; gap: 6px; border-bottom: 1px solid var(--border-strong); margin: 10px 0 12px; }
     .tab-btn {
@@ -379,67 +479,71 @@
 
 <header>
   <div class="brand">
-    <span class="brand-stamp">IsoXRD</span>
+    <div class="brand-emblem">Xr</div>
     <div>
-      <span class="brand-title" data-i18n="appTitle">XRD 상동정 & 탄산염 반정량 분석 노트</span>
-      <span class="brand-sub" data-i18n="appSub">Mineralogical Diffraction Ledger & Semi-Quantitative Carbonate Notebook</span>
+      <span class="brand-title" data-i18n="appTitle">IsoXRD — 결정학 상동정 & 다중 시료 분석 노트</span>
+      <span class="brand-sub" data-i18n="appSub">Editorial Diffraction Notebook · Multi-Sample Stack & Integrated Area Quantification</span>
     </div>
-    <span class="badge">v2.6</span>
+    <span class="version-tag">v3.0</span>
   </div>
   <div class="header-actions">
-    <select id="demoSelect" title="Demo Datasets">
+    <select id="demoSelect" title="Load Demo Suite">
+      <option value="core_suite">Demo Suite: Speleothem Core (3 Depths Stack)</option>
       <option value="aragonite">Demo 1: WDS2_170 (Aragonite, +0.49°)</option>
       <option value="mixture">Demo 2: Calcite-Aragonite Mix (75% / 25%)</option>
       <option value="calcite">Demo 3: Pure Speleothem Calcite (+0.35°)</option>
     </select>
-    <button id="btnExportCsv" data-i18n="exportCsv">피크표 CSV</button>
-    <button id="btnExportSvg" data-i18n="exportSvg">차트 SVG</button>
+    <button id="btnPubMode" data-i18n="pubModeBtn">출판용 흑백/고대비</button>
+    <button id="btnExportCsv" data-i18n="exportCsv">결과 CSV</button>
+    <button id="btnExportSvg" data-i18n="exportSvg">논문용 SVG</button>
     <button id="btnLang" class="btn-primary">English</button>
   </div>
 </header>
 
 <div class="kpi-strip">
   <div class="kpi-card">
-    <div class="kpi-label" data-i18n="kpiFile">현재 시료 / 포맷</div>
-    <div class="kpi-val" id="kpiFileName">WDS2_170 (Demo)</div>
+    <div class="kpi-label" data-i18n="kpiFile">활성 시료 / 스택 수</div>
+    <div class="kpi-val" id="kpiFileName">Core_Top_01 (1/3)</div>
     <div class="kpi-sub" id="kpiRangeInfo">15.00° – 65.00° (Cu Kα1)</div>
   </div>
-  <div class="kpi-card accent-jade">
+  <div class="kpi-card">
     <div class="kpi-label" data-i18n="kpiPrimary">1순위 판별 광물 (Match)</div>
     <div class="kpi-val" id="kpiTopPhase" style="color:var(--primary)">—</div>
     <div class="kpi-sub" id="kpiSubPhase">2순위: —</div>
   </div>
-  <div class="kpi-card accent-terra">
+  <div class="kpi-card">
     <div class="kpi-label" data-i18n="kpiShift">보정 변위 (Δ2θ = s₀ + s₁cosθ)</div>
     <div class="kpi-val" id="kpiShiftVal">+0.000°</div>
     <div class="kpi-sub" id="kpiShiftDetail">s₀: 0.000° / s₁: 0.000°</div>
   </div>
-  <div class="kpi-card accent-ochre">
-    <div class="kpi-label" data-i18n="kpiPeaks">검출 피크 / DB 현황</div>
-    <div class="kpi-val" id="kpiPeakCount">0 peaks</div>
-    <div class="kpi-sub" id="kpiDbStatus">DB: 19 minerals loaded</div>
+  <div class="kpi-card">
+    <div class="kpi-label" data-i18n="kpiCarbKpi">탄산염 적분 면적비 (Cal / Ara)</div>
+    <div class="kpi-val" id="kpiCarbRatioVal">—</div>
+    <div class="kpi-sub" id="kpiDbStatus">DB: 19 phases loaded</div>
   </div>
 </div>
 
 <div class="workspace">
-  <!-- Left Control Panel -->
+  <!-- Left Control Sidebar -->
   <aside class="sidebar">
-    <!-- 1. Data Upload -->
+    <!-- 1. Multi-File Upload & Stack Manager -->
     <div class="card">
       <div class="card-header">
-        <span class="card-title" data-i18n="sec1">1. 원시 데이터 불러오기</span>
+        <span class="card-title" data-i18n="sec1">1. 다중 시료 불러오기 (Multi-Sample)</span>
+        <button class="btn-sm btn-ghost" id="btnClearSamples" data-i18n="clearBtn">초기화</button>
       </div>
       <div class="dropzone" id="dropzone">
-        <div style="font-weight:700; margin-bottom:3px;" data-i18n="dropTitle">여기에 XRD 파일 드래그 또는 클릭</div>
+        <div style="font-weight:700; margin-bottom:2px;" data-i18n="dropTitle">여기에 여러 XRD 파일 동시 드래그/클릭</div>
         <div style="font-size:11px; color:var(--muted);">PANalytical .xrdml (.csv XML), .csv, .txt, .xy</div>
-        <input type="file" id="fileInput" accept=".xrdml,.xml,.csv,.txt,.xy" style="display:none" />
+        <input type="file" id="fileInput" accept=".xrdml,.xml,.csv,.txt,.xy" multiple style="display:none" />
       </div>
+      <div class="sample-list" id="sampleList"></div>
     </div>
 
-    <!-- 2. Displacement & Carbonate Ratio -->
+    <!-- 2. Displacement & Integrated-Area Carbonate Ratio -->
     <div class="card">
       <div class="card-header">
-        <span class="card-title" data-i18n="sec2">2. 시료 높이 변위 보정 & Search-Match</span>
+        <span class="card-title" data-i18n="sec2">2. 변위 보정 & Search-Match</span>
         <button class="btn-primary btn-sm" id="btnAutoFit" data-i18n="autoFit">자동 보정</button>
       </div>
       <div class="slider-group">
@@ -457,34 +561,39 @@
         <input type="range" id="sliderS1" min="-0.8" max="0.8" step="0.005" value="0" />
       </div>
 
-      <div style="margin-top:12px; padding-top:10px; border-top:1px dashed var(--border);">
-        <div style="display:flex; justify-content:space-between; font-size:11.5px; font-weight:700;">
-          <span data-i18n="carbTitle">탄산염 반정량 추정 (Calcite vs Aragonite)</span>
+      <!-- Integrated Area Carbonate Ratio + User RIR Factor -->
+      <div class="ratio-box">
+        <div style="display:flex; justify-content:space-between; align-items:center; font-size:11.5px; font-weight:700;">
+          <span data-i18n="carbTitle">적분 면적 기반 탄산염 비율</span>
+          <span style="font-size:10.5px; color:var(--muted);" title="RIR / Calibration Multiplier for Aragonite (111)+(021) vs Calcite (104)">
+            RIR<sub>Ara/Cal</sub>:
+            <input type="number" id="inpRirFactor" value="1.15" step="0.05" min="0.2" max="5.0" style="width:52px; padding:1px 4px; font-size:11px;" />
+          </span>
         </div>
         <div class="ratio-bar">
           <div class="ratio-cal" id="barCal" style="width:0%"></div>
           <div class="ratio-ara" id="barAra" style="width:0%"></div>
         </div>
         <div style="display:flex; justify-content:space-between; font-size:11.5px;" class="mono">
-          <span style="color:#b91c1c; font-weight:700;" id="txtCalPct">Calcite: 0%</span>
-          <span style="color:#1d4ed8; font-weight:700;" id="txtAraPct">Aragonite: 0%</span>
+          <span style="color:var(--accent); font-weight:700;" id="txtCalPct">Calcite: 0%</span>
+          <span style="color:var(--blue-ink); font-weight:700;" id="txtAraPct">Aragonite: 0%</span>
         </div>
       </div>
 
       <div style="margin-top:10px;">
-        <div style="font-size:11.5px; font-weight:700; margin-bottom:5px;" data-i18n="rankTitle">후보 광물 적합도 순위 (Top 4)</div>
+        <div style="font-size:11.5px; font-weight:700; margin-bottom:5px; color:var(--text-secondary);" data-i18n="rankTitle">후보 광물 적합도 순위 (Top 4)</div>
         <div class="rank-list" id="rankList"></div>
       </div>
     </div>
 
-    <!-- 3. Peak Detection & DB -->
+    <!-- 3. Peak Detection & Mineral DB -->
     <div class="card">
       <div class="card-header">
         <span class="card-title" data-i18n="sec3">3. 피크 검출 & 광물 DB</span>
         <button class="btn-sm" id="btnToggleAll" data-i18n="toggleAll">전체 토글</button>
       </div>
       <div class="control-row">
-        <label data-i18n="lblWavelength">X-선 타겟 파장 (λ):</label>
+        <label data-i18n="lblWavelength">X-선 파장 (λ):</label>
         <select id="wavelengthSelect">
           <option value="1.540598" selected>Cu Kα1 (1.540598 Å)</option>
           <option value="1.54184">Cu Kα avg (1.54184 Å)</option>
@@ -508,8 +617,8 @@
       </div>
       <div style="display:flex; gap:10px; margin-top:8px; font-size:12px; flex-wrap:wrap;">
         <label><input type="checkbox" id="chkBaseline" checked /> <span data-i18n="chkBase">배경선 제거</span></label>
-        <label><input type="checkbox" id="chkRaw" checked /> <span data-i18n="chkRaw">원시 곡선</span></label>
-        <label><input type="checkbox" id="chkLabels" checked /> <span data-i18n="chkLbl">피크 라벨</span></label>
+        <label><input type="checkbox" id="chkRaw" /> <span data-i18n="chkRaw">원시 곡선</span></label>
+        <label><input type="checkbox" id="chkLabels" checked /> <span data-i18n="chkLbl">스마트 라벨</span></label>
       </div>
 
       <div class="pill-wrap" id="dbPills"></div>
@@ -520,39 +629,49 @@
     </div>
   </aside>
 
-  <!-- Right Chart & Table -->
+  <!-- Right Chart & Analytical Tables -->
   <main class="main-area">
     <div class="card">
       <div class="chart-toolbar">
-        <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
-          <span style="font-weight:700;" data-i18n="rangeLbl">2θ 범위:</span>
-          <input type="number" id="inpMin2T" step="0.5" style="width:70px" />
+        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+          <div class="segmented" id="viewModeGroup">
+            <button class="active" data-mode="stack" data-i18n="modeStack">스택 비교 (Stack)</button>
+            <button data-mode="single" data-i18n="modeSingle">단일 상세 (Single)</button>
+          </div>
+          <span style="font-weight:700; margin-left:4px;" data-i18n="rangeLbl">2θ:</span>
+          <input type="number" id="inpMin2T" step="0.5" style="width:66px" />
           <span>~</span>
-          <input type="number" id="inpMax2T" step="0.5" style="width:70px" />
+          <input type="number" id="inpMax2T" step="0.5" style="width:66px" />
           <button class="btn-sm" id="btnApplyRange" data-i18n="btnApply">적용</button>
-          <button class="btn-sm" id="btnResetZoom" data-i18n="btnReset">전체 구간</button>
+          <button class="btn-sm" id="btnResetZoom" data-i18n="btnReset">전체</button>
         </div>
         <div class="mono" style="font-size:11.5px; color:var(--muted);" id="cursorReadout">
-          2θ: — | d: — Å | Int: —
+          Obs 2θ: — | Corr 2θ: — | d: — Å
         </div>
       </div>
 
       <div id="svgChartWrapper">
-        <svg id="xrdSvg" viewBox="0 0 960 395" preserveAspectRatio="none"></svg>
+        <svg id="xrdSvg" viewBox="0 0 980 430" preserveAspectRatio="none"></svg>
       </div>
 
       <div class="chart-footer">
-        <span data-i18n="chartHint">💡 마우스 드래그: 구간 확대(Zoom) / 더블클릭: 전체 초기화 / 하단 컬러 막대: 표준 광물 스틱 패턴</span>
+        <span data-i18n="chartHint">💡 드래그: 구간 확대 / 더블클릭: 초기화 / 라벨 충돌 자동 회피 적용됨 (출판용 SVG 내보내기 지원)</span>
         <span class="mono" id="presetSourceBadge">Preset JSON: loading...</span>
       </div>
     </div>
 
+    <!-- Bottom Tabbed Tables: Single Peak Table vs Batch Multi-Sample Summary -->
     <div class="card">
       <div class="card-header">
-        <span class="card-title" data-i18n="tableTitle">검출 피크 및 표준 광물 매칭 결과표 (Detected Peaks & Phase Match)</span>
-        <span style="font-size:11px; color:var(--muted);" data-i18n="tableHint">행 클릭 시 차트에서 해당 피크 강조</span>
+        <div class="sub-tabs">
+          <button class="sub-tab-btn active" data-subtab="panePeaks" data-i18n="subTabPeaks">활성 시료 피크 & 적분 면적표</button>
+          <button class="sub-tab-btn" data-subtab="paneBatch" data-i18n="subTabBatch">다중 시료 일괄 정량 요약표 (Batch Summary)</button>
+        </div>
+        <span style="font-size:11px; color:var(--muted);" id="tableRightHint" data-i18n="tableHint">행 클릭 시 차트에서 해당 피크 강조</span>
       </div>
-      <div class="table-wrap">
+
+      <!-- Pane 1: Single Sample Peak & Integrated Area Table -->
+      <div id="panePeaks" class="table-wrap">
         <table>
           <thead>
             <tr>
@@ -560,13 +679,33 @@
               <th data-i18n="thObs">관측 2θ (°)</th>
               <th data-i18n="thCorr">보정 2θ (°)</th>
               <th data-i18n="thD">면간거리 d (Å)</th>
-              <th data-i18n="thNet">순수 세기</th>
-              <th data-i18n="thRel">상대 세기 (%)</th>
-              <th data-i18n="thMatch">매칭 광물 & 결정면 (hkl)</th>
-              <th data-i18n="thDiff">편차 Δ2θ</th>
+              <th data-i18n="thNet">순수 높이</th>
+              <th data-i18n="thArea">적분 면적 (Area)</th>
+              <th data-i18n="thRel">상대 면적 (%)</th>
+              <th data-i18n="thMatch">매칭 광물 & (hkl)</th>
+              <th data-i18n="thDiff">Δ2θ</th>
             </tr>
           </thead>
           <tbody id="peakTableBody"></tbody>
+        </table>
+      </div>
+
+      <!-- Pane 2: Multi-Sample Batch Summary Table -->
+      <div id="paneBatch" class="table-wrap" style="display:none;">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th data-i18n="thSample">시료명 (Sample)</th>
+              <th data-i18n="thTopMatch">1순위 광물 (Match)</th>
+              <th data-i18n="thShift">보정 변위 (Δ2θ)</th>
+              <th>Calcite (104) Area</th>
+              <th>Aragonite Area</th>
+              <th>Calcite (%)</th>
+              <th>Aragonite (%)</th>
+            </tr>
+          </thead>
+          <tbody id="batchTableBody"></tbody>
         </table>
       </div>
     </div>
@@ -586,13 +725,12 @@
       <button class="tab-btn" data-tab="tabJson" data-i18n="tab3">3. JSON 내보내기 / 가져오기</button>
     </div>
 
-    <!-- Tab 1: Paste -->
     <div class="tab-pane active" id="tabPaste">
       <div style="display:grid; grid-template-columns:1fr 1fr 1fr 70px; gap:8px; margin-bottom:8px;">
         <input type="text" id="newMinName" data-i18n-ph="phEnName" placeholder="영문명 (예: Vaterite)" />
         <input type="text" id="newMinKo" data-i18n-ph="phKoName" placeholder="한글명 (예: 바테라이트)" />
         <input type="text" id="newMinFormula" data-i18n-ph="phFormula" placeholder="화학식 (예: CaCO3)" />
-        <input type="color" id="newMinColor" value="#be185d" style="height:30px; width:100%;" />
+        <input type="color" id="newMinColor" value="#9d174d" style="height:30px; width:100%;" />
       </div>
       <div style="margin-bottom:6px; font-size:12px;">
         <span data-i18n="pasteUnitLbl">입력 단위:</span>
@@ -605,28 +743,26 @@
       </div>
     </div>
 
-    <!-- Tab 2: Capture -->
     <div class="tab-pane" id="tabCapture">
       <p style="font-size:12px; color:var(--muted); margin-bottom:8px;" data-i18n="capDesc">
-        현재 불러온 스펙트럼의 보정된 상위 피크(최대 12개)를 새로운 표준 광물로 등록합니다.
+        현재 활성 시료의 보정된 상위 피크(최대 12개)를 새로운 표준 광물로 등록합니다.
       </p>
       <div style="display:grid; grid-template-columns:1fr 1fr 1fr 70px; gap:8px; margin-bottom:10px;">
         <input type="text" id="capMinName" data-i18n-ph="phCapEn" placeholder="영문명 (예: Lab_Calcite_Std)" />
         <input type="text" id="capMinKo" data-i18n-ph="phCapKo" placeholder="한글명 (예: 표준방해석)" />
         <input type="text" id="capMinFormula" data-i18n-ph="phFormula" placeholder="화학식 (예: CaCO3)" />
-        <input type="color" id="capMinColor" value="#0369a1" style="height:30px; width:100%;" />
+        <input type="color" id="capMinColor" value="#1e40af" style="height:30px; width:100%;" />
       </div>
       <button class="btn-primary" id="btnCaptureSpectrum" data-i18n="btnCapture">현재 상위 검출 피크 저장</button>
     </div>
 
-    <!-- Tab 3: JSON -->
     <div class="tab-pane" id="tabJson">
       <p style="font-size:12px; color:var(--muted); margin-bottom:10px;" data-i18n="jsonDesc">
         연구실 공용 JSON 파일을 불러오거나 현재 사용자 정의 광물 목록을 JSON으로 저장합니다.
       </p>
       <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px;">
         <button class="btn-primary" id="btnDownloadJson" data-i18n="btnDownJson">사용자 DB JSON 다운로드</button>
-        <label style="border:1px solid var(--border-strong); background:#fffdf9; padding:5px 10px; border-radius:5px; cursor:pointer; font-weight:600;">
+        <label style="border:1px solid var(--border-strong); background:#ffffff; padding:5px 10px; border-radius:6px; cursor:pointer; font-weight:600;">
           <span data-i18n="btnUpJson">JSON 파일 불러오기 (병합)</span>
           <input type="file" id="jsonFileInput" accept=".json" style="display:none;" />
         </label>
@@ -641,45 +777,55 @@
 (function() {
   const I18N = {
     ko: {
-      appTitle: "XRD 상동정 & 탄산염 반정량 분석 노트",
-      appSub: "Mineralogical Diffraction Ledger & Semi-Quantitative Carbonate Notebook",
-      exportCsv: "피크표 CSV",
-      exportSvg: "차트 SVG",
+      appTitle: "IsoXRD — 결정학 상동정 & 다중 시료 분석 노트",
+      appSub: "Editorial Diffraction Notebook · Multi-Sample Stack & Integrated Area Quantification",
+      pubModeBtn: "출판용 흑백/고대비",
+      pubModeBtnActive: "에디토리얼 컬러 모드",
+      exportCsv: "결과 CSV",
+      exportSvg: "논문용 SVG",
       langBtn: "English",
-      kpiFile: "현재 시료 / 포맷",
+      kpiFile: "활성 시료 / 스택 수",
       kpiPrimary: "1순위 판별 광물 (Match)",
       kpiShift: "보정 변위 (Δ2θ = s₀ + s₁cosθ)",
-      kpiPeaks: "검출 피크 / DB 현황",
-      sec1: "1. 원시 데이터 불러오기",
-      dropTitle: "여기에 XRD 파일 드래그 또는 클릭",
-      sec2: "2. 시료 높이 변위 보정 & Search-Match",
+      kpiCarbKpi: "탄산염 적분 면적비 (Cal / Ara)",
+      sec1: "1. 다중 시료 불러오기 (Multi-Sample)",
+      clearBtn: "초기화",
+      dropTitle: "여기에 여러 XRD 파일 동시 드래그/클릭",
+      sec2: "2. 변위 보정 & Search-Match",
       autoFit: "자동 보정",
       lblS0Text: "영점 오차 (s₀):",
       lblS1Text: "시료 높이 변위 (s₁·cosθ):",
-      carbTitle: "탄산염 반정량 추정 (Calcite vs Aragonite)",
+      carbTitle: "적분 면적 기반 탄산염 비율",
       rankTitle: "후보 광물 적합도 순위 (Top 4)",
       sec3: "3. 피크 검출 & 광물 DB",
       toggleAll: "전체 토글",
-      lblWavelength: "X-선 타겟 파장 (λ):",
+      lblWavelength: "X-선 파장 (λ):",
       lblPromText: "피크 검출 민감도 (Prominence):",
       lblSmoothText: "스무딩 윈도우 (Smoothing):",
       chkBase: "배경선 제거",
       chkRaw: "원시 곡선",
-      chkLbl: "피크 라벨",
+      chkLbl: "스마트 라벨",
       openDbBtn: "+ 광물 DB 추가 / 관리 (Add / Manage DB)",
-      rangeLbl: "2θ 범위:",
+      modeStack: "스택 비교 (Stack)",
+      modeSingle: "단일 상세 (Single)",
+      rangeLbl: "2θ:",
       btnApply: "적용",
-      btnReset: "전체 구간",
-      chartHint: "💡 마우스 드래그: 구간 확대(Zoom) / 더블클릭: 전체 초기화 / 하단 컬러 막대: 표준 광물 스틱 패턴",
-      tableTitle: "검출 피크 및 표준 광물 매칭 결과표 (Detected Peaks & Phase Match)",
+      btnReset: "전체",
+      chartHint: "💡 드래그: 구간 확대 / 더블클릭: 초기화 / 라벨 충돌 자동 회피 적용됨 (출판용 SVG 내보내기 지원)",
+      subTabPeaks: "활성 시료 피크 & 적분 면적표",
+      subTabBatch: "다중 시료 일괄 정량 요약표 (Batch Summary)",
       tableHint: "행 클릭 시 차트에서 해당 피크 강조",
       thObs: "관측 2θ (°)",
       thCorr: "보정 2θ (°)",
       thD: "면간거리 d (Å)",
-      thNet: "순수 세기",
-      thRel: "상대 세기 (%)",
-      thMatch: "매칭 광물 & 결정면 (hkl)",
-      thDiff: "편차 Δ2θ",
+      thNet: "순수 높이",
+      thArea: "적분 면적 (Area)",
+      thRel: "상대 면적 (%)",
+      thMatch: "매칭 광물 & (hkl)",
+      thDiff: "Δ2θ",
+      thSample: "시료명 (Sample)",
+      thTopMatch: "1순위 광물 (Match)",
+      thShift: "보정 변위 (Δ2θ)",
       modalTitle: "광물 표준 DB 추가 및 관리 (Custom Mineral Library)",
       btnClose: "닫기 ✕",
       tab1: "1. 피크 표 붙여넣기 (RRUFF/논문)",
@@ -689,7 +835,7 @@
       unit2T: "2θ (°) + 세기",
       unitD: "d-spacing (Å) + 세기",
       btnSaveMin: "DB에 등록하기",
-      capDesc: "현재 불러온 스펙트럼의 보정된 상위 피크(최대 12개)를 새로운 표준 광물로 등록합니다.",
+      capDesc: "현재 활성 시료의 보정된 상위 피크(최대 12개)를 새로운 표준 광물로 등록합니다.",
       btnCapture: "현재 상위 검출 피크 저장",
       jsonDesc: "연구실 공용 JSON 파일을 불러오거나 현재 사용자 정의 광물 목록을 JSON으로 저장합니다.",
       btnDownJson: "사용자 DB JSON 다운로드",
@@ -706,22 +852,25 @@
       unassigned: "미할당 (Unassigned)"
     },
     en: {
-      appTitle: "XRD Phase Identification & Carbonate Notebook",
-      appSub: "Mineralogical Diffraction Ledger & Semi-Quantitative Carbonate Analysis",
+      appTitle: "IsoXRD — Crystallographic Phase & Multi-Sample Notebook",
+      appSub: "Editorial Diffraction Notebook · Multi-Sample Stack & Integrated Area Quantification",
+      pubModeBtn: "Publication B&W",
+      pubModeBtnActive: "Editorial Color",
       exportCsv: "Export CSV",
-      exportSvg: "Export SVG",
+      exportSvg: "Publication SVG",
       langBtn: "한국어",
-      kpiFile: "Current Sample / Format",
+      kpiFile: "Active Sample / Stack",
       kpiPrimary: "Primary Matched Phase",
       kpiShift: "Displacement (Δ2θ = s₀ + s₁cosθ)",
-      kpiPeaks: "Detected Peaks / DB Status",
-      sec1: "1. Load Raw XRD Data",
-      dropTitle: "Drag & Drop XRD File Here or Click",
-      sec2: "2. Sample Displacement & Search-Match",
+      kpiCarbKpi: "Integrated Area Ratio (Cal / Ara)",
+      sec1: "1. Multi-Sample Data Loader",
+      clearBtn: "Clear",
+      dropTitle: "Drag & Drop Multiple XRD Files or Click",
+      sec2: "2. Displacement & Search-Match",
       autoFit: "Auto-Fit",
       lblS0Text: "Zero-Point Shift (s₀):",
       lblS1Text: "Sample Height Shift (s₁·cosθ):",
-      carbTitle: "Semi-Quantitative Carbonate Ratio",
+      carbTitle: "Integrated-Area Carbonate Ratio",
       rankTitle: "Candidate Phase Ranking (Top 4)",
       sec3: "3. Peak Detection & Mineral DB",
       toggleAll: "Toggle All",
@@ -730,31 +879,38 @@
       lblSmoothText: "Smoothing Window:",
       chkBase: "Subtract Baseline",
       chkRaw: "Raw Curve",
-      chkLbl: "Peak Labels",
+      chkLbl: "Smart Labels",
       openDbBtn: "+ Add / Manage Mineral DB",
-      rangeLbl: "2θ Range:",
+      modeStack: "Stack View",
+      modeSingle: "Single Detail",
+      rangeLbl: "2θ:",
       btnApply: "Apply",
-      btnReset: "Full Range",
-      chartHint: "💡 Drag: Zoom in / Double-click: Reset view / Bottom colored bars: Reference stick patterns",
-      tableTitle: "Detected Peaks & Reference Phase Matching Ledger",
+      btnReset: "Full",
+      chartHint: "💡 Drag: Zoom in / Double-click: Reset / Smart collision-free peak labels enabled",
+      subTabPeaks: "Active Sample Peaks & Integrated Area",
+      subTabBatch: "Multi-Sample Batch Quantitative Summary",
       tableHint: "Click a row to highlight the peak on the chart",
       thObs: "Obs 2θ (°)",
       thCorr: "Corr 2θ (°)",
       thD: "d-Spacing (Å)",
-      thNet: "Net Int.",
-      thRel: "Rel. Int. (%)",
+      thNet: "Net Height",
+      thArea: "Integrated Area",
+      thRel: "Rel. Area (%)",
       thMatch: "Matched Phase & (hkl)",
-      thDiff: "Offset Δ2θ",
+      thDiff: "Δ2θ",
+      thSample: "Sample Name",
+      thTopMatch: "Primary Match",
+      thShift: "Shift (Δ2θ)",
       modalTitle: "Add & Manage Custom Mineral Library",
       btnClose: "Close ✕",
       tab1: "1. Paste Peak Table (RRUFF/Paper)",
-      tab2: "2. Capture from Current Spectrum",
+      tab2: "2. Capture from Active Spectrum",
       tab3: "3. Export / Import JSON",
       pasteUnitLbl: "Input Unit:",
       unit2T: "2θ (°) + Intensity",
       unitD: "d-spacing (Å) + Intensity",
       btnSaveMin: "Save to Library",
-      capDesc: "Capture the top corrected peaks (up to 12) from the current spectrum as a new reference phase.",
+      capDesc: "Capture the top corrected peaks (up to 12) from the active sample as a new reference phase.",
       btnCapture: "Save Top Detected Peaks",
       jsonDesc: "Import shared lab JSON presets or export your custom mineral library as JSON.",
       btnDownJson: "Download Custom DB JSON",
@@ -772,35 +928,11 @@
     }
   };
 
-  function applyLanguage() {
-    const dict = I18N[lang];
-    document.documentElement.lang = lang;
-    document.getElementById("btnLang").textContent = dict.langBtn;
-
-    document.querySelectorAll("[data-i18n]").forEach(el => {
-      const key = el.getAttribute("data-i18n");
-      if (dict[key]) el.textContent = dict[key];
-    });
-    document.querySelectorAll("[data-i18n-ph]").forEach(el => {
-      const key = el.getAttribute("data-i18n-ph");
-      if (dict[key]) el.setAttribute("placeholder", dict[key]);
-    });
-
-    renderDbPills();
-    updateAnalysis();
-  }
-
-  const memStore = {};
-  function safeGet(k) {
-    try { return window.localStorage.getItem(k); } catch (e) { return memStore[k] || null; }
-  }
-  function safeSet(k, v) {
-    try { window.localStorage.setItem(k, v); } catch (e) { memStore[k] = v; }
-  }
+  const SAMPLE_COLORS = ["#1b4d3e", "#9a3412", "#1e40af", "#6b21a8", "#0f766e", "#b45309", "#374151"];
 
   const CORE_MINERALS = [
     {
-      id: "calcite", name: "Calcite", nameKo: "방해석", formula: "CaCO3", color: "#b91c1c", active: true,
+      id: "calcite", name: "Calcite", nameKo: "방해석", formula: "CaCO3", color: "#9a3412", active: true,
       peaks: [
         [29.40, 100, 3.035, "(104)"], [39.40, 18, 2.285, "(113)"], [43.15, 18, 2.095, "(202)"],
         [47.50, 17, 1.913, "(018)"], [48.51, 17, 1.875, "(116)"], [35.97, 14, 2.495, "(110)"],
@@ -808,7 +940,7 @@
       ]
     },
     {
-      id: "aragonite", name: "Aragonite", nameKo: "아라고나이트", formula: "CaCO3", color: "#1d4ed8", active: true,
+      id: "aragonite", name: "Aragonite", nameKo: "아라고나이트", formula: "CaCO3", color: "#1e40af", active: true,
       peaks: [
         [26.21, 100, 3.396, "(111)"], [45.85, 65, 1.977, "(221)"], [27.22, 52, 3.273, "(021)"],
         [33.13, 46, 2.702, "(012)"], [37.88, 38, 2.373, "(112)"], [36.12, 33, 2.484, "(200)"],
@@ -855,11 +987,11 @@
   ];
 
   const LAB_PRESET_FALLBACK = [
-    { id: "vaterite", name: "Vaterite", nameKo: "바테라이트", formula: "CaCO3", color: "#be185d",
+    { id: "vaterite", name: "Vaterite", nameKo: "바테라이트", formula: "CaCO3", color: "#9d174d",
       peaks: [[24.90,65,3.573,"(110)"],[27.05,100,3.294,"(112)"],[32.78,95,2.730,"(114)"],[43.85,50,2.063,"(300)"],[49.10,30,1.854,"(304)"],[50.08,45,1.820,"(118)"]] },
-    { id: "magnesite", name: "Magnesite", nameKo: "마그네사이트", formula: "MgCO3", color: "#7e22ce",
+    { id: "magnesite", name: "Magnesite", nameKo: "마그네사이트", formula: "MgCO3", color: "#6b21a8",
       peaks: [[32.63,100,2.742,"(104)"],[42.99,43,2.102,"(113)"],[53.88,34,1.700,"(116)"],[35.85,12,2.503,"(110)"],[46.81,12,1.939,"(202)"]] },
-    { id: "siderite", name: "Siderite", nameKo: "능철석", formula: "FeCO3", color: "#92400e",
+    { id: "siderite", name: "Siderite", nameKo: "능철석", formula: "FeCO3", color: "#78350f",
       peaks: [[32.02,100,2.793,"(104)"],[52.76,35,1.734,"(116)"],[42.31,25,2.134,"(113)"],[24.81,22,3.586,"(012)"],[46.23,20,1.962,"(202)"]] },
     { id: "anhydrite", name: "Anhydrite", nameKo: "경석고", formula: "CaSO4", color: "#0369a1",
       peaks: [[25.44,100,3.498,"(002)"],[31.36,33,2.850,"(210)"],[38.63,22,2.329,"(202)"],[40.82,20,2.209,"(212)"],[48.68,15,1.869,"(230)"]] },
@@ -867,7 +999,7 @@
       peaks: [[8.88,95,9.950,"(002)"],[26.82,100,3.321,"(006)"],[17.78,31,4.985,"(004)"],[34.96,25,2.564,"(202)"],[45.42,22,1.995,"(0010)"]] },
     { id: "kaolinite", name: "Kaolinite", nameKo: "카올리나이트", formula: "Al2Si2O5(OH)4", color: "#0f766e",
       peaks: [[12.36,100,7.155,"(001)"],[24.88,80,3.576,"(002)"],[20.36,35,4.358,"(110)"],[38.45,30,2.339,"(202)"],[62.31,25,1.489,"(060)"]] },
-    { id: "albite", name: "Albite (Plagioclase)", nameKo: "조장석(사장석)", formula: "NaAlSi3O8", color: "#4338ca",
+    { id: "albite", name: "Albite (Plagioclase)", nameKo: "조장석(사장석)", formula: "NaAlSi3O8", color: "#3730a3",
       peaks: [[27.93,100,3.192,"(002)"],[22.05,25,4.028,"(201)"],[23.54,20,3.776,"(111)"],[24.22,20,3.672,"(130)"],[30.48,18,2.930,"(041)"]] },
     { id: "microcline", name: "Microcline (K-Feldspar)", nameKo: "미사장석(알칼리장석)", formula: "KAlSi3O8", color: "#86198f",
       peaks: [[27.46,100,3.246,"(002)"],[21.05,30,4.217,"(201)"],[25.63,25,3.473,"(112)"],[29.48,22,3.027,"(131)"],[41.80,20,2.159,"(060)"]] },
@@ -879,15 +1011,20 @@
       peaks: [[28.27,94,3.154,"(111)"],[47.00,100,1.932,"(220)"],[55.76,35,1.647,"(311)"]] }
   ];
 
+  // State
   let minerals = JSON.parse(JSON.stringify(CORE_MINERALS));
   let lang = "ko";
-  let rawX = [], rawY = [], smoothY = [], baseY = [], netY = [];
-  let detectedPeaks = [];
-  let rankedPhases = [];
+  let pubMode = false;
+  let viewMode = "stack"; // 'stack' or 'single'
+  let samples = [];       // Array of { id, name, color, visible, rawX, rawY, smoothY, baseY, netY, s0, s1, peaks, ranked, calArea, araArea, calPct, araPct }
+  let activeSampleIdx = 0;
   let selectedPeakIdx = -1;
   let viewMin = 15, viewMax = 65;
   let fullMin = 15, fullMax = 65;
-  let s0 = 0, s1 = 0;
+
+  const memStore = {};
+  function safeGet(k) { try { return window.localStorage.getItem(k); } catch (e) { return memStore[k] || null; } }
+  function safeSet(k, v) { try { window.localStorage.setItem(k, v); } catch (e) { memStore[k] = v; } }
 
   function mergeMinerals(list, defaultActive = false) {
     if (!Array.isArray(list)) return;
@@ -930,64 +1067,10 @@
       badge.style.color = "var(--muted)";
     }
     renderDbPills();
-    updateAnalysis();
+    reprocessAllSamples();
   }
 
-  function loadDemo(type) {
-    const n = 2500;
-    const x = [], y = [];
-    const minT = 15, maxT = 65;
-    let peaks = [];
-    if (type === "aragonite") {
-      document.getElementById("kpiFileName").textContent = "WDS2_170 (Aragonite)";
-      peaks = [
-        [26.715, 150], [27.699, 60], [33.628, 78], [36.661, 98], [38.381, 70],
-        [38.924, 85], [41.664, 48], [43.392, 258], [46.335, 407], [48.926, 82],
-        [50.717, 65], [52.929, 63], [53.423, 45]
-      ];
-    } else if (type === "mixture") {
-      document.getElementById("kpiFileName").textContent = "Mix_Cal75_Ara25 (Demo)";
-      peaks = [
-        [29.55, 360], [39.55, 65], [43.30, 65], [47.65, 60], [48.66, 60], [36.12, 50], [23.17, 45],
-        [26.36, 120], [46.00, 78], [27.37, 62], [33.28, 55], [38.03, 45]
-      ];
-    } else {
-      document.getElementById("kpiFileName").textContent = "Speleothem_Calcite (Demo)";
-      peaks = [
-        [29.75, 480], [39.75, 86], [43.50, 86], [47.85, 82], [48.86, 82],
-        [36.32, 68], [23.37, 58], [57.75, 40]
-      ];
-    }
-
-    for (let i = 0; i < n; i++) {
-      const t = minT + (maxT - minT) * (i / (n - 1));
-      let val = 55 + 125 * Math.exp(-Math.pow((t - 23.5) / 6.5, 2));
-      for (const [pos, amp] of peaks) {
-        val += amp * Math.exp(-Math.pow((t - pos) / 0.14, 2));
-      }
-      val += (Math.sin(i * 12.9898) * 43758.5453 % 1) * 8;
-      x.push(t);
-      y.push(Math.max(10, val));
-    }
-    setSpectrumData(x, y);
-    runAutoFit();
-  }
-
-  function setSpectrumData(x, y) {
-    rawX = x;
-    rawY = y;
-    fullMin = Math.floor(x[0]);
-    fullMax = Math.ceil(x[x.length - 1]);
-    viewMin = fullMin;
-    viewMax = fullMax;
-    document.getElementById("inpMin2T").value = viewMin;
-    document.getElementById("inpMax2T").value = viewMax;
-    const wl = parseFloat(document.getElementById("wavelengthSelect").value);
-    document.getElementById("kpiRangeInfo").textContent =
-      `${x[0].toFixed(2)}° – ${x[x.length - 1].toFixed(2)}° (λ=${wl.toFixed(4)} Å)`;
-    updateAnalysis();
-  }
-
+  // Signal processing utilities
   function smoothArray(arr, win) {
     if (win <= 1) return arr.slice();
     const half = Math.floor(win / 2);
@@ -1016,115 +1099,90 @@
     return smoothArray(minPass, Math.max(5, Math.floor(winPts / 2) | 1));
   }
 
-  function corr2Theta(obs2T) {
+  function corr2Theta(obs2T, s0, s1) {
     const rad = (obs2T / 2) * Math.PI / 180;
     return obs2T - (s0 + s1 * Math.cos(rad));
   }
 
-  function stdToObs2Theta(std2T) {
+  function stdToObs2Theta(std2T, s0, s1) {
     const rad = (std2T / 2) * Math.PI / 180;
     return std2T + (s0 + s1 * Math.cos(rad));
   }
 
-  function updateAnalysis() {
-    if (!rawX.length) return;
+  // Trapezoidal integrated peak area around peak index (half-width ~ 0.35 deg)
+  function computeIntegratedArea(xArr, netArr, peakIdx, stepDeg) {
+    const halfPts = Math.max(3, Math.round(0.35 / Math.max(0.001, stepDeg)));
+    const start = Math.max(0, peakIdx - halfPts);
+    const end = Math.min(netArr.length - 1, peakIdx + halfPts);
+    let area = 0;
+    for (let i = start; i < end; i++) {
+      const dx = xArr[i + 1] - xArr[i];
+      area += 0.5 * (netArr[i] + netArr[i + 1]) * dx;
+    }
+    return Math.max(0, area);
+  }
+
+  function analyzeSample(sample, autoFitFirst = false) {
     const win = parseInt(document.getElementById("sliderSmooth").value, 10);
     const promPct = parseFloat(document.getElementById("sliderProm").value);
     const useBase = document.getElementById("chkBaseline").checked;
     const wl = parseFloat(document.getElementById("wavelengthSelect").value);
+    const rirFactor = parseFloat(document.getElementById("inpRirFactor").value) || 1.15;
 
-    smoothY = smoothArray(rawY, win);
-    const step = (rawX[rawX.length - 1] - rawX[0]) / Math.max(1, rawX.length - 1);
-    baseY = useBase ? estimateBaseline(smoothY, step) : new Array(smoothY.length).fill(0);
-    netY = smoothY.map((v, i) => Math.max(0, v - baseY[i]));
+    sample.smoothY = smoothArray(sample.rawY, win);
+    const step = (sample.rawX[sample.rawX.length - 1] - sample.rawX[0]) / Math.max(1, sample.rawX.length - 1);
+    sample.baseY = useBase ? estimateBaseline(sample.smoothY, step) : new Array(sample.smoothY.length).fill(0);
+    sample.netY = sample.smoothY.map((v, i) => Math.max(0, v - sample.baseY[i]));
 
-    const maxNet = Math.max(...netY, 1);
+    const maxNet = Math.max(...sample.netY, 1);
     const minProm = maxNet * (promPct / 100);
     const minDistPts = Math.max(3, Math.round(0.18 / Math.max(0.001, step)));
 
-    detectedPeaks = [];
-    for (let i = 2; i < netY.length - 2; i++) {
-      if (netY[i] >= netY[i - 1] && netY[i] > netY[i + 1] && netY[i] >= minProm) {
-        const leftMin = Math.min(...netY.slice(Math.max(0, i - minDistPts * 2), i));
-        const rightMin = Math.min(...netY.slice(i + 1, Math.min(netY.length, i + minDistPts * 2)));
-        if (netY[i] - Math.max(leftMin, rightMin) >= minProm * 0.65) {
-          if (detectedPeaks.length && (i - detectedPeaks[detectedPeaks.length - 1].idx) < minDistPts) {
-            if (netY[i] > detectedPeaks[detectedPeaks.length - 1].net) {
-              detectedPeaks[detectedPeaks.length - 1] = { idx: i, obs2T: rawX[i], net: netY[i], raw: smoothY[i] };
+    const peaks = [];
+    for (let i = 2; i < sample.netY.length - 2; i++) {
+      if (sample.netY[i] >= sample.netY[i - 1] && sample.netY[i] > sample.netY[i + 1] && sample.netY[i] >= minProm) {
+        const leftMin = Math.min(...sample.netY.slice(Math.max(0, i - minDistPts * 2), i));
+        const rightMin = Math.min(...sample.netY.slice(i + 1, Math.min(sample.netY.length, i + minDistPts * 2)));
+        if (sample.netY[i] - Math.max(leftMin, rightMin) >= minProm * 0.65) {
+          if (peaks.length && (i - peaks[peaks.length - 1].idx) < minDistPts) {
+            if (sample.netY[i] > peaks[peaks.length - 1].net) {
+              peaks[peaks.length - 1] = { idx: i, obs2T: sample.rawX[i], net: sample.netY[i], raw: sample.smoothY[i] };
             }
           } else {
-            detectedPeaks.push({ idx: i, obs2T: rawX[i], net: netY[i], raw: smoothY[i] });
+            peaks.push({ idx: i, obs2T: sample.rawX[i], net: sample.netY[i], raw: sample.smoothY[i] });
           }
         }
       }
     }
 
-    const topPeakNet = detectedPeaks.length ? Math.max(...detectedPeaks.map(p => p.net)) : 1;
-    detectedPeaks.forEach(p => {
-      p.corr2T = corr2Theta(p.obs2T);
-      p.d = wl / (2 * Math.sin((p.corr2T / 2) * Math.PI / 180));
-      p.rel = (p.net / topPeakNet) * 100;
+    peaks.forEach(p => {
+      p.area = computeIntegratedArea(sample.rawX, sample.netY, p.idx, step);
     });
 
-    scoreMinerals();
-    assignPeakLabels();
-    updateCarbonateRatio();
-    renderRankList();
-    renderPeakTable();
-    renderChart();
+    if (autoFitFirst && peaks.length) {
+      autoFitSampleShift(sample, peaks);
+    }
 
-    document.getElementById("kpiPeakCount").textContent = `${detectedPeaks.length} peaks`;
-    document.getElementById("kpiDbStatus").textContent = `DB: ${minerals.length} minerals (${minerals.filter(m=>m.active).length} active)`;
-  }
+    const topArea = peaks.length ? Math.max(...peaks.map(p => p.area), 1e-6) : 1;
+    const topNet = peaks.length ? Math.max(...peaks.map(p => p.net), 1e-6) : 1;
+    peaks.forEach(p => {
+      p.corr2T = corr2Theta(p.obs2T, sample.s0, sample.s1);
+      p.d = wl / (2 * Math.sin((p.corr2T / 2) * Math.PI / 180));
+      p.rel = (p.net / topNet) * 100;
+      p.relArea = (p.area / topArea) * 100;
+    });
 
-  function scoreMinerals() {
-    const tol = 0.16;
-    rankedPhases = minerals.map(min => {
-      let stdWeightTotal = 0, matchedStdWeight = 0;
-      let hasDominantLine = false, dominantRequired = false;
+    sample.peaks = peaks;
+    sample.ranked = scoreSampleMinerals(sample);
 
-      min.peaks.forEach(([p2T, relI]) => {
-        if (p2T < fullMin || p2T > fullMax) return;
-        stdWeightTotal += relI;
-        if (relI >= 80) dominantRequired = true;
-        const best = detectedPeaks.reduce((acc, dp) => {
-          const diff = Math.abs(dp.corr2T - p2T);
-          return diff < acc.diff ? { diff, dp } : acc;
-        }, { diff: Infinity, dp: null });
-
-        if (best.diff <= tol) {
-          const prox = Math.exp(-Math.pow(best.diff / 0.08, 2));
-          matchedStdWeight += relI * prox;
-          if (relI >= 80 && best.dp.rel >= 15) hasDominantLine = true;
-        }
-      });
-
-      if (stdWeightTotal === 0) return { min, score: 0 };
-      const recall = matchedStdWeight / stdWeightTotal;
-
-      let obsExplained = 0, obsTotal = 0;
-      detectedPeaks.forEach(dp => {
-        obsTotal += dp.rel;
-        const hit = min.peaks.some(([p2T]) => Math.abs(dp.corr2T - p2T) <= tol);
-        if (hit) obsExplained += dp.rel;
-      });
-      const precision = obsTotal > 0 ? (obsExplained / obsTotal) : 0;
-
-      let f1 = (recall + precision) > 0 ? (2 * recall * precision) / (recall + precision) : 0;
-      if (dominantRequired && !hasDominantLine) f1 *= 0.12;
-
-      return { min, score: Math.min(100, Math.round(f1 * 100)) };
-    }).sort((a, b) => b.score - a.score);
-  }
-
-  function assignPeakLabels() {
+    // Assign labels
     const dict = I18N[lang];
-    const candidateMins = rankedPhases.filter(r => r.score >= 30 || r.min.active).map(r => r.min);
+    const candidateMins = sample.ranked.filter(r => r.score >= 30 || r.min.active).map(r => r.min);
     const pool = candidateMins.length ? candidateMins : minerals;
-    detectedPeaks.forEach(p => {
+    peaks.forEach(p => {
       let bestMatch = null;
       pool.forEach(min => {
-        min.peaks.forEach(([std2T, relI, dStd, hkl]) => {
+        min.peaks.forEach(([std2T, relI, , hkl]) => {
           const diff = p.corr2T - std2T;
           if (Math.abs(diff) <= 0.16) {
             const penalty = Math.abs(diff) * 100 - relI * 0.05;
@@ -1141,34 +1199,32 @@
       p.matchLabel = bestMatch ? bestMatch.label : dict.unassigned;
       p.matchDiff = bestMatch ? bestMatch.diff : null;
     });
-  }
 
-  function updateCarbonateRatio() {
-    const findPeakInt = (target2T) => {
-      const p = detectedPeaks.find(dp => Math.abs(dp.corr2T - target2T) <= 0.18);
-      return p ? p.net : 0;
+    // Integrated Area Carbonate Ratio (Calcite 104 vs Aragonite 111 + 021)
+    const findArea = (target2T) => {
+      const p = peaks.find(dp => Math.abs(dp.corr2T - target2T) <= 0.18);
+      return p ? p.area : 0;
     };
-    const iCal104 = findPeakInt(29.40);
-    const iAra111 = findPeakInt(26.21);
-    const iAra021 = findPeakInt(27.22);
-    const iAraSum = iAra111 + iAra021;
+    const aCal104 = findArea(29.40);
+    const aAra111 = findArea(26.21);
+    const aAra021 = findArea(27.22);
+    const aAraSum = aAra111 + aAra021;
 
-    let calPct = 0, araPct = 0;
-    if (iCal104 > 0 || iAraSum > 0) {
-      const calWeight = iCal104;
-      const araWeight = iAraSum * 1.15;
-      calPct = Math.round((calWeight / (calWeight + araWeight)) * 100);
-      araPct = 100 - calPct;
+    sample.calArea = aCal104;
+    sample.araArea = aAraSum;
+    if (aCal104 > 0 || aAraSum > 0) {
+      const wCal = aCal104;
+      const wAra = aAraSum * rirFactor;
+      sample.calPct = Math.round((wCal / (wCal + wAra)) * 100);
+      sample.araPct = 100 - sample.calPct;
+    } else {
+      sample.calPct = 0;
+      sample.araPct = 0;
     }
-    document.getElementById("barCal").style.width = calPct + "%";
-    document.getElementById("barAra").style.width = araPct + "%";
-    document.getElementById("txtCalPct").textContent = `Calcite: ${calPct}%`;
-    document.getElementById("txtAraPct").textContent = `Aragonite: ${araPct}%`;
   }
 
-  function runAutoFit() {
-    if (!detectedPeaks.length) return;
-    const strongest = detectedPeaks.reduce((a, b) => b.net > a.net ? b : a, detectedPeaks[0]);
+  function autoFitSampleShift(sample, peaks) {
+    const strongest = peaks.reduce((a, b) => b.net > a.net ? b : a, peaks[0]);
     let bestScore = -1, bestS0 = 0, bestS1 = 0;
 
     minerals.forEach(min => {
@@ -1186,7 +1242,7 @@
           min.peaks.forEach(([p2T, pRel]) => {
             const pRad = (p2T / 2) * Math.PI / 180;
             const predObs = p2T + ds0 + ds1 * Math.cos(pRad);
-            const match = detectedPeaks.find(dp => Math.abs(dp.obs2T - predObs) <= 0.12);
+            const match = peaks.find(dp => Math.abs(dp.obs2T - predObs) <= 0.12);
             if (match) hits += pRel * (1 - Math.abs(match.obs2T - predObs) / 0.15);
           });
           if (hits > bestScore) {
@@ -1198,37 +1254,125 @@
       });
     });
 
-    s0 = Math.round(bestS0 * 1000) / 1000;
-    s1 = Math.round(bestS1 * 1000) / 1000;
-    document.getElementById("sliderS0").value = s0;
-    document.getElementById("sliderS1").value = s1;
-    syncShiftLabels();
-    updateAnalysis();
-
-    if (rankedPhases.length && rankedPhases[0].score >= 35) {
-      minerals.forEach(m => m.active = false);
-      rankedPhases[0].min.active = true;
-      if (rankedPhases[1] && rankedPhases[1].score >= 30) {
-        rankedPhases[1].min.active = true;
-      }
-      renderDbPills();
-      updateAnalysis();
-    }
+    sample.s0 = Math.round(bestS0 * 1000) / 1000;
+    sample.s1 = Math.round(bestS1 * 1000) / 1000;
   }
 
-  function syncShiftLabels() {
-    document.getElementById("lblS0").textContent = (s0 >= 0 ? "+" : "") + s0.toFixed(3) + "°";
-    document.getElementById("lblS1").textContent = (s1 >= 0 ? "+" : "") + s1.toFixed(3) + "°";
-    const midShift = s0 + s1 * Math.cos(15 * Math.PI / 180);
+  function scoreSampleMinerals(sample) {
+    const tol = 0.16;
+    const sMin = sample.rawX[0], sMax = sample.rawX[sample.rawX.length - 1];
+    return minerals.map(min => {
+      let stdWeightTotal = 0, matchedStdWeight = 0;
+      let hasDominantLine = false, dominantRequired = false;
+
+      min.peaks.forEach(([p2T, relI]) => {
+        if (p2T < sMin || p2T > sMax) return;
+        stdWeightTotal += relI;
+        if (relI >= 80) dominantRequired = true;
+        const best = sample.peaks.reduce((acc, dp) => {
+          const diff = Math.abs(dp.corr2T - p2T);
+          return diff < acc.diff ? { diff, dp } : acc;
+        }, { diff: Infinity, dp: null });
+
+        if (best.diff <= tol) {
+          const prox = Math.exp(-Math.pow(best.diff / 0.08, 2));
+          matchedStdWeight += relI * prox;
+          if (relI >= 80 && best.dp.rel >= 15) hasDominantLine = true;
+        }
+      });
+
+      if (stdWeightTotal === 0) return { min, score: 0 };
+      const recall = matchedStdWeight / stdWeightTotal;
+
+      let obsExplained = 0, obsTotal = 0;
+      sample.peaks.forEach(dp => {
+        obsTotal += dp.rel;
+        const hit = min.peaks.some(([p2T]) => Math.abs(dp.corr2T - p2T) <= tol);
+        if (hit) obsExplained += dp.rel;
+      });
+      const precision = obsTotal > 0 ? (obsExplained / obsTotal) : 0;
+
+      let f1 = (recall + precision) > 0 ? (2 * recall * precision) / (recall + precision) : 0;
+      if (dominantRequired && !hasDominantLine) f1 *= 0.12;
+
+      return { min, score: Math.min(100, Math.round(f1 * 100)) };
+    }).sort((a, b) => b.score - a.score);
+  }
+
+  function reprocessAllSamples(autoFitAll = false) {
+    if (!samples.length) return;
+    samples.forEach(s => analyzeSample(s, autoFitAll));
+    syncActiveSampleUI();
+  }
+
+  function syncActiveSampleUI() {
+    const s = samples[activeSampleIdx];
+    if (!s) return;
+
+    document.getElementById("sliderS0").value = s.s0;
+    document.getElementById("sliderS1").value = s.s1;
+    document.getElementById("lblS0").textContent = (s.s0 >= 0 ? "+" : "") + s.s0.toFixed(3) + "°";
+    document.getElementById("lblS1").textContent = (s.s1 >= 0 ? "+" : "") + s.s1.toFixed(3) + "°";
+
+    const midShift = s.s0 + s.s1 * Math.cos(15 * Math.PI / 180);
+    document.getElementById("kpiFileName").textContent = `${s.name} (${activeSampleIdx + 1}/${samples.length})`;
+    const wl = parseFloat(document.getElementById("wavelengthSelect").value);
+    document.getElementById("kpiRangeInfo").textContent =
+      `${s.rawX[0].toFixed(2)}° – ${s.rawX[s.rawX.length - 1].toFixed(2)}° (λ=${wl.toFixed(4)} Å)`;
+
     document.getElementById("kpiShiftVal").textContent = (midShift >= 0 ? "+" : "") + midShift.toFixed(3) + "°";
-    document.getElementById("kpiShiftDetail").textContent = `s₀: ${s0.toFixed(3)}° / s₁: ${s1.toFixed(3)}°`;
+    document.getElementById("kpiShiftDetail").textContent = `s₀: ${s.s0.toFixed(3)}° / s₁: ${s.s1.toFixed(3)}°`;
+
+    document.getElementById("barCal").style.width = s.calPct + "%";
+    document.getElementById("barAra").style.width = s.araPct + "%";
+    document.getElementById("txtCalPct").textContent = `Calcite: ${s.calPct}%`;
+    document.getElementById("txtAraPct").textContent = `Aragonite: ${s.araPct}%`;
+    document.getElementById("kpiCarbRatioVal").textContent =
+      (s.calPct > 0 || s.araPct > 0) ? `${s.calPct}% / ${s.araPct}%` : "N/A";
+    document.getElementById("kpiDbStatus").textContent =
+      `DB: ${minerals.length} phases (${minerals.filter(m=>m.active).length} active)`;
+
+    renderSampleList();
+    renderRankList(s);
+    renderPeakTable(s);
+    renderBatchTable();
+    renderChart();
   }
 
-  function renderRankList() {
+  function renderSampleList() {
+    const list = document.getElementById("sampleList");
+    list.innerHTML = "";
+    samples.forEach((s, idx) => {
+      const row = document.createElement("div");
+      row.className = "sample-row" + (idx === activeSampleIdx ? " active" : "");
+      row.innerHTML = `
+        <div style="display:flex; align-items:center; gap:6px; min-width:0; flex:1;">
+          <input type="checkbox" ${s.visible ? "checked" : ""} title="Show in Stack" />
+          <span class="sample-swatch" style="background:${s.color}"></span>
+          <span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${s.name}</span>
+        </div>
+        <span class="mono" style="font-size:10.5px; color:var(--muted);">${s.calPct}/${s.araPct}%</span>
+      `;
+      const chk = row.querySelector("input");
+      chk.onclick = e => {
+        e.stopPropagation();
+        s.visible = chk.checked;
+        renderChart();
+      };
+      row.onclick = () => {
+        activeSampleIdx = idx;
+        selectedPeakIdx = -1;
+        syncActiveSampleUI();
+      };
+      list.appendChild(row);
+    });
+  }
+
+  function renderRankList(sample) {
     const dict = I18N[lang];
     const box = document.getElementById("rankList");
     box.innerHTML = "";
-    const top4 = rankedPhases.slice(0, 4);
+    const top4 = sample.ranked.slice(0, 4);
     if (top4.length) {
       const m1 = top4[0].min;
       document.getElementById("kpiTopPhase").textContent =
@@ -1265,16 +1409,16 @@
       btn.onclick = () => {
         min.active = !min.active;
         renderDbPills();
-        updateAnalysis();
+        reprocessAllSamples(false);
       };
       wrap.appendChild(btn);
     });
   }
 
-  function renderPeakTable() {
+  function renderPeakTable(sample) {
     const tbody = document.getElementById("peakTableBody");
     tbody.innerHTML = "";
-    const sorted = [...detectedPeaks].sort((a, b) => b.net - a.net);
+    const sorted = [...sample.peaks].sort((a, b) => b.area - a.area);
     sorted.forEach((p, idx) => {
       const tr = document.createElement("tr");
       if (p.idx === selectedPeakIdx) tr.className = "selected";
@@ -1284,147 +1428,322 @@
         <td>${p.corr2T.toFixed(3)}</td>
         <td>${p.d.toFixed(4)}</td>
         <td>${p.net.toFixed(1)}</td>
-        <td>${p.rel.toFixed(1)}%</td>
+        <td>${p.area.toFixed(2)}</td>
+        <td>${p.relArea.toFixed(1)}%</td>
         <td style="font-family:var(--sans); font-weight:600;">${p.matchLabel}</td>
         <td>${p.matchDiff !== null ? (p.matchDiff >= 0 ? "+" : "") + p.matchDiff.toFixed(3) + "°" : "—"}</td>
       `;
       tr.onclick = () => {
         selectedPeakIdx = p.idx;
-        renderPeakTable();
+        renderPeakTable(sample);
         renderChart();
       };
       tbody.appendChild(tr);
     });
   }
 
+  function renderBatchTable() {
+    const tbody = document.getElementById("batchTableBody");
+    tbody.innerHTML = "";
+    samples.forEach((s, idx) => {
+      const top = s.ranked[0];
+      const topName = top ? `${lang === "ko" ? top.min.nameKo : top.min.name} (${top.score}%)` : "—";
+      const midShift = s.s0 + s.s1 * Math.cos(15 * Math.PI / 180);
+      const tr = document.createElement("tr");
+      if (idx === activeSampleIdx) tr.className = "selected";
+      tr.innerHTML = `
+        <td>${idx + 1}</td>
+        <td style="font-family:var(--sans); font-weight:600;">${s.name}</td>
+        <td style="font-family:var(--sans);">${topName}</td>
+        <td>${(midShift >= 0 ? "+" : "") + midShift.toFixed(3)}°</td>
+        <td>${s.calArea.toFixed(2)}</td>
+        <td>${s.araArea.toFixed(2)}</td>
+        <td style="color:var(--accent); font-weight:700;">${s.calPct}%</td>
+        <td style="color:var(--blue-ink); font-weight:700;">${s.araPct}%</td>
+      `;
+      tr.onclick = () => {
+        activeSampleIdx = idx;
+        syncActiveSampleUI();
+      };
+      tbody.appendChild(tr);
+    });
+  }
+
+  // Collision-aware smart label layout & Publication-Ready SVG Renderer
   function renderChart() {
     const svg = document.getElementById("xrdSvg");
-    const W = 960, H = 395;
-    const padL = 56, padR = 20, padT = 20, padB = 42;
+    const W = 980, H = 430;
+    const padL = 62, padR = 24, padT = 26, padB = 46;
     const plotW = W - padL - padR;
     const plotH = H - padT - padB;
+
+    const activeSample = samples[activeSampleIdx];
+    if (!activeSample) return;
 
     const showRaw = document.getElementById("chkRaw").checked;
     const showLabels = document.getElementById("chkLabels").checked;
 
-    const bgPlot = "#fffdf8";
-    const bgOuter = "#fbf8f1";
-    const gridStroke = "#efe7d6";
-    const borderStroke = "#bca98e";
-    const axisText = "#6b6154";
-    const rawStroke = "#d6cbb8";
-    const mainStroke = "#292524";
-    const lblText = "#292524";
-
-    let maxY = 10;
-    for (let i = 0; i < rawX.length; i++) {
-      if (rawX[i] >= viewMin && rawX[i] <= viewMax) {
-        if (smoothY[i] > maxY) maxY = smoothY[i];
-        if (showRaw && rawY[i] > maxY) maxY = rawY[i];
-      }
-    }
-    maxY *= 1.12;
+    const gridColor = pubMode ? "#e5e7eb" : "#f1ede3";
+    const frameColor = pubMode ? "#111827" : "#a89f91";
+    const textColor = pubMode ? "#111827" : "#44403c";
 
     const xToPx = x => padL + ((x - viewMin) / Math.max(0.1, viewMax - viewMin)) * plotW;
-    const yToPx = y => padT + plotH - (y / maxY) * plotH;
 
-    let html = `<rect x="0" y="0" width="${W}" height="${H}" fill="${bgOuter}" />`;
-    html += `<rect x="${padL}" y="${padT}" width="${plotW}" height="${plotH}" fill="${bgPlot}" stroke="${borderStroke}" />`;
+    let html = `<rect x="0" y="0" width="${W}" height="${H}" fill="#ffffff" />`;
+    html += `<rect x="${padL}" y="${padT}" width="${plotW}" height="${plotH}" fill="#ffffff" stroke="${frameColor}" stroke-width="1.2" />`;
 
+    // X-axis ticks (Publication inward ticks)
     const span = viewMax - viewMin;
     const tickStep = span <= 10 ? 1 : (span <= 25 ? 2 : 5);
     const firstTick = Math.ceil(viewMin / tickStep) * tickStep;
     for (let t = firstTick; t <= viewMax; t += tickStep) {
       const px = xToPx(t);
-      html += `<line x1="${px}" y1="${padT}" x2="${px}" y2="${padT + plotH}" stroke="${gridStroke}" />`;
-      html += `<text x="${px}" y="${padT + plotH + 16}" font-size="11" fill="${axisText}" text-anchor="middle" font-family="monospace">${t.toFixed(0)}°</text>`;
+      html += `<line x1="${px}" y1="${padT}" x2="${px}" y2="${padT + plotH}" stroke="${gridColor}" stroke-width="0.8" />`;
+      html += `<line x1="${px}" y1="${padT + plotH}" x2="${px}" y2="${padT + plotH - 5}" stroke="${frameColor}" stroke-width="1.1" />`;
+      html += `<text x="${px}" y="${padT + plotH + 17}" font-size="11" fill="${textColor}" text-anchor="middle" font-family="ui-monospace, monospace">${t.toFixed(0)}°</text>`;
     }
-    html += `<text x="${padL + plotW / 2}" y="${H - 6}" font-size="12" font-weight="700" fill="${axisText}" text-anchor="middle" font-family="Georgia, serif">2θ Diffraction Angle (degrees)</text>`;
+    html += `<text x="${padL + plotW / 2}" y="${H - 8}" font-size="12" font-weight="700" fill="${textColor}" text-anchor="middle" font-family="Georgia, serif">Diffraction Angle 2θ (degrees)</text>`;
 
-    for (let k = 0; k <= 4; k++) {
-      const val = (maxY * k) / 4;
-      const py = yToPx(val);
-      html += `<line x1="${padL}" y1="${py}" x2="${padL + plotW}" y2="${py}" stroke="${gridStroke}" />`;
-      html += `<text x="${padL - 6}" y="${py + 4}" font-size="10.5" fill="${axisText}" text-anchor="end" font-family="monospace">${Math.round(val)}</text>`;
-    }
-
+    // Reference mineral sticks aligned to active sample's displacement
     minerals.filter(m => m.active).forEach(min => {
+      const stickCol = pubMode ? "#4b5563" : min.color;
       min.peaks.forEach(([std2T, relI]) => {
-        const obsPos = stdToObs2Theta(std2T);
+        const obsPos = stdToObs2Theta(std2T, activeSample.s0, activeSample.s1);
         if (obsPos < viewMin || obsPos > viewMax) return;
         const px = xToPx(obsPos);
-        const stickH = (relI / 100) * (plotH * 0.55);
+        const stickH = (relI / 100) * (plotH * 0.42);
         const yBot = padT + plotH;
         const yTop = yBot - stickH;
-        html += `<line x1="${px}" y1="${yBot}" x2="${px}" y2="${yTop}" stroke="${min.color}" stroke-width="2.1" opacity="0.88" />`;
-        html += `<circle cx="${px}" cy="${yTop}" r="2.6" fill="${min.color}" />`;
+        html += `<line x1="${px}" y1="${yBot}" x2="${px}" y2="${yTop}" stroke="${stickCol}" stroke-width="1.8" opacity="0.82" />`;
+        html += `<circle cx="${px}" cy="${yTop}" r="2.2" fill="${stickCol}" />`;
       });
     });
 
-    const inViewIdx = [];
-    for (let i = 0; i < rawX.length; i++) {
-      if (rawX[i] >= viewMin && rawX[i] <= viewMax) inViewIdx.push(i);
-    }
-    const stride = Math.max(1, Math.floor(inViewIdx.length / 1800));
+    const visibleSamples = viewMode === "stack"
+      ? samples.filter(s => s.visible)
+      : [activeSample];
 
-    if (showRaw && inViewIdx.length) {
-      let pts = "";
-      for (let k = 0; k < inViewIdx.length; k += stride) {
-        const i = inViewIdx[k];
-        pts += `${xToPx(rawX[i]).toFixed(1)},${yToPx(rawY[i]).toFixed(1)} `;
-      }
-      html += `<polyline fill="none" stroke="${rawStroke}" stroke-width="1" points="${pts}" />`;
-    }
+    const stackCount = Math.max(1, visibleSamples.length);
+    const bandH = (plotH * 0.86) / stackCount;
 
-    if (inViewIdx.length) {
-      let ptsS = "", ptsB = "";
-      for (let k = 0; k < inViewIdx.length; k += stride) {
-        const i = inViewIdx[k];
-        ptsS += `${xToPx(rawX[i]).toFixed(1)},${yToPx(smoothY[i]).toFixed(1)} `;
-        ptsB += `${xToPx(rawX[i]).toFixed(1)},${yToPx(baseY[i]).toFixed(1)} `;
-      }
-      if (document.getElementById("chkBaseline").checked) {
-        html += `<polyline fill="none" stroke="#b45309" stroke-width="1.1" stroke-dasharray="4,3" points="${ptsB}" />`;
-      }
-      html += `<polyline fill="none" stroke="${mainStroke}" stroke-width="1.6" points="${ptsS}" />`;
-    }
+    visibleSamples.forEach((samp, sIdx) => {
+      // Top-down stacking order (index 0 at top, last at bottom)
+      const yBasePx = padT + plotH - 12 - (stackCount - 1 - sIdx) * bandH;
+      const traceArr = document.getElementById("chkBaseline").checked ? samp.netY : samp.smoothY;
 
-    detectedPeaks.forEach(p => {
-      if (p.obs2T < viewMin || p.obs2T > viewMax) return;
-      const px = xToPx(p.obs2T);
-      const py = yToPx(p.raw);
-      const isSel = p.idx === selectedPeakIdx;
-      if (isSel) {
-        html += `<line x1="${px}" y1="${padT}" x2="${px}" y2="${padT + plotH}" stroke="#9a3412" stroke-width="1.3" stroke-dasharray="3,3" />`;
+      let localMax = 10;
+      const inViewIdx = [];
+      for (let i = 0; i < samp.rawX.length; i++) {
+        if (samp.rawX[i] >= viewMin && samp.rawX[i] <= viewMax) {
+          inViewIdx.push(i);
+          if (traceArr[i] > localMax) localMax = traceArr[i];
+        }
       }
-      html += `<circle cx="${px}" cy="${py}" r="${isSel ? 4.5 : 2.9}" fill="${isSel ? '#9a3412' : '#1b5e4a'}" />`;
-      if (showLabels && (p.rel >= 12 || isSel)) {
-        html += `<text x="${px}" y="${Math.max(padT + 11, py - 7)}" font-size="10" font-weight="700" fill="${isSel ? '#9a3412' : lblText}" text-anchor="middle" font-family="monospace">${p.corr2T.toFixed(2)}°</text>`;
+      const stride = Math.max(1, Math.floor(inViewIdx.length / 1800));
+      const scaleY = (bandH * 0.85) / localMax;
+
+      if (showRaw && inViewIdx.length && viewMode === "single") {
+        let ptsR = "";
+        for (let k = 0; k < inViewIdx.length; k += stride) {
+          const i = inViewIdx[k];
+          const py = yBasePx - Math.max(0, samp.rawY[i] - (document.getElementById("chkBaseline").checked ? samp.baseY[i] : 0)) * scaleY;
+          ptsR += `${xToPx(samp.rawX[i]).toFixed(1)},${py.toFixed(1)} `;
+        }
+        html += `<polyline fill="none" stroke="#d1d5db" stroke-width="0.9" points="${ptsR}" />`;
+      }
+
+      if (inViewIdx.length) {
+        let pts = "";
+        for (let k = 0; k < inViewIdx.length; k += stride) {
+          const i = inViewIdx[k];
+          const py = yBasePx - traceArr[i] * scaleY;
+          pts += `${xToPx(samp.rawX[i]).toFixed(1)},${py.toFixed(1)} `;
+        }
+        const isCurrent = samp.id === activeSample.id;
+        const strokeCol = pubMode ? "#111827" : samp.color;
+        const strokeW = isCurrent ? "1.7" : "1.2";
+        const dash = (pubMode && !isCurrent) ? (sIdx % 2 === 1 ? "5,3" : "2,2") : "none";
+        html += `<polyline fill="none" stroke="${strokeCol}" stroke-width="${strokeW}" stroke-dasharray="${dash}" points="${pts}" />`;
+      }
+
+      // Sample label tag on right side of trace
+      if (viewMode === "stack") {
+        html += `<text x="${padL + plotW - 8}" y="${yBasePx - 6}" font-size="10.5" font-weight="700" fill="${pubMode ? '#111827' : samp.color}" text-anchor="end" font-family="ui-monospace, monospace">${samp.name} (Cal ${samp.calPct}%)</text>`;
+      }
+
+      // Smart collision-avoidance peak labels for active sample
+      if (samp.id === activeSample.id) {
+        const placedBoxes = [];
+        const candidatePeaks = samp.peaks
+          .filter(p => p.obs2T >= viewMin && p.obs2T <= viewMax && (p.rel >= 10 || p.idx === selectedPeakIdx))
+          .sort((a, b) => b.net - a.net);
+
+        candidatePeaks.forEach(p => {
+          const px = xToPx(p.obs2T);
+          const val = document.getElementById("chkBaseline").checked ? p.net : p.raw;
+          const py = yBasePx - val * scaleY;
+          const isSel = p.idx === selectedPeakIdx;
+
+          if (isSel) {
+            html += `<line x1="${px}" y1="${padT}" x2="${px}" y2="${padT + plotH}" stroke="#9a3412" stroke-width="1.2" stroke-dasharray="3,3" />`;
+          }
+          html += `<circle cx="${px}" cy="${py}" r="${isSel ? 4.2 : 2.5}" fill="${isSel ? '#9a3412' : (pubMode ? '#111827' : samp.color)}" />`;
+
+          if (showLabels) {
+            const labelStr = `${p.corr2T.toFixed(2)}°`;
+            const boxW = labelStr.length * 6.2;
+            const boxH = 12;
+            let lblY = Math.max(padT + 12, py - 7);
+
+            // Collision avoidance: nudge upward if overlapping an already placed label
+            for (let attempt = 0; attempt < 5; attempt++) {
+              const overlap = placedBoxes.some(b =>
+                Math.abs(b.x - px) < (b.w + boxW) * 0.52 && Math.abs(b.y - lblY) < boxH
+              );
+              if (!overlap) break;
+              lblY = Math.max(padT + 12, lblY - 13);
+            }
+            placedBoxes.push({ x: px, y: lblY, w: boxW });
+
+            if (py - lblY > 14) {
+              html += `<line x1="${px}" y1="${py - 3}" x2="${px}" y2="${lblY + 2}" stroke="#9ca3af" stroke-width="0.7" />`;
+            }
+            html += `<text x="${px}" y="${lblY}" font-size="9.5" font-weight="700" fill="${isSel ? '#9a3412' : textColor}" text-anchor="middle" font-family="ui-monospace, monospace">${labelStr}</text>`;
+          }
+        });
       }
     });
 
-    html += `<rect id="zoomRect" x="0" y="${padT}" width="0" height="${plotH}" fill="rgba(27,94,74,0.14)" stroke="#1b5e4a" stroke-dasharray="3,2" visibility="hidden" />`;
-    html += `<line id="crossX" x1="0" y1="${padT}" x2="0" y2="${padT + plotH}" stroke="#8c7a63" stroke-width="0.9" stroke-dasharray="2,2" visibility="hidden" />`;
+    // Y-axis title
+    html += `<text x="18" y="${padT + plotH / 2}" font-size="12" font-weight="700" fill="${textColor}" text-anchor="middle" font-family="Georgia, serif" transform="rotate(-90 18 ${padT + plotH / 2})">Normalized Intensity (a.u.)</text>`;
+
+    html += `<rect id="zoomRect" x="0" y="${padT}" width="0" height="${plotH}" fill="rgba(27,77,62,0.14)" stroke="#1b4d3e" stroke-dasharray="3,2" visibility="hidden" />`;
+    html += `<line id="crossX" x1="0" y1="${padT}" x2="0" y2="${padT + plotH}" stroke="#78716c" stroke-width="0.9" stroke-dasharray="2,2" visibility="hidden" />`;
 
     svg.innerHTML = html;
   }
 
-  function handleFile(file) {
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = e => {
-      const text = e.target.result;
-      document.getElementById("kpiFileName").textContent = file.name;
-      if (text.trim().startsWith("<") || text.includes("<xrdMeasurements")) {
-        parseXrdml(text);
-      } else {
-        parseDelimited(text);
+  // Synthetic Spectrum Generator
+  function buildSyntheticSample(id, name, color, peaks, shiftDeg) {
+    const n = 2200, minT = 15, maxT = 65;
+    const x = [], y = [];
+    for (let i = 0; i < n; i++) {
+      const t = minT + (maxT - minT) * (i / (n - 1));
+      let val = 50 + 110 * Math.exp(-Math.pow((t - 23.5) / 6.5, 2));
+      for (const [pos, amp] of peaks) {
+        val += amp * Math.exp(-Math.pow((t - (pos + shiftDeg)) / 0.14, 2));
       }
+      val += ((Math.sin(i * 12.9898 + shiftDeg * 100) * 43758.5453) % 1) * 7;
+      x.push(t);
+      y.push(Math.max(10, val));
+    }
+    return {
+      id, name, color, visible: true,
+      rawX: x, rawY: y, smoothY: [], baseY: [], netY: [],
+      s0: 0, s1: 0, peaks: [], ranked: [], calArea: 0, araArea: 0, calPct: 0, araPct: 0
     };
-    reader.readAsText(file);
   }
 
-  function parseXrdml(xmlText) {
+  function loadDemoPreset(mode) {
+    samples = [];
+    activeSampleIdx = 0;
+    selectedPeakIdx = -1;
+
+    if (mode === "core_suite") {
+      // 3-depth Speleothem diagenetic transect (Aragonite -> Mix -> Calcite)
+      samples.push(buildSyntheticSample("s1", "Core_05mm_Top (Aragonite)", SAMPLE_COLORS[0], [
+        [26.21, 320], [45.85, 210], [27.22, 165], [33.13, 145], [37.88, 120], [36.12, 105], [48.31, 100]
+      ], 0.22));
+      samples.push(buildSyntheticSample("s2", "Core_42mm_Mid (Transition)", SAMPLE_COLORS[1], [
+        [29.40, 290], [39.40, 52], [43.15, 52], [47.50, 48], [48.51, 48],
+        [26.21, 160], [45.85, 105], [27.22, 82], [33.13, 72]
+      ], 0.15));
+      samples.push(buildSyntheticSample("s3", "Core_88mm_Base (Calcite)", SAMPLE_COLORS[2], [
+        [29.40, 480], [39.40, 86], [43.15, 86], [47.50, 82], [48.51, 82], [35.97, 68], [23.02, 58]
+      ], 0.35));
+      viewMode = "stack";
+    } else if (mode === "aragonite") {
+      samples.push(buildSyntheticSample("s1", "WDS2_170 (Aragonite)", SAMPLE_COLORS[0], [
+        [26.21, 150], [27.22, 60], [33.13, 78], [36.12, 98], [37.88, 70], [38.41, 85], [42.90, 258], [45.85, 407]
+      ], 0.49));
+      viewMode = "single";
+    } else if (mode === "mixture") {
+      samples.push(buildSyntheticSample("s1", "Mix_Cal75_Ara25", SAMPLE_COLORS[1], [
+        [29.40, 360], [39.40, 65], [43.15, 65], [47.50, 60], [48.51, 60],
+        [26.21, 120], [45.85, 78], [27.22, 62], [33.13, 55]
+      ], 0.15));
+      viewMode = "single";
+    } else {
+      samples.push(buildSyntheticSample("s1", "Speleothem_Calcite", SAMPLE_COLORS[2], [
+        [29.40, 480], [39.40, 86], [43.15, 86], [47.50, 82], [48.51, 82], [35.97, 68], [23.02, 58]
+      ], 0.35));
+      viewMode = "single";
+    }
+
+    document.querySelectorAll("#viewModeGroup button").forEach(b => {
+      b.classList.toggle("active", b.dataset.mode === viewMode);
+    });
+
+    fullMin = 15; fullMax = 65; viewMin = 15; viewMax = 65;
+    document.getElementById("inpMin2T").value = viewMin;
+    document.getElementById("inpMax2T").value = viewMax;
+    reprocessAllSamples(true);
+  }
+
+  // Multi-file loader (.xrdml or 2-col CSV/TXT/XY)
+  function handleFiles(fileList) {
+    if (!fileList || !fileList.length) return;
+    const files = Array.from(fileList);
+    let loaded = 0;
+
+    files.forEach(file => {
+      const reader = new FileReader();
+      reader.onload = e => {
+        const text = e.target.result;
+        let parsed = null;
+        if (text.trim().startsWith("<") || text.includes("<xrdMeasurements")) {
+          parsed = parseXrdmlText(text);
+        } else {
+          parsed = parseDelimitedText(text);
+        }
+        if (parsed && parsed.x.length > 10) {
+          const color = SAMPLE_COLORS[samples.length % SAMPLE_COLORS.length];
+          const newSample = {
+            id: "samp_" + Date.now() + "_" + Math.random().toString(36).slice(2, 6),
+            name: file.name,
+            color,
+            visible: true,
+            rawX: parsed.x,
+            rawY: parsed.y,
+            smoothY: [], baseY: [], netY: [],
+            s0: 0, s1: 0, peaks: [], ranked: [], calArea: 0, araArea: 0, calPct: 0, araPct: 0
+          };
+          analyzeSample(newSample, true);
+          samples.push(newSample);
+          activeSampleIdx = samples.length - 1;
+        }
+        loaded++;
+        if (loaded === files.length && samples.length) {
+          fullMin = Math.floor(Math.min(...samples.map(s => s.rawX[0])));
+          fullMax = Math.ceil(Math.max(...samples.map(s => s.rawX[s.rawX.length - 1])));
+          viewMin = fullMin;
+          viewMax = fullMax;
+          document.getElementById("inpMin2T").value = viewMin;
+          document.getElementById("inpMax2T").value = viewMax;
+          if (samples.length > 1) {
+            viewMode = "stack";
+            document.querySelectorAll("#viewModeGroup button").forEach(b => {
+              b.classList.toggle("active", b.dataset.mode === "stack");
+            });
+          }
+          syncActiveSampleUI();
+        }
+      };
+      reader.readAsText(file);
+    });
+  }
+
+  function parseXrdmlText(xmlText) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(xmlText, "text/xml");
     const kAlpha1Node = doc.getElementsByTagName("kAlpha1")[0];
@@ -1447,13 +1766,13 @@
       }
     }
     const countsNode = doc.getElementsByTagName("counts")[0] || doc.getElementsByTagName("intensities")[0];
+    if (!countsNode) return null;
     const yVals = countsNode.textContent.trim().split(/\s+/).map(Number).filter(v => !isNaN(v));
     const xVals = yVals.map((_, idx) => startPos + (endPos - startPos) * (idx / Math.max(1, yVals.length - 1)));
-    setSpectrumData(xVals, yVals);
-    runAutoFit();
+    return { x: xVals, y: yVals };
   }
 
-  function parseDelimited(text) {
+  function parseDelimitedText(text) {
     const lines = text.split(/\r?\n/);
     const x = [], y = [];
     for (const line of lines) {
@@ -1466,40 +1785,86 @@
         }
       }
     }
-    if (x.length > 10) {
-      setSpectrumData(x, y);
-      runAutoFit();
-    } else {
-      alert(lang === "ko" ? "유효한 2θ / Intensity 열 데이터를 찾지 못했습니다." : "Could not find valid 2θ / Intensity columns.");
-    }
+    return { x, y };
   }
 
+  function applyLanguage() {
+    const dict = I18N[lang];
+    document.documentElement.lang = lang;
+    document.getElementById("btnLang").textContent = dict.langBtn;
+    document.getElementById("btnPubMode").textContent = pubMode ? dict.pubModeBtnActive : dict.pubModeBtn;
+
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+      const key = el.getAttribute("data-i18n");
+      if (key === "pubModeBtn") return;
+      if (dict[key]) el.textContent = dict[key];
+    });
+    document.querySelectorAll("[data-i18n-ph]").forEach(el => {
+      const key = el.getAttribute("data-i18n-ph");
+      if (dict[key]) el.setAttribute("placeholder", dict[key]);
+    });
+
+    renderDbPills();
+    reprocessAllSamples(false);
+  }
+
+  // Event listeners
   const dropzone = document.getElementById("dropzone");
   const fileInput = document.getElementById("fileInput");
   dropzone.onclick = () => fileInput.click();
-  fileInput.onchange = e => handleFile(e.target.files[0]);
+  fileInput.onchange = e => { handleFiles(e.target.files); fileInput.value = ""; };
   dropzone.ondragover = e => { e.preventDefault(); dropzone.classList.add("dragover"); };
   dropzone.ondragleave = () => dropzone.classList.remove("dragover");
   dropzone.ondrop = e => {
     e.preventDefault();
     dropzone.classList.remove("dragover");
-    handleFile(e.dataTransfer.files[0]);
+    handleFiles(e.dataTransfer.files);
   };
 
-  document.getElementById("demoSelect").onchange = e => loadDemo(e.target.value);
-  document.getElementById("btnAutoFit").onclick = runAutoFit;
-  document.getElementById("sliderS0").oninput = e => { s0 = parseFloat(e.target.value); syncShiftLabels(); updateAnalysis(); };
-  document.getElementById("sliderS1").oninput = e => { s1 = parseFloat(e.target.value); syncShiftLabels(); updateAnalysis(); };
+  document.getElementById("btnClearSamples").onclick = () => {
+    samples = [];
+    document.getElementById("sampleList").innerHTML = "";
+    document.getElementById("peakTableBody").innerHTML = "";
+    document.getElementById("batchTableBody").innerHTML = "";
+    document.getElementById("xrdSvg").innerHTML = "";
+    document.getElementById("kpiFileName").textContent = "—";
+  };
+
+  document.getElementById("demoSelect").onchange = e => loadDemoPreset(e.target.value);
+
+  document.getElementById("btnAutoFit").onclick = () => {
+    const s = samples[activeSampleIdx];
+    if (!s) return;
+    analyzeSample(s, true);
+    syncActiveSampleUI();
+  };
+
+  document.getElementById("sliderS0").oninput = e => {
+    const s = samples[activeSampleIdx];
+    if (!s) return;
+    s.s0 = parseFloat(e.target.value);
+    analyzeSample(s, false);
+    syncActiveSampleUI();
+  };
+
+  document.getElementById("sliderS1").oninput = e => {
+    const s = samples[activeSampleIdx];
+    if (!s) return;
+    s.s1 = parseFloat(e.target.value);
+    analyzeSample(s, false);
+    syncActiveSampleUI();
+  };
+
   document.getElementById("sliderProm").oninput = e => {
     document.getElementById("lblProm").textContent = parseFloat(e.target.value).toFixed(1) + "%";
-    updateAnalysis();
+    reprocessAllSamples(false);
   };
   document.getElementById("sliderSmooth").oninput = e => {
     document.getElementById("lblSmooth").textContent = e.target.value + " pts";
-    updateAnalysis();
+    reprocessAllSamples(false);
   };
-  ["chkBaseline", "chkRaw", "chkLabels", "wavelengthSelect"].forEach(id => {
-    document.getElementById(id).onchange = updateAnalysis;
+  ["chkBaseline", "chkRaw", "chkLabels", "wavelengthSelect", "inpRirFactor"].forEach(id => {
+    document.getElementById(id).onchange = () => reprocessAllSamples(false);
   });
 
   document.getElementById("btnToggleAll").onclick = () => {
@@ -1508,6 +1873,25 @@
     renderDbPills();
     renderChart();
   };
+
+  document.querySelectorAll("#viewModeGroup button").forEach(btn => {
+    btn.onclick = () => {
+      viewMode = btn.dataset.mode;
+      document.querySelectorAll("#viewModeGroup button").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      renderChart();
+    };
+  });
+
+  document.querySelectorAll(".sub-tab-btn").forEach(btn => {
+    btn.onclick = () => {
+      document.querySelectorAll(".sub-tab-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      const target = btn.dataset.subtab;
+      document.getElementById("panePeaks").style.display = target === "panePeaks" ? "block" : "none";
+      document.getElementById("paneBatch").style.display = target === "paneBatch" ? "block" : "none";
+    };
+  });
 
   document.getElementById("btnApplyRange").onclick = () => {
     const a = parseFloat(document.getElementById("inpMin2T").value);
@@ -1524,19 +1908,29 @@
     renderChart();
   };
 
+  document.getElementById("btnPubMode").onclick = () => {
+    pubMode = !pubMode;
+    const dict = I18N[lang];
+    document.getElementById("btnPubMode").textContent = pubMode ? dict.pubModeBtnActive : dict.pubModeBtn;
+    renderChart();
+  };
+
+  // Interactive SVG zoom & readout
   const svgEl = document.getElementById("xrdSvg");
   let dragStartPx = null;
   svgEl.onmousedown = e => {
     const rect = svgEl.getBoundingClientRect();
-    dragStartPx = ((e.clientX - rect.left) / rect.width) * 960;
+    dragStartPx = ((e.clientX - rect.left) / rect.width) * 980;
   };
   svgEl.onmousemove = e => {
+    const s = samples[activeSampleIdx];
+    if (!s) return;
     const rect = svgEl.getBoundingClientRect();
-    const px = ((e.clientX - rect.left) / rect.width) * 960;
-    const padL = 56, plotW = 884;
+    const px = ((e.clientX - rect.left) / rect.width) * 980;
+    const padL = 62, plotW = 894;
     if (px >= padL && px <= padL + plotW) {
       const t = viewMin + ((px - padL) / plotW) * (viewMax - viewMin);
-      const corrT = corr2Theta(t);
+      const corrT = corr2Theta(t, s.s0, s.s1);
       const wl = parseFloat(document.getElementById("wavelengthSelect").value);
       const d = wl / (2 * Math.sin((corrT / 2) * Math.PI / 180));
       document.getElementById("cursorReadout").textContent =
@@ -1556,8 +1950,8 @@
   svgEl.onmouseup = e => {
     if (dragStartPx === null) return;
     const rect = svgEl.getBoundingClientRect();
-    const px = ((e.clientX - rect.left) / rect.width) * 960;
-    const padL = 56, plotW = 884;
+    const px = ((e.clientX - rect.left) / rect.width) * 980;
+    const padL = 62, plotW = 894;
     if (Math.abs(px - dragStartPx) > 12) {
       const x1 = Math.max(padL, Math.min(dragStartPx, px));
       const x2 = Math.min(padL + plotW, Math.max(dragStartPx, px));
@@ -1577,15 +1971,24 @@
   };
   svgEl.ondblclick = () => document.getElementById("btnResetZoom").click();
 
+  // Export CSV (exports Batch Summary if multiple samples loaded, plus active peak list)
   document.getElementById("btnExportCsv").onclick = () => {
-    let csv = "Obs_2Theta,Corr_2Theta,d_Spacing_A,Net_Intensity,Rel_Intensity_Pct,Matched_Phase,Delta_2Theta\n";
-    detectedPeaks.forEach(p => {
-      csv += `${p.obs2T.toFixed(4)},${p.corr2T.toFixed(4)},${p.d.toFixed(5)},${p.net.toFixed(2)},${p.rel.toFixed(2)},"${p.matchLabel}",${p.matchDiff !== null ? p.matchDiff.toFixed(4) : ""}\n`;
+    const s = samples[activeSampleIdx];
+    if (!s) return;
+    let csv = "# BATCH SUMMARY\nSample,Primary_Match,Score_Pct,Shift_deg,Calcite_104_Area,Aragonite_Area,Calcite_Pct,Aragonite_Pct\n";
+    samples.forEach(item => {
+      const top = item.ranked[0];
+      const sh = item.s0 + item.s1 * Math.cos(15 * Math.PI / 180);
+      csv += `"${item.name}","${top ? top.min.name : ''}",${top ? top.score : 0},${sh.toFixed(4)},${item.calArea.toFixed(3)},${item.araArea.toFixed(3)},${item.calPct},${item.araPct}\n`;
+    });
+    csv += `\n# ACTIVE SAMPLE PEAKS: ${s.name}\nObs_2Theta,Corr_2Theta,d_Spacing_A,Net_Height,Integrated_Area,Rel_Area_Pct,Matched_Phase,Delta_2Theta\n`;
+    s.peaks.forEach(p => {
+      csv += `${p.obs2T.toFixed(4)},${p.corr2T.toFixed(4)},${p.d.toFixed(5)},${p.net.toFixed(2)},${p.area.toFixed(3)},${p.relArea.toFixed(2)},"${p.matchLabel}",${p.matchDiff !== null ? p.matchDiff.toFixed(4) : ""}\n`;
     });
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = "IsoXRD_Peaks.csv";
+    a.download = "IsoXRD_v3_Analysis.csv";
     a.click();
   };
 
@@ -1594,7 +1997,7 @@
     const blob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8;" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = "IsoXRD_Spectrum.svg";
+    a.download = "IsoXRD_Publication_Figure.svg";
     a.click();
   };
 
@@ -1603,6 +2006,7 @@
     applyLanguage();
   };
 
+  // Custom DB Modal
   const modal = document.getElementById("dbModalBackdrop");
   document.getElementById("btnOpenDbModal").onclick = () => { modal.classList.add("open"); renderCustomDbList(); };
   document.getElementById("btnCloseDbModal").onclick = () => modal.classList.remove("open");
@@ -1620,7 +2024,7 @@
     safeSet("isoxrd_custom_minerals_v2", JSON.stringify(customOnly));
     renderDbPills();
     renderCustomDbList();
-    updateAnalysis();
+    reprocessAllSamples(false);
   }
 
   function renderCustomDbList() {
@@ -1671,11 +2075,12 @@
   };
 
   document.getElementById("btnCaptureSpectrum").onclick = () => {
+    const s = samples[activeSampleIdx];
     const name = document.getElementById("capMinName").value.trim();
-    if (!name || !detectedPeaks.length) {
+    if (!name || !s || !s.peaks.length) {
       return alert(lang === "ko" ? "광물 영문명을 입력해 주세요." : "Please enter an English mineral name.");
     }
-    const top12 = [...detectedPeaks].sort((a, b) => b.net - a.net).slice(0, 12)
+    const top12 = [...s.peaks].sort((a, b) => b.net - a.net).slice(0, 12)
       .map(p => [Math.round(p.corr2T * 100) / 100, Math.round(p.rel), Math.round(p.d * 1000) / 1000, ""]);
     mergeMinerals([{
       id: name.toLowerCase().replace(/[^a-z0-9]/g, "_"),
@@ -1718,8 +2123,9 @@
 
   document.getElementById("btnReloadRemotePreset").onclick = loadExternalPresetJson;
 
+  // Boot with 3-sample Speleothem Core Suite
   renderDbPills();
-  loadDemo("aragonite");
+  loadDemoPreset("core_suite");
   loadExternalPresetJson();
 })();
 </script>
