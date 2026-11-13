@@ -3,17 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IsoXRD v2.4.1 — XRD Phase Identification & Carbonate Analysis</title>
+  <title>IsoXRD v2.5 — Crystallographic Phase & Carbonate Analyzer</title>
   <style>
     :root {
-      --bg: #f8fafc;
+      --bg: #f1f5f9;
       --surface: #ffffff;
-      --border: #e2e8f0;
+      --header-bg: #0f172a;
+      --header-border: #1e293b;
+      --border: #dce3ec;
       --text: #0f172a;
       --muted: #64748b;
-      --primary: #2563eb;
-      --primary-hover: #1d4ed8;
-      --primary-soft: #eff6ff;
+      --primary: #0f766e;
+      --primary-hover: #115e59;
+      --primary-soft: #f0fdfa;
+      --primary-border: #99f6e4;
+      --accent: #0284c7;
       --success: #059669;
       --warning: #d97706;
       --danger: #dc2626;
@@ -28,10 +32,13 @@
       font-size: 13px;
       line-height: 1.45;
     }
+
+    /* Dark Instrument Command Header */
     header {
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      padding: 10px 20px;
+      background: var(--header-bg);
+      border-bottom: 2px solid var(--primary);
+      color: #f8fafc;
+      padding: 11px 22px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -40,28 +47,57 @@
       position: sticky;
       top: 0;
       z-index: 30;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.18);
     }
-    .brand { display: flex; align-items: center; gap: 10px; }
-    .brand-logo {
-      background: var(--primary);
-      color: #fff;
-      font-weight: 700;
+    .brand { display: flex; align-items: center; gap: 11px; }
+    .brand-mark {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, #0d9488, #0f766e);
+      color: #ffffff;
+      font-weight: 800;
       font-size: 14px;
-      padding: 5px 10px;
-      border-radius: 6px;
-      letter-spacing: -0.02em;
+      padding: 5px 11px;
+      border-radius: 7px;
+      letter-spacing: 0.01em;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.25);
     }
-    .brand-title { font-weight: 700; font-size: 15px; }
+    .brand-title { font-weight: 700; font-size: 15px; color: #f8fafc; letter-spacing: -0.01em; }
+    .brand-sub { font-size: 11px; color: #94a3b8; display: block; }
     .badge {
-      background: var(--primary-soft);
-      color: var(--primary);
-      border: 1px solid #bfdbfe;
+      background: rgba(20, 184, 166, 0.16);
+      color: #5eead4;
+      border: 1px solid rgba(94, 234, 212, 0.35);
       font-size: 11px;
       font-weight: 600;
-      padding: 2px 7px;
+      padding: 2px 8px;
       border-radius: 999px;
+      font-family: var(--mono);
     }
+
     .header-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    header select {
+      background: #1e293b;
+      color: #f1f5f9;
+      border: 1px solid #334155;
+      border-radius: 6px;
+      padding: 5px 9px;
+      font-size: 12px;
+    }
+    header button {
+      background: #1e293b;
+      color: #e2e8f0;
+      border: 1px solid #334155;
+    }
+    header button:hover { background: #334155; color: #fff; }
+    header button.btn-primary {
+      background: #0d9488;
+      border-color: #0d9488;
+      color: #fff;
+    }
+    header button.btn-primary:hover { background: #0f766e; }
+
     select, input[type="number"], input[type="text"], textarea {
       border: 1px solid var(--border);
       border-radius: 6px;
@@ -91,33 +127,39 @@
     button.btn-primary:hover { background: var(--primary-hover); }
     button.btn-sm { padding: 3px 8px; font-size: 11px; }
 
+    /* Telemetry KPI Cards with Top Accent Line */
     .kpi-strip {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-      gap: 10px;
-      padding: 12px 20px 0;
+      grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
+      gap: 12px;
+      padding: 14px 22px 0;
     }
     .kpi-card {
       background: var(--surface);
       border: 1px solid var(--border);
+      border-top: 3px solid #cbd5e1;
       border-radius: 8px;
       padding: 10px 14px;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
     }
-    .kpi-label { font-size: 11px; color: var(--muted); font-weight: 600; }
+    .kpi-card.accent-teal { border-top-color: var(--primary); }
+    .kpi-card.accent-blue { border-top-color: var(--accent); }
+    .kpi-card.accent-amber { border-top-color: var(--warning); }
+    .kpi-label { font-size: 11px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.02em; }
     .kpi-val {
       font-family: var(--mono);
       font-size: 16px;
       font-weight: 700;
-      margin-top: 2px;
+      margin-top: 3px;
       font-variant-numeric: tabular-nums;
     }
     .kpi-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
 
     .workspace {
       display: grid;
-      grid-template-columns: 340px 1fr;
+      grid-template-columns: 345px 1fr;
       gap: 14px;
-      padding: 12px 20px 24px;
+      padding: 14px 22px 26px;
     }
     @media (max-width: 960px) {
       .workspace { grid-template-columns: 1fr; }
@@ -127,17 +169,18 @@
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 10px;
-      padding: 12px 14px;
+      padding: 13px 15px;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
     }
     .card-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
       margin-bottom: 10px;
-      padding-bottom: 6px;
+      padding-bottom: 7px;
       border-bottom: 1px solid #f1f5f9;
     }
-    .card-title { font-weight: 700; font-size: 13px; }
+    .card-title { font-weight: 700; font-size: 13px; color: #0f172a; }
 
     .dropzone {
       border: 1.5px dashed #94a3b8;
@@ -172,28 +215,29 @@
     input[type="range"] { width: 100%; accent-color: var(--primary); }
 
     .ratio-bar {
-      height: 10px;
+      height: 11px;
       border-radius: 999px;
       background: #e2e8f0;
       overflow: hidden;
       display: flex;
       margin: 8px 0 6px;
     }
-    .ratio-cal { background: #dc2626; transition: width 0.25s; }
-    .ratio-ara { background: #2563eb; transition: width 0.25s; }
+    .ratio-cal { background: #e11d48; transition: width 0.25s; }
+    .ratio-ara { background: #0284c7; transition: width 0.25s; }
 
     .rank-list { display: flex; flex-direction: column; gap: 6px; }
     .rank-item {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 6px 8px;
-      border-radius: 6px;
+      padding: 6px 9px;
+      border-radius: 7px;
       border: 1px solid var(--border);
       background: #f8fafc;
       cursor: pointer;
+      transition: 0.12s;
     }
-    .rank-item:hover { border-color: var(--primary); }
+    .rank-item:hover { border-color: var(--primary); background: var(--primary-soft); }
     .rank-dot {
       width: 9px; height: 9px; border-radius: 50%; display: inline-block; margin-right: 6px;
     }
@@ -202,8 +246,8 @@
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
-      margin-top: 8px;
-      max-height: 170px;
+      margin-top: 9px;
+      max-height: 175px;
       overflow-y: auto;
       padding-right: 2px;
     }
@@ -219,6 +263,7 @@
       font-weight: 600;
       cursor: pointer;
       user-select: none;
+      transition: 0.12s;
     }
     .db-pill.active {
       border-color: var(--primary);
@@ -237,7 +282,7 @@
     }
     #svgChartWrapper {
       width: 100%;
-      height: 390px;
+      height: 395px;
       min-height: 320px;
       border: 1px solid var(--border);
       border-radius: 8px;
@@ -251,7 +296,7 @@
       justify-content: space-between;
       font-size: 11px;
       color: var(--muted);
-      margin-top: 6px;
+      margin-top: 7px;
       flex-wrap: wrap;
       gap: 6px;
     }
@@ -280,12 +325,12 @@
       font-variant-numeric: tabular-nums;
     }
     tr:hover td { background: #f8fafc; cursor: pointer; }
-    tr.selected td { background: #eff6ff; }
+    tr.selected td { background: var(--primary-soft); }
 
     /* Modal */
     .modal-backdrop {
       position: fixed; inset: 0;
-      background: rgba(15, 23, 42, 0.45);
+      background: rgba(15, 23, 42, 0.5);
       display: none;
       align-items: center;
       justify-content: center;
@@ -301,7 +346,7 @@
       max-height: 88vh;
       overflow-y: auto;
       padding: 18px 20px;
-      box-shadow: 0 20px 25px -5px rgba(0,0,0,0.15);
+      box-shadow: 0 20px 25px -5px rgba(0,0,0,0.18);
     }
     .tabs { display: flex; gap: 6px; border-bottom: 1px solid var(--border); margin: 10px 0 12px; }
     .tab-btn {
@@ -323,9 +368,12 @@
 
 <header>
   <div class="brand">
-    <span class="brand-logo">IsoXRD</span>
-    <span class="brand-title" data-i18n="appTitle">XRD 상동정 & 탄산염 반정량 분석기</span>
-    <span class="badge">v2.4.1</span>
+    <span class="brand-mark">◈ IsoXRD</span>
+    <div>
+      <span class="brand-title" data-i18n="appTitle">XRD 상동정 & 탄산염 반정량 분석기</span>
+      <span class="brand-sub" data-i18n="appSub">Crystallographic Phase Identification & Semi-Quantitative Carbonate Console</span>
+    </div>
+    <span class="badge">v2.5</span>
   </div>
   <div class="header-actions">
     <select id="demoSelect" title="Demo Datasets">
@@ -333,6 +381,7 @@
       <option value="mixture">Demo 2: Calcite-Aragonite Mix (75% / 25%)</option>
       <option value="calcite">Demo 3: Pure Speleothem Calcite (+0.35°)</option>
     </select>
+    <button id="btnChartTheme" data-i18n="chartThemeBtn">다크 차트</button>
     <button id="btnExportCsv" data-i18n="exportCsv">피크표 CSV</button>
     <button id="btnExportSvg" data-i18n="exportSvg">차트 SVG</button>
     <button id="btnLang" class="btn-primary">English</button>
@@ -345,18 +394,18 @@
     <div class="kpi-val" id="kpiFileName">WDS2_170 (Demo)</div>
     <div class="kpi-sub" id="kpiRangeInfo">15.00° – 65.00° (Cu Kα1)</div>
   </div>
-  <div class="kpi-card">
+  <div class="kpi-card accent-teal">
     <div class="kpi-label" data-i18n="kpiPrimary">1순위 판별 광물 (Match)</div>
     <div class="kpi-val" id="kpiTopPhase" style="color:var(--primary)">—</div>
     <div class="kpi-sub" id="kpiSubPhase">2순위: —</div>
   </div>
-  <div class="kpi-card">
+  <div class="kpi-card accent-blue">
     <div class="kpi-label" data-i18n="kpiShift">보정 변위 (Δ2θ = s₀ + s₁cosθ)</div>
     <div class="kpi-val" id="kpiShiftVal">+0.000°</div>
     <div class="kpi-sub" id="kpiShiftDetail">s₀: 0.000° / s₁: 0.000°</div>
   </div>
-  <div class="kpi-card">
-    <div class="kpi-label" data-i18n="kpiPeaks">검출 피크 / 매칭률</div>
+  <div class="kpi-card accent-amber">
+    <div class="kpi-label" data-i18n="kpiPeaks">검출 피크 / DB 현황</div>
     <div class="kpi-val" id="kpiPeakCount">0 peaks</div>
     <div class="kpi-sub" id="kpiDbStatus">DB: 19 minerals loaded</div>
   </div>
@@ -407,8 +456,8 @@
           <div class="ratio-ara" id="barAra" style="width:0%"></div>
         </div>
         <div style="display:flex; justify-content:space-between; font-size:11.5px;" class="mono">
-          <span style="color:#dc2626" id="txtCalPct">Calcite: 0%</span>
-          <span style="color:#2563eb" id="txtAraPct">Aragonite: 0%</span>
+          <span style="color:#e11d48; font-weight:700;" id="txtCalPct">Calcite: 0%</span>
+          <span style="color:#0284c7; font-weight:700;" id="txtAraPct">Aragonite: 0%</span>
         </div>
       </div>
 
@@ -422,7 +471,7 @@
     <div class="card">
       <div class="card-header">
         <span class="card-title" data-i18n="sec3">3. 피크 검출 & 광물 DB</span>
-        <button class="btn-sm" id="btnToggleAll" data-i18n="toggleAll">전체 해제</button>
+        <button class="btn-sm" id="btnToggleAll" data-i18n="toggleAll">전체 토글</button>
       </div>
       <div class="control-row">
         <label data-i18n="lblWavelength">X-선 타겟 파장 (λ):</label>
@@ -479,7 +528,7 @@
       </div>
 
       <div id="svgChartWrapper">
-        <svg id="xrdSvg" viewBox="0 0 960 390" preserveAspectRatio="none"></svg>
+        <svg id="xrdSvg" viewBox="0 0 960 395" preserveAspectRatio="none"></svg>
       </div>
 
       <div class="chart-footer">
@@ -580,10 +629,12 @@
 
 <script>
 (function() {
-  // Bilingual dictionary
   const I18N = {
     ko: {
       appTitle: "XRD 상동정 & 탄산염 반정량 분석기",
+      appSub: "결정학적 상동정 및 탄산염 반정량 분석 워크스페이스",
+      chartThemeBtn: "다크 차트",
+      chartThemeBtnLight: "라이트 차트",
       exportCsv: "피크표 CSV",
       exportSvg: "차트 SVG",
       langBtn: "English",
@@ -648,6 +699,9 @@
     },
     en: {
       appTitle: "XRD Phase Identification & Carbonate Analyzer",
+      appSub: "Crystallographic Phase Identification & Semi-Quantitative Carbonate Console",
+      chartThemeBtn: "Dark Plot",
+      chartThemeBtnLight: "Light Plot",
       exportCsv: "Export CSV",
       exportSvg: "Export SVG",
       langBtn: "한국어",
@@ -712,13 +766,17 @@
     }
   };
 
+  let darkChart = false;
+
   function applyLanguage() {
     const dict = I18N[lang];
     document.documentElement.lang = lang;
     document.getElementById("btnLang").textContent = dict.langBtn;
+    document.getElementById("btnChartTheme").textContent = darkChart ? dict.chartThemeBtnLight : dict.chartThemeBtn;
 
     document.querySelectorAll("[data-i18n]").forEach(el => {
       const key = el.getAttribute("data-i18n");
+      if (key === "chartThemeBtn") return;
       if (dict[key]) el.textContent = dict[key];
     });
     document.querySelectorAll("[data-i18n-ph]").forEach(el => {
@@ -730,7 +788,6 @@
     updateAnalysis();
   }
 
-  // Safe storage wrapper for sandboxed iframes
   const memStore = {};
   function safeGet(k) {
     try { return window.localStorage.getItem(k); } catch (e) { return memStore[k] || null; }
@@ -739,10 +796,9 @@
     try { window.localStorage.setItem(k, v); } catch (e) { memStore[k] = v; }
   }
 
-  // Built-in core minerals (Cu K-alpha1 = 1.540598 A)
   const CORE_MINERALS = [
     {
-      id: "calcite", name: "Calcite", nameKo: "방해석", formula: "CaCO3", color: "#dc2626", active: true,
+      id: "calcite", name: "Calcite", nameKo: "방해석", formula: "CaCO3", color: "#e11d48", active: true,
       peaks: [
         [29.40, 100, 3.035, "(104)"], [39.40, 18, 2.285, "(113)"], [43.15, 18, 2.095, "(202)"],
         [47.50, 17, 1.913, "(018)"], [48.51, 17, 1.875, "(116)"], [35.97, 14, 2.495, "(110)"],
@@ -750,7 +806,7 @@
       ]
     },
     {
-      id: "aragonite", name: "Aragonite", nameKo: "아라고나이트", formula: "CaCO3", color: "#2563eb", active: true,
+      id: "aragonite", name: "Aragonite", nameKo: "아라고나이트", formula: "CaCO3", color: "#0284c7", active: true,
       peaks: [
         [26.21, 100, 3.396, "(111)"], [45.85, 65, 1.977, "(221)"], [27.22, 52, 3.273, "(021)"],
         [33.13, 46, 2.702, "(012)"], [37.88, 38, 2.373, "(112)"], [36.12, 33, 2.484, "(200)"],
@@ -796,7 +852,6 @@
     }
   ];
 
-  // Embedded fallback copy of presets/lab_custom_minerals.json
   const LAB_PRESET_FALLBACK = [
     { id: "vaterite", name: "Vaterite", nameKo: "바테라이트", formula: "CaCO3", color: "#ec4899",
       peaks: [[24.90,65,3.573,"(110)"],[27.05,100,3.294,"(112)"],[32.78,95,2.730,"(114)"],[43.85,50,2.063,"(300)"],[49.10,30,1.854,"(304)"],[50.08,45,1.820,"(118)"]] },
@@ -1242,13 +1297,22 @@
 
   function renderChart() {
     const svg = document.getElementById("xrdSvg");
-    const W = 960, H = 390;
+    const W = 960, H = 395;
     const padL = 56, padR = 20, padT = 20, padB = 42;
     const plotW = W - padL - padR;
     const plotH = H - padT - padB;
 
     const showRaw = document.getElementById("chkRaw").checked;
     const showLabels = document.getElementById("chkLabels").checked;
+
+    const bgPlot = darkChart ? "#0f172a" : "#ffffff";
+    const bgOuter = darkChart ? "#020617" : "#ffffff";
+    const gridStroke = darkChart ? "#1e293b" : "#f1f5f9";
+    const borderStroke = darkChart ? "#334155" : "#cbd5e1";
+    const axisText = darkChart ? "#94a3b8" : "#64748b";
+    const rawStroke = darkChart ? "#334155" : "#cbd5e1";
+    const mainStroke = darkChart ? "#2dd4bf" : "#0f172a";
+    const lblText = darkChart ? "#f1f5f9" : "#0f172a";
 
     let maxY = 10;
     for (let i = 0; i < rawX.length; i++) {
@@ -1262,23 +1326,24 @@
     const xToPx = x => padL + ((x - viewMin) / Math.max(0.1, viewMax - viewMin)) * plotW;
     const yToPx = y => padT + plotH - (y / maxY) * plotH;
 
-    let html = `<rect x="${padL}" y="${padT}" width="${plotW}" height="${plotH}" fill="#ffffff" stroke="#cbd5e1" />`;
+    let html = `<rect x="0" y="0" width="${W}" height="${H}" fill="${bgOuter}" />`;
+    html += `<rect x="${padL}" y="${padT}" width="${plotW}" height="${plotH}" fill="${bgPlot}" stroke="${borderStroke}" />`;
 
     const span = viewMax - viewMin;
     const tickStep = span <= 10 ? 1 : (span <= 25 ? 2 : 5);
     const firstTick = Math.ceil(viewMin / tickStep) * tickStep;
     for (let t = firstTick; t <= viewMax; t += tickStep) {
       const px = xToPx(t);
-      html += `<line x1="${px}" y1="${padT}" x2="${px}" y2="${padT + plotH}" stroke="#f1f5f9" />`;
-      html += `<text x="${px}" y="${padT + plotH + 16}" font-size="11" fill="#64748b" text-anchor="middle" font-family="monospace">${t.toFixed(0)}°</text>`;
+      html += `<line x1="${px}" y1="${padT}" x2="${px}" y2="${padT + plotH}" stroke="${gridStroke}" />`;
+      html += `<text x="${px}" y="${padT + plotH + 16}" font-size="11" fill="${axisText}" text-anchor="middle" font-family="monospace">${t.toFixed(0)}°</text>`;
     }
-    html += `<text x="${padL + plotW / 2}" y="${H - 6}" font-size="12" font-weight="700" fill="#334155" text-anchor="middle">2θ Position (degrees)</text>`;
+    html += `<text x="${padL + plotW / 2}" y="${H - 6}" font-size="12" font-weight="700" fill="${axisText}" text-anchor="middle">2θ Position (degrees)</text>`;
 
     for (let k = 0; k <= 4; k++) {
       const val = (maxY * k) / 4;
       const py = yToPx(val);
-      html += `<line x1="${padL}" y1="${py}" x2="${padL + plotW}" y2="${py}" stroke="#f1f5f9" />`;
-      html += `<text x="${padL - 6}" y="${py + 4}" font-size="10.5" fill="#64748b" text-anchor="end" font-family="monospace">${Math.round(val)}</text>`;
+      html += `<line x1="${padL}" y1="${py}" x2="${padL + plotW}" y2="${py}" stroke="${gridStroke}" />`;
+      html += `<text x="${padL - 6}" y="${py + 4}" font-size="10.5" fill="${axisText}" text-anchor="end" font-family="monospace">${Math.round(val)}</text>`;
     }
 
     minerals.filter(m => m.active).forEach(min => {
@@ -1289,8 +1354,8 @@
         const stickH = (relI / 100) * (plotH * 0.55);
         const yBot = padT + plotH;
         const yTop = yBot - stickH;
-        html += `<line x1="${px}" y1="${yBot}" x2="${px}" y2="${yTop}" stroke="${min.color}" stroke-width="2" opacity="0.85" />`;
-        html += `<circle cx="${px}" cy="${yTop}" r="2.5" fill="${min.color}" />`;
+        html += `<line x1="${px}" y1="${yBot}" x2="${px}" y2="${yTop}" stroke="${min.color}" stroke-width="2.1" opacity="0.9" />`;
+        html += `<circle cx="${px}" cy="${yTop}" r="2.6" fill="${min.color}" />`;
       });
     });
 
@@ -1306,7 +1371,7 @@
         const i = inViewIdx[k];
         pts += `${xToPx(rawX[i]).toFixed(1)},${yToPx(rawY[i]).toFixed(1)} `;
       }
-      html += `<polyline fill="none" stroke="#cbd5e1" stroke-width="1" points="${pts}" />`;
+      html += `<polyline fill="none" stroke="${rawStroke}" stroke-width="1" points="${pts}" />`;
     }
 
     if (inViewIdx.length) {
@@ -1317,9 +1382,9 @@
         ptsB += `${xToPx(rawX[i]).toFixed(1)},${yToPx(baseY[i]).toFixed(1)} `;
       }
       if (document.getElementById("chkBaseline").checked) {
-        html += `<polyline fill="none" stroke="#f59e0b" stroke-width="1" stroke-dasharray="4,3" points="${ptsB}" />`;
+        html += `<polyline fill="none" stroke="#f59e0b" stroke-width="1.1" stroke-dasharray="4,3" points="${ptsB}" />`;
       }
-      html += `<polyline fill="none" stroke="#1e293b" stroke-width="1.5" points="${ptsS}" />`;
+      html += `<polyline fill="none" stroke="${mainStroke}" stroke-width="1.6" points="${ptsS}" />`;
     }
 
     detectedPeaks.forEach(p => {
@@ -1328,15 +1393,15 @@
       const py = yToPx(p.raw);
       const isSel = p.idx === selectedPeakIdx;
       if (isSel) {
-        html += `<line x1="${px}" y1="${padT}" x2="${px}" y2="${padT + plotH}" stroke="#dc2626" stroke-width="1.2" stroke-dasharray="3,3" />`;
+        html += `<line x1="${px}" y1="${padT}" x2="${px}" y2="${padT + plotH}" stroke="#f43f5e" stroke-width="1.3" stroke-dasharray="3,3" />`;
       }
-      html += `<circle cx="${px}" cy="${py}" r="${isSel ? 4.5 : 2.8}" fill="${isSel ? '#dc2626' : '#2563eb'}" />`;
+      html += `<circle cx="${px}" cy="${py}" r="${isSel ? 4.5 : 2.9}" fill="${isSel ? '#f43f5e' : '#0d9488'}" />`;
       if (showLabels && (p.rel >= 12 || isSel)) {
-        html += `<text x="${px}" y="${Math.max(padT + 11, py - 7)}" font-size="10" font-weight="700" fill="${isSel ? '#dc2626' : '#0f172a'}" text-anchor="middle" font-family="monospace">${p.corr2T.toFixed(2)}°</text>`;
+        html += `<text x="${px}" y="${Math.max(padT + 11, py - 7)}" font-size="10" font-weight="700" fill="${isSel ? '#f43f5e' : lblText}" text-anchor="middle" font-family="monospace">${p.corr2T.toFixed(2)}°</text>`;
       }
     });
 
-    html += `<rect id="zoomRect" x="0" y="${padT}" width="0" height="${plotH}" fill="rgba(37,99,235,0.14)" stroke="#2563eb" stroke-dasharray="3,2" visibility="hidden" />`;
+    html += `<rect id="zoomRect" x="0" y="${padT}" width="0" height="${plotH}" fill="rgba(13,148,136,0.16)" stroke="#0d9488" stroke-dasharray="3,2" visibility="hidden" />`;
     html += `<line id="crossX" x1="0" y1="${padT}" x2="0" y2="${padT + plotH}" stroke="#94a3b8" stroke-width="0.9" stroke-dasharray="2,2" visibility="hidden" />`;
 
     svg.innerHTML = html;
@@ -1457,6 +1522,13 @@
     renderChart();
   };
 
+  document.getElementById("btnChartTheme").onclick = () => {
+    darkChart = !darkChart;
+    const dict = I18N[lang];
+    document.getElementById("btnChartTheme").textContent = darkChart ? dict.chartThemeBtnLight : dict.chartThemeBtn;
+    renderChart();
+  };
+
   const svgEl = document.getElementById("xrdSvg");
   let dragStartPx = null;
   svgEl.onmousedown = e => {
@@ -1531,7 +1603,6 @@
     a.click();
   };
 
-  // Fixed Language Toggle Handler
   document.getElementById("btnLang").onclick = () => {
     lang = lang === "ko" ? "en" : "ko";
     applyLanguage();
@@ -1652,7 +1723,6 @@
 
   document.getElementById("btnReloadRemotePreset").onclick = loadExternalPresetJson;
 
-  // Boot
   renderDbPills();
   loadDemo("aragonite");
   loadExternalPresetJson();
