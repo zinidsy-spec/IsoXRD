@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IsoXRD v2.4 — XRD Phase Identification & Carbonate Analysis</title>
+  <title>IsoXRD v2.4.1 — XRD Phase Identification & Carbonate Analysis</title>
   <style>
     :root {
       --bg: #f8fafc;
@@ -325,7 +325,7 @@
   <div class="brand">
     <span class="brand-logo">IsoXRD</span>
     <span class="brand-title" data-i18n="appTitle">XRD 상동정 & 탄산염 반정량 분석기</span>
-    <span class="badge">v2.4 Auto-DB</span>
+    <span class="badge">v2.4.1</span>
   </div>
   <div class="header-actions">
     <select id="demoSelect" title="Demo Datasets">
@@ -335,7 +335,7 @@
     </select>
     <button id="btnExportCsv" data-i18n="exportCsv">피크표 CSV</button>
     <button id="btnExportSvg" data-i18n="exportSvg">차트 SVG</button>
-    <button id="btnLang" class="btn-primary">EN / KO</button>
+    <button id="btnLang" class="btn-primary">English</button>
   </div>
 </header>
 
@@ -385,14 +385,14 @@
       </div>
       <div class="slider-group">
         <div class="slider-header">
-          <span>영점 오차 (s₀):</span>
+          <span data-i18n="lblS0Text">영점 오차 (s₀):</span>
           <span class="mono" id="lblS0">0.000°</span>
         </div>
         <input type="range" id="sliderS0" min="-1.0" max="1.0" step="0.005" value="0" />
       </div>
       <div class="slider-group">
         <div class="slider-header">
-          <span>시료 높이 변위 (s₁·cosθ):</span>
+          <span data-i18n="lblS1Text">시료 높이 변위 (s₁·cosθ):</span>
           <span class="mono" id="lblS1">0.000°</span>
         </div>
         <input type="range" id="sliderS1" min="-0.8" max="0.8" step="0.005" value="0" />
@@ -400,7 +400,7 @@
 
       <div style="margin-top:12px; padding-top:10px; border-top:1px solid #f1f5f9;">
         <div style="display:flex; justify-content:space-between; font-size:11.5px; font-weight:700;">
-          <span>탄산염 반정량 추정 (Calcite vs Aragonite)</span>
+          <span data-i18n="carbTitle">탄산염 반정량 추정 (Calcite vs Aragonite)</span>
         </div>
         <div class="ratio-bar">
           <div class="ratio-cal" id="barCal" style="width:0%"></div>
@@ -422,10 +422,10 @@
     <div class="card">
       <div class="card-header">
         <span class="card-title" data-i18n="sec3">3. 피크 검출 & 광물 DB</span>
-        <button class="btn-sm" id="btnToggleAll">전체 해제</button>
+        <button class="btn-sm" id="btnToggleAll" data-i18n="toggleAll">전체 해제</button>
       </div>
       <div class="control-row">
-        <label>X-선 타겟 파장 (λ):</label>
+        <label data-i18n="lblWavelength">X-선 타겟 파장 (λ):</label>
         <select id="wavelengthSelect">
           <option value="1.540598" selected>Cu Kα1 (1.540598 Å)</option>
           <option value="1.54184">Cu Kα avg (1.54184 Å)</option>
@@ -435,27 +435,27 @@
       </div>
       <div class="slider-group">
         <div class="slider-header">
-          <span>피크 검출 민감도 (Prominence):</span>
+          <span data-i18n="lblPromText">피크 검출 민감도 (Prominence):</span>
           <span class="mono" id="lblProm">3.5%</span>
         </div>
         <input type="range" id="sliderProm" min="1.0" max="20.0" step="0.5" value="3.5" />
       </div>
       <div class="slider-group">
         <div class="slider-header">
-          <span>스무딩 윈도우 (Smoothing):</span>
+          <span data-i18n="lblSmoothText">스무딩 윈도우 (Smoothing):</span>
           <span class="mono" id="lblSmooth">7 pts</span>
         </div>
         <input type="range" id="sliderSmooth" min="1" max="25" step="2" value="7" />
       </div>
-      <div style="display:flex; gap:10px; margin-top:8px; font-size:12px;">
-        <label><input type="checkbox" id="chkBaseline" checked /> 배경선 제거</label>
-        <label><input type="checkbox" id="chkRaw" checked /> 원시 곡선</label>
-        <label><input type="checkbox" id="chkLabels" checked /> 피크 라벨</label>
+      <div style="display:flex; gap:10px; margin-top:8px; font-size:12px; flex-wrap:wrap;">
+        <label><input type="checkbox" id="chkBaseline" checked /> <span data-i18n="chkBase">배경선 제거</span></label>
+        <label><input type="checkbox" id="chkRaw" checked /> <span data-i18n="chkRaw">원시 곡선</span></label>
+        <label><input type="checkbox" id="chkLabels" checked /> <span data-i18n="chkLbl">피크 라벨</span></label>
       </div>
 
       <div class="pill-wrap" id="dbPills"></div>
 
-      <button class="btn-primary" id="btnOpenDbModal" style="width:100%; margin-top:10px; padding:7px;">
+      <button class="btn-primary" id="btnOpenDbModal" style="width:100%; margin-top:10px; padding:7px;" data-i18n="openDbBtn">
         + 광물 DB 추가 / 관리 (Add / Manage DB)
       </button>
     </div>
@@ -466,12 +466,12 @@
     <div class="card">
       <div class="chart-toolbar">
         <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
-          <span style="font-weight:700;">2θ 범위:</span>
+          <span style="font-weight:700;" data-i18n="rangeLbl">2θ 범위:</span>
           <input type="number" id="inpMin2T" step="0.5" style="width:70px" />
           <span>~</span>
           <input type="number" id="inpMax2T" step="0.5" style="width:70px" />
-          <button class="btn-sm" id="btnApplyRange">적용</button>
-          <button class="btn-sm" id="btnResetZoom">전체 구간</button>
+          <button class="btn-sm" id="btnApplyRange" data-i18n="btnApply">적용</button>
+          <button class="btn-sm" id="btnResetZoom" data-i18n="btnReset">전체 구간</button>
         </div>
         <div class="mono" style="font-size:11.5px; color:var(--muted);" id="cursorReadout">
           2θ: — | d: — Å | Int: —
@@ -483,28 +483,28 @@
       </div>
 
       <div class="chart-footer">
-        <span>💡 마우스 드래그: 구간 확대(Zoom) / 더블클릭: 전체 초기화 / 하단 컬러 막대: 표준 광물 스틱 패턴</span>
+        <span data-i18n="chartHint">💡 마우스 드래그: 구간 확대(Zoom) / 더블클릭: 전체 초기화 / 하단 컬러 막대: 표준 광물 스틱 패턴</span>
         <span class="mono" id="presetSourceBadge">Preset JSON: loading...</span>
       </div>
     </div>
 
     <div class="card">
       <div class="card-header">
-        <span class="card-title">검출 피크 및 표준 광물 매칭 결과표 (Detected Peaks & Phase Match)</span>
-        <span style="font-size:11px; color:var(--muted);">행 클릭 시 차트에서 해당 피크 강조</span>
+        <span class="card-title" data-i18n="tableTitle">검출 피크 및 표준 광물 매칭 결과표 (Detected Peaks & Phase Match)</span>
+        <span style="font-size:11px; color:var(--muted);" data-i18n="tableHint">행 클릭 시 차트에서 해당 피크 강조</span>
       </div>
       <div class="table-wrap">
         <table>
           <thead>
             <tr>
               <th>#</th>
-              <th>관측 2θ (°)</th>
-              <th>보정 2θ (°)</th>
-              <th>면간거리 d (Å)</th>
-              <th>순수 세기</th>
-              <th>상대 세기 (%)</th>
-              <th>매칭 광물 & 결정면 (hkl)</th>
-              <th>편차 Δ2θ</th>
+              <th data-i18n="thObs">관측 2θ (°)</th>
+              <th data-i18n="thCorr">보정 2θ (°)</th>
+              <th data-i18n="thD">면간거리 d (Å)</th>
+              <th data-i18n="thNet">순수 세기</th>
+              <th data-i18n="thRel">상대 세기 (%)</th>
+              <th data-i18n="thMatch">매칭 광물 & 결정면 (hkl)</th>
+              <th data-i18n="thDiff">편차 Δ2θ</th>
             </tr>
           </thead>
           <tbody id="peakTableBody"></tbody>
@@ -518,60 +518,60 @@
 <div class="modal-backdrop" id="dbModalBackdrop">
   <div class="modal">
     <div style="display:flex; justify-content:space-between; align-items:center;">
-      <h3 style="font-size:15px;">광물 표준 DB 추가 및 관리 (Custom Mineral Library)</h3>
-      <button id="btnCloseDbModal">닫기 ✕</button>
+      <h3 style="font-size:15px;" data-i18n="modalTitle">광물 표준 DB 추가 및 관리 (Custom Mineral Library)</h3>
+      <button id="btnCloseDbModal" data-i18n="btnClose">닫기 ✕</button>
     </div>
     <div class="tabs">
-      <button class="tab-btn active" data-tab="tabPaste">1. 피크 표 붙여넣기 (RRUFF/논문)</button>
-      <button class="tab-btn" data-tab="tabCapture">2. 현재 스펙트럼에서 추출</button>
-      <button class="tab-btn" data-tab="tabJson">3. JSON 내보내기 / 가져오기</button>
+      <button class="tab-btn active" data-tab="tabPaste" data-i18n="tab1">1. 피크 표 붙여넣기 (RRUFF/논문)</button>
+      <button class="tab-btn" data-tab="tabCapture" data-i18n="tab2">2. 현재 스펙트럼에서 추출</button>
+      <button class="tab-btn" data-tab="tabJson" data-i18n="tab3">3. JSON 내보내기 / 가져오기</button>
     </div>
 
     <!-- Tab 1: Paste -->
     <div class="tab-pane active" id="tabPaste">
       <div style="display:grid; grid-template-columns:1fr 1fr 1fr 70px; gap:8px; margin-bottom:8px;">
-        <input type="text" id="newMinName" placeholder="영문명 (예: Vaterite)" />
-        <input type="text" id="newMinKo" placeholder="한글명 (예: 바테라이트)" />
-        <input type="text" id="newMinFormula" placeholder="화학식 (예: CaCO3)" />
+        <input type="text" id="newMinName" data-i18n-ph="phEnName" placeholder="영문명 (예: Vaterite)" />
+        <input type="text" id="newMinKo" data-i18n-ph="phKoName" placeholder="한글명 (예: 바테라이트)" />
+        <input type="text" id="newMinFormula" data-i18n-ph="phFormula" placeholder="화학식 (예: CaCO3)" />
         <input type="color" id="newMinColor" value="#ec4899" style="height:30px; width:100%;" />
       </div>
       <div style="margin-bottom:6px; font-size:12px;">
-        입력 단위:
-        <label><input type="radio" name="pasteUnit" value="2theta" checked /> 2θ (°) + 세기</label>
-        <label style="margin-left:10px;"><input type="radio" name="pasteUnit" value="d" /> d-spacing (Å) + 세기</label>
+        <span data-i18n="pasteUnitLbl">입력 단위:</span>
+        <label style="margin-left:6px;"><input type="radio" name="pasteUnit" value="2theta" checked /> <span data-i18n="unit2T">2θ (°) + 세기</span></label>
+        <label style="margin-left:10px;"><input type="radio" name="pasteUnit" value="d" /> <span data-i18n="unitD">d-spacing (Å) + 세기</span></label>
       </div>
-      <textarea id="pasteArea" rows="6" style="width:100%; font-family:var(--mono);" placeholder="예시 (탭/공백/쉼표 구분):&#10;24.90  65  (110)&#10;27.05  100 (112)&#10;32.78  95  (114)"></textarea>
+      <textarea id="pasteArea" rows="6" style="width:100%; font-family:var(--mono);" data-i18n-ph="phPaste" placeholder="예시 (탭/공백/쉼표 구분):&#10;24.90  65  (110)&#10;27.05  100 (112)&#10;32.78  95  (114)"></textarea>
       <div style="margin-top:8px; display:flex; justify-content:flex-end; gap:8px;">
-        <button class="btn-primary" id="btnSavePastedMin">DB에 등록하기</button>
+        <button class="btn-primary" id="btnSavePastedMin" data-i18n="btnSaveMin">DB에 등록하기</button>
       </div>
     </div>
 
     <!-- Tab 2: Capture -->
     <div class="tab-pane" id="tabCapture">
-      <p style="font-size:12px; color:var(--muted); margin-bottom:8px;">
+      <p style="font-size:12px; color:var(--muted); margin-bottom:8px;" data-i18n="capDesc">
         현재 불러온 스펙트럼의 보정된 상위 피크(최대 12개)를 새로운 표준 광물로 등록합니다.
       </p>
       <div style="display:grid; grid-template-columns:1fr 1fr 1fr 70px; gap:8px; margin-bottom:10px;">
-        <input type="text" id="capMinName" placeholder="영문명 (예: Lab_Calcite_Std)" />
-        <input type="text" id="capMinKo" placeholder="한글명 (예: 표준방해석)" />
-        <input type="text" id="capMinFormula" placeholder="화학식 (예: CaCO3)" />
+        <input type="text" id="capMinName" data-i18n-ph="phCapEn" placeholder="영문명 (예: Lab_Calcite_Std)" />
+        <input type="text" id="capMinKo" data-i18n-ph="phCapKo" placeholder="한글명 (예: 표준방해석)" />
+        <input type="text" id="capMinFormula" data-i18n-ph="phFormula" placeholder="화학식 (예: CaCO3)" />
         <input type="color" id="capMinColor" value="#0ea5e9" style="height:30px; width:100%;" />
       </div>
-      <button class="btn-primary" id="btnCaptureSpectrum">현재 상위 검출 피크 저장</button>
+      <button class="btn-primary" id="btnCaptureSpectrum" data-i18n="btnCapture">현재 상위 검출 피크 저장</button>
     </div>
 
     <!-- Tab 3: JSON -->
     <div class="tab-pane" id="tabJson">
-      <p style="font-size:12px; color:var(--muted); margin-bottom:10px;">
+      <p style="font-size:12px; color:var(--muted); margin-bottom:10px;" data-i18n="jsonDesc">
         연구실 공용 JSON 파일을 불러오거나 현재 사용자 정의 광물 목록을 JSON으로 저장합니다.
       </p>
       <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px;">
-        <button class="btn-primary" id="btnDownloadJson">사용자 DB JSON 다운로드</button>
-        <label class="btn" style="border:1px solid var(--border); padding:5px 10px; border-radius:6px; cursor:pointer; font-weight:600;">
-          JSON 파일 불러오기 (병합)
+        <button class="btn-primary" id="btnDownloadJson" data-i18n="btnDownJson">사용자 DB JSON 다운로드</button>
+        <label style="border:1px solid var(--border); padding:5px 10px; border-radius:6px; cursor:pointer; font-weight:600;">
+          <span data-i18n="btnUpJson">JSON 파일 불러오기 (병합)</span>
           <input type="file" id="jsonFileInput" accept=".json" style="display:none;" />
         </label>
-        <button id="btnReloadRemotePreset">GitHub presets/lab_custom_minerals.json 다시 불러오기</button>
+        <button id="btnReloadRemotePreset" data-i18n="btnReloadPreset">GitHub presets/lab_custom_minerals.json 다시 불러오기</button>
       </div>
       <div id="customDbList" style="font-size:12px;"></div>
     </div>
@@ -580,6 +580,156 @@
 
 <script>
 (function() {
+  // Bilingual dictionary
+  const I18N = {
+    ko: {
+      appTitle: "XRD 상동정 & 탄산염 반정량 분석기",
+      exportCsv: "피크표 CSV",
+      exportSvg: "차트 SVG",
+      langBtn: "English",
+      kpiFile: "현재 시료 / 포맷",
+      kpiPrimary: "1순위 판별 광물 (Match)",
+      kpiShift: "보정 변위 (Δ2θ = s₀ + s₁cosθ)",
+      kpiPeaks: "검출 피크 / DB 현황",
+      sec1: "1. 원시 데이터 불러오기",
+      dropTitle: "여기에 XRD 파일 드래그 또는 클릭",
+      sec2: "2. 시료 높이 변위 보정 & Search-Match",
+      autoFit: "자동 보정",
+      lblS0Text: "영점 오차 (s₀):",
+      lblS1Text: "시료 높이 변위 (s₁·cosθ):",
+      carbTitle: "탄산염 반정량 추정 (Calcite vs Aragonite)",
+      rankTitle: "후보 광물 적합도 순위 (Top 4)",
+      sec3: "3. 피크 검출 & 광물 DB",
+      toggleAll: "전체 토글",
+      lblWavelength: "X-선 타겟 파장 (λ):",
+      lblPromText: "피크 검출 민감도 (Prominence):",
+      lblSmoothText: "스무딩 윈도우 (Smoothing):",
+      chkBase: "배경선 제거",
+      chkRaw: "원시 곡선",
+      chkLbl: "피크 라벨",
+      openDbBtn: "+ 광물 DB 추가 / 관리 (Add / Manage DB)",
+      rangeLbl: "2θ 범위:",
+      btnApply: "적용",
+      btnReset: "전체 구간",
+      chartHint: "💡 마우스 드래그: 구간 확대(Zoom) / 더블클릭: 전체 초기화 / 하단 컬러 막대: 표준 광물 스틱 패턴",
+      tableTitle: "검출 피크 및 표준 광물 매칭 결과표 (Detected Peaks & Phase Match)",
+      tableHint: "행 클릭 시 차트에서 해당 피크 강조",
+      thObs: "관측 2θ (°)",
+      thCorr: "보정 2θ (°)",
+      thD: "면간거리 d (Å)",
+      thNet: "순수 세기",
+      thRel: "상대 세기 (%)",
+      thMatch: "매칭 광물 & 결정면 (hkl)",
+      thDiff: "편차 Δ2θ",
+      modalTitle: "광물 표준 DB 추가 및 관리 (Custom Mineral Library)",
+      btnClose: "닫기 ✕",
+      tab1: "1. 피크 표 붙여넣기 (RRUFF/논문)",
+      tab2: "2. 현재 스펙트럼에서 추출",
+      tab3: "3. JSON 내보내기 / 가져오기",
+      pasteUnitLbl: "입력 단위:",
+      unit2T: "2θ (°) + 세기",
+      unitD: "d-spacing (Å) + 세기",
+      btnSaveMin: "DB에 등록하기",
+      capDesc: "현재 불러온 스펙트럼의 보정된 상위 피크(최대 12개)를 새로운 표준 광물로 등록합니다.",
+      btnCapture: "현재 상위 검출 피크 저장",
+      jsonDesc: "연구실 공용 JSON 파일을 불러오거나 현재 사용자 정의 광물 목록을 JSON으로 저장합니다.",
+      btnDownJson: "사용자 DB JSON 다운로드",
+      btnUpJson: "JSON 파일 불러오기 (병합)",
+      btnReloadPreset: "GitHub presets/lab_custom_minerals.json 다시 불러오기",
+      phEnName: "영문명 (예: Vaterite)",
+      phKoName: "한글명 (예: 바테라이트)",
+      phFormula: "화학식 (예: CaCO3)",
+      phPaste: "예시 (탭/공백/쉼표 구분):\n24.90  65  (110)\n27.05  100 (112)\n32.78  95  (114)",
+      phCapEn: "영문명 (예: Lab_Calcite_Std)",
+      phCapKo: "한글명 (예: 표준방해석)",
+      subRankPrefix: "2순위: ",
+      singleDominant: "2순위: 단일 상 우세",
+      unassigned: "미할당 (Unassigned)"
+    },
+    en: {
+      appTitle: "XRD Phase Identification & Carbonate Analyzer",
+      exportCsv: "Export CSV",
+      exportSvg: "Export SVG",
+      langBtn: "한국어",
+      kpiFile: "Current Sample / Format",
+      kpiPrimary: "Primary Matched Phase",
+      kpiShift: "Displacement (Δ2θ = s₀ + s₁cosθ)",
+      kpiPeaks: "Detected Peaks / DB Status",
+      sec1: "1. Load Raw XRD Data",
+      dropTitle: "Drag & Drop XRD File Here or Click",
+      sec2: "2. Sample Displacement & Search-Match",
+      autoFit: "Auto-Fit",
+      lblS0Text: "Zero-Point Shift (s₀):",
+      lblS1Text: "Sample Height Shift (s₁·cosθ):",
+      carbTitle: "Semi-Quantitative Carbonate Ratio",
+      rankTitle: "Candidate Phase Ranking (Top 4)",
+      sec3: "3. Peak Detection & Mineral DB",
+      toggleAll: "Toggle All",
+      lblWavelength: "X-Ray Wavelength (λ):",
+      lblPromText: "Peak Prominence Threshold:",
+      lblSmoothText: "Smoothing Window:",
+      chkBase: "Subtract Baseline",
+      chkRaw: "Raw Curve",
+      chkLbl: "Peak Labels",
+      openDbBtn: "+ Add / Manage Mineral DB",
+      rangeLbl: "2θ Range:",
+      btnApply: "Apply",
+      btnReset: "Full Range",
+      chartHint: "💡 Drag: Zoom in / Double-click: Reset view / Bottom colored bars: Reference stick patterns",
+      tableTitle: "Detected Peaks & Reference Phase Matching Table",
+      tableHint: "Click a row to highlight the peak on the chart",
+      thObs: "Obs 2θ (°)",
+      thCorr: "Corr 2θ (°)",
+      thD: "d-Spacing (Å)",
+      thNet: "Net Int.",
+      thRel: "Rel. Int. (%)",
+      thMatch: "Matched Phase & (hkl)",
+      thDiff: "Offset Δ2θ",
+      modalTitle: "Add & Manage Custom Mineral Library",
+      btnClose: "Close ✕",
+      tab1: "1. Paste Peak Table (RRUFF/Paper)",
+      tab2: "2. Capture from Current Spectrum",
+      tab3: "3. Export / Import JSON",
+      pasteUnitLbl: "Input Unit:",
+      unit2T: "2θ (°) + Intensity",
+      unitD: "d-spacing (Å) + Intensity",
+      btnSaveMin: "Save to Library",
+      capDesc: "Capture the top corrected peaks (up to 12) from the current spectrum as a new reference phase.",
+      btnCapture: "Save Top Detected Peaks",
+      jsonDesc: "Import shared lab JSON presets or export your custom mineral library as JSON.",
+      btnDownJson: "Download Custom DB JSON",
+      btnUpJson: "Import & Merge JSON",
+      btnReloadPreset: "Reload GitHub presets/lab_custom_minerals.json",
+      phEnName: "English Name (e.g., Vaterite)",
+      phKoName: "Korean Name (optional)",
+      phFormula: "Formula (e.g., CaCO3)",
+      phPaste: "Example (tab/space/comma separated):\n24.90  65  (110)\n27.05  100 (112)\n32.78  95  (114)",
+      phCapEn: "English Name (e.g., Lab_Calcite_Std)",
+      phCapKo: "Korean Name (optional)",
+      subRankPrefix: "2nd: ",
+      singleDominant: "2nd: Single phase dominant",
+      unassigned: "Unassigned"
+    }
+  };
+
+  function applyLanguage() {
+    const dict = I18N[lang];
+    document.documentElement.lang = lang;
+    document.getElementById("btnLang").textContent = dict.langBtn;
+
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+      const key = el.getAttribute("data-i18n");
+      if (dict[key]) el.textContent = dict[key];
+    });
+    document.querySelectorAll("[data-i18n-ph]").forEach(el => {
+      const key = el.getAttribute("data-i18n-ph");
+      if (dict[key]) el.setAttribute("placeholder", dict[key]);
+    });
+
+    renderDbPills();
+    updateAnalysis();
+  }
+
   // Safe storage wrapper for sandboxed iframes
   const memStore = {};
   function safeGet(k) {
@@ -646,7 +796,7 @@
     }
   ];
 
-  // Embedded fallback copy of presets/lab_custom_minerals.json (used if local file:// blocks fetch)
+  // Embedded fallback copy of presets/lab_custom_minerals.json
   const LAB_PRESET_FALLBACK = [
     { id: "vaterite", name: "Vaterite", nameKo: "바테라이트", formula: "CaCO3", color: "#ec4899",
       peaks: [[24.90,65,3.573,"(110)"],[27.05,100,3.294,"(112)"],[32.78,95,2.730,"(114)"],[43.85,50,2.063,"(300)"],[49.10,30,1.854,"(304)"],[50.08,45,1.820,"(118)"]] },
@@ -703,13 +853,11 @@
     });
   }
 
-  // Load any local custom minerals saved previously
   try {
     const savedCustom = safeGet("isoxrd_custom_minerals_v2");
     if (savedCustom) mergeMinerals(JSON.parse(savedCustom), true);
   } catch (e) {}
 
-  // Automatically fetch ./presets/lab_custom_minerals.json on GitHub Pages
   async function loadExternalPresetJson() {
     const badge = document.getElementById("presetSourceBadge");
     try {
@@ -720,7 +868,6 @@
       badge.textContent = "Preset JSON: presets/lab_custom_minerals.json (synced)";
       badge.style.color = "var(--success)";
     } catch (err) {
-      // Fallback when opened locally via file://
       mergeMinerals(LAB_PRESET_FALLBACK, false);
       badge.textContent = "Preset JSON: built-in lab library (19 phases)";
       badge.style.color = "var(--muted)";
@@ -729,7 +876,6 @@
     updateAnalysis();
   }
 
-  // Generate synthetic demo spectra
   function loadDemo(type) {
     const n = 2500;
     const x = [], y = [];
@@ -758,7 +904,6 @@
 
     for (let i = 0; i < n; i++) {
       const t = minT + (maxT - minT) * (i / (n - 1));
-      // Glass slide hump + baseline
       let val = 55 + 125 * Math.exp(-Math.pow((t - 23.5) / 6.5, 2));
       for (const [pos, amp] of peaks) {
         val += amp * Math.exp(-Math.pow((t - pos) / 0.14, 2));
@@ -843,7 +988,6 @@
     detectedPeaks = [];
     for (let i = 2; i < netY.length - 2; i++) {
       if (netY[i] >= netY[i - 1] && netY[i] > netY[i + 1] && netY[i] >= minProm) {
-        // Local prominence check
         const leftMin = Math.min(...netY.slice(Math.max(0, i - minDistPts * 2), i));
         const rightMin = Math.min(...netY.slice(i + 1, Math.min(netY.length, i + minDistPts * 2)));
         if (netY[i] - Math.max(leftMin, rightMin) >= minProm * 0.65) {
@@ -917,6 +1061,7 @@
   }
 
   function assignPeakLabels() {
+    const dict = I18N[lang];
     const candidateMins = rankedPhases.filter(r => r.score >= 30 || r.min.active).map(r => r.min);
     const pool = candidateMins.length ? candidateMins : minerals;
     detectedPeaks.forEach(p => {
@@ -936,7 +1081,7 @@
           }
         });
       });
-      p.matchLabel = bestMatch ? bestMatch.label : "Unassigned";
+      p.matchLabel = bestMatch ? bestMatch.label : dict.unassigned;
       p.matchDiff = bestMatch ? bestMatch.diff : null;
     });
   }
@@ -953,7 +1098,6 @@
 
     let calPct = 0, araPct = 0;
     if (iCal104 > 0 || iAraSum > 0) {
-      // Empirical XRD calibration factor for Calcite(104) vs Aragonite(111)+(021)
       const calWeight = iCal104;
       const araWeight = iAraSum * 1.15;
       calPct = Math.round((calWeight / (calWeight + araWeight)) * 100);
@@ -970,7 +1114,6 @@
     const strongest = detectedPeaks.reduce((a, b) => b.net > a.net ? b : a, detectedPeaks[0]);
     let bestScore = -1, bestS0 = 0, bestS1 = 0;
 
-    // Anchor strongest observed peak to candidate major standard lines
     minerals.forEach(min => {
       min.peaks.forEach(([std2T, relI]) => {
         if (relI < 45) return;
@@ -982,7 +1125,6 @@
           const ds0 = approxShift - ds1 * Math.cos(rad);
           if (Math.abs(ds0) > 1.0) continue;
 
-          // Quick alignment score
           let hits = 0;
           min.peaks.forEach(([p2T, pRel]) => {
             const pRad = (p2T / 2) * Math.PI / 180;
@@ -1006,7 +1148,6 @@
     syncShiftLabels();
     updateAnalysis();
 
-    // Automatically activate top 2 matched phases for visual stick overlay
     if (rankedPhases.length && rankedPhases[0].score >= 35) {
       minerals.forEach(m => m.active = false);
       rankedPhases[0].min.active = true;
@@ -1027,6 +1168,7 @@
   }
 
   function renderRankList() {
+    const dict = I18N[lang];
     const box = document.getElementById("rankList");
     box.innerHTML = "";
     const top4 = rankedPhases.slice(0, 4);
@@ -1036,7 +1178,9 @@
         `${lang === "ko" ? m1.nameKo : m1.name} (${top4[0].score}%)`;
       const m2 = top4[1];
       document.getElementById("kpiSubPhase").textContent =
-        m2 && m2.score >= 20 ? `2순위: ${lang === "ko" ? m2.min.nameKo : m2.min.name} (${m2.score}%)` : "2순위: 단일 상 우세";
+        m2 && m2.score >= 20
+          ? `${dict.subRankPrefix}${lang === "ko" ? m2.min.nameKo : m2.min.name} (${m2.score}%)`
+          : dict.singleDominant;
     }
     top4.forEach(({ min, score }) => {
       const div = document.createElement("div");
@@ -1120,7 +1264,6 @@
 
     let html = `<rect x="${padL}" y="${padT}" width="${plotW}" height="${plotH}" fill="#ffffff" stroke="#cbd5e1" />`;
 
-    // Grid & X-axis ticks
     const span = viewMax - viewMin;
     const tickStep = span <= 10 ? 1 : (span <= 25 ? 2 : 5);
     const firstTick = Math.ceil(viewMin / tickStep) * tickStep;
@@ -1131,7 +1274,6 @@
     }
     html += `<text x="${padL + plotW / 2}" y="${H - 6}" font-size="12" font-weight="700" fill="#334155" text-anchor="middle">2θ Position (degrees)</text>`;
 
-    // Y-axis ticks
     for (let k = 0; k <= 4; k++) {
       const val = (maxY * k) / 4;
       const py = yToPx(val);
@@ -1139,9 +1281,8 @@
       html += `<text x="${padL - 6}" y="${py + 4}" font-size="10.5" fill="#64748b" text-anchor="end" font-family="monospace">${Math.round(val)}</text>`;
     }
 
-    // Standard mineral stick overlays
     minerals.filter(m => m.active).forEach(min => {
-      min.peaks.forEach(([std2T, relI, , hkl]) => {
+      min.peaks.forEach(([std2T, relI]) => {
         const obsPos = stdToObs2Theta(std2T);
         if (obsPos < viewMin || obsPos > viewMax) return;
         const px = xToPx(obsPos);
@@ -1153,7 +1294,6 @@
       });
     });
 
-    // Build polyline paths (downsample if > 2000 points in view)
     const inViewIdx = [];
     for (let i = 0; i < rawX.length; i++) {
       if (rawX[i] >= viewMin && rawX[i] <= viewMax) inViewIdx.push(i);
@@ -1182,7 +1322,6 @@
       html += `<polyline fill="none" stroke="#1e293b" stroke-width="1.5" points="${ptsS}" />`;
     }
 
-    // Peak markers & labels
     detectedPeaks.forEach(p => {
       if (p.obs2T < viewMin || p.obs2T > viewMax) return;
       const px = xToPx(p.obs2T);
@@ -1197,14 +1336,12 @@
       }
     });
 
-    // Zoom selection box placeholder & crosshair
     html += `<rect id="zoomRect" x="0" y="${padT}" width="0" height="${plotH}" fill="rgba(37,99,235,0.14)" stroke="#2563eb" stroke-dasharray="3,2" visibility="hidden" />`;
     html += `<line id="crossX" x1="0" y1="${padT}" x2="0" y2="${padT + plotH}" stroke="#94a3b8" stroke-width="0.9" stroke-dasharray="2,2" visibility="hidden" />`;
 
     svg.innerHTML = html;
   }
 
-  // File parsing (.xrdml XML or 2-col CSV/TXT/XY)
   function handleFile(file) {
     if (!file) return;
     const reader = new FileReader();
@@ -1266,11 +1403,10 @@
       setSpectrumData(x, y);
       runAutoFit();
     } else {
-      alert("유효한 2θ / Intensity 열 데이터를 찾지 못했습니다.");
+      alert(lang === "ko" ? "유효한 2θ / Intensity 열 데이터를 찾지 못했습니다." : "Could not find valid 2θ / Intensity columns.");
     }
   }
 
-  // Event bindings
   const dropzone = document.getElementById("dropzone");
   const fileInput = document.getElementById("fileInput");
   dropzone.onclick = () => fileInput.click();
@@ -1321,7 +1457,6 @@
     renderChart();
   };
 
-  // Interactive SVG zoom & crosshair
   const svgEl = document.getElementById("xrdSvg");
   let dragStartPx = null;
   svgEl.onmousedown = e => {
@@ -1375,7 +1510,6 @@
   };
   svgEl.ondblclick = () => document.getElementById("btnResetZoom").click();
 
-  // Exports
   document.getElementById("btnExportCsv").onclick = () => {
     let csv = "Obs_2Theta,Corr_2Theta,d_Spacing_A,Net_Intensity,Rel_Intensity_Pct,Matched_Phase,Delta_2Theta\n";
     detectedPeaks.forEach(p => {
@@ -1397,14 +1531,12 @@
     a.click();
   };
 
-  // Language toggle
+  // Fixed Language Toggle Handler
   document.getElementById("btnLang").onclick = () => {
     lang = lang === "ko" ? "en" : "ko";
-    renderDbPills();
-    updateAnalysis();
+    applyLanguage();
   };
 
-  // Modal controls
   const modal = document.getElementById("dbModalBackdrop");
   document.getElementById("btnOpenDbModal").onclick = () => { modal.classList.add("open"); renderCustomDbList(); };
   document.getElementById("btnCloseDbModal").onclick = () => modal.classList.remove("open");
@@ -1428,7 +1560,8 @@
   function renderCustomDbList() {
     const el = document.getElementById("customDbList");
     const customOnly = minerals.filter(m => !CORE_MINERALS.some(c => c.id === m.id));
-    el.innerHTML = `<strong>현재 로드된 확장 광물 (${customOnly.length}종):</strong> ` +
+    const title = lang === "ko" ? `현재 로드된 확장 광물 (${customOnly.length}종): ` : `Loaded Extended Phases (${customOnly.length}): `;
+    el.innerHTML = `<strong>${title}</strong>` +
       customOnly.map(m => `${m.nameKo}(${m.name})`).join(", ");
   }
 
@@ -1457,7 +1590,9 @@
         parsed.push([Math.round(t2 * 100) / 100, v2, Math.round(d * 1000) / 1000, hkl]);
       }
     }
-    if (!name || !parsed.length) return alert("광물 이름과 유효한 피크 데이터를 입력해 주세요.");
+    if (!name || !parsed.length) {
+      return alert(lang === "ko" ? "광물 이름과 유효한 피크 데이터를 입력해 주세요." : "Please enter mineral name and valid peak data.");
+    }
     const maxI = Math.max(...parsed.map(p => p[1]), 1);
     parsed.forEach(p => p[1] = Math.round((p[1] / maxI) * 100));
 
@@ -1471,7 +1606,9 @@
 
   document.getElementById("btnCaptureSpectrum").onclick = () => {
     const name = document.getElementById("capMinName").value.trim();
-    if (!name || !detectedPeaks.length) return alert("광물 영문명을 입력해 주세요.");
+    if (!name || !detectedPeaks.length) {
+      return alert(lang === "ko" ? "광물 영문명을 입력해 주세요." : "Please enter an English mineral name.");
+    }
     const top12 = [...detectedPeaks].sort((a, b) => b.net - a.net).slice(0, 12)
       .map(p => [Math.round(p.corr2T * 100) / 100, Math.round(p.rel), Math.round(p.d * 1000) / 1000, ""]);
     mergeMinerals([{
@@ -1505,9 +1642,9 @@
         const arr = JSON.parse(ev.target.result);
         mergeMinerals(arr, true);
         persistCustomList();
-        alert(`${arr.length}종의 광물 DB를 성공적으로 불러왔습니다.`);
+        alert(lang === "ko" ? `${arr.length}종의 광물 DB를 성공적으로 불러왔습니다.` : `Loaded ${arr.length} mineral phases.`);
       } catch (err) {
-        alert("JSON 형식이 올바르지 않습니다.");
+        alert(lang === "ko" ? "JSON 형식이 올바르지 않습니다." : "Invalid JSON format.");
       }
     };
     reader.readAsText(file);
