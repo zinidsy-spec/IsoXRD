@@ -3,42 +3,47 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IsoXRD v2.5 — Crystallographic Phase & Carbonate Analyzer</title>
+  <title>IsoXRD v2.6 — Mineralogical Field Journal & Phase Analyzer</title>
   <style>
     :root {
-      --bg: #f1f5f9;
-      --surface: #ffffff;
-      --header-bg: #0f172a;
-      --header-border: #1e293b;
-      --border: #dce3ec;
-      --text: #0f172a;
-      --muted: #64748b;
-      --primary: #0f766e;
-      --primary-hover: #115e59;
-      --primary-soft: #f0fdfa;
-      --primary-border: #99f6e4;
-      --accent: #0284c7;
-      --success: #059669;
-      --warning: #d97706;
-      --danger: #dc2626;
+      --bg: #f4efe4;
+      --bg-pattern: rgba(139, 119, 92, 0.06);
+      --surface: #fbf8f1;
+      --surface-alt: #f2ece0;
+      --border: #d8ccb8;
+      --border-strong: #bca98e;
+      --text: #292524;
+      --muted: #6b6154;
+      --primary: #1b5e4a;       /* Malachite / Jade Ink */
+      --primary-hover: #134637;
+      --primary-soft: #e6f0ec;
+      --accent: #9a3412;        /* Hematite / Terracotta Ink */
+      --accent-soft: #f9ebe4;
+      --amber: #a16207;         /* Ochre / Pyrite Ink */
+      --success: #1b5e4a;
+      --danger: #991b1b;
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      --serif: Georgia, "Noto Serif KR", "Times New Roman", serif;
       --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: var(--sans);
-      background: var(--bg);
+      background-color: var(--bg);
+      background-image:
+        linear-gradient(to right, var(--bg-pattern) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--bg-pattern) 1px, transparent 1px);
+      background-size: 24px 24px;
       color: var(--text);
       font-size: 13px;
-      line-height: 1.45;
+      line-height: 1.48;
     }
 
-    /* Dark Instrument Command Header */
+    /* Archival Field Notebook Header */
     header {
-      background: var(--header-bg);
-      border-bottom: 2px solid var(--primary);
-      color: #f8fafc;
-      padding: 11px 22px;
+      background: var(--surface);
+      border-bottom: 2px double var(--border-strong);
+      padding: 12px 22px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -47,87 +52,77 @@
       position: sticky;
       top: 0;
       z-index: 30;
-      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.18);
+      box-shadow: 0 2px 6px rgba(68, 54, 37, 0.06);
     }
     .brand { display: flex; align-items: center; gap: 11px; }
-    .brand-mark {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      background: linear-gradient(135deg, #0d9488, #0f766e);
-      color: #ffffff;
-      font-weight: 800;
-      font-size: 14px;
-      padding: 5px 11px;
-      border-radius: 7px;
-      letter-spacing: 0.01em;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.25);
+    .brand-stamp {
+      background: var(--primary);
+      color: #fbf8f1;
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 15px;
+      padding: 5px 12px;
+      border-radius: 5px;
+      border: 1px solid #124234;
+      letter-spacing: 0.02em;
+      box-shadow: 1px 1px 0 rgba(41, 37, 36, 0.15);
     }
-    .brand-title { font-weight: 700; font-size: 15px; color: #f8fafc; letter-spacing: -0.01em; }
-    .brand-sub { font-size: 11px; color: #94a3b8; display: block; }
-    .badge {
-      background: rgba(20, 184, 166, 0.16);
-      color: #5eead4;
-      border: 1px solid rgba(94, 234, 212, 0.35);
+    .brand-title {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--text);
+      letter-spacing: -0.01em;
+    }
+    .brand-sub {
       font-size: 11px;
-      font-weight: 600;
+      color: var(--muted);
+      display: block;
+      font-style: italic;
+    }
+    .badge {
+      background: var(--surface-alt);
+      color: var(--accent);
+      border: 1px solid var(--border-strong);
+      font-size: 11px;
+      font-weight: 700;
       padding: 2px 8px;
-      border-radius: 999px;
+      border-radius: 4px;
       font-family: var(--mono);
     }
 
     .header-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-    header select {
-      background: #1e293b;
-      color: #f1f5f9;
-      border: 1px solid #334155;
-      border-radius: 6px;
-      padding: 5px 9px;
-      font-size: 12px;
-    }
-    header button {
-      background: #1e293b;
-      color: #e2e8f0;
-      border: 1px solid #334155;
-    }
-    header button:hover { background: #334155; color: #fff; }
-    header button.btn-primary {
-      background: #0d9488;
-      border-color: #0d9488;
-      color: #fff;
-    }
-    header button.btn-primary:hover { background: #0f766e; }
-
     select, input[type="number"], input[type="text"], textarea {
-      border: 1px solid var(--border);
-      border-radius: 6px;
+      border: 1px solid var(--border-strong);
+      border-radius: 5px;
       padding: 5px 8px;
       font-size: 12px;
       font-family: inherit;
-      background: #fff;
+      background: #fffdf9;
       color: var(--text);
     }
     button {
-      border: 1px solid var(--border);
-      background: #fff;
+      border: 1px solid var(--border-strong);
+      background: #fffdf9;
       color: var(--text);
-      border-radius: 6px;
+      border-radius: 5px;
       padding: 5px 10px;
       font-size: 12px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.15s;
+      box-shadow: 0 1px 0 rgba(68, 54, 37, 0.06);
     }
-    button:hover { background: #f1f5f9; }
+    button:hover { background: var(--surface-alt); }
     button.btn-primary {
       background: var(--primary);
-      color: #fff;
-      border-color: var(--primary);
+      color: #fbf8f1;
+      border-color: #134637;
     }
     button.btn-primary:hover { background: var(--primary-hover); }
     button.btn-sm { padding: 3px 8px; font-size: 11px; }
 
-    /* Telemetry KPI Cards with Top Accent Line */
+    /* Ledger-style Telemetry Strip */
     .kpi-strip {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
@@ -137,20 +132,25 @@
     .kpi-card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-top: 3px solid #cbd5e1;
-      border-radius: 8px;
+      border-left: 4px solid var(--border-strong);
+      border-radius: 6px;
       padding: 10px 14px;
-      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+      box-shadow: 0 1px 2px rgba(68, 54, 37, 0.05);
     }
-    .kpi-card.accent-teal { border-top-color: var(--primary); }
-    .kpi-card.accent-blue { border-top-color: var(--accent); }
-    .kpi-card.accent-amber { border-top-color: var(--warning); }
-    .kpi-label { font-size: 11px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.02em; }
+    .kpi-card.accent-jade { border-left-color: var(--primary); }
+    .kpi-card.accent-terra { border-left-color: var(--accent); }
+    .kpi-card.accent-ochre { border-left-color: var(--amber); }
+    .kpi-label {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
     .kpi-val {
       font-family: var(--mono);
       font-size: 16px;
       font-weight: 700;
-      margin-top: 3px;
+      margin-top: 2px;
       font-variant-numeric: tabular-nums;
     }
     .kpi-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
@@ -168,26 +168,31 @@
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 10px;
+      border-radius: 7px;
       padding: 13px 15px;
-      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+      box-shadow: 0 1px 3px rgba(68, 54, 37, 0.05);
     }
     .card-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
       margin-bottom: 10px;
-      padding-bottom: 7px;
-      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 6px;
+      border-bottom: 1px dashed var(--border-strong);
     }
-    .card-title { font-weight: 700; font-size: 13px; color: #0f172a; }
+    .card-title {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 13.5px;
+      color: var(--text);
+    }
 
     .dropzone {
-      border: 1.5px dashed #94a3b8;
-      border-radius: 8px;
+      border: 1.5px dashed var(--border-strong);
+      border-radius: 6px;
       padding: 14px 10px;
       text-align: center;
-      background: #f8fafc;
+      background: var(--surface-alt);
       cursor: pointer;
       transition: 0.15s;
     }
@@ -202,7 +207,7 @@
       gap: 8px;
       margin-top: 8px;
     }
-    .control-row label { font-size: 12px; color: #334155; font-weight: 500; }
+    .control-row label { font-size: 12px; color: var(--text); font-weight: 500; }
     .mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
 
     .slider-group { margin-top: 8px; }
@@ -216,14 +221,15 @@
 
     .ratio-bar {
       height: 11px;
-      border-radius: 999px;
-      background: #e2e8f0;
+      border-radius: 4px;
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
       overflow: hidden;
       display: flex;
-      margin: 8px 0 6px;
+      margin: 7px 0 6px;
     }
-    .ratio-cal { background: #e11d48; transition: width 0.25s; }
-    .ratio-ara { background: #0284c7; transition: width 0.25s; }
+    .ratio-cal { background: #b91c1c; transition: width 0.25s; }
+    .ratio-ara { background: #1d4ed8; transition: width 0.25s; }
 
     .rank-list { display: flex; flex-direction: column; gap: 6px; }
     .rank-item {
@@ -231,9 +237,9 @@
       align-items: center;
       justify-content: space-between;
       padding: 6px 9px;
-      border-radius: 7px;
+      border-radius: 5px;
       border: 1px solid var(--border);
-      background: #f8fafc;
+      background: #fffdf9;
       cursor: pointer;
       transition: 0.12s;
     }
@@ -256,9 +262,9 @@
       align-items: center;
       gap: 5px;
       padding: 4px 9px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: #fff;
+      border-radius: 4px;
+      border: 1px solid var(--border-strong);
+      background: #fffdf9;
       font-size: 11.5px;
       font-weight: 600;
       cursor: pointer;
@@ -284,9 +290,9 @@
       width: 100%;
       height: 395px;
       min-height: 320px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      background: #fff;
+      border: 1px solid var(--border-strong);
+      border-radius: 6px;
+      background: #fffdf8;
       position: relative;
       overflow: hidden;
     }
@@ -305,32 +311,34 @@
       max-height: 300px;
       overflow: auto;
       border: 1px solid var(--border);
-      border-radius: 8px;
+      border-radius: 6px;
+      background: #fffdf9;
     }
     table { width: 100%; border-collapse: collapse; font-size: 12px; }
     th {
       position: sticky;
       top: 0;
-      background: #f1f5f9;
+      background: var(--surface-alt);
       text-align: left;
       padding: 7px 10px;
       font-weight: 700;
-      border-bottom: 1px solid var(--border);
+      color: var(--text);
+      border-bottom: 1.5px solid var(--border-strong);
       z-index: 2;
     }
     td {
       padding: 6px 10px;
-      border-bottom: 1px solid #f1f5f9;
+      border-bottom: 1px dashed var(--border);
       font-family: var(--mono);
       font-variant-numeric: tabular-nums;
     }
-    tr:hover td { background: #f8fafc; cursor: pointer; }
+    tr:hover td { background: var(--surface-alt); cursor: pointer; }
     tr.selected td { background: var(--primary-soft); }
 
     /* Modal */
     .modal-backdrop {
       position: fixed; inset: 0;
-      background: rgba(15, 23, 42, 0.5);
+      background: rgba(41, 37, 36, 0.45);
       display: none;
       align-items: center;
       justify-content: center;
@@ -339,18 +347,21 @@
     }
     .modal-backdrop.open { display: flex; }
     .modal {
-      background: #fff;
-      border-radius: 12px;
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      border-radius: 8px;
       width: 100%;
       max-width: 640px;
       max-height: 88vh;
       overflow-y: auto;
       padding: 18px 20px;
-      box-shadow: 0 20px 25px -5px rgba(0,0,0,0.18);
+      box-shadow: 0 20px 25px -5px rgba(41, 37, 36, 0.22);
     }
-    .tabs { display: flex; gap: 6px; border-bottom: 1px solid var(--border); margin: 10px 0 12px; }
+    .tabs { display: flex; gap: 6px; border-bottom: 1px solid var(--border-strong); margin: 10px 0 12px; }
     .tab-btn {
       border: none;
+      background: transparent;
+      box-shadow: none;
       border-bottom: 2px solid transparent;
       border-radius: 0;
       padding: 6px 10px;
@@ -368,12 +379,12 @@
 
 <header>
   <div class="brand">
-    <span class="brand-mark">◈ IsoXRD</span>
+    <span class="brand-stamp">IsoXRD</span>
     <div>
-      <span class="brand-title" data-i18n="appTitle">XRD 상동정 & 탄산염 반정량 분석기</span>
-      <span class="brand-sub" data-i18n="appSub">Crystallographic Phase Identification & Semi-Quantitative Carbonate Console</span>
+      <span class="brand-title" data-i18n="appTitle">XRD 상동정 & 탄산염 반정량 분석 노트</span>
+      <span class="brand-sub" data-i18n="appSub">Mineralogical Diffraction Ledger & Semi-Quantitative Carbonate Notebook</span>
     </div>
-    <span class="badge">v2.5</span>
+    <span class="badge">v2.6</span>
   </div>
   <div class="header-actions">
     <select id="demoSelect" title="Demo Datasets">
@@ -381,7 +392,6 @@
       <option value="mixture">Demo 2: Calcite-Aragonite Mix (75% / 25%)</option>
       <option value="calcite">Demo 3: Pure Speleothem Calcite (+0.35°)</option>
     </select>
-    <button id="btnChartTheme" data-i18n="chartThemeBtn">다크 차트</button>
     <button id="btnExportCsv" data-i18n="exportCsv">피크표 CSV</button>
     <button id="btnExportSvg" data-i18n="exportSvg">차트 SVG</button>
     <button id="btnLang" class="btn-primary">English</button>
@@ -394,17 +404,17 @@
     <div class="kpi-val" id="kpiFileName">WDS2_170 (Demo)</div>
     <div class="kpi-sub" id="kpiRangeInfo">15.00° – 65.00° (Cu Kα1)</div>
   </div>
-  <div class="kpi-card accent-teal">
+  <div class="kpi-card accent-jade">
     <div class="kpi-label" data-i18n="kpiPrimary">1순위 판별 광물 (Match)</div>
     <div class="kpi-val" id="kpiTopPhase" style="color:var(--primary)">—</div>
     <div class="kpi-sub" id="kpiSubPhase">2순위: —</div>
   </div>
-  <div class="kpi-card accent-blue">
+  <div class="kpi-card accent-terra">
     <div class="kpi-label" data-i18n="kpiShift">보정 변위 (Δ2θ = s₀ + s₁cosθ)</div>
     <div class="kpi-val" id="kpiShiftVal">+0.000°</div>
     <div class="kpi-sub" id="kpiShiftDetail">s₀: 0.000° / s₁: 0.000°</div>
   </div>
-  <div class="kpi-card accent-amber">
+  <div class="kpi-card accent-ochre">
     <div class="kpi-label" data-i18n="kpiPeaks">검출 피크 / DB 현황</div>
     <div class="kpi-val" id="kpiPeakCount">0 peaks</div>
     <div class="kpi-sub" id="kpiDbStatus">DB: 19 minerals loaded</div>
@@ -447,7 +457,7 @@
         <input type="range" id="sliderS1" min="-0.8" max="0.8" step="0.005" value="0" />
       </div>
 
-      <div style="margin-top:12px; padding-top:10px; border-top:1px solid #f1f5f9;">
+      <div style="margin-top:12px; padding-top:10px; border-top:1px dashed var(--border);">
         <div style="display:flex; justify-content:space-between; font-size:11.5px; font-weight:700;">
           <span data-i18n="carbTitle">탄산염 반정량 추정 (Calcite vs Aragonite)</span>
         </div>
@@ -456,8 +466,8 @@
           <div class="ratio-ara" id="barAra" style="width:0%"></div>
         </div>
         <div style="display:flex; justify-content:space-between; font-size:11.5px;" class="mono">
-          <span style="color:#e11d48; font-weight:700;" id="txtCalPct">Calcite: 0%</span>
-          <span style="color:#0284c7; font-weight:700;" id="txtAraPct">Aragonite: 0%</span>
+          <span style="color:#b91c1c; font-weight:700;" id="txtCalPct">Calcite: 0%</span>
+          <span style="color:#1d4ed8; font-weight:700;" id="txtAraPct">Aragonite: 0%</span>
         </div>
       </div>
 
@@ -567,7 +577,7 @@
 <div class="modal-backdrop" id="dbModalBackdrop">
   <div class="modal">
     <div style="display:flex; justify-content:space-between; align-items:center;">
-      <h3 style="font-size:15px;" data-i18n="modalTitle">광물 표준 DB 추가 및 관리 (Custom Mineral Library)</h3>
+      <h3 style="font-family:var(--serif); font-size:15px;" data-i18n="modalTitle">광물 표준 DB 추가 및 관리 (Custom Mineral Library)</h3>
       <button id="btnCloseDbModal" data-i18n="btnClose">닫기 ✕</button>
     </div>
     <div class="tabs">
@@ -582,7 +592,7 @@
         <input type="text" id="newMinName" data-i18n-ph="phEnName" placeholder="영문명 (예: Vaterite)" />
         <input type="text" id="newMinKo" data-i18n-ph="phKoName" placeholder="한글명 (예: 바테라이트)" />
         <input type="text" id="newMinFormula" data-i18n-ph="phFormula" placeholder="화학식 (예: CaCO3)" />
-        <input type="color" id="newMinColor" value="#ec4899" style="height:30px; width:100%;" />
+        <input type="color" id="newMinColor" value="#be185d" style="height:30px; width:100%;" />
       </div>
       <div style="margin-bottom:6px; font-size:12px;">
         <span data-i18n="pasteUnitLbl">입력 단위:</span>
@@ -604,7 +614,7 @@
         <input type="text" id="capMinName" data-i18n-ph="phCapEn" placeholder="영문명 (예: Lab_Calcite_Std)" />
         <input type="text" id="capMinKo" data-i18n-ph="phCapKo" placeholder="한글명 (예: 표준방해석)" />
         <input type="text" id="capMinFormula" data-i18n-ph="phFormula" placeholder="화학식 (예: CaCO3)" />
-        <input type="color" id="capMinColor" value="#0ea5e9" style="height:30px; width:100%;" />
+        <input type="color" id="capMinColor" value="#0369a1" style="height:30px; width:100%;" />
       </div>
       <button class="btn-primary" id="btnCaptureSpectrum" data-i18n="btnCapture">현재 상위 검출 피크 저장</button>
     </div>
@@ -616,7 +626,7 @@
       </p>
       <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px;">
         <button class="btn-primary" id="btnDownloadJson" data-i18n="btnDownJson">사용자 DB JSON 다운로드</button>
-        <label style="border:1px solid var(--border); padding:5px 10px; border-radius:6px; cursor:pointer; font-weight:600;">
+        <label style="border:1px solid var(--border-strong); background:#fffdf9; padding:5px 10px; border-radius:5px; cursor:pointer; font-weight:600;">
           <span data-i18n="btnUpJson">JSON 파일 불러오기 (병합)</span>
           <input type="file" id="jsonFileInput" accept=".json" style="display:none;" />
         </label>
@@ -631,10 +641,8 @@
 (function() {
   const I18N = {
     ko: {
-      appTitle: "XRD 상동정 & 탄산염 반정량 분석기",
-      appSub: "결정학적 상동정 및 탄산염 반정량 분석 워크스페이스",
-      chartThemeBtn: "다크 차트",
-      chartThemeBtnLight: "라이트 차트",
+      appTitle: "XRD 상동정 & 탄산염 반정량 분석 노트",
+      appSub: "Mineralogical Diffraction Ledger & Semi-Quantitative Carbonate Notebook",
       exportCsv: "피크표 CSV",
       exportSvg: "차트 SVG",
       langBtn: "English",
@@ -698,10 +706,8 @@
       unassigned: "미할당 (Unassigned)"
     },
     en: {
-      appTitle: "XRD Phase Identification & Carbonate Analyzer",
-      appSub: "Crystallographic Phase Identification & Semi-Quantitative Carbonate Console",
-      chartThemeBtn: "Dark Plot",
-      chartThemeBtnLight: "Light Plot",
+      appTitle: "XRD Phase Identification & Carbonate Notebook",
+      appSub: "Mineralogical Diffraction Ledger & Semi-Quantitative Carbonate Analysis",
       exportCsv: "Export CSV",
       exportSvg: "Export SVG",
       langBtn: "한국어",
@@ -730,7 +736,7 @@
       btnApply: "Apply",
       btnReset: "Full Range",
       chartHint: "💡 Drag: Zoom in / Double-click: Reset view / Bottom colored bars: Reference stick patterns",
-      tableTitle: "Detected Peaks & Reference Phase Matching Table",
+      tableTitle: "Detected Peaks & Reference Phase Matching Ledger",
       tableHint: "Click a row to highlight the peak on the chart",
       thObs: "Obs 2θ (°)",
       thCorr: "Corr 2θ (°)",
@@ -766,17 +772,13 @@
     }
   };
 
-  let darkChart = false;
-
   function applyLanguage() {
     const dict = I18N[lang];
     document.documentElement.lang = lang;
     document.getElementById("btnLang").textContent = dict.langBtn;
-    document.getElementById("btnChartTheme").textContent = darkChart ? dict.chartThemeBtnLight : dict.chartThemeBtn;
 
     document.querySelectorAll("[data-i18n]").forEach(el => {
       const key = el.getAttribute("data-i18n");
-      if (key === "chartThemeBtn") return;
       if (dict[key]) el.textContent = dict[key];
     });
     document.querySelectorAll("[data-i18n-ph]").forEach(el => {
@@ -798,7 +800,7 @@
 
   const CORE_MINERALS = [
     {
-      id: "calcite", name: "Calcite", nameKo: "방해석", formula: "CaCO3", color: "#e11d48", active: true,
+      id: "calcite", name: "Calcite", nameKo: "방해석", formula: "CaCO3", color: "#b91c1c", active: true,
       peaks: [
         [29.40, 100, 3.035, "(104)"], [39.40, 18, 2.285, "(113)"], [43.15, 18, 2.095, "(202)"],
         [47.50, 17, 1.913, "(018)"], [48.51, 17, 1.875, "(116)"], [35.97, 14, 2.495, "(110)"],
@@ -806,7 +808,7 @@
       ]
     },
     {
-      id: "aragonite", name: "Aragonite", nameKo: "아라고나이트", formula: "CaCO3", color: "#0284c7", active: true,
+      id: "aragonite", name: "Aragonite", nameKo: "아라고나이트", formula: "CaCO3", color: "#1d4ed8", active: true,
       peaks: [
         [26.21, 100, 3.396, "(111)"], [45.85, 65, 1.977, "(221)"], [27.22, 52, 3.273, "(021)"],
         [33.13, 46, 2.702, "(012)"], [37.88, 38, 2.373, "(112)"], [36.12, 33, 2.484, "(200)"],
@@ -816,35 +818,35 @@
       ]
     },
     {
-      id: "dolomite", name: "Dolomite", nameKo: "돌로마이트", formula: "CaMg(CO3)2", color: "#059669", active: true,
+      id: "dolomite", name: "Dolomite", nameKo: "돌로마이트", formula: "CaMg(CO3)2", color: "#15803d", active: true,
       peaks: [
         [30.96, 100, 2.886, "(104)"], [41.13, 30, 2.193, "(113)"], [50.54, 20, 1.804, "(018)"],
         [51.07, 20, 1.787, "(116)"], [44.94, 15, 2.015, "(202)"], [37.36, 10, 2.405, "(110)"]
       ]
     },
     {
-      id: "quartz", name: "Quartz", nameKo: "석영", formula: "SiO2", color: "#d97706", active: true,
+      id: "quartz", name: "Quartz", nameKo: "석영", formula: "SiO2", color: "#b45309", active: true,
       peaks: [
         [26.64, 100, 3.343, "(101)"], [20.86, 22, 4.255, "(100)"], [50.14, 14, 1.818, "(112)"],
         [36.54, 9, 2.457, "(110)"], [59.96, 9, 1.541, "(211)"], [39.46, 8, 2.282, "(102)"]
       ]
     },
     {
-      id: "pyrite", name: "Pyrite", nameKo: "황철석", formula: "FeS2", color: "#7c3aed", active: false,
+      id: "pyrite", name: "Pyrite", nameKo: "황철석", formula: "FeS2", color: "#6d28d9", active: false,
       peaks: [
         [56.28, 100, 1.633, "(311)"], [33.05, 84, 2.709, "(200)"], [37.08, 66, 2.423, "(210)"],
         [40.78, 52, 2.212, "(211)"], [47.43, 40, 1.915, "(220)"], [28.51, 36, 3.128, "(111)"]
       ]
     },
     {
-      id: "halite", name: "Halite", nameKo: "암염", formula: "NaCl", color: "#0891b2", active: false,
+      id: "halite", name: "Halite", nameKo: "암염", formula: "NaCl", color: "#0e7490", active: false,
       peaks: [
         [31.69, 100, 2.821, "(200)"], [45.45, 55, 1.994, "(220)"], [56.48, 15, 1.628, "(222)"],
         [27.37, 13, 3.256, "(111)"]
       ]
     },
     {
-      id: "gypsum", name: "Gypsum", nameKo: "석고", formula: "CaSO4·2H2O", color: "#0ea5e9", active: false,
+      id: "gypsum", name: "Gypsum", nameKo: "석고", formula: "CaSO4·2H2O", color: "#0369a1", active: false,
       peaks: [
         [11.59, 100, 7.630, "(020)"], [29.11, 57, 3.065, "(14-1)"], [20.72, 51, 4.283, "(12-1)"],
         [31.10, 28, 2.873, "(002)"], [23.39, 21, 3.800, "(040)"]
@@ -853,27 +855,27 @@
   ];
 
   const LAB_PRESET_FALLBACK = [
-    { id: "vaterite", name: "Vaterite", nameKo: "바테라이트", formula: "CaCO3", color: "#ec4899",
+    { id: "vaterite", name: "Vaterite", nameKo: "바테라이트", formula: "CaCO3", color: "#be185d",
       peaks: [[24.90,65,3.573,"(110)"],[27.05,100,3.294,"(112)"],[32.78,95,2.730,"(114)"],[43.85,50,2.063,"(300)"],[49.10,30,1.854,"(304)"],[50.08,45,1.820,"(118)"]] },
-    { id: "magnesite", name: "Magnesite", nameKo: "마그네사이트", formula: "MgCO3", color: "#8b5cf6",
+    { id: "magnesite", name: "Magnesite", nameKo: "마그네사이트", formula: "MgCO3", color: "#7e22ce",
       peaks: [[32.63,100,2.742,"(104)"],[42.99,43,2.102,"(113)"],[53.88,34,1.700,"(116)"],[35.85,12,2.503,"(110)"],[46.81,12,1.939,"(202)"]] },
-    { id: "siderite", name: "Siderite", nameKo: "능철석", formula: "FeCO3", color: "#b45309",
+    { id: "siderite", name: "Siderite", nameKo: "능철석", formula: "FeCO3", color: "#92400e",
       peaks: [[32.02,100,2.793,"(104)"],[52.76,35,1.734,"(116)"],[42.31,25,2.134,"(113)"],[24.81,22,3.586,"(012)"],[46.23,20,1.962,"(202)"]] },
-    { id: "anhydrite", name: "Anhydrite", nameKo: "경석고", formula: "CaSO4", color: "#0284c7",
+    { id: "anhydrite", name: "Anhydrite", nameKo: "경석고", formula: "CaSO4", color: "#0369a1",
       peaks: [[25.44,100,3.498,"(002)"],[31.36,33,2.850,"(210)"],[38.63,22,2.329,"(202)"],[40.82,20,2.209,"(212)"],[48.68,15,1.869,"(230)"]] },
-    { id: "muscovite", name: "Muscovite", nameKo: "백운모", formula: "KAl2(AlSi3O10)(OH)2", color: "#10b981",
+    { id: "muscovite", name: "Muscovite", nameKo: "백운모", formula: "KAl2(AlSi3O10)(OH)2", color: "#047857",
       peaks: [[8.88,95,9.950,"(002)"],[26.82,100,3.321,"(006)"],[17.78,31,4.985,"(004)"],[34.96,25,2.564,"(202)"],[45.42,22,1.995,"(0010)"]] },
-    { id: "kaolinite", name: "Kaolinite", nameKo: "카올리나이트", formula: "Al2Si2O5(OH)4", color: "#14b8a6",
+    { id: "kaolinite", name: "Kaolinite", nameKo: "카올리나이트", formula: "Al2Si2O5(OH)4", color: "#0f766e",
       peaks: [[12.36,100,7.155,"(001)"],[24.88,80,3.576,"(002)"],[20.36,35,4.358,"(110)"],[38.45,30,2.339,"(202)"],[62.31,25,1.489,"(060)"]] },
-    { id: "albite", name: "Albite (Plagioclase)", nameKo: "조장석(사장석)", formula: "NaAlSi3O8", color: "#6366f1",
+    { id: "albite", name: "Albite (Plagioclase)", nameKo: "조장석(사장석)", formula: "NaAlSi3O8", color: "#4338ca",
       peaks: [[27.93,100,3.192,"(002)"],[22.05,25,4.028,"(201)"],[23.54,20,3.776,"(111)"],[24.22,20,3.672,"(130)"],[30.48,18,2.930,"(041)"]] },
-    { id: "microcline", name: "Microcline (K-Feldspar)", nameKo: "미사장석(알칼리장석)", formula: "KAlSi3O8", color: "#a855f7",
+    { id: "microcline", name: "Microcline (K-Feldspar)", nameKo: "미사장석(알칼리장석)", formula: "KAlSi3O8", color: "#86198f",
       peaks: [[27.46,100,3.246,"(002)"],[21.05,30,4.217,"(201)"],[25.63,25,3.473,"(112)"],[29.48,22,3.027,"(131)"],[41.80,20,2.159,"(060)"]] },
-    { id: "hematite", name: "Hematite", nameKo: "적철석", formula: "Fe2O3", color: "#dc2626",
+    { id: "hematite", name: "Hematite", nameKo: "적철석", formula: "Fe2O3", color: "#991b1b",
       peaks: [[33.15,100,2.700,"(104)"],[35.61,70,2.519,"(110)"],[54.09,45,1.694,"(116)"],[49.48,40,1.841,"(024)"],[24.14,30,3.684,"(012)"],[40.85,20,2.207,"(113)"]] },
-    { id: "goethite", name: "Goethite", nameKo: "침철석", formula: "FeO(OH)", color: "#d97706",
+    { id: "goethite", name: "Goethite", nameKo: "침철석", formula: "FeO(OH)", color: "#b45309",
       peaks: [[21.22,100,4.183,"(110)"],[36.65,50,2.450,"(111)"],[33.24,35,2.693,"(130)"],[53.24,30,1.719,"(221)"],[34.70,20,2.583,"(021)"]] },
-    { id: "fluorite", name: "Fluorite", nameKo: "형석", formula: "CaF2", color: "#22c55e",
+    { id: "fluorite", name: "Fluorite", nameKo: "형석", formula: "CaF2", color: "#15803d",
       peaks: [[28.27,94,3.154,"(111)"],[47.00,100,1.932,"(220)"],[55.76,35,1.647,"(311)"]] }
   ];
 
@@ -900,7 +902,7 @@
           name: item.name || item.id,
           nameKo: item.nameKo || item.name || item.id,
           formula: item.formula || "",
-          color: item.color || "#64748b",
+          color: item.color || "#57534e",
           active: item.active !== undefined ? item.active : defaultActive,
           peaks: item.peaks
         });
@@ -921,10 +923,10 @@
       const data = await resp.json();
       mergeMinerals(data, false);
       badge.textContent = "Preset JSON: presets/lab_custom_minerals.json (synced)";
-      badge.style.color = "var(--success)";
+      badge.style.color = "var(--primary)";
     } catch (err) {
       mergeMinerals(LAB_PRESET_FALLBACK, false);
-      badge.textContent = "Preset JSON: built-in lab library (19 phases)";
+      badge.textContent = "Preset JSON: archival lab library (19 phases)";
       badge.style.color = "var(--muted)";
     }
     renderDbPills();
@@ -1305,14 +1307,14 @@
     const showRaw = document.getElementById("chkRaw").checked;
     const showLabels = document.getElementById("chkLabels").checked;
 
-    const bgPlot = darkChart ? "#0f172a" : "#ffffff";
-    const bgOuter = darkChart ? "#020617" : "#ffffff";
-    const gridStroke = darkChart ? "#1e293b" : "#f1f5f9";
-    const borderStroke = darkChart ? "#334155" : "#cbd5e1";
-    const axisText = darkChart ? "#94a3b8" : "#64748b";
-    const rawStroke = darkChart ? "#334155" : "#cbd5e1";
-    const mainStroke = darkChart ? "#2dd4bf" : "#0f172a";
-    const lblText = darkChart ? "#f1f5f9" : "#0f172a";
+    const bgPlot = "#fffdf8";
+    const bgOuter = "#fbf8f1";
+    const gridStroke = "#efe7d6";
+    const borderStroke = "#bca98e";
+    const axisText = "#6b6154";
+    const rawStroke = "#d6cbb8";
+    const mainStroke = "#292524";
+    const lblText = "#292524";
 
     let maxY = 10;
     for (let i = 0; i < rawX.length; i++) {
@@ -1337,7 +1339,7 @@
       html += `<line x1="${px}" y1="${padT}" x2="${px}" y2="${padT + plotH}" stroke="${gridStroke}" />`;
       html += `<text x="${px}" y="${padT + plotH + 16}" font-size="11" fill="${axisText}" text-anchor="middle" font-family="monospace">${t.toFixed(0)}°</text>`;
     }
-    html += `<text x="${padL + plotW / 2}" y="${H - 6}" font-size="12" font-weight="700" fill="${axisText}" text-anchor="middle">2θ Position (degrees)</text>`;
+    html += `<text x="${padL + plotW / 2}" y="${H - 6}" font-size="12" font-weight="700" fill="${axisText}" text-anchor="middle" font-family="Georgia, serif">2θ Diffraction Angle (degrees)</text>`;
 
     for (let k = 0; k <= 4; k++) {
       const val = (maxY * k) / 4;
@@ -1354,7 +1356,7 @@
         const stickH = (relI / 100) * (plotH * 0.55);
         const yBot = padT + plotH;
         const yTop = yBot - stickH;
-        html += `<line x1="${px}" y1="${yBot}" x2="${px}" y2="${yTop}" stroke="${min.color}" stroke-width="2.1" opacity="0.9" />`;
+        html += `<line x1="${px}" y1="${yBot}" x2="${px}" y2="${yTop}" stroke="${min.color}" stroke-width="2.1" opacity="0.88" />`;
         html += `<circle cx="${px}" cy="${yTop}" r="2.6" fill="${min.color}" />`;
       });
     });
@@ -1382,7 +1384,7 @@
         ptsB += `${xToPx(rawX[i]).toFixed(1)},${yToPx(baseY[i]).toFixed(1)} `;
       }
       if (document.getElementById("chkBaseline").checked) {
-        html += `<polyline fill="none" stroke="#f59e0b" stroke-width="1.1" stroke-dasharray="4,3" points="${ptsB}" />`;
+        html += `<polyline fill="none" stroke="#b45309" stroke-width="1.1" stroke-dasharray="4,3" points="${ptsB}" />`;
       }
       html += `<polyline fill="none" stroke="${mainStroke}" stroke-width="1.6" points="${ptsS}" />`;
     }
@@ -1393,16 +1395,16 @@
       const py = yToPx(p.raw);
       const isSel = p.idx === selectedPeakIdx;
       if (isSel) {
-        html += `<line x1="${px}" y1="${padT}" x2="${px}" y2="${padT + plotH}" stroke="#f43f5e" stroke-width="1.3" stroke-dasharray="3,3" />`;
+        html += `<line x1="${px}" y1="${padT}" x2="${px}" y2="${padT + plotH}" stroke="#9a3412" stroke-width="1.3" stroke-dasharray="3,3" />`;
       }
-      html += `<circle cx="${px}" cy="${py}" r="${isSel ? 4.5 : 2.9}" fill="${isSel ? '#f43f5e' : '#0d9488'}" />`;
+      html += `<circle cx="${px}" cy="${py}" r="${isSel ? 4.5 : 2.9}" fill="${isSel ? '#9a3412' : '#1b5e4a'}" />`;
       if (showLabels && (p.rel >= 12 || isSel)) {
-        html += `<text x="${px}" y="${Math.max(padT + 11, py - 7)}" font-size="10" font-weight="700" fill="${isSel ? '#f43f5e' : lblText}" text-anchor="middle" font-family="monospace">${p.corr2T.toFixed(2)}°</text>`;
+        html += `<text x="${px}" y="${Math.max(padT + 11, py - 7)}" font-size="10" font-weight="700" fill="${isSel ? '#9a3412' : lblText}" text-anchor="middle" font-family="monospace">${p.corr2T.toFixed(2)}°</text>`;
       }
     });
 
-    html += `<rect id="zoomRect" x="0" y="${padT}" width="0" height="${plotH}" fill="rgba(13,148,136,0.16)" stroke="#0d9488" stroke-dasharray="3,2" visibility="hidden" />`;
-    html += `<line id="crossX" x1="0" y1="${padT}" x2="0" y2="${padT + plotH}" stroke="#94a3b8" stroke-width="0.9" stroke-dasharray="2,2" visibility="hidden" />`;
+    html += `<rect id="zoomRect" x="0" y="${padT}" width="0" height="${plotH}" fill="rgba(27,94,74,0.14)" stroke="#1b5e4a" stroke-dasharray="3,2" visibility="hidden" />`;
+    html += `<line id="crossX" x1="0" y1="${padT}" x2="0" y2="${padT + plotH}" stroke="#8c7a63" stroke-width="0.9" stroke-dasharray="2,2" visibility="hidden" />`;
 
     svg.innerHTML = html;
   }
@@ -1519,13 +1521,6 @@
     viewMin = fullMin; viewMax = fullMax;
     document.getElementById("inpMin2T").value = viewMin;
     document.getElementById("inpMax2T").value = viewMax;
-    renderChart();
-  };
-
-  document.getElementById("btnChartTheme").onclick = () => {
-    darkChart = !darkChart;
-    const dict = I18N[lang];
-    document.getElementById("btnChartTheme").textContent = darkChart ? dict.chartThemeBtnLight : dict.chartThemeBtn;
     renderChart();
   };
 
