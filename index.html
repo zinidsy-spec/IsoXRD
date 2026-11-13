@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IsoXRD v3.5 — Crystallographic Phase & Multi-Sample Notebook</title>
+  <title>IsoXRD v3.6 — Crystallographic Phase & Multi-Sample Notebook</title>
   <style>
     /* Theme 3 (Default): Warm Linen & Terracotta (Speleothem Archival Notebook) */
     :root, [data-theme="linen"] {
@@ -620,9 +620,9 @@
     <div class="brand-emblem">Xr</div>
     <div>
       <span class="brand-title" data-i18n="appTitle">IsoXRD — 결정학 상동정 & 다중 시료 분석 노트</span>
-      <span class="brand-sub" data-i18n="appSub">Multi-Sample Diffraction Stack & Integrated-Area Carbonate Analyzer</span>
+      <span class="brand-sub" data-i18n="appSub">Multi-Sample Diffraction Stack & 100%-Normalized Semi-Quantitative Analyzer</span>
     </div>
-    <span class="version-tag">v3.5</span>
+    <span class="version-tag">v3.6</span>
   </div>
 
   <div class="header-actions">
@@ -693,10 +693,10 @@
       <div class="sample-list" id="sampleList"></div>
     </div>
 
-    <!-- 2. Displacement & Integrated-Area Carbonate Ratio -->
+    <!-- 2. Displacement & Semi-Quantitative Weight% Settings -->
     <div class="card">
       <div class="card-header">
-        <span class="card-title" data-i18n="sec2">2. 변위 보정 & Search-Match</span>
+        <span class="card-title" data-i18n="sec2">2. 변위 보정 & 100% 반정량 (Weight%)</span>
         <button class="btn-primary btn-sm" id="btnAutoFit" data-i18n="autoFit">자동 보정</button>
       </div>
       <div class="slider-group">
@@ -716,8 +716,8 @@
 
       <div class="ratio-box">
         <div style="display:flex; justify-content:space-between; align-items:center; font-size:11.5px; font-weight:700;">
-          <span data-i18n="carbTitle">적분 면적 기반 탄산염 비율</span>
-          <span style="font-size:10.5px; color:var(--muted);" title="RIR / Calibration Multiplier for Aragonite (111)+(021) vs Calcite (104)">
+          <span data-i18n="carbTitle">활성 광물 100% 정규화 반정량 (Weight%)</span>
+          <span style="font-size:10.5px; color:var(--muted);" title="RIR Multiplier for Aragonite vs Calcite">
             RIR<sub>Ara/Cal</sub>:
             <input type="number" id="inpRirFactor" value="1.15" step="0.05" min="0.2" max="5.0" style="width:52px; padding:1px 4px; font-size:11px;" />
           </span>
@@ -807,7 +807,7 @@
       </div>
 
       <div class="chart-footer">
-        <span data-i18n="chartHint">💡 그림 PNG / 벡터 SVG 정상 호환 · 엑셀 CSV 한글 깨짐(UTF-8 BOM) 방지 및 한/영 병기 적용</span>
+        <span data-i18n="chartHint">💡 활성 광물 전체 합계 100% 정규화(Weight%) 반정량 및 HighScore 스타일 요약표 지원</span>
         <span class="mono" id="presetSourceBadge">Preset JSON: loading...</span>
       </div>
     </div>
@@ -841,6 +841,7 @@
         </table>
       </div>
 
+      <!-- HighScore-style 100% Weight% Table -->
       <div id="paneBatch" class="table-wrap" style="display:none;">
         <table>
           <thead>
@@ -849,10 +850,7 @@
               <th data-i18n="thSample">시료명 (Sample)</th>
               <th data-i18n="thTopMatch">1순위 광물 (Match)</th>
               <th data-i18n="thShift">보정 변위 (Δ2θ)</th>
-              <th>Calcite (104) Area</th>
-              <th>Aragonite Area</th>
-              <th>Calcite (%)</th>
-              <th>Aragonite (%)</th>
+              <th data-i18n="thWeightTable">활성 광물별 정규화 반정량 (Weight% 합계 100%)</th>
             </tr>
           </thead>
           <tbody id="batchTableBody"></tbody>
@@ -979,7 +977,7 @@
   const I18N = {
     ko: {
       appTitle: "IsoXRD — 결정학 상동정 & 다중 시료 분석 노트",
-      appSub: "Multi-Sample Diffraction Stack & Integrated-Area Carbonate Analyzer",
+      appSub: "Multi-Sample Diffraction Stack & 100%-Normalized Semi-Quantitative Analyzer",
       pubModeBtn: "출판용 흑백",
       pubModeBtnActive: "테마 컬러 복귀",
       exportCsv: "엑셀 CSV",
@@ -990,15 +988,15 @@
       kpiFile: "활성 시료 / 스택 수",
       kpiPrimary: "1순위 판별 광물 (Match)",
       kpiShift: "보정 변위 (Δ2θ = s₀ + s₁cosθ)",
-      kpiCarbKpi: "탄산염 적분 면적비 (Cal / Ara)",
+      kpiCarbKpi: "탄산염 정규화 비율 (Cal / Ara)",
       sec1: "1. 다중 시료 불러오기 (Multi-Sample)",
       clearBtn: "초기화",
       dropTitle: "여기에 여러 XRD 파일 동시 드래그/클릭",
-      sec2: "2. 변위 보정 & Search-Match",
+      sec2: "2. 변위 보정 & 100% 반정량 (Weight%)",
       autoFit: "자동 보정",
       lblS0Text: "영점 오차 (s₀):",
       lblS1Text: "시료 높이 변위 (s₁·cosθ):",
-      carbTitle: "적분 면적 기반 탄산염 비율",
+      carbTitle: "활성 광물 100% 정규화 반정량 (Weight%)",
       rankTitle: "후보 광물 적합도 순위 (Top 4)",
       sec3: "3. 피크 검출 & 광물 DB",
       toggleAll: "전체 토글",
@@ -1014,7 +1012,7 @@
       rangeLbl: "2θ:",
       btnApply: "적용",
       btnReset: "전체",
-      chartHint: "💡 그림 PNG / 벡터 SVG 정상 호환 · 엑셀 CSV 한글 깨짐(UTF-8 BOM) 방지 및 한/영 병기 적용",
+      chartHint: "💡 활성 광물 전체 합계 100% 정규화(Weight%) 반정량 및 HighScore 스타일 요약표 지원",
       subTabPeaks: "활성 시료 피크 & 적분 면적표",
       subTabBatch: "다중 시료 일괄 정량 요약표 (Batch Summary)",
       tableHint: "행 클릭 시 차트에서 해당 피크 강조",
@@ -1029,6 +1027,7 @@
       thSample: "시료명 (Sample)",
       thTopMatch: "1순위 광물 (Match)",
       thShift: "보정 변위 (Δ2θ)",
+      thWeightTable: "활성 광물별 정규화 반정량 (Weight% 합계 100%)",
       citeModalTitle: "학술 인용 및 Zenodo DOI 안내 (How to Cite IsoXRD)",
       citeModalDesc: "연구 논문(Methods / Data Availability)이나 학술 발표에 IsoXRD를 활용하신 경우 아래 서지 정보와 Zenodo 영구 DOI를 인용해 주세요.",
       saveDoiBtn: "DOI 반영",
@@ -1064,7 +1063,7 @@
     },
     en: {
       appTitle: "IsoXRD — Crystallographic Phase & Multi-Sample Notebook",
-      appSub: "Multi-Sample Diffraction Stack & Integrated-Area Carbonate Analyzer",
+      appSub: "Multi-Sample Diffraction Stack & 100%-Normalized Semi-Quantitative Analyzer",
       pubModeBtn: "Publication B&W",
       pubModeBtnActive: "Restore Theme Color",
       exportCsv: "Excel CSV",
@@ -1075,15 +1074,15 @@
       kpiFile: "Active Sample / Stack",
       kpiPrimary: "Primary Matched Phase",
       kpiShift: "Displacement (Δ2θ = s₀ + s₁cosθ)",
-      kpiCarbKpi: "Integrated Area Ratio (Cal / Ara)",
+      kpiCarbKpi: "Normalized Ratio (Cal / Ara)",
       sec1: "1. Multi-Sample Data Loader",
       clearBtn: "Clear",
       dropTitle: "Drag & Drop Multiple XRD Files or Click",
-      sec2: "2. Displacement & Search-Match",
+      sec2: "2. Displacement & 100% Semi-Quant (Weight%)",
       autoFit: "Auto-Fit",
       lblS0Text: "Zero-Point Shift (s₀):",
       lblS1Text: "Sample Height Shift (s₁·cosθ):",
-      carbTitle: "Integrated-Area Carbonate Ratio",
+      carbTitle: "Active Phases 100% Normalized Weight%",
       rankTitle: "Candidate Phase Ranking (Top 4)",
       sec3: "3. Peak Detection & Mineral DB",
       toggleAll: "Toggle All",
@@ -1099,9 +1098,9 @@
       rangeLbl: "2θ:",
       btnApply: "Apply",
       btnReset: "Full",
-      chartHint: "💡 Valid PNG/SVG image export & UTF-8 BOM Excel CSV with bilingual Korean/English labels",
+      chartHint: "💡 Active phases normalized to 100% Weight% semi-quant and HighScore style summary table",
       subTabPeaks: "Active Sample Peaks & Integrated Area",
-      subTabBatch: "Multi-Sample Batch Quantitative Summary",
+      subTabBatch: "Multi-Sample 100%-Normalized Weight% Summary",
       tableHint: "Click a row to highlight the peak on the chart",
       thObs: "Obs 2θ (°)",
       thCorr: "Corr 2θ (°)",
@@ -1114,6 +1113,7 @@
       thSample: "Sample Name",
       thTopMatch: "Primary Match",
       thShift: "Shift (Δ2θ)",
+      thWeightTable: "Semi-Quantitative Weight% (Sum 100% for Active Phases)",
       citeModalTitle: "How to Cite IsoXRD & Zenodo DOI",
       citeModalDesc: "If you use IsoXRD in your research paper (Methods / Data Availability) or presentation, please cite the software using the metadata and Zenodo DOI below.",
       saveDoiBtn: "Update DOI",
@@ -1278,10 +1278,10 @@
     document.getElementById("linkZenodoDoi").href = doiUrl;
 
     document.getElementById("citeTextStatement").textContent =
-      `X-ray diffraction (XRD) baseline subtraction, non-linear sample height displacement correction (Δ2θ = s₀ + s₁cosθ), mineral phase identification, and integrated-area carbonate quantification were performed using IsoXRD v3.5 (Yang, 2026; ${doiUrl}).`;
+      `X-ray diffraction (XRD) baseline subtraction, non-linear sample height displacement correction (Δ2θ = s₀ + s₁cosθ), mineral phase identification, and 100%-normalized semi-quantitative weight quantification were performed using IsoXRD v3.6 (Yang, 2026; ${doiUrl}).`;
 
     document.getElementById("citeTextApa").textContent =
-      `Yang, Y.-S. (2026). IsoXRD: Lightweight Browser-Based XRD Phase Identification and Semi-Quantitative Carbonate Analysis Tool (Version 3.5) [Computer software]. Zenodo. ${doiUrl}`;
+      `Yang, Y.-S. (2026). IsoXRD: Lightweight Browser-Based XRD Phase Identification and Semi-Quantitative Carbonate Analysis Tool (Version 3.6) [Computer software]. Zenodo. ${doiUrl}`;
 
     document.getElementById("citeTextBib").textContent =
 `@software{Yang_IsoXRD_2026,
@@ -1290,7 +1290,7 @@
   month        = nov,
   year         = 2026,
   publisher    = {Zenodo},
-  version      = {v3.5},
+  version      = {v3.6},
   doi          = {${cleanDoi}},
   url          = {${doiUrl}}
 }`;
@@ -1483,26 +1483,53 @@
       p.matchDiff = bestMatch ? bestMatch.diff : null;
     });
 
-    const findArea = (target2T) => {
-      const p = peaks.find(dp => Math.abs(dp.corr2T - target2T) <= 0.18);
-      return p ? p.area : 0;
-    };
-    const aCal104 = findArea(29.40);
-    const aAra111 = findArea(26.21);
-    const aAra021 = findArea(27.22);
-    const aAraSum = aAra111 + aAra021;
+    // 100% Normalized Multi-Phase Weight% Semi-Quantitation
+    const activeMins = minerals.filter(m => m.active);
+    const phaseWeights = {};
+    let totalWeight = 0;
 
-    sample.calArea = aCal104;
-    sample.araArea = aAraSum;
-    if (aCal104 > 0 || aAraSum > 0) {
-      const wCal = aCal104;
-      const wAra = aAraSum * rirFactor;
-      sample.calPct = Math.round((wCal / (wCal + wAra)) * 100);
+    activeMins.forEach(min => {
+      // Find strongest peak area for this mineral in the sample
+      let maxPeakArea = 0;
+      min.peaks.forEach(([std2T]) => {
+        const obsStd2T = stdToObs2Theta(std2T, sample.s0, sample.s1);
+        const matchP = peaks.find(dp => Math.abs(dp.corr2T - obsStd2T) <= 0.22);
+        if (matchP && matchP.area > maxPeakArea) {
+          maxPeakArea = matchP.area;
+        }
+      });
+      // Specific RIR weighting factor (Aragonite vs others)
+      let rir = 1.0;
+      if (min.id === "aragonite") rir = rirFactor;
+      else if (min.id === "quartz" || min.id === "k_feldspar") rir = 1.4;
+
+      const w = maxPeakArea > 0 ? (maxPeakArea / rir) : 0;
+      phaseWeights[min.id] = { nameKo: min.nameKo, nameEn: min.name, weight: w };
+      totalWeight += w;
+    });
+
+    sample.phaseQuant = {};
+    if (totalWeight > 0) {
+      Object.keys(phaseWeights).forEach(id => {
+        sample.phaseQuant[id] = Math.round((phaseWeights[id].weight / totalWeight) * 1000) / 10; // percentage with 1 decimal
+      });
+    } else {
+      Object.keys(phaseWeights).forEach(id => { sample.phaseQuant[id] = 0; });
+    }
+
+    // Binary Calcite vs Aragonite backward compatibility for ratio bar
+    const aCal = sample.phaseQuant["calcite"] || 0;
+    const aAra = sample.phaseQuant["aragonite"] || 0;
+    const sumCaAra = aCal + aAra;
+    if (sumCaAra > 0) {
+      sample.calPct = Math.round((aCal / sumCaAra) * 100);
       sample.araPct = 100 - sample.calPct;
     } else {
       sample.calPct = 0;
       sample.araPct = 0;
     }
+    sample.calArea = aCal;
+    sample.araArea = aAra;
   }
 
   function autoFitSampleShift(sample, peaks) {
@@ -1731,6 +1758,17 @@
       const top = s.ranked[0];
       const topName = top ? `${lang === "ko" ? top.min.nameKo : top.min.name} (${top.score}%)` : "—";
       const midShift = s.s0 + s.s1 * Math.cos(15 * Math.PI / 180);
+
+      // Format active phases weight% string (e.g., Calcite: 94.0%, Dolomite: 4.2%, ...)
+      const quantEntries = Object.entries(s.phaseQuant || {})
+        .filter(([id, wt]) => wt > 0)
+        .sort((a, b) => b[1] - a[1])
+        .map(([id, wt]) => {
+          const mObj = minerals.find(m => m.id === id);
+          const mLabel = mObj ? (lang === "ko" ? mObj.nameKo : mObj.name) : id;
+          return `${mLabel}: <strong>${wt.toFixed(1)}%</strong>`;
+        }).join(" | ");
+
       const tr = document.createElement("tr");
       if (idx === activeSampleIdx) tr.className = "selected";
       tr.innerHTML = `
@@ -1738,10 +1776,7 @@
         <td style="font-family:var(--sans); font-weight:600;">${s.name}</td>
         <td style="font-family:var(--sans);">${topName}</td>
         <td>${(midShift >= 0 ? "+" : "") + midShift.toFixed(3)}°</td>
-        <td>${s.calArea.toFixed(2)}</td>
-        <td>${s.araArea.toFixed(2)}</td>
-        <td style="color:var(--accent); font-weight:700;">${s.calPct}%</td>
-        <td style="color:var(--blue-ink); font-weight:700;">${s.araPct}%</td>
+        <td style="font-size:11.5px;">${quantEntries || "—"}</td>
       `;
       tr.onclick = () => {
         activeSampleIdx = idx;
@@ -1915,7 +1950,7 @@
     return {
       id, name, color, visible: true, isDemo: true,
       rawX: x, rawY: y, smoothY: [], baseY: [], netY: [],
-      s0: 0, s1: 0, peaks: [], ranked: [], calArea: 0, araArea: 0, calPct: 0, araPct: 0
+      s0: 0, s1: 0, peaks: [], ranked: [], calArea: 0, araArea: 0, calPct: 0, araPct: 0, phaseQuant: {}
     };
   }
 
@@ -1998,7 +2033,7 @@
             rawX: parsed.x,
             rawY: parsed.y,
             smoothY: [], baseY: [], netY: [],
-            s0: 0, s1: 0, peaks: [], ranked: [], calArea: 0, araArea: 0, calPct: 0, araPct: 0
+            s0: 0, s1: 0, peaks: [], ranked: [], calArea: 0, araArea: 0, calPct: 0, araPct: 0, phaseQuant: {}
           };
           analyzeSample(newSample, true);
           samples.push(newSample);
@@ -2297,13 +2332,11 @@
   };
   svgEl.ondblclick = () => document.getElementById("btnResetZoom").click();
 
-  // Build valid standalone SVG string with XML header and explicit xmlns
   function buildStandaloneSvgString() {
     const svgNode = document.getElementById("xrdSvg").cloneNode(true);
     svgNode.setAttribute("xmlns", "http://www.w3.org/2000/svg");
     svgNode.setAttribute("width", "1960");
     svgNode.setAttribute("height", "860");
-    // Remove hidden interactive overlays from exported figure
     const zr = svgNode.querySelector("#zoomRect");
     const cx = svgNode.querySelector("#crossX");
     if (zr) zr.remove();
@@ -2316,19 +2349,24 @@
     return svgStr;
   }
 
-  // Export CSV with UTF-8 BOM (\uFEFF) + Bilingual Korean/English columns
   document.getElementById("btnExportCsv").onclick = () => {
     const s = samples[activeSampleIdx];
     if (!s) return;
     let csv = "\uFEFF";
-    csv += "# [일괄 정량 요약 / BATCH SUMMARY]\r\n";
-    csv += "시료명 (Sample),1순위 광물 한글 (Primary_KO),1순위 광물 영문 (Primary_EN),적합도 (Score_%),보정변위 (Shift_deg),Calcite_104_Area,Aragonite_Area,Calcite_%,Aragonite_%\r\n";
+    csv += "# [100% 정규화 반정량 요약 / BATCH WEIGHT% SUMMARY]\r\n";
+    csv += "시료명 (Sample),1순위 광물 한글 (Primary_KO),1순위 광물 영문 (Primary_EN),적합도 (Score_%),보정변위 (Shift_deg),광물별 반정량 Weight% (Sum 100%)\r\n";
     samples.forEach(item => {
       const top = item.ranked[0];
       const sh = item.s0 + item.s1 * Math.cos(15 * Math.PI / 180);
       const koName = top ? top.min.nameKo : "";
       const enName = top ? top.min.name : "";
-      csv += `"${item.name}","${koName}","${enName}",${top ? top.score : 0},${sh.toFixed(4)},${item.calArea.toFixed(3)},${item.araArea.toFixed(3)},${item.calPct},${item.araPct}\r\n`;
+      const quantStr = Object.entries(item.phaseQuant || {})
+        .filter(([id, wt]) => wt > 0)
+        .map(([id, wt]) => {
+          const mObj = minerals.find(m => m.id === id);
+          return `${mObj ? mObj.nameKo : id}(${wt.toFixed(1)}%)`;
+        }).join("; ");
+      csv += `"${item.name}","${koName}","${enName}",${top ? top.score : 0},${sh.toFixed(4)},"${quantStr}"\r\n`;
     });
 
     csv += `\r\n# [활성 시료 피크 분석 / ACTIVE SAMPLE PEAKS]: ${s.name}\r\n`;
@@ -2340,11 +2378,10 @@
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = "IsoXRD_v3_5_Analysis.csv";
+    a.download = "IsoXRD_v3_6_WeightPercent.csv";
     a.click();
   };
 
-  // Export High-Resolution PNG Image (2x Retina resolution for PPT / Word)
   document.getElementById("btnExportPng").onclick = () => {
     const svgStr = buildStandaloneSvgString();
     const svgBlob = new Blob([svgStr], { type: "image/svg+xml;charset=utf-8" });
@@ -2370,7 +2407,6 @@
     img.src = url;
   };
 
-  // Export Valid Vector SVG Image
   document.getElementById("btnExportSvg").onclick = () => {
     const svgStr = buildStandaloneSvgString();
     const blob = new Blob([svgStr], { type: "image/svg+xml;charset=utf-8" });
@@ -2385,7 +2421,6 @@
     applyLanguage();
   };
 
-  // Citation Modal Handlers
   const citeModal = document.getElementById("citeModalBackdrop");
   document.getElementById("btnOpenCiteModal").onclick = () => {
     renderCitationTexts();
@@ -2415,7 +2450,6 @@
     };
   });
 
-  // Custom DB Modal
   const modal = document.getElementById("dbModalBackdrop");
   document.getElementById("btnOpenDbModal").onclick = () => { modal.classList.add("open"); renderCustomDbList(); };
   document.getElementById("btnCloseDbModal").onclick = () => modal.classList.remove("open");
