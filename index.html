@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IsoXRD v4.1 — Universal PO-Corrected & Adaptive FWHM RIR Notebook</title>
+  <title>IsoXRD v4.2 — Semi-Auto Phase Suggestion & Preset Suite Notebook</title>
   <style>
     /* Theme 3 (Default): Warm Linen & Terracotta */
     :root, [data-theme="linen"] {
@@ -157,12 +157,12 @@
     .kpi-val { font-family: var(--mono); font-size: 15.5px; font-weight: 700; margin-top: 3px; }
     .kpi-sub { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
 
-    .workspace { display: grid; grid-template-columns: 385px 1fr; gap: 16px; padding: 14px 24px 28px; }
+    .workspace { display: grid; grid-template-columns: 390px 1fr; gap: 16px; padding: 14px 24px 28px; }
     @media (max-width: 1024px) { .workspace { grid-template-columns: 1fr; } }
     .sidebar { display: flex; flex-direction: column; gap: 14px; }
 
     .card { background: var(--surface); border: 1px solid var(--border); border-radius: 9px; padding: 14px 16px; box-shadow: var(--shadow-sm); }
-    .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; padding-bottom: 7px; border-bottom: 1px solid var(--border); }
+    .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; padding-bottom: 7px; border-bottom: 1px solid var(--border); gap: 6px; }
     .card-title { font-family: var(--serif); font-weight: 700; font-size: 13.5px; }
 
     .dropzone {
@@ -217,6 +217,20 @@
     .rank-item:hover { border-color: var(--primary); background: var(--primary-soft); }
     .rank-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; }
 
+    /* Phase Suite Preset Bar */
+    .preset-suite-box {
+      margin-top: 9px; padding: 8px; border-radius: 7px;
+      background: var(--surface-subtle); border: 1px solid var(--border);
+    }
+    .preset-suite-grid {
+      display: flex; flex-wrap: wrap; gap: 4px; margin-top: 5px;
+    }
+    .suite-btn {
+      font-size: 11px; padding: 3px 7px; border-radius: 5px;
+      background: #ffffff; border: 1px solid var(--border-strong); color: var(--text-secondary);
+    }
+    .suite-btn:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-soft); }
+
     .pill-wrap { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 9px; max-height: 175px; overflow-y: auto; }
     .db-pill {
       display: inline-flex; align-items: center; gap: 5px; padding: 3.5px 8.5px;
@@ -270,10 +284,10 @@
   <div class="brand">
     <div class="brand-emblem">Xr</div>
     <div>
-      <span class="brand-title" data-i18n="appTitle">IsoXRD — 범용 우선 배향성 보정 & 적응형 FWHM 정량 노트</span>
-      <span class="brand-sub" data-i18n="appSub">Universal Preferred-Orientation Attenuation & Adaptive FWHM RIR Engine</span>
+      <span class="brand-title" data-i18n="appTitle">IsoXRD — 반자동 추천 상 불러오기 & 프리셋 정량 노트</span>
+      <span class="brand-sub" data-i18n="appSub">Semi-Automated Phase Suggestion, Preset Suites & PO-Corrected RIR Engine</span>
     </div>
-    <span class="version-tag">v4.1</span>
+    <span class="version-tag">v4.2</span>
   </div>
 
   <div class="header-actions">
@@ -377,17 +391,30 @@
       </div>
 
       <div style="margin-top:10px;">
-        <div style="font-size:11.5px; font-weight:700; margin-bottom:5px; color:var(--text-secondary);" data-i18n="rankTitle">후보 광물 적합도 순위 (Top 4)</div>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
+          <span style="font-size:11.5px; font-weight:700; color:var(--text-secondary);" data-i18n="rankTitle">후보 광물 적합도 순위 (Top 4)</span>
+          <button class="btn-cite btn-sm" id="btnAutoSuggest" data-i18n="btnSuggest" title="Select top matched phases without forcing auto-overwrite on load">✨ 추천 상 불러오기</button>
+        </div>
         <div class="rank-list" id="rankList"></div>
       </div>
     </div>
 
-    <!-- 3. Peak Detection & Mineral DB -->
+    <!-- 3. Peak Detection & Mineral DB + Suite Presets -->
     <div class="card">
       <div class="card-header">
-        <span class="card-title" data-i18n="sec3">3. 피크 검출 & 광물 DB (클릭하여 선택)</span>
+        <span class="card-title" data-i18n="sec3">3. 광물 조합 프리셋 & DB 선택</span>
         <button class="btn-sm" id="btnToggleAll" data-i18n="toggleAll">전체 토글</button>
       </div>
+
+      <!-- Phase Combination Suite Presets -->
+      <div class="preset-suite-box">
+        <div style="display:flex; justify-content:space-between; align-items:center; font-size:11px; font-weight:700; color:var(--text-secondary);">
+          <span data-i18n="suiteTitle">암석·시료 유형별 광물 조합 프리셋:</span>
+          <button class="btn-sm btn-ghost" id="btnSaveCustomSuite" style="padding:1px 5px; font-size:10.5px; color:var(--primary);" data-i18n="btnSaveSuite">+ 내 조합 저장</button>
+        </div>
+        <div class="preset-suite-grid" id="suitePresetGrid"></div>
+      </div>
+
       <div class="control-row">
         <label data-i18n="lblWavelength">X-선 파장 (λ):</label>
         <select id="wavelengthSelect">
@@ -451,7 +478,7 @@
       </div>
 
       <div class="chart-footer">
-        <span data-i18n="chartHint">💡 광물 구분 없이 개별 FWHM 측정 + 보조 피크 일관성 기반 우선 배향성(PO) 자동 감쇠 보정이 적용됩니다.</span>
+        <span data-i18n="chartHint">💡 '추천 상 불러오기' 또는 시료 유형별 프리셋으로 후보 광물을 빠르게 불러온 뒤 개별 알약으로 미세 조정하세요.</span>
         <span class="mono" id="presetSourceBadge">Preset JSON: loading...</span>
       </div>
     </div>
@@ -574,7 +601,7 @@
         <label style="margin-left:6px;"><input type="radio" name="pasteUnit" value="2theta" checked /> <span data-i18n="unit2T">2θ (°) + 세기</span></label>
         <label style="margin-left:10px;"><input type="radio" name="pasteUnit" value="d" /> <span data-i18n="unitD">d-spacing (Å) + 세기</span></label>
       </div>
-      <textarea id="pasteArea" rows="6" style="width:100%; font-family:var(--mono);" data-i18n-ph="phPaste" placeholder="예시 (탭/공백/쉼표 구분):&#10;24.90  65  (110)\n27.05  100 (112)\n32.78  95  (114)"></textarea>
+      <textarea id="pasteArea" rows="6" style="width:100%; font-family:var(--mono);" data-i18n-ph="phPaste" placeholder="예시 (탭/공백/쉼표 구분):\n24.90  65  (110)\n27.05  100 (112)\n32.78  95  (114)"></textarea>
       <div style="margin-top:8px; display:flex; justify-content:flex-end; gap:8px;">
         <button class="btn-primary" id="btnSavePastedMin" data-i18n="btnSaveMin">DB에 등록하기</button>
       </div>
@@ -616,8 +643,8 @@
 
   const I18N = {
     ko: {
-      appTitle: "IsoXRD — 범용 우선 배향성 보정 & 적응형 FWHM 정량 노트",
-      appSub: "Universal Preferred-Orientation Attenuation & Adaptive FWHM RIR Engine",
+      appTitle: "IsoXRD — 반자동 추천 상 불러오기 & 프리셋 정량 노트",
+      appSub: "Semi-Automated Phase Suggestion, Preset Suites & PO-Corrected RIR Engine",
       pubModeBtn: "출판용 흑백",
       pubModeBtnActive: "테마 컬러 복귀",
       exportCsv: "엑셀 CSV",
@@ -639,8 +666,11 @@
       chkPoText: "범용 우선 배향성(PO) 자동 감쇠 보정",
       carbTitle: "활성 광물 RIR 정량 (합계 100.0%)",
       rankTitle: "후보 광물 적합도 순위 (Top 4)",
-      sec3: "3. 피크 검출 & 광물 DB (클릭하여 선택)",
+      btnSuggest: "✨ 추천 상 불러오기",
+      sec3: "3. 광물 조합 프리셋 & DB 선택",
       toggleAll: "전체 토글",
+      suiteTitle: "암석·시료 유형별 광물 조합 프리셋:",
+      btnSaveSuite: "+ 내 조합 저장",
       lblWavelength: "X-선 파장 (λ):",
       lblPromText: "피크 검출 민감도 (Prominence):",
       lblSmoothText: "스무딩 윈도우 (Smoothing):",
@@ -654,7 +684,7 @@
       rangeLbl: "2θ:",
       btnApply: "적용",
       btnReset: "전체",
-      chartHint: "💡 광물 구분 없이 개별 FWHM 측정 + 보조 피크 일관성 기반 우선 배향성(PO) 자동 감쇠 보정이 적용됩니다.",
+      chartHint: "💡 '추천 상 불러오기' 또는 시료 유형별 프리셋으로 후보 광물을 빠르게 불러온 뒤 개별 알약으로 미세 조정하세요.",
       subTabPeaks: "활성 시료 피크 & 적분 면적표",
       subTabBatch: "다중 시료 일괄 정량 요약표 (Weight% 합계 100%)",
       tableHint: "시료 행 클릭 시 해당 스펙트럼 선택",
@@ -704,8 +734,8 @@
       unassigned: "미할당 / Unassigned"
     },
     en: {
-      appTitle: "IsoXRD — Universal PO-Corrected & Adaptive FWHM RIR Notebook",
-      appSub: "Universal Preferred-Orientation Attenuation & Adaptive FWHM RIR Engine",
+      appTitle: "IsoXRD — Semi-Auto Phase Suggestion & Preset Suite Notebook",
+      appSub: "Semi-Automated Phase Suggestion, Preset Suites & PO-Corrected RIR Engine",
       pubModeBtn: "Publication B&W",
       pubModeBtnActive: "Restore Theme Color",
       exportCsv: "Excel CSV",
@@ -727,8 +757,11 @@
       chkPoText: "Universal Preferred-Orientation (PO) Auto-Attenuation",
       carbTitle: "Active Phases RIR Weight% (Sum 100.0%)",
       rankTitle: "Candidate Phase Ranking (Top 4)",
-      sec3: "3. Peak Detection & Mineral DB (Click to Toggle)",
+      btnSuggest: "✨ Auto-Suggest Phases",
+      sec3: "3. Phase Suite Presets & Mineral DB",
       toggleAll: "Toggle All",
+      suiteTitle: "Rock / Sediment Phase Combination Presets:",
+      btnSaveSuite: "+ Save My Suite",
       lblWavelength: "X-Ray Wavelength (λ):",
       lblPromText: "Peak Prominence Threshold:",
       lblSmoothText: "Smoothing Window:",
@@ -742,7 +775,7 @@
       rangeLbl: "2θ:",
       btnApply: "Apply",
       btnReset: "Full",
-      chartHint: "💡 Phase-agnostic adaptive FWHM profiling + secondary peak consistency weighting corrects Preferred Orientation automatically.",
+      chartHint: "💡 Use 'Auto-Suggest Phases' or geological suite presets to load candidate phases, then fine-tune individual pills.",
       subTabPeaks: "Active Sample Peaks & Integrated Area",
       subTabBatch: "Multi-Sample 100%-Normalized Weight% Summary",
       tableHint: "Click a sample row to inspect its spectrum",
@@ -808,6 +841,27 @@
     }
   };
 
+  const BUILTIN_SUITES = [
+    {
+      id: "suite_carb",
+      labelKo: "탄산염/석순",
+      labelEn: "Carbonate / Speleothem",
+      ids: ["calcite", "aragonite", "dolomite", "quartz"]
+    },
+    {
+      id: "suite_mixed",
+      labelKo: "탄산염-규산염 혼합",
+      labelEn: "Calc-Silicate / Skarn",
+      ids: ["calcite", "dolomite", "quartz", "diopside", "k_feldspar", "biotite", "apatite", "muscovite"]
+    },
+    {
+      id: "suite_clastic",
+      labelKo: "쇄설성/풍화토",
+      labelEn: "Clastic / Soil",
+      ids: ["quartz", "albite", "microcline", "muscovite", "kaolinite", "hematite", "goethite"]
+    }
+  ];
+
   // Open Crystallography Database (COD) / RRUFF structure-factor derived I/Ic (RIR) values
   const CORE_MINERALS = [
     {
@@ -819,7 +873,7 @@
       ]
     },
     {
-      id: "aragonite", name: "Aragonite", nameKo: "아라고나이트", formula: "CaCO3", color: "#1d4ed8", rir: 1.15, defaultRir: 1.15, active: false,
+      id: "aragonite", name: "Aragonite", nameKo: "아라고나이트", formula: "CaCO3", color: "#1d4ed8", rir: 1.15, defaultRir: 1.15, active: true,
       peaks: [
         [26.21, 100, 3.396, "(111)"], [45.85, 65, 1.977, "(221)"], [27.22, 52, 3.273, "(021)"],
         [33.13, 46, 2.702, "(012)"], [37.88, 38, 2.373, "(112)"], [36.12, 33, 2.484, "(200)"],
@@ -866,15 +920,15 @@
   ];
 
   const LAB_PRESET_FALLBACK = [
-    { id: "diopside", name: "Diopside", nameKo: "투휘석", formula: "CaMgSi2O6", color: "#16a34a", rir: 1.15, defaultRir: 1.15, active: true,
+    { id: "diopside", name: "Diopside", nameKo: "투휘석", formula: "CaMgSi2O6", color: "#16a34a", rir: 1.15, defaultRir: 1.15, active: false,
       peaks: [[29.80,100,3.000,"(221)"],[30.50,60,2.928,"(310)"],[35.50,55,2.527,"(022)"],[31.10,45,2.873,"(002)"],[27.60,30,3.230,"(220)"]] },
-    { id: "k_feldspar", name: "K-feldspar", nameKo: "칼륨장석", formula: "KAlSi3O8", color: "#854d0e", rir: 0.95, defaultRir: 0.95, active: true,
+    { id: "k_feldspar", name: "K-feldspar", nameKo: "칼륨장석", formula: "KAlSi3O8", color: "#854d0e", rir: 0.95, defaultRir: 0.95, active: false,
       peaks: [[27.50,100,3.242,"(002)"],[21.00,40,4.227,"(201)"],[27.80,35,3.207,"(220)"],[29.50,30,3.026,"(131)"],[23.60,25,3.767,"(111)"]] },
-    { id: "biotite", name: "Biotite", nameKo: "흑운모", formula: "K(Mg,Fe)3(AlSi3O10)(OH)2", color: "#3f3f46", rir: 1.20, defaultRir: 1.20, active: true,
+    { id: "biotite", name: "Biotite", nameKo: "흑운모", formula: "K(Mg,Fe)3(AlSi3O10)(OH)2", color: "#3f3f46", rir: 1.20, defaultRir: 1.20, active: false,
       peaks: [[8.85,100,9.985,"(001)"],[26.80,85,3.324,"(006)"],[17.80,30,4.980,"(004)"],[19.90,25,4.459,"(020)"],[35.00,20,2.562,"(202)"]] },
-    { id: "apatite", name: "Apatite", nameKo: "인회석", formula: "Ca5(PO4)3(F,Cl,OH)", color: "#0284c7", rir: 1.10, defaultRir: 1.10, active: true,
+    { id: "apatite", name: "Apatite", nameKo: "인회석", formula: "Ca5(PO4)3(F,Cl,OH)", color: "#0284c7", rir: 1.10, defaultRir: 1.10, active: false,
       peaks: [[31.78,100,2.813,"(211)"],[25.87,85,3.442,"(002)"],[32.18,70,2.779,"(112)"],[28.93,55,3.084,"(210)"],[34.04,40,2.631,"(300)"]] },
-    { id: "muscovite", name: "Muscovite", nameKo: "백운모", formula: "KAl2(AlSi3O10)(OH)2", color: "#047857", rir: 0.90, defaultRir: 0.90, active: true,
+    { id: "muscovite", name: "Muscovite", nameKo: "백운모", formula: "KAl2(AlSi3O10)(OH)2", color: "#047857", rir: 0.90, defaultRir: 0.90, active: false,
       peaks: [[8.88,95,9.950,"(002)"],[26.82,100,3.321,"(006)"],[17.78,31,4.985,"(004)"],[34.96,25,2.564,"(202)"],[45.42,22,1.995,"(0010)"]] },
     { id: "vaterite", name: "Vaterite", nameKo: "바테라이트", formula: "CaCO3", color: "#9d174d", rir: 1.30, defaultRir: 1.30, active: false,
       peaks: [[24.90,65,3.573,"(110)"],[27.05,100,3.294,"(112)"],[32.78,95,2.730,"(114)"],[43.85,50,2.063,"(300)"],[49.10,30,1.854,"(304)"],[50.08,45,1.820,"(118)"]] },
@@ -903,6 +957,12 @@
   function safeSet(k, v) { try { window.localStorage.setItem(k, v); } catch (e) { memStore[k] = v; } }
 
   let minerals = JSON.parse(JSON.stringify(CORE_MINERALS));
+  let customSuites = [];
+  try {
+    const savedS = safeGet("isoxrd_custom_suites_v4");
+    if (savedS) customSuites = JSON.parse(savedS);
+  } catch (e) {}
+
   let lang = "ko";
   let currentTheme = safeGet("isoxrd_theme_v3") || "linen";
   let savedDoi = safeGet("isoxrd_zenodo_doi") || DEFAULT_DOI;
@@ -922,10 +982,10 @@
     document.getElementById("linkZenodoDoi").href = doiUrl;
 
     document.getElementById("citeTextStatement").textContent =
-      `X-ray diffraction (XRD) baseline subtraction, non-linear sample height displacement correction (Δ2θ = s₀ + s₁cosθ), adaptive-FWHM Pseudo-Voigt deconvolution, and preferred-orientation-attenuated multi-peak RIR (I/Ic) semi-quantitative weight quantification were performed using IsoXRD v4.1 (Yang, 2026; ${doiUrl}).`;
+      `X-ray diffraction (XRD) baseline subtraction, non-linear sample height displacement correction (Δ2θ = s₀ + s₁cosθ), adaptive-FWHM Pseudo-Voigt deconvolution, and preferred-orientation-attenuated multi-peak RIR (I/Ic) semi-quantitative weight quantification were performed using IsoXRD v4.2 (Yang, 2026; ${doiUrl}).`;
 
     document.getElementById("citeTextApa").textContent =
-      `Yang, Y.-S. (2026). IsoXRD: Lightweight Browser-Based XRD Phase Identification and Semi-Quantitative Carbonate Analysis Tool (Version 4.1) [Computer software]. Zenodo. ${doiUrl}`;
+      `Yang, Y.-S. (2026). IsoXRD: Lightweight Browser-Based XRD Phase Identification and Semi-Quantitative Carbonate Analysis Tool (Version 4.2) [Computer software]. Zenodo. ${doiUrl}`;
 
     document.getElementById("citeTextBib").textContent =
 `@software{Yang_IsoXRD_2026,
@@ -934,7 +994,7 @@
   month        = nov,
   year         = 2026,
   publisher    = {Zenodo},
-  version      = {v4.1},
+  version      = {v4.2},
   doi          = {${cleanDoi}},
   url          = {${doiUrl}}
 }`;
@@ -982,7 +1042,7 @@
 
   try {
     const savedCustom = safeGet("isoxrd_custom_minerals_v2");
-    if (savedCustom) mergeMinerals(JSON.parse(savedCustom), true);
+    if (savedCustom) mergeMinerals(JSON.parse(savedCustom), false);
   } catch (e) {}
 
   function applySavedRirOverrides() {
@@ -1000,13 +1060,33 @@
     safeSet("isoxrd_rir_overrides_v4", JSON.stringify(rirMap));
   }
 
+  function renderSuitePresets() {
+    const grid = document.getElementById("suitePresetGrid");
+    grid.innerHTML = "";
+    const allSuites = [...BUILTIN_SUITES, ...customSuites];
+    allSuites.forEach(suite => {
+      const btn = document.createElement("button");
+      btn.className = "suite-btn";
+      btn.textContent = lang === "ko" ? suite.labelKo : (suite.labelEn || suite.labelKo);
+      btn.title = suite.ids.join(", ");
+      btn.onclick = () => {
+        minerals.forEach(m => {
+          m.active = suite.ids.includes(m.id);
+        });
+        renderDbPills();
+        reprocessAllSamples(false);
+      };
+      grid.appendChild(btn);
+    });
+  }
+
   async function loadExternalPresetJson() {
     const badge = document.getElementById("presetSourceBadge");
     try {
       const resp = await fetch("./presets/lab_custom_minerals.json", { cache: "no-cache" });
       if (!resp.ok) throw new Error("HTTP " + resp.status);
       const data = await resp.json();
-      mergeMinerals(data, true);
+      mergeMinerals(data, false);
       badge.textContent = "Preset JSON: presets/lab_custom_minerals.json (synced)";
       badge.style.color = "var(--primary)";
     } catch (err) {
@@ -1015,6 +1095,7 @@
       badge.style.color = "var(--muted)";
     }
     applySavedRirOverrides();
+    renderSuitePresets();
     renderDbPills();
     reprocessAllSamples();
   }
@@ -1069,7 +1150,6 @@
     return Math.max(0, area);
   }
 
-  // 1. Adaptive Local FWHM Estimator (phase-agnostic peak width measurement)
   function estimateLocalFwhm(xArr, yArr, centerIdx, stepDeg) {
     const peakY = yArr[centerIdx];
     if (peakY <= 20) return 0.22;
@@ -1100,7 +1180,6 @@
     return Math.min(0.45, Math.max(0.10, fwhm));
   }
 
-  // Normalized Pseudo-Voigt Basis Function (integral over (-inf, +inf) = 1.0)
   function pseudoVoigtBasis(x, x0, fwhm, eta = 0.55) {
     const dx = x - x0;
     const halfW = fwhm * 0.5;
@@ -1112,7 +1191,6 @@
     return eta * lorentz + (1 - eta) * gauss;
   }
 
-  // 2. Universal Adaptive-FWHM Pseudo-Voigt Deconvolution & Preferred Orientation (PO) Auto-Attenuation
   function deconvolveActiveMinerals(sample, activeMins, usePoCorrection) {
     const nPts = sample.rawX.length;
     const sMin = sample.rawX[0], sMax = sample.rawX[nPts - 1];
@@ -1178,7 +1256,6 @@
       }
     });
 
-    // Non-Negative Least Squares (NNLS) via iterative Coordinate Descent (28 sweeps)
     const residual = Float64Array.from(sample.netY);
     for (let iter = 0; iter < 28; iter++) {
       let maxDelta = 0;
@@ -1204,8 +1281,6 @@
       if (maxDelta < 0.05) break;
     }
 
-    // 3. Universal Secondary-Peak Consistency Check for Preferred Orientation (PO)
-    // Applies equally to ALL minerals without phase-specific hardcoding
     if (usePoCorrection) {
       components.forEach(comp => {
         if (comp.areaScale <= 0) return;
@@ -1213,7 +1288,6 @@
         const secondaries = comp.subPeaks.filter(sp => sp !== primary && sp.relI >= 15);
         if (!primary || secondaries.length === 0 || primary.idx === -1) return;
 
-        // Measure local net crest above immediate shoulders for primary and secondary peaks
         const getLocalCrest = (idx) => {
           if (idx <= 1 || idx >= nPts - 2) return 0;
           const off = Math.max(4, Math.round(0.32 / Math.max(0.001, step)));
@@ -1234,9 +1308,7 @@
         });
 
         if (expectedSecSum > 15) {
-          // Ratio of observed secondary intensity vs expected random-powder intensity
           const consistencyRatio = observedSecSum / expectedSecSum;
-          // If secondary peaks are suppressed relative to primary (strong cleavage/basal PO), attenuate smoothly
           if (consistencyRatio < 0.85) {
             comp.poFactor = Math.max(0.22, Math.min(1.0, Math.pow(consistencyRatio / 0.85, 1.15)));
           }
@@ -1244,7 +1316,6 @@
       });
     }
 
-    // Reconstruct total synthetic fitted curve & residual curve
     const fitY = new Float64Array(nPts);
     for (let c = 0; c < components.length; c++) {
       const comp = components[c];
@@ -2070,6 +2141,7 @@
       if (dict[key]) el.setAttribute("placeholder", dict[key]);
     });
 
+    renderSuitePresets();
     renderDbPills();
     reprocessAllSamples(false);
   }
@@ -2106,6 +2178,45 @@
     if (!s) return;
     analyzeSample(s, true);
     syncActiveSampleUI();
+  };
+
+  // Semi-Auto Phase Suggestion (only runs when explicitly clicked by user)
+  document.getElementById("btnAutoSuggest").onclick = () => {
+    const s = samples[activeSampleIdx];
+    if (!s || !s.ranked || !s.ranked.length) return;
+    const topIds = new Set(
+      s.ranked
+        .filter((r, idx) => r.score >= 30 || (idx < 3 && r.score >= 12))
+        .slice(0, 5)
+        .map(r => r.min.id)
+    );
+    if (topIds.size === 0 && s.ranked[0]) {
+      topIds.add(s.ranked[0].min.id);
+    }
+    minerals.forEach(m => {
+      m.active = topIds.has(m.id);
+    });
+    renderDbPills();
+    reprocessAllSamples(false);
+  };
+
+  // Save current active mineral pills as a reusable custom Suite Preset
+  document.getElementById("btnSaveCustomSuite").onclick = () => {
+    const activeIds = minerals.filter(m => m.active).map(m => m.id);
+    if (!activeIds.length) {
+      return alert(lang === "ko" ? "먼저 저장할 광물 알약을 하나 이상 선택해 주세요." : "Please select at least one mineral pill first.");
+    }
+    const promptMsg = lang === "ko" ? "저장할 광물 조합 프리셋 이름을 입력하세요 (예: 우리랩 석순 코어):" : "Enter a name for this mineral combination preset:";
+    const name = window.prompt(promptMsg);
+    if (!name || !name.trim()) return;
+    customSuites.push({
+      id: "custom_suite_" + Date.now(),
+      labelKo: name.trim(),
+      labelEn: name.trim(),
+      ids: activeIds
+    });
+    safeSet("isoxrd_custom_suites_v4", JSON.stringify(customSuites));
+    renderSuitePresets();
   };
 
   document.getElementById("btnResetRir").onclick = () => {
@@ -2289,7 +2400,7 @@
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = "IsoXRD_v4_1_PO_Corrected_WeightPercent.csv";
+    a.download = "IsoXRD_v4_2_SemiAuto_WeightPercent.csv";
     a.click();
   };
 
@@ -2485,6 +2596,7 @@
   // Boot
   setTheme(currentTheme, false);
   renderCitationTexts();
+  renderSuitePresets();
   renderDbPills();
   loadDemoPreset("core_suite");
   loadExternalPresetJson();
