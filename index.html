@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IsoXRD v3.7 — Multi-Phase RIR Weight% & Diffraction Notebook</title>
+  <title>IsoXRD v3.8 — Multi-Phase RIR Weight% & Diffraction Notebook</title>
   <style>
     /* Theme 3 (Default): Warm Linen & Terracotta */
     :root, [data-theme="linen"] {
@@ -187,7 +187,6 @@
     .slider-header { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 3px; color: var(--text-secondary); }
     input[type="range"] { width: 100%; accent-color: var(--primary); }
 
-    /* Multi-Phase Stacked Bar & HighScore Style Weight% Table */
     .quant-box {
       margin-top: 12px; padding: 10px 11px; border-radius: 7px;
       background: var(--surface-subtle); border: 1px solid var(--border);
@@ -266,7 +265,7 @@
       <span class="brand-title" data-i18n="appTitle">IsoXRD — 결정학 상동정 & 다중 광물 RIR 정량 노트</span>
       <span class="brand-sub" data-i18n="appSub">Multi-Phase RIR (I/Ic) Weight% Quantification & Diffraction Stack Analyzer</span>
     </div>
-    <span class="version-tag">v3.7</span>
+    <span class="version-tag">v3.8</span>
   </div>
 
   <div class="header-actions">
@@ -310,7 +309,7 @@
   <div class="kpi-card">
     <div class="kpi-label" data-i18n="kpiCarbKpi">최다 함량 광물 (RIR Weight%)</div>
     <div class="kpi-val" id="kpiCarbRatioVal">—</div>
-    <div class="kpi-sub" id="kpiDbStatus">DB: 21 phases loaded</div>
+    <div class="kpi-sub" id="kpiDbStatus">DB: 22 phases loaded</div>
   </div>
 </div>
 
@@ -341,14 +340,14 @@
           <span data-i18n="lblS0Text">영점 오차 (s₀):</span>
           <span class="mono" id="lblS0">0.000°</span>
         </div>
-        <input type="range" id="sliderS0" min="-1.0" max="1.0" step="0.005" value="0" />
+        <input type="range" id="sliderS0" min="-0.6" max="0.6" step="0.005" value="0" />
       </div>
       <div class="slider-group">
         <div class="slider-header">
           <span data-i18n="lblS1Text">시료 높이 변위 (s₁·cosθ):</span>
           <span class="mono" id="lblS1">0.000°</span>
         </div>
-        <input type="range" id="sliderS1" min="-0.8" max="0.8" step="0.005" value="0" />
+        <input type="range" id="sliderS1" min="-0.3" max="0.3" step="0.005" value="0" />
       </div>
 
       <!-- HighScore-Style Multi-Phase Weight% Box -->
@@ -790,7 +789,6 @@
     }
   };
 
-  // Standard Literature RIR (I/Ic) values included for accurate multi-phase Weight% quantification
   const CORE_MINERALS = [
     {
       id: "calcite", name: "Calcite", nameKo: "방해석", formula: "CaCO3", color: "#a84a28", rir: 3.20, active: true,
@@ -801,7 +799,7 @@
       ]
     },
     {
-      id: "aragonite", name: "Aragonite", nameKo: "아라고나이트", formula: "CaCO3", color: "#1d4ed8", rir: 1.15, active: true,
+      id: "aragonite", name: "Aragonite", nameKo: "아라고나이트", formula: "CaCO3", color: "#1d4ed8", rir: 1.15, active: false,
       peaks: [
         [26.21, 100, 3.396, "(111)"], [45.85, 65, 1.977, "(221)"], [27.22, 52, 3.273, "(021)"],
         [33.13, 46, 2.702, "(012)"], [37.88, 38, 2.373, "(112)"], [36.12, 33, 2.484, "(200)"],
@@ -848,35 +846,35 @@
   ];
 
   const LAB_PRESET_FALLBACK = [
-    { id: "diopside", name: "Diopside", nameKo: "투휘석", formula: "CaMgSi2O6", color: "#16a34a", rir: 1.15,
+    { id: "diopside", name: "Diopside", nameKo: "투휘석", formula: "CaMgSi2O6", color: "#16a34a", rir: 1.15, active: true,
       peaks: [[29.80,100,3.000,"(221)"],[30.50,60,2.928,"(310)"],[35.50,55,2.527,"(022)"],[31.10,45,2.873,"(002)"],[27.60,30,3.230,"(220)"]] },
-    { id: "k_feldspar", name: "K-feldspar", nameKo: "칼륨장석", formula: "KAlSi3O8", color: "#854d0e", rir: 0.95,
+    { id: "k_feldspar", name: "K-feldspar", nameKo: "칼륨장석", formula: "KAlSi3O8", color: "#854d0e", rir: 0.95, active: true,
       peaks: [[27.50,100,3.242,"(002)"],[21.00,40,4.227,"(201)"],[27.80,35,3.207,"(220)"],[29.50,30,3.026,"(131)"],[23.60,25,3.767,"(111)"]] },
-    { id: "biotite", name: "Biotite", nameKo: "흑운모", formula: "K(Mg,Fe)3(AlSi3O10)(OH)2", color: "#3f3f46", rir: 1.20,
+    { id: "biotite", name: "Biotite", nameKo: "흑운모", formula: "K(Mg,Fe)3(AlSi3O10)(OH)2", color: "#3f3f46", rir: 1.20, active: true,
       peaks: [[8.85,100,9.985,"(001)"],[26.80,85,3.324,"(006)"],[17.80,30,4.980,"(004)"],[19.90,25,4.459,"(020)"],[35.00,20,2.562,"(202)"]] },
-    { id: "apatite", name: "Apatite", nameKo: "인회석", formula: "Ca5(PO4)3(F,Cl,OH)", color: "#0284c7", rir: 1.10,
+    { id: "apatite", name: "Apatite", nameKo: "인회석", formula: "Ca5(PO4)3(F,Cl,OH)", color: "#0284c7", rir: 1.10, active: true,
       peaks: [[31.78,100,2.813,"(211)"],[25.87,85,3.442,"(002)"],[32.18,70,2.779,"(112)"],[28.93,55,3.084,"(210)"],[34.04,40,2.631,"(300)"]] },
-    { id: "muscovite", name: "Muscovite", nameKo: "백운모", formula: "KAl2(AlSi3O10)(OH)2", color: "#047857", rir: 0.90,
+    { id: "muscovite", name: "Muscovite", nameKo: "백운모", formula: "KAl2(AlSi3O10)(OH)2", color: "#047857", rir: 0.90, active: true,
       peaks: [[8.88,95,9.950,"(002)"],[26.82,100,3.321,"(006)"],[17.78,31,4.985,"(004)"],[34.96,25,2.564,"(202)"],[45.42,22,1.995,"(0010)"]] },
-    { id: "vaterite", name: "Vaterite", nameKo: "바테라이트", formula: "CaCO3", color: "#9d174d", rir: 1.30,
+    { id: "vaterite", name: "Vaterite", nameKo: "바테라이트", formula: "CaCO3", color: "#9d174d", rir: 1.30, active: false,
       peaks: [[24.90,65,3.573,"(110)"],[27.05,100,3.294,"(112)"],[32.78,95,2.730,"(114)"],[43.85,50,2.063,"(300)"],[49.10,30,1.854,"(304)"],[50.08,45,1.820,"(118)"]] },
-    { id: "magnesite", name: "Magnesite", nameKo: "마그네사이트", formula: "MgCO3", color: "#6b21a8", rir: 2.30,
+    { id: "magnesite", name: "Magnesite", nameKo: "마그네사이트", formula: "MgCO3", color: "#6b21a8", rir: 2.30, active: false,
       peaks: [[32.63,100,2.742,"(104)"],[42.99,43,2.102,"(113)"],[53.88,34,1.700,"(116)"],[35.85,12,2.503,"(110)"],[46.81,12,1.939,"(202)"]] },
-    { id: "siderite", name: "Siderite", nameKo: "능철석", formula: "FeCO3", color: "#78350f", rir: 2.80,
+    { id: "siderite", name: "Siderite", nameKo: "능철석", formula: "FeCO3", color: "#78350f", rir: 2.80, active: false,
       peaks: [[32.02,100,2.793,"(104)"],[52.76,35,1.734,"(116)"],[42.31,25,2.134,"(113)"],[24.81,22,3.586,"(012)"],[46.23,20,1.962,"(202)"]] },
-    { id: "anhydrite", name: "Anhydrite", nameKo: "경석고", formula: "CaSO4", color: "#0369a1", rir: 2.10,
+    { id: "anhydrite", name: "Anhydrite", nameKo: "경석고", formula: "CaSO4", color: "#0369a1", rir: 2.10, active: false,
       peaks: [[25.44,100,3.498,"(002)"],[31.36,33,2.850,"(210)"],[38.63,22,2.329,"(202)"],[40.82,20,2.209,"(212)"],[48.68,15,1.869,"(230)"]] },
-    { id: "kaolinite", name: "Kaolinite", nameKo: "카올리나이트", formula: "Al2Si2O5(OH)4", color: "#0f766e", rir: 1.00,
+    { id: "kaolinite", name: "Kaolinite", nameKo: "카올리나이트", formula: "Al2Si2O5(OH)4", color: "#0f766e", rir: 1.00, active: false,
       peaks: [[12.36,100,7.155,"(001)"],[24.88,80,3.576,"(002)"],[20.36,35,4.358,"(110)"],[38.45,30,2.339,"(202)"],[62.31,25,1.489,"(060)"]] },
-    { id: "albite", name: "Albite (Plagioclase)", nameKo: "조장석(사장석)", formula: "NaAlSi3O8", color: "#3730a3", rir: 1.10,
+    { id: "albite", name: "Albite (Plagioclase)", nameKo: "조장석(사장석)", formula: "NaAlSi3O8", color: "#3730a3", rir: 1.10, active: false,
       peaks: [[27.93,100,3.192,"(002)"],[22.05,25,4.028,"(201)"],[23.54,20,3.776,"(111)"],[24.22,20,3.672,"(130)"],[30.48,18,2.930,"(041)"]] },
-    { id: "microcline", name: "Microcline (K-Feldspar)", nameKo: "미사장석(알칼리장석)", formula: "KAlSi3O8", color: "#86198f", rir: 0.95,
+    { id: "microcline", name: "Microcline (K-Feldspar)", nameKo: "미사장석(알칼리장석)", formula: "KAlSi3O8", color: "#86198f", rir: 0.95, active: false,
       peaks: [[27.46,100,3.246,"(002)"],[21.05,30,4.217,"(201)"],[25.63,25,3.473,"(112)"],[29.48,22,3.027,"(131)"],[41.80,20,2.159,"(060)"]] },
-    { id: "hematite", name: "Hematite", nameKo: "적철석", formula: "Fe2O3", color: "#991b1b", rir: 2.40,
+    { id: "hematite", name: "Hematite", nameKo: "적철석", formula: "Fe2O3", color: "#991b1b", rir: 2.40, active: false,
       peaks: [[33.15,100,2.700,"(104)"],[35.61,70,2.519,"(110)"],[54.09,45,1.694,"(116)"],[49.48,40,1.841,"(024)"],[24.14,30,3.684,"(012)"],[40.85,20,2.207,"(113)"]] },
-    { id: "goethite", name: "Goethite", nameKo: "침철석", formula: "FeO(OH)", color: "#b45309", rir: 1.90,
+    { id: "goethite", name: "Goethite", nameKo: "침철석", formula: "FeO(OH)", color: "#b45309", rir: 1.90, active: false,
       peaks: [[21.22,100,4.183,"(110)"],[36.65,50,2.450,"(111)"],[33.24,35,2.693,"(130)"],[53.24,30,1.719,"(221)"],[34.70,20,2.583,"(021)"]] },
-    { id: "fluorite", name: "Fluorite", nameKo: "형석", formula: "CaF2", color: "#15803d", rir: 3.60,
+    { id: "fluorite", name: "Fluorite", nameKo: "형석", formula: "CaF2", color: "#15803d", rir: 3.60, active: false,
       peaks: [[28.27,94,3.154,"(111)"],[47.00,100,1.932,"(220)"],[55.76,35,1.647,"(311)"]] }
   ];
 
@@ -904,10 +902,10 @@
     document.getElementById("linkZenodoDoi").href = doiUrl;
 
     document.getElementById("citeTextStatement").textContent =
-      `X-ray diffraction (XRD) baseline subtraction, non-linear sample height displacement correction (Δ2θ = s₀ + s₁cosθ), mineral phase identification, and 100%-normalized RIR (I/Ic) semi-quantitative weight quantification were performed using IsoXRD v3.7 (Yang, 2026; ${doiUrl}).`;
+      `X-ray diffraction (XRD) baseline subtraction, non-linear sample height displacement correction (Δ2θ = s₀ + s₁cosθ), mineral phase identification, and 100%-normalized RIR (I/Ic) semi-quantitative weight quantification were performed using IsoXRD v3.8 (Yang, 2026; ${doiUrl}).`;
 
     document.getElementById("citeTextApa").textContent =
-      `Yang, Y.-S. (2026). IsoXRD: Lightweight Browser-Based XRD Phase Identification and Semi-Quantitative Carbonate Analysis Tool (Version 3.7) [Computer software]. Zenodo. ${doiUrl}`;
+      `Yang, Y.-S. (2026). IsoXRD: Lightweight Browser-Based XRD Phase Identification and Semi-Quantitative Carbonate Analysis Tool (Version 3.8) [Computer software]. Zenodo. ${doiUrl}`;
 
     document.getElementById("citeTextBib").textContent =
 `@software{Yang_IsoXRD_2026,
@@ -916,7 +914,7 @@
   month        = nov,
   year         = 2026,
   publisher    = {Zenodo},
-  version      = {v3.7},
+  version      = {v3.8},
   doi          = {${cleanDoi}},
   url          = {${doiUrl}}
 }`;
@@ -970,7 +968,7 @@
       const resp = await fetch("./presets/lab_custom_minerals.json", { cache: "no-cache" });
       if (!resp.ok) throw new Error("HTTP " + resp.status);
       const data = await resp.json();
-      mergeMinerals(data, false);
+      mergeMinerals(data, true);
       badge.textContent = "Preset JSON: presets/lab_custom_minerals.json (synced)";
       badge.style.color = "var(--primary)";
     } catch (err) {
@@ -1032,12 +1030,11 @@
     return Math.max(0, area);
   }
 
-  // Direct profile integration around a target 2theta (captures minor 0.5% - 8% peaks regardless of prominence slider!)
+  // Fixed direct profile peak integrator: searches rawX around targetObs2T
   function measureDirectProfilePeak(sample, targetObs2T, stepDeg) {
     const sMin = sample.rawX[0], sMax = sample.rawX[sample.rawX.length - 1];
-    if (targetObs2T < sMin + 0.2 || targetObs2T > sMax - 0.2) return { area: 0, netHeight: 0 };
+    if (targetObs2T < sMin + 0.15 || targetObs2T > sMax - 0.15) return { area: 0, netHeight: 0 };
 
-    // Search local maximum within +/- 0.14 deg window
     let bestIdx = -1, bestVal = -1;
     for (let i = 0; i < sample.rawX.length; i++) {
       if (Math.abs(sample.rawX[i] - targetObs2T) <= 0.14) {
@@ -1049,16 +1046,15 @@
     }
     if (bestIdx <= 1 || bestIdx >= sample.netY.length - 2) return { area: 0, netHeight: 0 };
 
-    // Verify it is at least a subtle local crest above local shoulders (+/- 0.35 deg)
-    const shoulderOffset = Math.max(3, Math.round(0.35 / Math.max(0.001, stepDeg)));
+    const shoulderOffset = Math.max(4, Math.round(0.32 / Math.max(0.001, stepDeg)));
     const leftVal = sample.netY[Math.max(0, bestIdx - shoulderOffset)];
     const rightVal = sample.netY[Math.min(sample.netY.length - 1, bestIdx + shoulderOffset)];
     const shoulderBase = 0.5 * (leftVal + rightVal);
     const localNet = Math.max(0, bestVal - shoulderBase);
 
-    if (localNet <= 15) return { area: 0, netHeight: 0 }; // Filter pure random baseline noise
+    // Must be a genuine local crest above random noise
+    if (localNet <= 18) return { area: 0, netHeight: 0 };
 
-    // Integrate local net signal above shoulder baseline
     const start = Math.max(0, bestIdx - shoulderOffset);
     const end = Math.min(sample.netY.length - 1, bestIdx + shoulderOffset);
     let area = 0;
@@ -1149,18 +1145,16 @@
       p.matchDiff = bestMatch ? bestMatch.diff : null;
     });
 
-    // HighScore-Style Multi-Phase RIR (I/Ic) Weight% Quantification (Sum = 100.0%)
+    // Multi-Phase RIR (I/Ic) Weight% Quantification (Sum = 100.0%)
     const activeMins = minerals.filter(m => m.active);
     const phaseWeights = [];
     let totalWeight = 0;
 
     activeMins.forEach(min => {
-      // Find the primary (100% intensity) peak of this mineral
       const primaryRef = min.peaks.reduce((best, cur) => cur[1] > best[1] ? cur : best, min.peaks[0]);
       const obsTarget2T = stdToObs2Theta(primaryRef[0], sample.s0, sample.s1);
       const measured = measureDirectProfilePeak(sample, obsTarget2T, step);
 
-      // RIR formula: Weight_i proportional to (I_obs / I_rel_ref) / RIR_i
       const rir = min.rir || 1.2;
       const w = measured.area > 0 ? (measured.area / (primaryRef[1] / 100)) / rir : 0;
       phaseWeights.push({ id: min.id, nameKo: min.nameKo, nameEn: min.name, color: min.color, weight: w });
@@ -1171,7 +1165,7 @@
     if (totalWeight > 0) {
       let runningSum = 0;
       const sortedW = phaseWeights.sort((a, b) => b.weight - a.weight);
-      sortedW.forEach((item, idx) => {
+      sortedW.forEach(item => {
         if (item.weight <= 0) {
           sample.phaseQuantList.push({ ...item, pct: 0 });
         } else {
@@ -1180,7 +1174,6 @@
           runningSum += pct;
         }
       });
-      // Adjust rounding residual on top phase so sum is strictly 100.0%
       const nonZero = sample.phaseQuantList.filter(x => x.pct > 0);
       if (nonZero.length > 0 && Math.abs(100 - runningSum) > 0.01) {
         nonZero[0].pct = Math.max(0, Math.round((nonZero[0].pct + (100 - runningSum)) * 10) / 10);
@@ -1188,28 +1181,31 @@
     }
   }
 
+  // Constrained Auto-Fit: keeps s1 realistic (<= 0.15 deg) so secondary peaks stay aligned
   function autoFitSampleShift(sample, peaks) {
     const strongest = peaks.reduce((a, b) => b.net > a.net ? b : a, peaks[0]);
     let bestScore = -1, bestS0 = 0, bestS1 = 0;
 
     minerals.forEach(min => {
       min.peaks.forEach(([std2T, relI]) => {
-        if (relI < 45) return;
+        if (relI < 50) return;
         const approxShift = strongest.obs2T - std2T;
-        if (Math.abs(approxShift) > 1.1) return;
+        if (Math.abs(approxShift) > 0.65) return;
 
-        for (let ds1 = -0.35; ds1 <= 0.35; ds1 += 0.05) {
+        for (let ds1 = -0.15; ds1 <= 0.15; ds1 += 0.03) {
           const rad = (std2T / 2) * Math.PI / 180;
           const ds0 = approxShift - ds1 * Math.cos(rad);
-          if (Math.abs(ds0) > 1.0) continue;
+          if (Math.abs(ds0) > 0.6) continue;
 
           let hits = 0;
           min.peaks.forEach(([p2T, pRel]) => {
             const pRad = (p2T / 2) * Math.PI / 180;
             const predObs = p2T + ds0 + ds1 * Math.cos(pRad);
-            const match = peaks.find(dp => Math.abs(dp.obs2T - predObs) <= 0.12);
-            if (match) hits += pRel * (1 - Math.abs(match.obs2T - predObs) / 0.15);
+            const match = peaks.find(dp => Math.abs(dp.obs2T - predObs) <= 0.10);
+            if (match) hits += pRel * (1 - Math.abs(match.obs2T - predObs) / 0.12);
           });
+          // Slight penalty for large s1 to prefer pure zero-shift unless s1 genuinely improves multi-peak fit
+          hits -= Math.abs(ds1) * 5;
           if (hits > bestScore) {
             bestScore = hits;
             bestS0 = ds0;
@@ -1288,7 +1284,6 @@
     document.getElementById("kpiShiftVal").textContent = (midShift >= 0 ? "+" : "") + midShift.toFixed(3) + "°";
     document.getElementById("kpiShiftDetail").textContent = `s₀: ${s.s0.toFixed(3)}° / s₁: ${s.s1.toFixed(3)}°`;
 
-    // Render Multi-Phase Stacked Bar & Weight% Rows directly in Sidebar
     const barEl = document.getElementById("multiPhaseBar");
     const listEl = document.getElementById("multiPhaseList");
     barEl.innerHTML = "";
@@ -2057,7 +2052,7 @@
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = "IsoXRD_v3_7_RIR_WeightPercent.csv";
+    a.download = "IsoXRD_v3_8_RIR_WeightPercent.csv";
     a.click();
   };
 
