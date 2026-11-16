@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IsoXRD v4.2 — Semi-Auto Phase Suggestion & Preset Suite Notebook</title>
+  <title>IsoXRD v4.3 — Additive Residual-Peak Phase Suggestion & RIR Notebook</title>
   <style>
     /* Theme 3 (Default): Warm Linen & Terracotta */
     :root, [data-theme="linen"] {
@@ -142,6 +142,7 @@
     button.btn-primary { background: var(--primary); color: #ffffff; border-color: var(--primary); }
     button.btn-primary:hover { background: var(--primary-hover); }
     button.btn-cite { background: var(--primary-soft); color: var(--primary); border-color: var(--primary-border); }
+    button.btn-cite:hover { background: var(--primary); color: #ffffff; }
     button.btn-sm { padding: 3px 8px; font-size: 11px; }
     button.btn-ghost { border-color: transparent; background: transparent; box-shadow: none; color: var(--text-secondary); }
 
@@ -217,7 +218,6 @@
     .rank-item:hover { border-color: var(--primary); background: var(--primary-soft); }
     .rank-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; }
 
-    /* Phase Suite Preset Bar */
     .preset-suite-box {
       margin-top: 9px; padding: 8px; border-radius: 7px;
       background: var(--surface-subtle); border: 1px solid var(--border);
@@ -284,10 +284,10 @@
   <div class="brand">
     <div class="brand-emblem">Xr</div>
     <div>
-      <span class="brand-title" data-i18n="appTitle">IsoXRD — 반자동 추천 상 불러오기 & 프리셋 정량 노트</span>
-      <span class="brand-sub" data-i18n="appSub">Semi-Automated Phase Suggestion, Preset Suites & PO-Corrected RIR Engine</span>
+      <span class="brand-title" data-i18n="appTitle">IsoXRD — 잔차 피크 기반 누적 상추천 & 프리셋 정량 노트</span>
+      <span class="brand-sub" data-i18n="appSub">Additive Residual-Peak Phase Suggestion, Preset Suites & PO-Corrected RIR Engine</span>
     </div>
-    <span class="version-tag">v4.2</span>
+    <span class="version-tag">v4.3</span>
   </div>
 
   <div class="header-actions">
@@ -391,9 +391,9 @@
       </div>
 
       <div style="margin-top:10px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px; gap:4px;">
           <span style="font-size:11.5px; font-weight:700; color:var(--text-secondary);" data-i18n="rankTitle">후보 광물 적합도 순위 (Top 4)</span>
-          <button class="btn-cite btn-sm" id="btnAutoSuggest" data-i18n="btnSuggest" title="Select top matched phases without forcing auto-overwrite on load">✨ 추천 상 불러오기</button>
+          <button class="btn-cite btn-sm" id="btnAutoSuggest" data-i18n="btnSuggest" title="Keep current phases and add up to 3 candidates matching unexplained peaks">+ 미설명 피크 상추가</button>
         </div>
         <div class="rank-list" id="rankList"></div>
       </div>
@@ -406,7 +406,6 @@
         <button class="btn-sm" id="btnToggleAll" data-i18n="toggleAll">전체 토글</button>
       </div>
 
-      <!-- Phase Combination Suite Presets -->
       <div class="preset-suite-box">
         <div style="display:flex; justify-content:space-between; align-items:center; font-size:11px; font-weight:700; color:var(--text-secondary);">
           <span data-i18n="suiteTitle">암석·시료 유형별 광물 조합 프리셋:</span>
@@ -478,7 +477,7 @@
       </div>
 
       <div class="chart-footer">
-        <span data-i18n="chartHint">💡 '추천 상 불러오기' 또는 시료 유형별 프리셋으로 후보 광물을 빠르게 불러온 뒤 개별 알약으로 미세 조정하세요.</span>
+        <span data-i18n="chartHint">💡 '+ 미설명 피크 상추가'를 누르면 기존 선택을 유지한 채 미할당(◆) 피크와 일치하는 후보 광물 3종씩 누적 추가됩니다.</span>
         <span class="mono" id="presetSourceBadge">Preset JSON: loading...</span>
       </div>
     </div>
@@ -643,8 +642,8 @@
 
   const I18N = {
     ko: {
-      appTitle: "IsoXRD — 반자동 추천 상 불러오기 & 프리셋 정량 노트",
-      appSub: "Semi-Automated Phase Suggestion, Preset Suites & PO-Corrected RIR Engine",
+      appTitle: "IsoXRD — 잔차 피크 기반 누적 상추천 & 프리셋 정량 노트",
+      appSub: "Additive Residual-Peak Phase Suggestion, Preset Suites & PO-Corrected RIR Engine",
       pubModeBtn: "출판용 흑백",
       pubModeBtnActive: "테마 컬러 복귀",
       exportCsv: "엑셀 CSV",
@@ -666,7 +665,7 @@
       chkPoText: "범용 우선 배향성(PO) 자동 감쇠 보정",
       carbTitle: "활성 광물 RIR 정량 (합계 100.0%)",
       rankTitle: "후보 광물 적합도 순위 (Top 4)",
-      btnSuggest: "✨ 추천 상 불러오기",
+      btnSuggest: "+ 미설명 피크 상추가",
       sec3: "3. 광물 조합 프리셋 & DB 선택",
       toggleAll: "전체 토글",
       suiteTitle: "암석·시료 유형별 광물 조합 프리셋:",
@@ -684,7 +683,7 @@
       rangeLbl: "2θ:",
       btnApply: "적용",
       btnReset: "전체",
-      chartHint: "💡 '추천 상 불러오기' 또는 시료 유형별 프리셋으로 후보 광물을 빠르게 불러온 뒤 개별 알약으로 미세 조정하세요.",
+      chartHint: "💡 '+ 미설명 피크 상추가'를 누르면 기존 선택을 유지한 채 미할당(◆) 피크와 일치하는 후보 광물 3종씩 누적 추가됩니다.",
       subTabPeaks: "활성 시료 피크 & 적분 면적표",
       subTabBatch: "다중 시료 일괄 정량 요약표 (Weight% 합계 100%)",
       tableHint: "시료 행 클릭 시 해당 스펙트럼 선택",
@@ -734,8 +733,8 @@
       unassigned: "미할당 / Unassigned"
     },
     en: {
-      appTitle: "IsoXRD — Semi-Auto Phase Suggestion & Preset Suite Notebook",
-      appSub: "Semi-Automated Phase Suggestion, Preset Suites & PO-Corrected RIR Engine",
+      appTitle: "IsoXRD — Additive Residual-Peak Phase Suggestion & RIR Notebook",
+      appSub: "Additive Residual-Peak Phase Suggestion, Preset Suites & PO-Corrected RIR Engine",
       pubModeBtn: "Publication B&W",
       pubModeBtnActive: "Restore Theme Color",
       exportCsv: "Excel CSV",
@@ -757,7 +756,7 @@
       chkPoText: "Universal Preferred-Orientation (PO) Auto-Attenuation",
       carbTitle: "Active Phases RIR Weight% (Sum 100.0%)",
       rankTitle: "Candidate Phase Ranking (Top 4)",
-      btnSuggest: "✨ Auto-Suggest Phases",
+      btnSuggest: "+ Add Residual Phases",
       sec3: "3. Phase Suite Presets & Mineral DB",
       toggleAll: "Toggle All",
       suiteTitle: "Rock / Sediment Phase Combination Presets:",
@@ -775,7 +774,7 @@
       rangeLbl: "2θ:",
       btnApply: "Apply",
       btnReset: "Full",
-      chartHint: "💡 Use 'Auto-Suggest Phases' or geological suite presets to load candidate phases, then fine-tune individual pills.",
+      chartHint: "💡 '+ Add Residual Phases' keeps your active phases and incrementally adds up to 3 candidates matching unassigned (◆) peaks.",
       subTabPeaks: "Active Sample Peaks & Integrated Area",
       subTabBatch: "Multi-Sample 100%-Normalized Weight% Summary",
       tableHint: "Click a sample row to inspect its spectrum",
@@ -982,10 +981,10 @@
     document.getElementById("linkZenodoDoi").href = doiUrl;
 
     document.getElementById("citeTextStatement").textContent =
-      `X-ray diffraction (XRD) baseline subtraction, non-linear sample height displacement correction (Δ2θ = s₀ + s₁cosθ), adaptive-FWHM Pseudo-Voigt deconvolution, and preferred-orientation-attenuated multi-peak RIR (I/Ic) semi-quantitative weight quantification were performed using IsoXRD v4.2 (Yang, 2026; ${doiUrl}).`;
+      `X-ray diffraction (XRD) baseline subtraction, non-linear sample height displacement correction (Δ2θ = s₀ + s₁cosθ), adaptive-FWHM Pseudo-Voigt deconvolution, and preferred-orientation-attenuated multi-peak RIR (I/Ic) semi-quantitative weight quantification were performed using IsoXRD v4.3 (Yang, 2026; ${doiUrl}).`;
 
     document.getElementById("citeTextApa").textContent =
-      `Yang, Y.-S. (2026). IsoXRD: Lightweight Browser-Based XRD Phase Identification and Semi-Quantitative Carbonate Analysis Tool (Version 4.2) [Computer software]. Zenodo. ${doiUrl}`;
+      `Yang, Y.-S. (2026). IsoXRD: Lightweight Browser-Based XRD Phase Identification and Semi-Quantitative Carbonate Analysis Tool (Version 4.3) [Computer software]. Zenodo. ${doiUrl}`;
 
     document.getElementById("citeTextBib").textContent =
 `@software{Yang_IsoXRD_2026,
@@ -994,7 +993,7 @@
   month        = nov,
   year         = 2026,
   publisher    = {Zenodo},
-  version      = {v4.2},
+  version      = {v4.3},
   doi          = {${cleanDoi}},
   url          = {${doiUrl}}
 }`;
@@ -1384,8 +1383,8 @@
     sample.ranked = scoreSampleMinerals(sample);
 
     const dict = I18N[lang];
-    const candidateMins = sample.ranked.filter(r => r.score >= 30 || r.min.active).map(r => r.min);
-    const pool = candidateMins.length ? candidateMins : minerals;
+    const activeMins = minerals.filter(m => m.active);
+    const pool = activeMins.length ? activeMins : minerals;
     peaks.forEach(p => {
       let bestMatch = null;
       pool.forEach(min => {
@@ -1404,12 +1403,12 @@
           }
         });
       });
+      p.isUnassigned = !bestMatch;
       p.matchLabel = bestMatch ? bestMatch.label : dict.unassigned;
       p.matchBilingual = bestMatch ? bestMatch.bilingualLabel : "미할당 / Unassigned";
       p.matchDiff = bestMatch ? bestMatch.diff : null;
     });
 
-    const activeMins = minerals.filter(m => m.active);
     const deconvComponents = deconvolveActiveMinerals(sample, activeMins, usePo);
 
     let totalWeight = 0;
@@ -1604,8 +1603,9 @@
       listEl.innerHTML = `<div style="font-size:11px; color:var(--muted); text-align:center;">좌측 하단에서 정량할 광물들을 선택해 주세요.</div>`;
     }
 
+    const unassignedCount = (s.peaks || []).filter(p => p.isUnassigned).length;
     document.getElementById("kpiDbStatus").textContent =
-      `DB: ${minerals.length} phases (${minerals.filter(m=>m.active).length} active)`;
+      `DB: ${minerals.filter(m=>m.active).length}/${minerals.length} active · 미할당 피크: ${unassignedCount}`;
 
     renderSampleList();
     renderRankList(s);
@@ -1699,6 +1699,7 @@
     sorted.forEach((p, idx) => {
       const tr = document.createElement("tr");
       if (p.idx === selectedPeakIdx) tr.className = "selected";
+      const matchStyle = p.isUnassigned ? "color:#b45309; font-weight:700;" : "font-weight:600;";
       tr.innerHTML = `
         <td>${idx + 1}</td>
         <td>${p.obs2T.toFixed(3)}</td>
@@ -1707,7 +1708,7 @@
         <td>${p.net.toFixed(1)}</td>
         <td>${p.area.toFixed(2)}</td>
         <td>${p.relArea.toFixed(1)}%</td>
-        <td style="font-family:var(--sans); font-weight:600;">${p.matchLabel}</td>
+        <td style="font-family:var(--sans); ${matchStyle}">${p.matchLabel}</td>
         <td>${p.matchDiff !== null ? (p.matchDiff >= 0 ? "+" : "") + p.matchDiff.toFixed(3) + "°" : "—"}</td>
       `;
       tr.onclick = () => {
@@ -1867,7 +1868,7 @@
       if (samp.id === activeSample.id) {
         const placedBoxes = [];
         const candidatePeaks = samp.peaks
-          .filter(p => p.obs2T >= viewMin && p.obs2T <= viewMax && (p.rel >= 10 || p.idx === selectedPeakIdx))
+          .filter(p => p.obs2T >= viewMin && p.obs2T <= viewMax && (p.rel >= 8 || p.isUnassigned || p.idx === selectedPeakIdx))
           .sort((a, b) => b.net - a.net);
 
         candidatePeaks.forEach(p => {
@@ -1879,10 +1880,16 @@
           if (isSel) {
             html += `<line x1="${px}" y1="${padT}" x2="${px}" y2="${padT + plotH}" stroke="#9f1239" stroke-width="1.2" stroke-dasharray="3,3" />`;
           }
-          html += `<circle cx="${px}" cy="${py}" r="${isSel ? 4.2 : 2.5}" fill="${isSel ? '#9f1239' : (pubMode ? '#111827' : samp.color)}" />`;
+
+          if (p.isUnassigned && !pubMode) {
+            // Highlight unassigned residual peak with a distinct amber diamond marker
+            html += `<polygon points="${px},${py - 4.5} ${px + 4.5},${py} ${px},${py + 4.5} ${px - 4.5},${py}" fill="#f59e0b" stroke="#78350f" stroke-width="0.9" />`;
+          } else {
+            html += `<circle cx="${px}" cy="${py}" r="${isSel ? 4.2 : 2.5}" fill="${isSel ? '#9f1239' : (pubMode ? '#111827' : samp.color)}" />`;
+          }
 
           if (showLabels) {
-            const labelStr = `${p.corr2T.toFixed(2)}°`;
+            const labelStr = p.isUnassigned ? `◆${p.corr2T.toFixed(2)}°` : `${p.corr2T.toFixed(2)}°`;
             const boxW = labelStr.length * 6.2;
             const boxH = 12;
             let lblY = Math.max(padT + 12, py - 7);
@@ -1899,7 +1906,8 @@
             if (py - lblY > 14) {
               html += `<line x1="${px}" y1="${py - 3}" x2="${px}" y2="${lblY + 2}" stroke="#9ca3af" stroke-width="0.7" />`;
             }
-            html += `<text x="${px}" y="${lblY}" font-size="9.5" font-weight="700" fill="${isSel ? '#9f1239' : textColor}" text-anchor="middle" font-family="monospace">${labelStr}</text>`;
+            const lblFill = isSel ? "#9f1239" : (p.isUnassigned && !pubMode ? "#b45309" : textColor);
+            html += `<text x="${px}" y="${lblY}" font-size="9.5" font-weight="700" fill="${lblFill}" text-anchor="middle" font-family="monospace">${labelStr}</text>`;
           }
         });
       }
@@ -2180,27 +2188,54 @@
     syncActiveSampleUI();
   };
 
-  // Semi-Auto Phase Suggestion (only runs when explicitly clicked by user)
+  // Additive Residual-Peak Phase Suggestion (Preserves existing active pills, adds up to 3 candidates matching unexplained peaks)
   document.getElementById("btnAutoSuggest").onclick = () => {
     const s = samples[activeSampleIdx];
-    if (!s || !s.ranked || !s.ranked.length) return;
-    const topIds = new Set(
-      s.ranked
-        .filter((r, idx) => r.score >= 30 || (idx < 3 && r.score >= 12))
-        .slice(0, 5)
-        .map(r => r.min.id)
-    );
-    if (topIds.size === 0 && s.ranked[0]) {
-      topIds.add(s.ranked[0].min.id);
-    }
-    minerals.forEach(m => {
-      m.active = topIds.has(m.id);
+    if (!s || !s.peaks || !s.peaks.length) return;
+
+    const activeMins = minerals.filter(m => m.active);
+    const unexplainedPeaks = s.peaks.filter(dp => {
+      return !activeMins.some(min =>
+        min.peaks.some(([std2T]) => Math.abs(dp.corr2T - std2T) <= 0.16)
+      );
     });
+
+    const targetPeaks = unexplainedPeaks.length > 0 ? unexplainedPeaks : s.peaks;
+
+    const candidates = minerals
+      .filter(m => !m.active)
+      .map(min => {
+        let hitScore = 0;
+        targetPeaks.forEach(dp => {
+          min.peaks.forEach(([std2T, relI]) => {
+            const diff = Math.abs(dp.corr2T - std2T);
+            if (diff <= 0.16) {
+              const prox = Math.exp(-Math.pow(diff / 0.08, 2));
+              hitScore += dp.rel * (relI / 100) * prox;
+            }
+          });
+        });
+        return { min, hitScore };
+      })
+      .filter(item => item.hitScore > 0)
+      .sort((a, b) => b.hitScore - a.hitScore)
+      .slice(0, 3);
+
+    if (candidates.length === 0) {
+      alert(lang === "ko"
+        ? "현재 검출된 미할당 피크와 추가로 일치하는 후보 광물이 DB에 없습니다."
+        : "No additional candidate phases in the DB match the remaining unexplained peaks.");
+      return;
+    }
+
+    candidates.forEach(c => {
+      c.min.active = true;
+    });
+
     renderDbPills();
     reprocessAllSamples(false);
   };
 
-  // Save current active mineral pills as a reusable custom Suite Preset
   document.getElementById("btnSaveCustomSuite").onclick = () => {
     const activeIds = minerals.filter(m => m.active).map(m => m.id);
     if (!activeIds.length) {
@@ -2400,7 +2435,7 @@
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = "IsoXRD_v4_2_SemiAuto_WeightPercent.csv";
+    a.download = "IsoXRD_v4_3_Additive_WeightPercent.csv";
     a.click();
   };
 
