@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IsoXRD v4.0 — Pseudo-Voigt Deconvolution & Multi-Phase RIR Notebook</title>
+  <title>IsoXRD v4.1 — Universal PO-Corrected & Adaptive FWHM RIR Notebook</title>
   <style>
     /* Theme 3 (Default): Warm Linen & Terracotta */
     :root, [data-theme="linen"] {
@@ -157,7 +157,7 @@
     .kpi-val { font-family: var(--mono); font-size: 15.5px; font-weight: 700; margin-top: 3px; }
     .kpi-sub { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
 
-    .workspace { display: grid; grid-template-columns: 375px 1fr; gap: 16px; padding: 14px 24px 28px; }
+    .workspace { display: grid; grid-template-columns: 385px 1fr; gap: 16px; padding: 14px 24px 28px; }
     @media (max-width: 1024px) { .workspace { grid-template-columns: 1fr; } }
     .sidebar { display: flex; flex-direction: column; gap: 14px; }
 
@@ -195,13 +195,17 @@
       height: 12px; border-radius: 999px; background: var(--border);
       overflow: hidden; display: flex; margin: 7px 0 8px;
     }
-    .quant-list { display: flex; flex-direction: column; gap: 4px; max-height: 220px; overflow-y: auto; }
+    .quant-list { display: flex; flex-direction: column; gap: 4px; max-height: 230px; overflow-y: auto; }
     .quant-row {
       display: flex; align-items: center; justify-content: space-between;
       font-size: 11.5px; padding: 3px 6px; border-radius: 5px; background: #ffffff; border: 1px solid var(--border);
     }
+    .po-badge {
+      font-family: var(--mono); font-size: 9.5px; padding: 1px 4px; border-radius: 4px;
+      background: var(--surface-subtle); color: var(--muted); border: 1px solid var(--border);
+    }
     .rir-inline-inp {
-      width: 48px !important; padding: 1px 4px !important; font-size: 11px !important;
+      width: 46px !important; padding: 1px 4px !important; font-size: 11px !important;
       font-family: var(--mono) !important; text-align: right;
     }
 
@@ -266,10 +270,10 @@
   <div class="brand">
     <div class="brand-emblem">Xr</div>
     <div>
-      <span class="brand-title" data-i18n="appTitle">IsoXRD — Pseudo-Voigt 디컨볼루션 & 다중 광물 RIR 정량 노트</span>
-      <span class="brand-sub" data-i18n="appSub">Profile Deconvolution & Multi-Peak Weighted RIR (I/Ic) Quantification Engine</span>
+      <span class="brand-title" data-i18n="appTitle">IsoXRD — 범용 우선 배향성 보정 & 적응형 FWHM 정량 노트</span>
+      <span class="brand-sub" data-i18n="appSub">Universal Preferred-Orientation Attenuation & Adaptive FWHM RIR Engine</span>
     </div>
-    <span class="version-tag">v4.0</span>
+    <span class="version-tag">v4.1</span>
   </div>
 
   <div class="header-actions">
@@ -311,7 +315,7 @@
     <div class="kpi-sub" id="kpiShiftDetail">s₀: 0.000° / s₁: 0.000°</div>
   </div>
   <div class="kpi-card">
-    <div class="kpi-label" data-i18n="kpiCarbKpi">최다 함량 광물 (Deconvolved wt%)</div>
+    <div class="kpi-label" data-i18n="kpiCarbKpi">최다 함량 광물 (PO-Corrected wt%)</div>
     <div class="kpi-val" id="kpiCarbRatioVal">—</div>
     <div class="kpi-sub" id="kpiDbStatus">DB: 22 phases loaded</div>
   </div>
@@ -354,11 +358,19 @@
         <input type="range" id="sliderS1" min="-0.3" max="0.3" step="0.005" value="0" />
       </div>
 
+      <div style="margin-top:8px; display:flex; align-items:center; justify-content:space-between; font-size:11.5px;">
+        <label style="cursor:pointer; font-weight:600; color:var(--text-secondary);">
+          <input type="checkbox" id="chkAutoPo" checked />
+          <span data-i18n="chkPoText">범용 우선 배향성(PO) 자동 감쇠 보정</span>
+        </label>
+        <button class="btn-sm btn-ghost" id="btnResetRir" style="padding:1px 5px; font-size:10px;" title="Reset RIR to COD defaults">RIR 초기화</button>
+      </div>
+
       <!-- HighScore-Style Multi-Phase Weight% Box -->
       <div class="quant-box">
         <div style="display:flex; justify-content:space-between; align-items:center; font-size:11.5px; font-weight:700;">
           <span data-i18n="carbTitle">활성 광물 RIR 정량 (합계 100.0%)</span>
-          <button class="btn-sm btn-ghost" id="btnResetRir" style="padding:1px 5px; font-size:10px;" title="Reset RIR to COD defaults">RIR 초기화</button>
+          <span style="font-size:10px; color:var(--muted);">PO · FWHM · I/I<sub>c</sub></span>
         </div>
         <div class="multi-bar" id="multiPhaseBar"></div>
         <div class="quant-list" id="multiPhaseList"></div>
@@ -399,10 +411,11 @@
         </div>
         <input type="range" id="sliderSmooth" min="1" max="25" step="2" value="7" />
       </div>
-      <div style="display:flex; gap:10px; margin-top:8px; font-size:12px; flex-wrap:wrap;">
+      <div style="display:flex; gap:9px; margin-top:8px; font-size:11.5px; flex-wrap:wrap;">
         <label><input type="checkbox" id="chkBaseline" checked /> <span data-i18n="chkBase">배경선 제거</span></label>
-        <label><input type="checkbox" id="chkFitCurve" checked /> <span data-i18n="chkFit">합성 피팅 곡선 (Fit)</span></label>
-        <label><input type="checkbox" id="chkLabels" checked /> <span data-i18n="chkLbl">스마트 라벨</span></label>
+        <label><input type="checkbox" id="chkFitCurve" checked /> <span data-i18n="chkFit">합성 피팅(Fit)</span></label>
+        <label><input type="checkbox" id="chkResidual" /> <span data-i18n="chkRes">잔차(Residual)</span></label>
+        <label><input type="checkbox" id="chkLabels" checked /> <span data-i18n="chkLbl">라벨</span></label>
       </div>
 
       <div class="pill-wrap" id="dbPills"></div>
@@ -438,7 +451,7 @@
       </div>
 
       <div class="chart-footer">
-        <span data-i18n="chartHint">💡 Pseudo-Voigt 디컨볼루션으로 인접 피크 꼬리 간섭을 제거하고 상위 다중 피크 가중 평균으로 RIR Weight%를 계산합니다.</span>
+        <span data-i18n="chartHint">💡 광물 구분 없이 개별 FWHM 측정 + 보조 피크 일관성 기반 우선 배향성(PO) 자동 감쇠 보정이 적용됩니다.</span>
         <span class="mono" id="presetSourceBadge">Preset JSON: loading...</span>
       </div>
     </div>
@@ -561,7 +574,7 @@
         <label style="margin-left:6px;"><input type="radio" name="pasteUnit" value="2theta" checked /> <span data-i18n="unit2T">2θ (°) + 세기</span></label>
         <label style="margin-left:10px;"><input type="radio" name="pasteUnit" value="d" /> <span data-i18n="unitD">d-spacing (Å) + 세기</span></label>
       </div>
-      <textarea id="pasteArea" rows="6" style="width:100%; font-family:var(--mono);" data-i18n-ph="phPaste" placeholder="예시 (탭/공백/쉼표 구분):&#10;24.90  65  (110)&#10;27.05  100 (112)&#10;32.78  95  (114)"></textarea>
+      <textarea id="pasteArea" rows="6" style="width:100%; font-family:var(--mono);" data-i18n-ph="phPaste" placeholder="예시 (탭/공백/쉼표 구분):&#10;24.90  65  (110)\n27.05  100 (112)\n32.78  95  (114)"></textarea>
       <div style="margin-top:8px; display:flex; justify-content:flex-end; gap:8px;">
         <button class="btn-primary" id="btnSavePastedMin" data-i18n="btnSaveMin">DB에 등록하기</button>
       </div>
@@ -603,8 +616,8 @@
 
   const I18N = {
     ko: {
-      appTitle: "IsoXRD — Pseudo-Voigt 디컨볼루션 & 다중 광물 RIR 정량 노트",
-      appSub: "Profile Deconvolution & Multi-Peak Weighted RIR (I/Ic) Quantification Engine",
+      appTitle: "IsoXRD — 범용 우선 배향성 보정 & 적응형 FWHM 정량 노트",
+      appSub: "Universal Preferred-Orientation Attenuation & Adaptive FWHM RIR Engine",
       pubModeBtn: "출판용 흑백",
       pubModeBtnActive: "테마 컬러 복귀",
       exportCsv: "엑셀 CSV",
@@ -615,7 +628,7 @@
       kpiFile: "활성 시료 / 스택 수",
       kpiPrimary: "1순위 판별 광물 (Match)",
       kpiShift: "보정 변위 (Δ2θ = s₀ + s₁cosθ)",
-      kpiCarbKpi: "최다 함량 광물 (Deconvolved wt%)",
+      kpiCarbKpi: "최다 함량 광물 (PO-Corrected wt%)",
       sec1: "1. 다중 시료 불러오기 (Multi-Sample)",
       clearBtn: "초기화",
       dropTitle: "여기에 여러 XRD 파일 동시 드래그/클릭",
@@ -623,6 +636,7 @@
       autoFit: "자동 보정",
       lblS0Text: "영점 오차 (s₀):",
       lblS1Text: "시료 높이 변위 (s₁·cosθ):",
+      chkPoText: "범용 우선 배향성(PO) 자동 감쇠 보정",
       carbTitle: "활성 광물 RIR 정량 (합계 100.0%)",
       rankTitle: "후보 광물 적합도 순위 (Top 4)",
       sec3: "3. 피크 검출 & 광물 DB (클릭하여 선택)",
@@ -631,15 +645,16 @@
       lblPromText: "피크 검출 민감도 (Prominence):",
       lblSmoothText: "스무딩 윈도우 (Smoothing):",
       chkBase: "배경선 제거",
-      chkFit: "합성 피팅 곡선 (Fit)",
-      chkLbl: "스마트 라벨",
+      chkFit: "합성 피팅(Fit)",
+      chkRes: "잔차(Residual)",
+      chkLbl: "라벨",
       openDbBtn: "+ 광물 DB 추가 / RIR 관리 (Add / Manage DB)",
       modeStack: "스택 비교 (Stack)",
       modeSingle: "단일 상세 (Single)",
       rangeLbl: "2θ:",
       btnApply: "적용",
       btnReset: "전체",
-      chartHint: "💡 Pseudo-Voigt 디컨볼루션으로 인접 피크 꼬리 간섭을 제거하고 상위 다중 피크 가중 평균으로 RIR Weight%를 계산합니다.",
+      chartHint: "💡 광물 구분 없이 개별 FWHM 측정 + 보조 피크 일관성 기반 우선 배향성(PO) 자동 감쇠 보정이 적용됩니다.",
       subTabPeaks: "활성 시료 피크 & 적분 면적표",
       subTabBatch: "다중 시료 일괄 정량 요약표 (Weight% 합계 100%)",
       tableHint: "시료 행 클릭 시 해당 스펙트럼 선택",
@@ -689,8 +704,8 @@
       unassigned: "미할당 / Unassigned"
     },
     en: {
-      appTitle: "IsoXRD — Pseudo-Voigt Deconvolution & Multi-Phase RIR Notebook",
-      appSub: "Profile Deconvolution & Multi-Peak Weighted RIR (I/Ic) Quantification Engine",
+      appTitle: "IsoXRD — Universal PO-Corrected & Adaptive FWHM RIR Notebook",
+      appSub: "Universal Preferred-Orientation Attenuation & Adaptive FWHM RIR Engine",
       pubModeBtn: "Publication B&W",
       pubModeBtnActive: "Restore Theme Color",
       exportCsv: "Excel CSV",
@@ -701,7 +716,7 @@
       kpiFile: "Active Sample / Stack",
       kpiPrimary: "Primary Matched Phase",
       kpiShift: "Displacement (Δ2θ = s₀ + s₁cosθ)",
-      kpiCarbKpi: "Dominant Phase (Deconvolved wt%)",
+      kpiCarbKpi: "Dominant Phase (PO-Corrected wt%)",
       sec1: "1. Multi-Sample Data Loader",
       clearBtn: "Clear",
       dropTitle: "Drag & Drop Multiple XRD Files or Click",
@@ -709,6 +724,7 @@
       autoFit: "Auto-Fit",
       lblS0Text: "Zero-Point Shift (s₀):",
       lblS1Text: "Sample Height Shift (s₁·cosθ):",
+      chkPoText: "Universal Preferred-Orientation (PO) Auto-Attenuation",
       carbTitle: "Active Phases RIR Weight% (Sum 100.0%)",
       rankTitle: "Candidate Phase Ranking (Top 4)",
       sec3: "3. Peak Detection & Mineral DB (Click to Toggle)",
@@ -717,15 +733,16 @@
       lblPromText: "Peak Prominence Threshold:",
       lblSmoothText: "Smoothing Window:",
       chkBase: "Subtract Baseline",
-      chkFit: "Synthetic Fit Curve",
-      chkLbl: "Smart Labels",
+      chkFit: "Synthetic Fit",
+      chkRes: "Residual",
+      chkLbl: "Labels",
       openDbBtn: "+ Add / Manage Mineral DB & RIR",
       modeStack: "Stack View",
       modeSingle: "Single Detail",
       rangeLbl: "2θ:",
       btnApply: "Apply",
       btnReset: "Full",
-      chartHint: "💡 Pseudo-Voigt deconvolution separates overlapping peak tails; multi-peak weighted RIR normalizes active phases to 100%.",
+      chartHint: "💡 Phase-agnostic adaptive FWHM profiling + secondary peak consistency weighting corrects Preferred Orientation automatically.",
       subTabPeaks: "Active Sample Peaks & Integrated Area",
       subTabBatch: "Multi-Sample 100%-Normalized Weight% Summary",
       tableHint: "Click a sample row to inspect its spectrum",
@@ -905,10 +922,10 @@
     document.getElementById("linkZenodoDoi").href = doiUrl;
 
     document.getElementById("citeTextStatement").textContent =
-      `X-ray diffraction (XRD) baseline subtraction, non-linear sample height displacement correction (Δ2θ = s₀ + s₁cosθ), Pseudo-Voigt profile deconvolution, and 100%-normalized multi-peak RIR (I/Ic) semi-quantitative weight quantification were performed using IsoXRD v4.0 (Yang, 2026; ${doiUrl}).`;
+      `X-ray diffraction (XRD) baseline subtraction, non-linear sample height displacement correction (Δ2θ = s₀ + s₁cosθ), adaptive-FWHM Pseudo-Voigt deconvolution, and preferred-orientation-attenuated multi-peak RIR (I/Ic) semi-quantitative weight quantification were performed using IsoXRD v4.1 (Yang, 2026; ${doiUrl}).`;
 
     document.getElementById("citeTextApa").textContent =
-      `Yang, Y.-S. (2026). IsoXRD: Lightweight Browser-Based XRD Phase Identification and Semi-Quantitative Carbonate Analysis Tool (Version 4.0) [Computer software]. Zenodo. ${doiUrl}`;
+      `Yang, Y.-S. (2026). IsoXRD: Lightweight Browser-Based XRD Phase Identification and Semi-Quantitative Carbonate Analysis Tool (Version 4.1) [Computer software]. Zenodo. ${doiUrl}`;
 
     document.getElementById("citeTextBib").textContent =
 `@software{Yang_IsoXRD_2026,
@@ -917,7 +934,7 @@
   month        = nov,
   year         = 2026,
   publisher    = {Zenodo},
-  version      = {v4.0},
+  version      = {v4.1},
   doi          = {${cleanDoi}},
   url          = {${doiUrl}}
 }`;
@@ -1052,7 +1069,39 @@
     return Math.max(0, area);
   }
 
-  function pseudoVoigtBasis(x, x0, fwhm, eta = 0.5) {
+  // 1. Adaptive Local FWHM Estimator (phase-agnostic peak width measurement)
+  function estimateLocalFwhm(xArr, yArr, centerIdx, stepDeg) {
+    const peakY = yArr[centerIdx];
+    if (peakY <= 20) return 0.22;
+    const halfMax = peakY * 0.5;
+    const maxSearchPts = Math.max(4, Math.round(0.35 / Math.max(0.001, stepDeg)));
+
+    let leftX = xArr[centerIdx] - 0.11;
+    for (let i = centerIdx; i >= Math.max(1, centerIdx - maxSearchPts); i--) {
+      if (yArr[i] <= halfMax) {
+        const dy = Math.max(1e-6, yArr[i + 1] - yArr[i]);
+        const frac = (halfMax - yArr[i]) / dy;
+        leftX = xArr[i] + frac * (xArr[i + 1] - xArr[i]);
+        break;
+      }
+    }
+
+    let rightX = xArr[centerIdx] + 0.11;
+    for (let i = centerIdx; i <= Math.min(xArr.length - 2, centerIdx + maxSearchPts); i++) {
+      if (yArr[i] <= halfMax) {
+        const dy = Math.max(1e-6, yArr[i - 1] - yArr[i]);
+        const frac = (halfMax - yArr[i]) / dy;
+        rightX = xArr[i] - frac * (xArr[i] - xArr[i - 1]);
+        break;
+      }
+    }
+
+    const fwhm = rightX - leftX;
+    return Math.min(0.45, Math.max(0.10, fwhm));
+  }
+
+  // Normalized Pseudo-Voigt Basis Function (integral over (-inf, +inf) = 1.0)
+  function pseudoVoigtBasis(x, x0, fwhm, eta = 0.55) {
     const dx = x - x0;
     const halfW = fwhm * 0.5;
     const u = dx / halfW;
@@ -1063,31 +1112,41 @@
     return eta * lorentz + (1 - eta) * gauss;
   }
 
-  function deconvolveActiveMinerals(sample, activeMins) {
+  // 2. Universal Adaptive-FWHM Pseudo-Voigt Deconvolution & Preferred Orientation (PO) Auto-Attenuation
+  function deconvolveActiveMinerals(sample, activeMins, usePoCorrection) {
     const nPts = sample.rawX.length;
     const sMin = sample.rawX[0], sMax = sample.rawX[nPts - 1];
-    const fwhm = 0.24;
+    const step = (sMax - sMin) / Math.max(1, nPts - 1);
     const eta = 0.55;
 
     const components = [];
     activeMins.forEach(min => {
       const subPeaks = [];
       min.peaks.forEach(([std2T, relI]) => {
-        if (relI < 20) return;
+        if (relI < 15) return;
         const obsCenter = stdToObs2Theta(std2T, sample.s0, sample.s1);
         if (obsCenter < sMin + 0.1 || obsCenter > sMax - 0.1) return;
 
-        let snappedCenter = obsCenter;
+        let snappedIdx = -1;
         let maxLocalY = -1;
         for (let i = 0; i < nPts; i++) {
           if (Math.abs(sample.rawX[i] - obsCenter) <= 0.06) {
             if (sample.netY[i] > maxLocalY) {
               maxLocalY = sample.netY[i];
-              snappedCenter = sample.rawX[i];
+              snappedIdx = i;
             }
           }
         }
-        subPeaks.push({ center: snappedCenter, weight: relI / 100 });
+        const snappedCenter = snappedIdx !== -1 ? sample.rawX[snappedIdx] : obsCenter;
+        const localFwhm = snappedIdx !== -1 ? estimateLocalFwhm(sample.rawX, sample.netY, snappedIdx, step) : 0.22;
+
+        subPeaks.push({
+          center: snappedCenter,
+          idx: snappedIdx,
+          fwhm: localFwhm,
+          relI,
+          weight: relI / 100
+        });
       });
 
       if (subPeaks.length === 0) return;
@@ -1100,7 +1159,7 @@
         for (let k = 0; k < subPeaks.length; k++) {
           const sp = subPeaks[k];
           if (Math.abs(x - sp.center) <= 2.2) {
-            val += sp.weight * pseudoVoigtBasis(x, sp.center, fwhm, eta);
+            val += sp.weight * pseudoVoigtBasis(x, sp.center, sp.fwhm, eta);
           }
         }
         basis[i] = val;
@@ -1110,15 +1169,18 @@
       if (normSq > 1e-8) {
         components.push({
           min,
+          subPeaks,
           basis,
           normSq,
-          areaScale: 0
+          areaScale: 0,
+          poFactor: 1.0
         });
       }
     });
 
+    // Non-Negative Least Squares (NNLS) via iterative Coordinate Descent (28 sweeps)
     const residual = Float64Array.from(sample.netY);
-    for (let iter = 0; iter < 25; iter++) {
+    for (let iter = 0; iter < 28; iter++) {
       let maxDelta = 0;
       for (let c = 0; c < components.length; c++) {
         const comp = components[c];
@@ -1142,6 +1204,47 @@
       if (maxDelta < 0.05) break;
     }
 
+    // 3. Universal Secondary-Peak Consistency Check for Preferred Orientation (PO)
+    // Applies equally to ALL minerals without phase-specific hardcoding
+    if (usePoCorrection) {
+      components.forEach(comp => {
+        if (comp.areaScale <= 0) return;
+        const primary = comp.subPeaks.find(sp => sp.relI >= 90) || comp.subPeaks[0];
+        const secondaries = comp.subPeaks.filter(sp => sp !== primary && sp.relI >= 15);
+        if (!primary || secondaries.length === 0 || primary.idx === -1) return;
+
+        // Measure local net crest above immediate shoulders for primary and secondary peaks
+        const getLocalCrest = (idx) => {
+          if (idx <= 1 || idx >= nPts - 2) return 0;
+          const off = Math.max(4, Math.round(0.32 / Math.max(0.001, step)));
+          const sBase = 0.5 * (sample.netY[Math.max(0, idx - off)] + sample.netY[Math.min(nPts - 1, idx + off)]);
+          return Math.max(0, sample.netY[idx] - sBase);
+        };
+
+        const obsPrimaryCrest = getLocalCrest(primary.idx);
+        if (obsPrimaryCrest <= 30) return;
+
+        let expectedSecSum = 0;
+        let observedSecSum = 0;
+        secondaries.forEach(sp => {
+          const expectedH = obsPrimaryCrest * (sp.relI / primary.relI);
+          const obsH = getLocalCrest(sp.idx);
+          expectedSecSum += expectedH;
+          observedSecSum += Math.min(expectedH * 1.25, obsH);
+        });
+
+        if (expectedSecSum > 15) {
+          // Ratio of observed secondary intensity vs expected random-powder intensity
+          const consistencyRatio = observedSecSum / expectedSecSum;
+          // If secondary peaks are suppressed relative to primary (strong cleavage/basal PO), attenuate smoothly
+          if (consistencyRatio < 0.85) {
+            comp.poFactor = Math.max(0.22, Math.min(1.0, Math.pow(consistencyRatio / 0.85, 1.15)));
+          }
+        }
+      });
+    }
+
+    // Reconstruct total synthetic fitted curve & residual curve
     const fitY = new Float64Array(nPts);
     for (let c = 0; c < components.length; c++) {
       const comp = components[c];
@@ -1151,6 +1254,7 @@
       }
     }
     sample.fitY = Array.from(fitY);
+    sample.resY = sample.netY.map((v, i) => v - sample.fitY[i]);
 
     return components;
   }
@@ -1159,6 +1263,7 @@
     const win = parseInt(document.getElementById("sliderSmooth").value, 10);
     const promPct = parseFloat(document.getElementById("sliderProm").value);
     const useBase = document.getElementById("chkBaseline").checked;
+    const usePo = document.getElementById("chkAutoPo").checked;
     const wl = parseFloat(document.getElementById("wavelengthSelect").value);
 
     sample.smoothY = smoothArray(sample.rawY, win);
@@ -1234,16 +1339,17 @@
     });
 
     const activeMins = minerals.filter(m => m.active);
-    const deconvComponents = deconvolveActiveMinerals(sample, activeMins);
+    const deconvComponents = deconvolveActiveMinerals(sample, activeMins, usePo);
 
     let totalWeight = 0;
     const phaseWeights = activeMins.map(min => {
       const comp = deconvComponents.find(c => c.min.id === min.id);
-      const deconvolvedI100Area = comp ? comp.areaScale : 0;
+      const deconvolvedI100Area = comp ? (comp.areaScale * comp.poFactor) : 0;
+      const poFactor = comp ? comp.poFactor : 1.0;
       const rir = min.rir || 1.2;
       const w = deconvolvedI100Area > 0 ? (deconvolvedI100Area / rir) : 0;
       totalWeight += w;
-      return { id: min.id, nameKo: min.nameKo, nameEn: min.name, color: min.color, rir, weight: w };
+      return { id: min.id, nameKo: min.nameKo, nameEn: min.name, color: min.color, rir, poFactor, weight: w };
     });
 
     sample.phaseQuantList = [];
@@ -1385,7 +1491,7 @@
         const seg = document.createElement("div");
         seg.style.width = item.pct + "%";
         seg.style.background = item.color;
-        seg.title = `${item.nameEn}: ${item.pct.toFixed(1)}%`;
+        seg.title = `${item.nameEn}: ${item.pct.toFixed(1)}% (PO=${item.poFactor.toFixed(2)})`;
         barEl.appendChild(seg);
       });
     } else {
@@ -1394,17 +1500,21 @@
 
     if (allActiveQuant.length > 0) {
       allActiveQuant.forEach(item => {
+        const poTag = item.poFactor < 0.98
+          ? `<span class="po-badge" title="Preferred Orientation Attenuation Factor">PO×${item.poFactor.toFixed(2)}</span>`
+          : "";
         const r = document.createElement("div");
         r.className = "quant-row";
         r.innerHTML = `
-          <span style="min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
-            <span class="rank-dot" style="background:${item.color}"></span>
+          <span style="min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; display:flex; align-items:center; gap:4px;">
+            <span class="rank-dot" style="background:${item.color}; margin-right:1px;"></span>
             <strong>${lang === "ko" ? item.nameKo : item.nameEn}</strong>
+            ${poTag}
           </span>
-          <div style="display:flex; align-items:center; gap:5px; flex-shrink:0;">
+          <div style="display:flex; align-items:center; gap:4px; flex-shrink:0;">
             <span style="font-size:10px; color:var(--muted);">RIR:</span>
             <input type="number" class="rir-inline-inp" data-min-id="${item.id}" value="${item.rir.toFixed(2)}" step="0.05" min="0.1" max="20" title="Edit I/Ic RIR factor" />
-            <span class="mono" style="font-weight:700; width:56px; text-align:right; color:${item.pct > 0 ? 'var(--text)' : 'var(--muted)'};">${item.pct > 0 ? item.pct.toFixed(1) + '%' : 'trace'}</span>
+            <span class="mono" style="font-weight:700; width:50px; text-align:right; color:${item.pct > 0 ? 'var(--text)' : 'var(--muted)'};">${item.pct > 0 ? item.pct.toFixed(1) + '%' : 'trace'}</span>
           </div>
         `;
         const inp = r.querySelector("input");
@@ -1579,6 +1689,7 @@
     if (!activeSample) return;
 
     const showFit = document.getElementById("chkFitCurve").checked;
+    const showRes = document.getElementById("chkResidual").checked;
     const showLabels = document.getElementById("chkLabels").checked;
 
     const pal = THEME_CHART_PALETTE[currentTheme];
@@ -1622,10 +1733,10 @@
       : [activeSample];
 
     const stackCount = Math.max(1, visibleSamples.length);
-    const bandH = (plotH * 0.86) / stackCount;
+    const bandH = (plotH * 0.84) / stackCount;
 
     visibleSamples.forEach((samp, sIdx) => {
-      const yBasePx = padT + plotH - 12 - (stackCount - 1 - sIdx) * bandH;
+      const yBasePx = padT + plotH - (showRes ? 28 : 12) - (stackCount - 1 - sIdx) * bandH;
       const traceArr = document.getElementById("chkBaseline").checked ? samp.netY : samp.smoothY;
 
       let localMax = 10;
@@ -1637,7 +1748,7 @@
         }
       }
       const stride = Math.max(1, Math.floor(inViewIdx.length / 1800));
-      const scaleY = (bandH * 0.85) / localMax;
+      const scaleY = (bandH * 0.82) / localMax;
 
       if (inViewIdx.length) {
         let pts = "";
@@ -1661,6 +1772,18 @@
           ptsFit += `${xToPx(samp.rawX[i]).toFixed(1)},${py.toFixed(1)} `;
         }
         html += `<polyline fill="none" stroke="#0284c7" stroke-width="1.3" stroke-dasharray="4,2" opacity="0.85" points="${ptsFit.trim()}" />`;
+      }
+
+      if (showRes && samp.id === activeSample.id && samp.resY && samp.resY.length === samp.rawX.length && inViewIdx.length) {
+        const resZeroY = padT + plotH - 12;
+        html += `<line x1="${padL}" y1="${resZeroY}" x2="${padL + plotW}" y2="${resZeroY}" stroke="#94a3b8" stroke-width="0.6" stroke-dasharray="2,2" />`;
+        let ptsRes = "";
+        for (let k = 0; k < inViewIdx.length; k += stride) {
+          const i = inViewIdx[k];
+          const py = resZeroY - samp.resY[i] * (scaleY * 0.45);
+          ptsRes += `${xToPx(samp.rawX[i]).toFixed(1)},${py.toFixed(1)} `;
+        }
+        html += `<polyline fill="none" stroke="#16a34a" stroke-width="1.0" opacity="0.8" points="${ptsRes.trim()}" />`;
       }
 
       if (viewMode === "stack") {
@@ -1733,7 +1856,7 @@
     }
     return {
       id, name, color, visible: true, isDemo: true,
-      rawX: x, rawY: y, smoothY: [], baseY: [], netY: [], fitY: [],
+      rawX: x, rawY: y, smoothY: [], baseY: [], netY: [], fitY: [], resY: [],
       s0: 0, s1: 0, peaks: [], ranked: [], phaseQuantList: []
     };
   }
@@ -1816,7 +1939,7 @@
             isDemo: false,
             rawX: parsed.x,
             rawY: parsed.y,
-            smoothY: [], baseY: [], netY: [], fitY: [],
+            smoothY: [], baseY: [], netY: [], fitY: [], resY: [],
             s0: 0, s1: 0, peaks: [], ranked: [], phaseQuantList: []
           };
           analyzeSample(newSample, true);
@@ -2015,7 +2138,7 @@
     document.getElementById("lblSmooth").textContent = e.target.value + " pts";
     reprocessAllSamples(false);
   };
-  ["chkBaseline", "chkFitCurve", "chkLabels", "wavelengthSelect"].forEach(id => {
+  ["chkBaseline", "chkAutoPo", "chkFitCurve", "chkResidual", "chkLabels", "wavelengthSelect"].forEach(id => {
     document.getElementById(id).onchange = () => reprocessAllSamples(false);
   });
 
@@ -2143,7 +2266,7 @@
     const s = samples[activeSampleIdx];
     if (!s) return;
     let csv = "\uFEFF";
-    csv += "# [100% 정규화 반정량 요약 / BATCH DECONVOLVED RIR WEIGHT% SUMMARY]\r\n";
+    csv += "# [100% 정규화 반정량 요약 / BATCH PO-CORRECTED RIR WEIGHT% SUMMARY]\r\n";
     csv += "시료명 (Sample),1순위 광물 한글 (Primary_KO),1순위 광물 영문 (Primary_EN),적합도 (Score_%),보정변위 (Shift_deg),광물별 반정량 Weight% (Sum 100.0%)\r\n";
     samples.forEach(item => {
       const top = item.ranked[0];
@@ -2166,7 +2289,7 @@
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = "IsoXRD_v4_0_Deconvolved_WeightPercent.csv";
+    a.download = "IsoXRD_v4_1_PO_Corrected_WeightPercent.csv";
     a.click();
   };
 
