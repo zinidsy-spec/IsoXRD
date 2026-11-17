@@ -640,7 +640,7 @@
         <label style="margin-left:6px;"><input type="radio" name="pasteUnit" value="2theta" checked /> <span data-i18n="unit2T">2θ (°) + 세기</span></label>
         <label style="margin-left:10px;"><input type="radio" name="pasteUnit" value="d" /> <span data-i18n="unitD">d-spacing (Å) + 세기</span></label>
       </div>
-      <textarea id="pasteArea" rows="6" style="width:100%; font-family:var(--mono);" data-i18n-ph="phPaste" placeholder="예시 (탭/공백/쉼표 구분):\n24.90  65  (110)\n27.05  100 (112)\n32.78  95  (114)"></textarea>
+      <textarea id="pasteArea" rows="6" style="width:100%; font-family:var(--mono);" data-i18n-ph="phPaste" placeholder="예시 (탭/공백/쉼표 구분):&#10;24.90  65  (110)\n27.05  100 (112)\n32.78  95  (114)"></textarea>
       <div style="margin-top:8px; display:flex; justify-content:flex-end; gap:8px;">
         <button class="btn-primary" id="btnSavePastedMin" data-i18n="btnSaveMin">DB에 등록하기</button>
       </div>
@@ -873,6 +873,21 @@
     }
   };
 
+  const THEME_CHART_PALETTE = {
+    linen: {
+      bg: "#fffdf9", grid: "#f2ece0", frame: "#44403c", text: "#27272a",
+      traces: ["#a84a28", "#1b4d3e", "#1e40af", "#854d0e", "#6b21a8", "#0f766e", "#44403c"]
+    },
+    journal: {
+      bg: "#ffffff", grid: "#f1f5f9", frame: "#18181b", text: "#18181b",
+      traces: ["#1d4ed8", "#9f1239", "#047857", "#6d28d9", "#b45309", "#0e7490", "#374151"]
+    },
+    blueprint: {
+      bg: "#fcfdff", grid: "#e3ecf5", frame: "#1e3a5f", text: "#0f2942",
+      traces: ["#1e3a5f", "#b45309", "#0284c7", "#0f766e", "#6d28d9", "#be123c", "#334e68"]
+    }
+  };
+
   const SOP_CONTENT = {
     ko: [
       {
@@ -962,11 +977,11 @@
       date: "2026-11-17",
       notesKo: [
         "상단 헤더에 [사용법 / 업데이트] 모달 창을 추가하여 표준 작업 절차서(SOP)와 버전별 릴리스 노트를 한/영 양방향으로 즉시 열람 가능.",
-        "잔차 피크(◆) 안내 문구 및 SOP 워크플로우 통합."
+        "로컬(file://) 및 웹 호스팅 환경 모두에서 데모 시료와 기본 DB가 즉시 안정적으로 부팅되도록 초기화 시퀀스 개선."
       ],
       notesEn: [
         "Added [SOP / Changelog] modal in the top header with full bilingual (KO/EN) Standard Operating Procedure and release history.",
-        "Integrated residual-peak (◆) workflow documentation."
+        "Hardened boot initialization sequence so demo presets and mineral DBs load reliably across both local file:// and hosted environments."
       ]
     },
     {
@@ -1266,6 +1281,7 @@
 
   function renderSuitePresets() {
     const grid = document.getElementById("suitePresetGrid");
+    if (!grid) return;
     grid.innerHTML = "";
     const allSuites = [...BUILTIN_SUITES, ...customSuites];
     allSuites.forEach(suite => {
@@ -1284,24 +1300,34 @@
     });
   }
 
+  // Safe async external preset loader (prevents blocking demo rendering on local file:// or slow networks)
   async function loadExternalPresetJson() {
     const badge = document.getElementById("presetSourceBadge");
     try {
+      if (window.location.protocol === "file:") {
+        throw new Error("Local file protocol");
+      }
       const resp = await fetch("./presets/lab_custom_minerals.json", { cache: "no-cache" });
       if (!resp.ok) throw new Error("HTTP " + resp.status);
       const data = await resp.json();
       mergeMinerals(data, false);
-      badge.textContent = "Preset JSON: presets/lab_custom_minerals.json (synced)";
-      badge.style.color = "var(--primary)";
+      if (badge) {
+        badge.textContent = "Preset JSON: presets/lab_custom_minerals.json (synced)";
+        badge.style.color = "var(--primary)";
+      }
     } catch (err) {
       mergeMinerals(LAB_PRESET_FALLBACK, false);
-      badge.textContent = "Preset JSON: built-in COD/RRUFF library (22 phases)";
-      badge.style.color = "var(--muted)";
+      if (badge) {
+        badge.textContent = "Preset JSON: built-in COD/RRUFF library (22 phases)";
+        badge.style.color = "var(--muted)";
+      }
     }
     applySavedRirOverrides();
     renderSuitePresets();
     renderDbPills();
-    reprocessAllSamples();
+    if (samples.length > 0) {
+      reprocessAllSamples(false);
+    }
   }
 
   function smoothArray(arr, win) {
@@ -2852,8 +2878,10 @@
 
   document.getElementById("btnReloadRemotePreset").onclick = loadExternalPresetJson;
 
-  // Boot
+  // Safe Boot Sequence (Initializes built-in DB and renders demo immediately before async fetch)
   setTheme(currentTheme, false);
+  mergeMinerals(LAB_PRESET_FALLBACK, false);
+  applySavedRirOverrides();
   renderGuideContent();
   renderCitationTexts();
   renderSuitePresets();
