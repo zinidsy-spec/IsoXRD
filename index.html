@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IsoXRD v4.3 — Additive Residual-Peak Phase Suggestion & RIR Notebook</title>
+  <title>IsoXRD v4.4 — Additive Residual-Peak Phase Suggestion, SOP Manual & RIR Notebook</title>
   <style>
     /* Theme 3 (Default): Warm Linen & Terracotta */
     :root, [data-theme="linen"] {
@@ -115,7 +115,7 @@
       color: var(--primary); background: var(--primary-soft);
       border: 1px solid var(--primary-border); padding: 2px 8px; border-radius: 999px;
     }
-    .header-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .header-actions { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
 
     .theme-switcher {
       display: inline-flex; border: 1px solid var(--border-strong);
@@ -135,7 +135,7 @@
     }
     button {
       border: 1px solid var(--border-strong); background: #ffffff; color: var(--text);
-      border-radius: 6px; padding: 5px 11px; font-size: 12px; font-weight: 600;
+      border-radius: 6px; padding: 5px 10px; font-size: 12px; font-weight: 600;
       cursor: pointer; transition: all 0.15s; box-shadow: var(--shadow-sm);
     }
     button:hover { background: var(--surface-subtle); }
@@ -265,12 +265,29 @@
 
     .modal-backdrop { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.45); display: none; align-items: center; justify-content: center; z-index: 50; padding: 16px; }
     .modal-backdrop.open { display: flex; }
-    .modal { background: var(--surface); border: 1px solid var(--border-strong); border-radius: 10px; width: 100%; max-width: 660px; max-height: 88vh; overflow-y: auto; padding: 20px 24px; box-shadow: var(--shadow-md); }
+    .modal { background: var(--surface); border: 1px solid var(--border-strong); border-radius: 10px; width: 100%; max-width: 720px; max-height: 88vh; overflow-y: auto; padding: 20px 24px; box-shadow: var(--shadow-md); }
     .tabs { display: flex; gap: 6px; border-bottom: 1px solid var(--border-strong); margin: 10px 0 12px; }
     .tab-btn { border: none; background: transparent; box-shadow: none; border-bottom: 2px solid transparent; border-radius: 0; padding: 6px 10px; color: var(--muted); }
     .tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
     .tab-pane { display: none; }
     .tab-pane.active { display: block; }
+
+    /* SOP Manual & Changelog Styling */
+    .sop-step {
+      background: #ffffff; border: 1px solid var(--border); border-left: 3.5px solid var(--primary);
+      border-radius: 7px; padding: 10px 13px; margin-bottom: 10px;
+    }
+    .sop-step-title { font-weight: 700; font-size: 13px; color: var(--text); margin-bottom: 4px; }
+    .sop-step-body { font-size: 12px; color: var(--text-secondary); line-height: 1.6; }
+    .sop-step-body ul { padding-left: 18px; margin-top: 3px; }
+    .log-entry {
+      background: #ffffff; border: 1px solid var(--border); border-radius: 7px;
+      padding: 10px 13px; margin-bottom: 9px;
+    }
+    .log-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 5px; }
+    .log-ver { font-family: var(--mono); font-weight: 700; font-size: 12.5px; color: var(--primary); }
+    .log-date { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+    .log-list { padding-left: 18px; font-size: 12px; color: var(--text-secondary); line-height: 1.6; }
 
     .cite-section { margin-top: 12px; padding: 11px 13px; border-radius: 8px; background: #ffffff; border: 1px solid var(--border-strong); }
     .cite-section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; font-size: 11.5px; font-weight: 700; color: var(--text-secondary); }
@@ -287,7 +304,7 @@
       <span class="brand-title" data-i18n="appTitle">IsoXRD — 잔차 피크 기반 누적 상추천 & 프리셋 정량 노트</span>
       <span class="brand-sub" data-i18n="appSub">Additive Residual-Peak Phase Suggestion, Preset Suites & PO-Corrected RIR Engine</span>
     </div>
-    <span class="version-tag">v4.3</span>
+    <span class="version-tag">v4.4</span>
   </div>
 
   <div class="header-actions">
@@ -307,6 +324,7 @@
     <button id="btnExportCsv" data-i18n="exportCsv">엑셀 CSV</button>
     <button id="btnExportPng" data-i18n="exportPng">그림 PNG</button>
     <button id="btnExportSvg" data-i18n="exportSvg">벡터 SVG</button>
+    <button id="btnOpenGuideModal" class="btn-cite" data-i18n="guideBtn">사용법 / 업데이트</button>
     <button id="btnOpenCiteModal" class="btn-cite" data-i18n="citeBtn">인용 / DOI</button>
     <button id="btnLang" class="btn-primary">English</button>
   </div>
@@ -529,6 +547,28 @@
   </main>
 </div>
 
+<!-- SOP Manual & Changelog Modal -->
+<div class="modal-backdrop" id="guideModalBackdrop">
+  <div class="modal">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <h3 style="font-family:var(--serif); font-size:16px;" data-i18n="guideModalTitle">IsoXRD 표준 작업 절차서 (SOP) & 업데이트 로그</h3>
+      <button id="btnCloseGuideModal" data-i18n="btnClose">닫기 ✕</button>
+    </div>
+    <div class="tabs">
+      <button class="tab-btn active" data-guide-tab="tabSopManual" data-i18n="tabSop">1. 상세 사용 방법 (SOP Manual)</button>
+      <button class="tab-btn" data-guide-tab="tabChangelog" data-i18n="tabLog">2. 버전 업데이트 로그 (Changelog)</button>
+    </div>
+
+    <div class="tab-pane active" id="tabSopManual">
+      <div id="sopManualContainer"></div>
+    </div>
+
+    <div class="tab-pane" id="tabChangelog">
+      <div id="changelogContainer"></div>
+    </div>
+  </div>
+</div>
+
 <!-- Citation & DOI Modal -->
 <div class="modal-backdrop" id="citeModalBackdrop">
   <div class="modal">
@@ -649,6 +689,7 @@
       exportCsv: "엑셀 CSV",
       exportPng: "그림 PNG",
       exportSvg: "벡터 SVG",
+      guideBtn: "사용법 / 업데이트",
       citeBtn: "인용 / DOI",
       langBtn: "English",
       kpiFile: "활성 시료 / 스택 수",
@@ -699,6 +740,9 @@
       thTopMatch: "1순위 광물 (Match)",
       thShift: "보정 변위 (Δ2θ)",
       thWeightTable: "광물별 반정량 Weight% (총합 100.0%)",
+      guideModalTitle: "IsoXRD 표준 작업 절차서 (SOP) & 업데이트 로그",
+      tabSop: "1. 상세 사용 방법 (SOP Manual)",
+      tabLog: "2. 버전 업데이트 로그 (Changelog)",
       citeModalTitle: "학술 인용 및 Zenodo DOI 안내 (How to Cite IsoXRD)",
       citeModalDesc: "연구 논문(Methods / Data Availability)이나 학술 발표에 IsoXRD를 활용하신 경우 아래 서지 정보와 Zenodo 영구 DOI를 인용해 주세요.",
       saveDoiBtn: "DOI 반영",
@@ -740,6 +784,7 @@
       exportCsv: "Excel CSV",
       exportPng: "Image PNG",
       exportSvg: "Vector SVG",
+      guideBtn: "SOP / Changelog",
       citeBtn: "Cite / DOI",
       langBtn: "한국어",
       kpiFile: "Active Sample / Stack",
@@ -790,6 +835,9 @@
       thTopMatch: "Primary Match",
       thShift: "Shift (Δ2θ)",
       thWeightTable: "Semi-Quantitative Weight% (Sum 100.0%)",
+      guideModalTitle: "IsoXRD Standard Operating Procedure (SOP) & Changelog",
+      tabSop: "1. Detailed User Manual (SOP)",
+      tabLog: "2. Version Release Notes (Changelog)",
       citeModalTitle: "How to Cite IsoXRD & Zenodo DOI",
       citeModalDesc: "If you use IsoXRD in your research paper (Methods / Data Availability) or presentation, please cite the software using the metadata and Zenodo DOI below.",
       saveDoiBtn: "Update DOI",
@@ -825,20 +873,149 @@
     }
   };
 
-  const THEME_CHART_PALETTE = {
-    linen: {
-      bg: "#fffdf9", grid: "#f2ece0", frame: "#44403c", text: "#27272a",
-      traces: ["#a84a28", "#1b4d3e", "#1e40af", "#854d0e", "#6b21a8", "#0f766e", "#44403c"]
-    },
-    journal: {
-      bg: "#ffffff", grid: "#f1f5f9", frame: "#18181b", text: "#18181b",
-      traces: ["#1d4ed8", "#9f1239", "#047857", "#6d28d9", "#b45309", "#0e7490", "#374151"]
-    },
-    blueprint: {
-      bg: "#fcfdff", grid: "#e3ecf5", frame: "#1e3a5f", text: "#0f2942",
-      traces: ["#1e3a5f", "#b45309", "#0284c7", "#0f766e", "#6d28d9", "#be123c", "#334e68"]
-    }
+  const SOP_CONTENT = {
+    ko: [
+      {
+        title: "Step 1. 다중 시료 데이터 로드 (Multi-Sample Data Loader)",
+        items: [
+          "좌측 상단 <strong>[1. 다중 시료 불러오기]</strong> 영역에 분석할 XRD 원본 파일(<code>.xrdml</code>, HighScore <code>.txt</code>, <code>.csv</code>, <code>.xy</code>)을 여러 개 동시에 드래그하거나 클릭하여 업로드합니다.",
+          "업로드 즉시 스무딩(Smoothing) 및 배경선 제거(Baseline Subtraction)가 자동 수행되며, 다중 파일일 경우 상하 비교가 용이한 <strong>스택 비교(Stack)</strong> 모드로 자동 전환됩니다.",
+          "시료 목록의 체크박스로 차트 표시 여부를 제어하고, 시료명을 클릭해 현재 상세 분석할 활성 시료를 전환합니다."
+        ]
+      },
+      {
+        title: "Step 2. 변위 보정 (Zero-Point & Sample Height Displacement Correction)",
+        items: [
+          "분말 시료 충진 높이 차이로 인한 회절각(2θ) 밀림을 보정하기 위해 <strong>[자동 보정 (Auto-Fit)]</strong> 버튼을 클릭합니다. 비선형 보정식(Δ2θ = s₀ + s₁·cosθ)에 따라 주피크와 기준 스틱(Stick)을 정렬합니다.",
+          "미세 조정이 필요한 경우 <strong>영점 오차 (s₀)</strong> 및 <strong>시료 높이 변위 (s₁·cosθ)</strong> 슬라이더를 움직여 기준 스틱과 관측 피크 정점을 눈으로 일치시킵니다."
+        ]
+      },
+      {
+        title: "Step 3. 광물 후보군 설정 및 잔차 피크 상동정 (Phase Identification)",
+        items: [
+          "<strong>[3. 광물 조합 프리셋 & DB 선택]</strong>에서 시료의 지질학적 환경에 맞는 프리셋 버튼(예: <code>탄산염/석순</code>, <code>탄산염-규산염 혼합</code>)을 클릭해 1차 후보 광물군을 불러옵니다.",
+          "차트 상에 주황색 다이아몬드(<strong>◆2θ°</strong>)로 표시된 미할당 피크가 남아 있다면, <strong>[+ 미설명 피크 상추가]</strong> 버튼을 클릭합니다. 기존 선택을 유지한 채 미할당 피크와 일치하는 후보 광물 최대 3종이 누적 추가됩니다.",
+          "개별 광물 알약(Pill)을 클릭해 불필요한 상은 끄고 필요한 상은 켜서 최종 구성 광물을 확정하며, 자주 쓰는 조합은 <strong>[+ 내 조합 저장]</strong>으로 영구 저장할 수 있습니다."
+        ]
+      },
+      {
+        title: "Step 4. RIR 반정량 및 우선 배향성(PO) 보정 검증",
+        items: [
+          "활성화된 광물 조합을 바탕으로 적응형 FWHM Pseudo-Voigt 디컨볼루션이 자동 수행되며, 좌측 패널과 하단 요약표에 총합 <strong>100.0%</strong> 기준 <code>Weight%</code>가 출력됩니다.",
+          "<strong>범용 우선 배향성(PO) 자동 감쇠 보정</strong>이 켜져 있으면, 보조 피크 대비 주피크만 비정상적으로 증폭된 광물 옆에 <code>PO×0.xx</code> 감쇠 배지가 표시되며 과대평가를 자동 억제합니다.",
+          "특정 광물의 장비별 실측 I/I<sub>c</sub> 값을 적용하려면 정량 목록 우측의 <strong>RIR 입력칸</strong> 숫자를 직접 수정합니다(수정값은 브라우저에 자동 저장되며 <code>RIR 초기화</code>로 복구 가능)."
+        ]
+      },
+      {
+        title: "Step 5. 논문용 그림 및 정량 데이터 내보내기 (Export & Citation)",
+        items: [
+          "<strong>엑셀 CSV:</strong> 다중 시료 일괄 정량 요약표(Weight%)와 활성 시료의 상세 피크 적분 면적표를 UTF-8 BOM 형식으로 다운로드합니다.",
+          "<strong>그림 PNG / 벡터 SVG:</strong> 상단 테마(<code>Linen</code>, <code>Journal</code>, <code>Blueprint</code>) 또는 <strong>[출판용 흑백]</strong> 모드로 전환한 뒤 고해상도 래스터 이미지(PNG)나 일러스트레이터 편집용 벡터 그래픽(SVG)으로 저장합니다."
+        ]
+      }
+    ],
+    en: [
+      {
+        title: "Step 1. Multi-Sample Data Loader",
+        items: [
+          "Drag and drop multiple XRD raw files (<code>.xrdml</code>, HighScore <code>.txt</code>, <code>.csv</code>, <code>.xy</code>) into the <strong>[1. Multi-Sample Data Loader]</strong> dropzone.",
+          "Smoothing and baseline subtraction are applied automatically, switching to <strong>Stack View</strong> when multiple spectra are loaded.",
+          "Toggle trace visibility via checkboxes and click any sample row to set it as the active spectrum."
+        ]
+      },
+      {
+        title: "Step 2. Zero-Point & Sample Height Displacement Correction",
+        items: [
+          "Click <strong>[Auto-Fit]</strong> to align observed peaks with standard diffraction sticks using the non-linear displacement model (Δ2θ = s₀ + s₁·cosθ).",
+          "Fine-tune alignment manually with the <strong>Zero-Point Shift (s₀)</strong> and <strong>Sample Height Shift (s₁·cosθ)</strong> sliders if needed."
+        ]
+      },
+      {
+        title: "Step 3. Phase Suite Presets & Residual-Peak Identification",
+        items: [
+          "Select a geological preset in <strong>[3. Phase Suite Presets & Mineral DB]</strong> (e.g., <code>Carbonate / Speleothem</code> or <code>Calc-Silicate / Skarn</code>) to load initial candidate phases.",
+          "If unassigned residual peaks marked with amber diamonds (<strong>◆2θ°</strong>) remain on the chart, click <strong>[+ Add Residual Phases]</strong> to incrementally add up to 3 matching candidates without overwriting your current selection.",
+          "Click individual mineral pills to fine-tune the phase assemblage, and click <strong>[+ Save My Suite]</strong> to store custom combinations."
+        ]
+      },
+      {
+        title: "Step 4. RIR Semi-Quantification & Preferred Orientation (PO) Correction",
+        items: [
+          "Adaptive-FWHM Pseudo-Voigt deconvolution separates overlapping peak tails and outputs 100.0%-normalized <code>Weight%</code> values.",
+          "When <strong>Universal Preferred-Orientation (PO) Auto-Attenuation</strong> is enabled, phases with suppressed secondary reflections receive an automatic <code>PO×0.xx</code> attenuation factor.",
+          "You can edit inline <strong>RIR (I/I<sub>c</sub>)</strong> values per mineral to calibrate against local instrument standards."
+        ]
+      },
+      {
+        title: "Step 5. Publication Figure Export & Citation",
+        items: [
+          "<strong>Excel CSV:</strong> Exports both the 100%-normalized batch Weight% summary and the active sample's integrated peak area table.",
+          "<strong>Image PNG / Vector SVG:</strong> Switch between themes (<code>Linen</code>, <code>Journal</code>, <code>Blueprint</code>) or <strong>[Publication B&W]</strong> mode and export publication-grade figures."
+        ]
+      }
+    ]
   };
+
+  const CHANGELOG_DATA = [
+    {
+      ver: "v4.4 (Current)",
+      date: "2026-11-17",
+      notesKo: [
+        "상단 헤더에 [사용법 / 업데이트] 모달 창을 추가하여 표준 작업 절차서(SOP)와 버전별 릴리스 노트를 한/영 양방향으로 즉시 열람 가능.",
+        "잔차 피크(◆) 안내 문구 및 SOP 워크플로우 통합."
+      ],
+      notesEn: [
+        "Added [SOP / Changelog] modal in the top header with full bilingual (KO/EN) Standard Operating Procedure and release history.",
+        "Integrated residual-peak (◆) workflow documentation."
+      ]
+    },
+    {
+      ver: "v4.3",
+      date: "2026-11-17",
+      notesKo: [
+        "누적 방식의 [+ 미설명 피크 상추가] 버튼 도입: 기존 선택을 덮어쓰지 않고 미할당 피크와 일치하는 후보 광물 최대 3종씩 점진적 추가.",
+        "미할당 잔차 피크를 차트 상에 주황색 다이아몬드(◆2θ°) 마커로 강조 표시."
+      ],
+      notesEn: [
+        "Introduced additive [+ Add Residual Phases] button that preserves active selections while incrementally adding up to 3 candidates matching unexplained peaks.",
+        "Highlighted unassigned peaks with amber diamond (◆2θ°) markers on the chart."
+      ]
+    },
+    {
+      ver: "v4.2",
+      date: "2026-11-17",
+      notesKo: [
+        "암석·퇴적물 유형별 광물 조합 프리셋([탄산염/석순], [탄산염-규산염 혼합], [쇄설성/풍화토]) 및 사용자 정의 조합 영구 저장([+ 내 조합 저장]) 기능 추가."
+      ],
+      notesEn: [
+        "Added geological phase combination suite presets and persistent custom suite saving ([+ Save My Suite])."
+      ]
+    },
+    {
+      ver: "v4.1",
+      date: "2026-11-17",
+      notesKo: [
+        "범용 우선 배향성(PO) 자동 감쇠 보정(PO×0.xx) 도입: 보조 피크 일관성 검증을 통해 벽개·판상 배향성 광물의 과대평가를 광물 구분 없이 자동 보정.",
+        "개별 피크 반치폭(Adaptive FWHM) 자동 추정 및 관측-피팅 차이(Residual) 곡선 시각화 추가."
+      ],
+      notesEn: [
+        "Implemented phase-agnostic Preferred Orientation (PO) auto-attenuation based on secondary reflection consistency.",
+        "Added per-peak adaptive FWHM profiling and residual curve overlay."
+      ]
+    },
+    {
+      ver: "v4.0 & v3.6 – v3.8",
+      date: "2026-11-16",
+      notesKo: [
+        "Pseudo-Voigt 프로파일 디컨볼루션(NNLS 좌표 하강법) 엔진 및 다중 광물 RIR(I/Ic) 100% 정규화 Weight% 반정량 계산기 탑재.",
+        "광물별 인라인 RIR 수정(localStorage 저장), HighScore 9열 탭 구분 .txt 파서 및 .xrdml 파장 메타데이터 자동 인식."
+      ],
+      notesEn: [
+        "Built Pseudo-Voigt profile deconvolution (NNLS coordinate descent) and 100%-normalized multi-phase RIR Weight% engine.",
+        "Added inline RIR overrides, HighScore 9-column .txt parser, and .xrdml wavelength auto-detection."
+      ]
+    }
+  ];
 
   const BUILTIN_SUITES = [
     {
@@ -861,7 +1038,6 @@
     }
   ];
 
-  // Open Crystallography Database (COD) / RRUFF structure-factor derived I/Ic (RIR) values
   const CORE_MINERALS = [
     {
       id: "calcite", name: "Calcite", nameKo: "방해석", formula: "CaCO3", color: "#a84a28", rir: 3.20, defaultRir: 3.20, active: true,
@@ -973,6 +1149,35 @@
   let viewMin = 15, viewMax = 65;
   let fullMin = 15, fullMax = 65;
 
+  function renderGuideContent() {
+    const sopEl = document.getElementById("sopManualContainer");
+    const logEl = document.getElementById("changelogContainer");
+    if (!sopEl || !logEl) return;
+
+    const steps = SOP_CONTENT[lang] || SOP_CONTENT.ko;
+    sopEl.innerHTML = steps.map(st => `
+      <div class="sop-step">
+        <div class="sop-step-title">${st.title}</div>
+        <div class="sop-step-body">
+          <ul>${st.items.map(li => `<li>${li}</li>`).join("")}</ul>
+        </div>
+      </div>
+    `).join("");
+
+    logEl.innerHTML = CHANGELOG_DATA.map(entry => {
+      const notes = lang === "ko" ? entry.notesKo : entry.notesEn;
+      return `
+        <div class="log-entry">
+          <div class="log-header">
+            <span class="log-ver">${entry.ver}</span>
+            <span class="log-date">${entry.date}</span>
+          </div>
+          <ul class="log-list">${notes.map(n => `<li>${n}</li>`).join("")}</ul>
+        </div>
+      `;
+    }).join("");
+  }
+
   function renderCitationTexts() {
     const cleanDoi = (savedDoi || DEFAULT_DOI).replace(/^https?:\/\/doi\.org\//i, "").trim();
     const doiUrl = cleanDoi.startsWith("10.") ? `https://doi.org/${cleanDoi}` : "https://github.com/zinidsy-spec/IsoXRD";
@@ -981,10 +1186,10 @@
     document.getElementById("linkZenodoDoi").href = doiUrl;
 
     document.getElementById("citeTextStatement").textContent =
-      `X-ray diffraction (XRD) baseline subtraction, non-linear sample height displacement correction (Δ2θ = s₀ + s₁cosθ), adaptive-FWHM Pseudo-Voigt deconvolution, and preferred-orientation-attenuated multi-peak RIR (I/Ic) semi-quantitative weight quantification were performed using IsoXRD v4.3 (Yang, 2026; ${doiUrl}).`;
+      `X-ray diffraction (XRD) baseline subtraction, non-linear sample height displacement correction (Δ2θ = s₀ + s₁cosθ), adaptive-FWHM Pseudo-Voigt deconvolution, and preferred-orientation-attenuated multi-peak RIR (I/Ic) semi-quantitative weight quantification were performed using IsoXRD v4.4 (Yang, 2026; ${doiUrl}).`;
 
     document.getElementById("citeTextApa").textContent =
-      `Yang, Y.-S. (2026). IsoXRD: Lightweight Browser-Based XRD Phase Identification and Semi-Quantitative Carbonate Analysis Tool (Version 4.3) [Computer software]. Zenodo. ${doiUrl}`;
+      `Yang, Y.-S. (2026). IsoXRD: Lightweight Browser-Based XRD Phase Identification and Semi-Quantitative Carbonate Analysis Tool (Version 4.4) [Computer software]. Zenodo. ${doiUrl}`;
 
     document.getElementById("citeTextBib").textContent =
 `@software{Yang_IsoXRD_2026,
@@ -993,7 +1198,7 @@
   month        = nov,
   year         = 2026,
   publisher    = {Zenodo},
-  version      = {v4.3},
+  version      = {v4.4},
   doi          = {${cleanDoi}},
   url          = {${doiUrl}}
 }`;
@@ -1882,7 +2087,6 @@
           }
 
           if (p.isUnassigned && !pubMode) {
-            // Highlight unassigned residual peak with a distinct amber diamond marker
             html += `<polygon points="${px},${py - 4.5} ${px + 4.5},${py} ${px},${py + 4.5} ${px - 4.5},${py}" fill="#f59e0b" stroke="#78350f" stroke-width="0.9" />`;
           } else {
             html += `<circle cx="${px}" cy="${py}" r="${isSel ? 4.2 : 2.5}" fill="${isSel ? '#9f1239' : (pubMode ? '#111827' : samp.color)}" />`;
@@ -2149,6 +2353,7 @@
       if (dict[key]) el.setAttribute("placeholder", dict[key]);
     });
 
+    renderGuideContent();
     renderSuitePresets();
     renderDbPills();
     reprocessAllSamples(false);
@@ -2188,7 +2393,6 @@
     syncActiveSampleUI();
   };
 
-  // Additive Residual-Peak Phase Suggestion (Preserves existing active pills, adds up to 3 candidates matching unexplained peaks)
   document.getElementById("btnAutoSuggest").onclick = () => {
     const s = samples[activeSampleIdx];
     if (!s || !s.peaks || !s.peaks.length) return;
@@ -2435,7 +2639,7 @@
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = "IsoXRD_v4_3_Additive_WeightPercent.csv";
+    a.download = "IsoXRD_v4_4_WeightPercent.csv";
     a.click();
   };
 
@@ -2478,6 +2682,25 @@
     applyLanguage();
   };
 
+  // SOP Manual & Changelog Modal Events
+  const guideModal = document.getElementById("guideModalBackdrop");
+  document.getElementById("btnOpenGuideModal").onclick = () => {
+    renderGuideContent();
+    guideModal.classList.add("open");
+  };
+  document.getElementById("btnCloseGuideModal").onclick = () => guideModal.classList.remove("open");
+  guideModal.onclick = e => { if (e.target === guideModal) guideModal.classList.remove("open"); };
+
+  document.querySelectorAll("[data-guide-tab]").forEach(btn => {
+    btn.onclick = () => {
+      document.querySelectorAll("[data-guide-tab]").forEach(b => b.classList.remove("active"));
+      guideModal.querySelectorAll(".tab-pane").forEach(p => p.classList.remove("active"));
+      btn.classList.add("active");
+      document.getElementById(btn.dataset.guideTab).classList.add("active");
+    };
+  });
+
+  // Citation & DOI Modal Events
   const citeModal = document.getElementById("citeModalBackdrop");
   document.getElementById("btnOpenCiteModal").onclick = () => {
     renderCitationTexts();
@@ -2507,15 +2730,16 @@
     };
   });
 
+  // Custom DB Modal Events
   const modal = document.getElementById("dbModalBackdrop");
   document.getElementById("btnOpenDbModal").onclick = () => { modal.classList.add("open"); renderCustomDbList(); };
   document.getElementById("btnCloseDbModal").onclick = () => modal.classList.remove("open");
   modal.onclick = e => { if (e.target === modal) modal.classList.remove("open"); };
 
-  document.querySelectorAll(".tab-btn").forEach(btn => {
+  document.querySelectorAll("#dbModalBackdrop .tab-btn").forEach(btn => {
     btn.onclick = () => {
-      document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
-      document.querySelectorAll(".tab-pane").forEach(p => p.classList.remove("active"));
+      document.querySelectorAll("#dbModalBackdrop .tab-btn").forEach(b => b.classList.remove("active"));
+      document.querySelectorAll("#dbModalBackdrop .tab-pane").forEach(p => p.classList.remove("active"));
       btn.classList.add("active");
       document.getElementById(btn.dataset.tab).classList.add("active");
     };
@@ -2630,6 +2854,7 @@
 
   // Boot
   setTheme(currentTheme, false);
+  renderGuideContent();
   renderCitationTexts();
   renderSuitePresets();
   renderDbPills();
