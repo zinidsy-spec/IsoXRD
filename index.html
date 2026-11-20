@@ -3,78 +3,91 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IsoXRD v4.4 — Additive Residual-Peak Phase Suggestion, SOP Manual & RIR Notebook</title>
+  <title>IsoXRD v4.5 — Editorial Crystallography & RIR Quantification Workbench</title>
   <style>
-    /* Theme 3 (Default): Warm Linen & Terracotta */
+    /* ==========================================================================
+       CSSDA WOTD Inspired: Editorial Swiss Lab & Tactile Paper Architecture
+       ========================================================================== */
     :root, [data-theme="linen"] {
-      --bg: #f5f0e6;
-      --surface: #fcfaf5;
-      --surface-subtle: #f3ede0;
-      --border: #e2d9c8;
-      --border-strong: #c8bba4;
-      --text: #27272a;
-      --text-secondary: #52525b;
+      --bg: #f3efe6;
+      --surface: #fbf9f3;
+      --surface-elevated: #ffffff;
+      --surface-subtle: #ebe5d8;
+      --border: #d8d0c0;
+      --border-strong: #27272a;
+      --text: #1c1917;
+      --text-secondary: #44403c;
       --muted: #78716c;
-      --primary: #a84a28;
-      --primary-hover: #8a3b1e;
-      --primary-soft: #f9ebe4;
-      --primary-border: #e7c3b3;
-      --accent: #a84a28;
-      --blue-ink: #1e40af;
-      --chart-bg: #fffdf9;
-      --chart-grid: #f2ece0;
-      --chart-frame: #44403c;
-      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      --primary: #b44322;
+      --primary-hover: #923317;
+      --primary-soft: #f8e8e2;
+      --primary-border: #dfa896;
+      --chart-bg: #fffefb;
+      --chart-grid: #eee8da;
+      --chart-frame: #1c1917;
+      --mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
       --serif: "Georgia", "Noto Serif KR", "Times New Roman", serif;
-      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
-      --shadow-sm: 0 1px 2px rgba(39, 39, 42, 0.04);
-      --shadow-md: 0 4px 12px rgba(39, 39, 42, 0.07);
+      --sans: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", "Noto Sans KR", sans-serif;
     }
 
-    /* Theme 1: Nature / Science Journal */
+    /* Theme 2: Swiss Gallery (High-Contrast Editorial White) */
     [data-theme="journal"] {
-      --bg: #f4f4f5;
+      --bg: #f2f2f0;
       --surface: #ffffff;
-      --surface-subtle: #f8fafc;
-      --border: #e4e4e7;
-      --border-strong: #d4d4d8;
-      --text: #18181b;
-      --text-secondary: #52525b;
+      --surface-elevated: #ffffff;
+      --surface-subtle: #f4f4f5;
+      --border: #d4d4d8;
+      --border-strong: #18181b;
+      --text: #09090b;
+      --text-secondary: #3f3f46;
       --muted: #71717a;
       --primary: #1d4ed8;
       --primary-hover: #1e40af;
       --primary-soft: #eff6ff;
-      --primary-border: #bfdbfe;
-      --accent: #9f1239;
-      --blue-ink: #1d4ed8;
+      --primary-border: #93c5fd;
       --chart-bg: #ffffff;
       --chart-grid: #f1f5f9;
-      --chart-frame: #18181b;
-      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
-      --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.07);
+      --chart-frame: #09090b;
     }
 
-    /* Theme 2: Prussian Blueprint */
+    /* Theme 3: Prussian Blueprint */
     [data-theme="blueprint"] {
-      --bg: #eaf0f6;
-      --surface: #f8fbff;
-      --surface-subtle: #edf3fa;
-      --border: #cbd8e8;
-      --border-strong: #9fb4ce;
+      --bg: #e7eef6;
+      --surface: #f7faff;
+      --surface-elevated: #ffffff;
+      --surface-subtle: #e2ecf7;
+      --border: #b8cae0;
+      --border-strong: #1e3a5f;
       --text: #0f2942;
       --text-secondary: #334e68;
       --muted: #627d98;
       --primary: #1e3a5f;
       --primary-hover: #102a43;
       --primary-soft: #dce8f5;
-      --primary-border: #9fb4ce;
-      --accent: #b45309;
-      --blue-ink: #1e40af;
+      --primary-border: #8aa6c7;
       --chart-bg: #fcfdff;
       --chart-grid: #e3ecf5;
       --chart-frame: #1e3a5f;
-      --shadow-sm: 0 1px 2px rgba(15, 41, 66, 0.05);
-      --shadow-md: 0 4px 12px rgba(15, 41, 66, 0.08);
+    }
+
+    /* Theme 4: Dark Obsidian Studio (CSSDA Dark Mode Minimal) */
+    [data-theme="obsidian"] {
+      --bg: #121316;
+      --surface: #191b20;
+      --surface-elevated: #22252c;
+      --surface-subtle: #252830;
+      --border: #323640;
+      --border-strong: #a1a1aa;
+      --text: #f4f4f5;
+      --text-secondary: #d4d4d8;
+      --muted: #8e929f;
+      --primary: #e06d44;
+      --primary-hover: #f0825b;
+      --primary-soft: rgba(224, 109, 68, 0.16);
+      --primary-border: rgba(224, 109, 68, 0.45);
+      --chart-bg: #16181d;
+      --chart-grid: #252830;
+      --chart-frame: #a1a1aa;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -85,125 +98,185 @@
       font-size: 13px;
       line-height: 1.5;
       -webkit-font-smoothing: antialiased;
+      transition: background-color 0.25s ease, color 0.25s ease;
     }
 
+    /* Architectural Top Masthead */
     header {
       background: var(--surface);
-      border-bottom: 1px solid var(--border-strong);
-      padding: 11px 24px;
+      border-bottom: 1.5px solid var(--border-strong);
+      padding: 12px 26px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
+      gap: 14px;
       flex-wrap: wrap;
       position: sticky;
       top: 0;
       z-index: 30;
-      box-shadow: var(--shadow-sm);
     }
-    .brand { display: flex; align-items: center; gap: 11px; }
+    .brand { display: flex; align-items: center; gap: 13px; }
     .brand-emblem {
-      width: 34px; height: 34px; border-radius: 7px;
-      background: var(--primary); color: #ffffff;
+      width: 36px; height: 36px; border-radius: 4px;
+      background: var(--text); color: var(--surface);
+      border: 1.5px solid var(--border-strong);
       display: flex; align-items: center; justify-content: center;
-      font-family: var(--serif); font-weight: 700; font-size: 16px;
+      font-family: var(--serif); font-weight: 700; font-size: 17px;
+      letter-spacing: -0.03em;
     }
-    .brand-title { font-family: var(--serif); font-weight: 700; font-size: 16px; }
-    .brand-sub { font-size: 11px; color: var(--muted); display: block; }
+    .brand-title {
+      font-family: var(--serif); font-weight: 700; font-size: 17px;
+      letter-spacing: -0.015em; color: var(--text);
+    }
+    .brand-sub {
+      font-family: var(--mono); font-size: 10.5px; color: var(--muted);
+      display: block; text-transform: uppercase; letter-spacing: 0.04em;
+    }
     .version-tag {
-      font-family: var(--mono); font-size: 11px; font-weight: 700;
+      font-family: var(--mono); font-size: 10.5px; font-weight: 700;
       color: var(--primary); background: var(--primary-soft);
-      border: 1px solid var(--primary-border); padding: 2px 8px; border-radius: 999px;
+      border: 1px solid var(--primary-border); padding: 2px 8px; border-radius: 3px;
     }
     .header-actions { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
 
+    /* Theme Pill Switcher */
     .theme-switcher {
-      display: inline-flex; border: 1px solid var(--border-strong);
-      border-radius: 7px; overflow: hidden; background: var(--surface-subtle); padding: 2px; gap: 2px;
+      display: inline-flex; border: 1px solid var(--border);
+      border-radius: 4px; overflow: hidden; background: var(--surface-subtle); padding: 2px; gap: 2px;
     }
     .theme-btn {
-      border: none; background: transparent; box-shadow: none; padding: 4px 9px;
-      font-size: 11.5px; font-weight: 600; border-radius: 5px; color: var(--text-secondary);
-      display: inline-flex; align-items: center; gap: 5px;
+      border: none; background: transparent; padding: 4px 8px;
+      font-family: var(--mono); font-size: 10.5px; font-weight: 600; border-radius: 3px;
+      color: var(--text-secondary); display: inline-flex; align-items: center; gap: 5px;
+      cursor: pointer; transition: all 0.15s ease;
     }
-    .theme-btn.active { background: var(--primary); color: #ffffff; }
-    .swatch-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+    .theme-btn.active { background: var(--text); color: var(--surface); }
+    .swatch-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
 
+    /* Tactile Form Controls & Buttons */
     select, input[type="number"], input[type="text"], textarea {
-      border: 1px solid var(--border-strong); border-radius: 6px; padding: 5px 9px;
-      font-size: 12px; font-family: inherit; background: #ffffff; color: var(--text);
+      border: 1px solid var(--border); border-radius: 4px; padding: 5px 9px;
+      font-size: 12px; font-family: inherit; background: var(--surface-elevated); color: var(--text);
+      transition: border-color 0.15s;
     }
+    select:focus, input:focus, textarea:focus { outline: none; border-color: var(--primary); }
+
     button {
-      border: 1px solid var(--border-strong); background: #ffffff; color: var(--text);
-      border-radius: 6px; padding: 5px 10px; font-size: 12px; font-weight: 600;
-      cursor: pointer; transition: all 0.15s; box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border); background: var(--surface-elevated); color: var(--text);
+      border-radius: 4px; padding: 5px 10px; font-size: 11.5px; font-weight: 600;
+      cursor: pointer; transition: all 0.16s cubic-bezier(0.22, 1, 0.36, 1);
     }
-    button:hover { background: var(--surface-subtle); }
-    button.btn-primary { background: var(--primary); color: #ffffff; border-color: var(--primary); }
-    button.btn-primary:hover { background: var(--primary-hover); }
-    button.btn-cite { background: var(--primary-soft); color: var(--primary); border-color: var(--primary-border); }
+    button:hover { border-color: var(--border-strong); background: var(--surface-subtle); transform: translateY(-0.5px); }
+    button:active { transform: translateY(0); }
+    button.btn-primary {
+      background: var(--primary); color: #ffffff; border-color: var(--primary);
+    }
+    button.btn-primary:hover { background: var(--primary-hover); border-color: var(--primary-hover); }
+    button.btn-cite {
+      background: var(--primary-soft); color: var(--primary); border-color: var(--primary-border);
+    }
     button.btn-cite:hover { background: var(--primary); color: #ffffff; }
     button.btn-sm { padding: 3px 8px; font-size: 11px; }
-    button.btn-ghost { border-color: transparent; background: transparent; box-shadow: none; color: var(--text-secondary); }
+    button.btn-ghost { border-color: transparent; background: transparent; color: var(--text-secondary); }
+    button.btn-ghost:hover { background: var(--surface-subtle); border-color: transparent; }
 
+    /* Editorial KPI Ribbon (1px Grid System) */
     .kpi-strip {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(195px, 1fr));
-      gap: 12px; padding: 14px 24px 0;
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      margin: 16px 26px 0;
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      border-radius: 5px;
+      overflow: hidden;
     }
+    @media (max-width: 960px) { .kpi-strip { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .kpi-strip { grid-template-columns: 1fr; } }
+
     .kpi-card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-top: 3px solid var(--primary); border-radius: 8px; padding: 10px 15px; box-shadow: var(--shadow-sm);
+      padding: 11px 16px;
+      border-right: 1px solid var(--border);
+      position: relative;
+      transition: background-color 0.2s;
     }
-    .kpi-label { font-size: 11px; color: var(--muted); font-weight: 700; }
-    .kpi-val { font-family: var(--mono); font-size: 15.5px; font-weight: 700; margin-top: 3px; }
-    .kpi-sub { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
+    .kpi-card:last-child { border-right: none; }
+    .kpi-card:hover { background: var(--surface-subtle); }
+    .kpi-label {
+      font-family: var(--mono); font-size: 10px; color: var(--muted);
+      font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .kpi-val {
+      font-family: var(--serif); font-size: 16.5px; font-weight: 700;
+      margin-top: 3px; color: var(--text); letter-spacing: -0.01em;
+    }
+    .kpi-sub { font-family: var(--mono); font-size: 10.5px; color: var(--text-secondary); margin-top: 2px; }
 
-    .workspace { display: grid; grid-template-columns: 390px 1fr; gap: 16px; padding: 14px 24px 28px; }
-    @media (max-width: 1024px) { .workspace { grid-template-columns: 1fr; } }
-    .sidebar { display: flex; flex-direction: column; gap: 14px; }
+    /* Main Architectural Workspace */
+    .workspace { display: grid; grid-template-columns: 395px 1fr; gap: 18px; padding: 16px 26px 32px; }
+    @media (max-width: 1060px) { .workspace { grid-template-columns: 1fr; } }
+    .sidebar { display: flex; flex-direction: column; gap: 16px; }
 
-    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 9px; padding: 14px 16px; box-shadow: var(--shadow-sm); }
-    .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; padding-bottom: 7px; border-bottom: 1px solid var(--border); gap: 6px; }
-    .card-title { font-family: var(--serif); font-weight: 700; font-size: 13.5px; }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      padding: 15px 17px;
+      transition: border-color 0.2s;
+    }
+    .card:hover { border-color: var(--border-strong); }
+    .card-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 11px; padding-bottom: 8px;
+      border-bottom: 1px solid var(--border); gap: 6px;
+    }
+    .card-title-wrap { display: flex; align-items: baseline; gap: 7px; }
+    .sec-index {
+      font-family: var(--mono); font-size: 10.5px; font-weight: 700;
+      color: var(--primary); letter-spacing: 0.04em;
+    }
+    .card-title { font-family: var(--serif); font-weight: 700; font-size: 14px; color: var(--text); }
 
     .dropzone {
-      border: 1.5px dashed var(--border-strong); border-radius: 7px; padding: 13px 10px;
+      border: 1.5px dashed var(--border-strong); border-radius: 4px; padding: 14px 10px;
       text-align: center; background: var(--surface-subtle); cursor: pointer;
+      transition: all 0.2s ease;
     }
     .dropzone:hover, .dropzone.dragover { border-color: var(--primary); background: var(--primary-soft); }
 
     .sample-list { display: flex; flex-direction: column; gap: 5px; margin-top: 9px; max-height: 155px; overflow-y: auto; }
     .sample-row {
       display: flex; align-items: center; justify-content: space-between; gap: 6px;
-      padding: 5px 8px; border-radius: 6px; border: 1px solid var(--border); background: #ffffff; font-size: 11.5px; cursor: pointer;
+      padding: 5px 8px; border-radius: 4px; border: 1px solid var(--border);
+      background: var(--surface-elevated); font-size: 11.5px; cursor: pointer;
+      transition: all 0.15s;
     }
     .sample-row.active { border-color: var(--primary); background: var(--primary-soft); font-weight: 600; }
-    .sample-swatch { width: 9px; height: 9px; border-radius: 2px; flex-shrink: 0; }
+    .sample-swatch { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
 
     .control-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 8px; }
     .control-row label { font-size: 12px; color: var(--text-secondary); font-weight: 500; }
     .mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
 
     .slider-group { margin-top: 8px; }
-    .slider-header { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 3px; color: var(--text-secondary); }
-    input[type="range"] { width: 100%; accent-color: var(--primary); }
+    .slider-header { display: flex; justify-content: space-between; font-size: 11.5px; margin-bottom: 3px; color: var(--text-secondary); }
+    input[type="range"] { width: 100%; accent-color: var(--primary); cursor: pointer; }
 
     .quant-box {
-      margin-top: 12px; padding: 10px 11px; border-radius: 7px;
+      margin-top: 12px; padding: 10px 11px; border-radius: 4px;
       background: var(--surface-subtle); border: 1px solid var(--border);
     }
     .multi-bar {
-      height: 12px; border-radius: 999px; background: var(--border);
+      height: 10px; border-radius: 2px; background: var(--border);
       overflow: hidden; display: flex; margin: 7px 0 8px;
     }
     .quant-list { display: flex; flex-direction: column; gap: 4px; max-height: 230px; overflow-y: auto; }
     .quant-row {
       display: flex; align-items: center; justify-content: space-between;
-      font-size: 11.5px; padding: 3px 6px; border-radius: 5px; background: #ffffff; border: 1px solid var(--border);
+      font-size: 11.5px; padding: 3.5px 7px; border-radius: 3px;
+      background: var(--surface-elevated); border: 1px solid var(--border);
     }
     .po-badge {
-      font-family: var(--mono); font-size: 9.5px; padding: 1px 4px; border-radius: 4px;
-      background: var(--surface-subtle); color: var(--muted); border: 1px solid var(--border);
+      font-family: var(--mono); font-size: 9.5px; padding: 1px 4px; border-radius: 3px;
+      background: var(--primary-soft); color: var(--primary); border: 1px solid var(--primary-border);
     }
     .rir-inline-inp {
       width: 46px !important; padding: 1px 4px !important; font-size: 11px !important;
@@ -213,75 +286,85 @@
     .rank-list { display: flex; flex-direction: column; gap: 5px; }
     .rank-item {
       display: flex; align-items: center; justify-content: space-between;
-      padding: 6px 9px; border-radius: 6px; border: 1px solid var(--border); background: #ffffff; cursor: pointer;
+      padding: 6px 9px; border-radius: 4px; border: 1px solid var(--border);
+      background: var(--surface-elevated); cursor: pointer; transition: all 0.15s;
     }
     .rank-item:hover { border-color: var(--primary); background: var(--primary-soft); }
     .rank-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; }
 
     .preset-suite-box {
-      margin-top: 9px; padding: 8px; border-radius: 7px;
+      margin-top: 6px; padding: 8px 9px; border-radius: 4px;
       background: var(--surface-subtle); border: 1px solid var(--border);
     }
-    .preset-suite-grid {
-      display: flex; flex-wrap: wrap; gap: 4px; margin-top: 5px;
-    }
+    .preset-suite-grid { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 5px; }
     .suite-btn {
-      font-size: 11px; padding: 3px 7px; border-radius: 5px;
-      background: #ffffff; border: 1px solid var(--border-strong); color: var(--text-secondary);
+      font-size: 11px; padding: 3px 7px; border-radius: 3px;
+      background: var(--surface-elevated); border: 1px solid var(--border); color: var(--text-secondary);
     }
     .suite-btn:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-soft); }
 
     .pill-wrap { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 9px; max-height: 175px; overflow-y: auto; }
     .db-pill {
       display: inline-flex; align-items: center; gap: 5px; padding: 3.5px 8.5px;
-      border-radius: 999px; border: 1px solid var(--border-strong); background: #ffffff;
+      border-radius: 3px; border: 1px solid var(--border); background: var(--surface-elevated);
       font-size: 11.5px; font-weight: 600; cursor: pointer; user-select: none;
+      transition: all 0.15s;
     }
+    .db-pill:hover { border-color: var(--border-strong); }
     .db-pill.active { border-color: var(--primary); background: var(--primary-soft); color: var(--primary); }
 
-    .main-area { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
-    .chart-toolbar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 9px; }
-    .segmented { display: inline-flex; border: 1px solid var(--border-strong); border-radius: 6px; overflow: hidden; background: var(--surface-subtle); }
-    .segmented button { border: none; border-radius: 0; box-shadow: none; background: transparent; padding: 4px 9px; font-size: 11.5px; color: var(--text-secondary); }
-    .segmented button.active { background: var(--primary); color: #ffffff; }
+    .main-area { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+    .chart-toolbar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+    .segmented { display: inline-flex; border: 1px solid var(--border); border-radius: 4px; overflow: hidden; background: var(--surface-subtle); }
+    .segmented button { border: none; border-radius: 0; background: transparent; padding: 4px 10px; font-size: 11.5px; color: var(--text-secondary); }
+    .segmented button:hover { transform: none; }
+    .segmented button.active { background: var(--text); color: var(--surface); }
 
     #svgChartWrapper {
-      width: 100%; height: 430px; min-height: 340px; border: 1px solid var(--border-strong);
-      border-radius: 7px; background: var(--chart-bg); position: relative; overflow: hidden;
+      width: 100%; height: 435px; min-height: 340px; border: 1px solid var(--border-strong);
+      border-radius: 4px; background: var(--chart-bg); position: relative; overflow: hidden;
     }
     svg#xrdSvg { width: 100%; height: 100%; display: block; cursor: crosshair; }
-    .chart-footer { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-top: 7px; flex-wrap: wrap; gap: 6px; }
+    .chart-footer { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-top: 8px; flex-wrap: wrap; gap: 6px; }
 
-    .sub-tabs { display: flex; gap: 8px; align-items: center; }
-    .sub-tab-btn { padding: 4px 10px; font-size: 12px; border-radius: 6px; border: 1px solid transparent; background: transparent; box-shadow: none; color: var(--text-secondary); }
+    .sub-tabs { display: flex; gap: 6px; align-items: center; }
+    .sub-tab-btn {
+      padding: 4px 10px; font-size: 12px; border-radius: 4px; border: 1px solid transparent;
+      background: transparent; color: var(--text-secondary);
+    }
     .sub-tab-btn.active { background: var(--primary-soft); border-color: var(--primary-border); color: var(--primary); }
 
-    .table-wrap { max-height: 310px; overflow: auto; border: 1px solid var(--border); border-radius: 7px; background: #ffffff; }
+    .table-wrap { max-height: 310px; overflow: auto; border: 1px solid var(--border); border-radius: 4px; background: var(--surface-elevated); }
     table { width: 100%; border-collapse: collapse; font-size: 12px; }
-    th { position: sticky; top: 0; background: var(--surface-subtle); text-align: left; padding: 7px 10px; font-weight: 700; border-bottom: 1px solid var(--border-strong); z-index: 2; }
+    th {
+      position: sticky; top: 0; background: var(--surface-subtle); text-align: left;
+      padding: 7px 10px; font-weight: 700; border-bottom: 1px solid var(--border-strong); z-index: 2;
+      font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.03em;
+    }
     td { padding: 6px 10px; border-bottom: 1px solid var(--border); font-family: var(--mono); }
     tr:hover td { background: var(--surface-subtle); cursor: pointer; }
     tr.selected td { background: var(--primary-soft); }
 
-    .modal-backdrop { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.45); display: none; align-items: center; justify-content: center; z-index: 50; padding: 16px; }
+    /* Editorial Modals */
+    .modal-backdrop { position: fixed; inset: 0; background: rgba(9, 9, 11, 0.55); backdrop-filter: blur(2px); display: none; align-items: center; justify-content: center; z-index: 50; padding: 16px; }
     .modal-backdrop.open { display: flex; }
-    .modal { background: var(--surface); border: 1px solid var(--border-strong); border-radius: 10px; width: 100%; max-width: 720px; max-height: 88vh; overflow-y: auto; padding: 20px 24px; box-shadow: var(--shadow-md); }
-    .tabs { display: flex; gap: 6px; border-bottom: 1px solid var(--border-strong); margin: 10px 0 12px; }
-    .tab-btn { border: none; background: transparent; box-shadow: none; border-bottom: 2px solid transparent; border-radius: 0; padding: 6px 10px; color: var(--muted); }
+    .modal { background: var(--surface); border: 1.5px solid var(--border-strong); border-radius: 6px; width: 100%; max-width: 720px; max-height: 88vh; overflow-y: auto; padding: 22px 26px; }
+    .tabs { display: flex; gap: 6px; border-bottom: 1px solid var(--border); margin: 12px 0 14px; }
+    .tab-btn { border: none; background: transparent; border-bottom: 2px solid transparent; border-radius: 0; padding: 6px 10px; color: var(--muted); }
+    .tab-btn:hover { transform: none; background: transparent; color: var(--text); }
     .tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
     .tab-pane { display: none; }
     .tab-pane.active { display: block; }
 
-    /* SOP Manual & Changelog Styling */
     .sop-step {
-      background: #ffffff; border: 1px solid var(--border); border-left: 3.5px solid var(--primary);
-      border-radius: 7px; padding: 10px 13px; margin-bottom: 10px;
+      background: var(--surface-elevated); border: 1px solid var(--border); border-left: 3.5px solid var(--primary);
+      border-radius: 4px; padding: 10px 13px; margin-bottom: 10px;
     }
-    .sop-step-title { font-weight: 700; font-size: 13px; color: var(--text); margin-bottom: 4px; }
+    .sop-step-title { font-family: var(--serif); font-weight: 700; font-size: 13.5px; color: var(--text); margin-bottom: 4px; }
     .sop-step-body { font-size: 12px; color: var(--text-secondary); line-height: 1.6; }
     .sop-step-body ul { padding-left: 18px; margin-top: 3px; }
     .log-entry {
-      background: #ffffff; border: 1px solid var(--border); border-radius: 7px;
+      background: var(--surface-elevated); border: 1px solid var(--border); border-radius: 4px;
       padding: 10px 13px; margin-bottom: 9px;
     }
     .log-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 5px; }
@@ -289,10 +372,10 @@
     .log-date { font-family: var(--mono); font-size: 11px; color: var(--muted); }
     .log-list { padding-left: 18px; font-size: 12px; color: var(--text-secondary); line-height: 1.6; }
 
-    .cite-section { margin-top: 12px; padding: 11px 13px; border-radius: 8px; background: #ffffff; border: 1px solid var(--border-strong); }
+    .cite-section { margin-top: 12px; padding: 11px 13px; border-radius: 4px; background: var(--surface-elevated); border: 1px solid var(--border); }
     .cite-section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; font-size: 11.5px; font-weight: 700; color: var(--text-secondary); }
-    .cite-code { font-family: var(--mono); font-size: 11.5px; line-height: 1.5; background: var(--surface-subtle); padding: 8px 10px; border-radius: 6px; border: 1px solid var(--border); white-space: pre-wrap; user-select: all; }
-    .doi-badge-bar { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; padding: 10px 12px; border-radius: 8px; background: var(--primary-soft); border: 1px solid var(--primary-border); margin-top: 10px; }
+    .cite-code { font-family: var(--mono); font-size: 11.5px; line-height: 1.5; background: var(--surface-subtle); padding: 8px 10px; border-radius: 4px; border: 1px solid var(--border); white-space: pre-wrap; user-select: all; color: var(--text); }
+    .doi-badge-bar { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; padding: 10px 12px; border-radius: 4px; background: var(--primary-soft); border: 1px solid var(--primary-border); margin-top: 10px; }
   </style>
 </head>
 <body data-theme="linen">
@@ -301,17 +384,18 @@
   <div class="brand">
     <div class="brand-emblem">Xr</div>
     <div>
-      <span class="brand-title" data-i18n="appTitle">IsoXRD — 잔차 피크 기반 누적 상추천 & 프리셋 정량 노트</span>
-      <span class="brand-sub" data-i18n="appSub">Additive Residual-Peak Phase Suggestion, Preset Suites & PO-Corrected RIR Engine</span>
+      <span class="brand-title" data-i18n="appTitle">IsoXRD — Crystallography & RIR Workbench</span>
+      <span class="brand-sub" data-i18n="appSub">Residual-Peak Phase Suggestion · Adaptive-FWHM Deconvolution · PO-Corrected RIR</span>
     </div>
-    <span class="version-tag">v4.4</span>
+    <span class="version-tag">v4.5</span>
   </div>
 
   <div class="header-actions">
-    <div class="theme-switcher" id="themeSwitcher">
-      <button class="theme-btn active" data-theme-val="linen"><span class="swatch-dot" style="background:#a84a28;"></span>Linen</button>
-      <button class="theme-btn" data-theme-val="journal"><span class="swatch-dot" style="background:#1d4ed8;"></span>Journal</button>
+    <div class="theme-switcher" id="themeSwitcher" title="Select Editorial Theme">
+      <button class="theme-btn active" data-theme-val="linen"><span class="swatch-dot" style="background:#b44322;"></span>Linen</button>
+      <button class="theme-btn" data-theme-val="journal"><span class="swatch-dot" style="background:#1d4ed8;"></span>Swiss</button>
       <button class="theme-btn" data-theme-val="blueprint"><span class="swatch-dot" style="background:#1e3a5f;"></span>Blueprint</button>
+      <button class="theme-btn" data-theme-val="obsidian"><span class="swatch-dot" style="background:#e06d44;"></span>Obsidian</button>
     </div>
 
     <select id="demoSelect">
@@ -332,22 +416,22 @@
 
 <div class="kpi-strip">
   <div class="kpi-card">
-    <div class="kpi-label" data-i18n="kpiFile">활성 시료 / 스택 수</div>
+    <div class="kpi-label" data-i18n="kpiFile">01 · 활성 시료 / 스택 수</div>
     <div class="kpi-val" id="kpiFileName">—</div>
     <div class="kpi-sub" id="kpiRangeInfo">—</div>
   </div>
   <div class="kpi-card">
-    <div class="kpi-label" data-i18n="kpiPrimary">1순위 판별 광물 (Match)</div>
+    <div class="kpi-label" data-i18n="kpiPrimary">02 · 1순위 판별 광물 (Match)</div>
     <div class="kpi-val" id="kpiTopPhase" style="color:var(--primary)">—</div>
     <div class="kpi-sub" id="kpiSubPhase">2순위: —</div>
   </div>
   <div class="kpi-card">
-    <div class="kpi-label" data-i18n="kpiShift">보정 변위 (Δ2θ = s₀ + s₁cosθ)</div>
+    <div class="kpi-label" data-i18n="kpiShift">03 · 보정 변위 (Δ2θ = s₀ + s₁cosθ)</div>
     <div class="kpi-val" id="kpiShiftVal">+0.000°</div>
     <div class="kpi-sub" id="kpiShiftDetail">s₀: 0.000° / s₁: 0.000°</div>
   </div>
   <div class="kpi-card">
-    <div class="kpi-label" data-i18n="kpiCarbKpi">최다 함량 광물 (PO-Corrected wt%)</div>
+    <div class="kpi-label" data-i18n="kpiCarbKpi">04 · 최다 함량 광물 (PO-Corrected wt%)</div>
     <div class="kpi-val" id="kpiCarbRatioVal">—</div>
     <div class="kpi-sub" id="kpiDbStatus">DB: 22 phases loaded</div>
   </div>
@@ -355,24 +439,30 @@
 
 <div class="workspace">
   <aside class="sidebar">
-    <!-- 1. Multi-File Upload -->
+    <!-- 01. Multi-File Upload -->
     <div class="card">
       <div class="card-header">
-        <span class="card-title" data-i18n="sec1">1. 다중 시료 불러오기 (Multi-Sample)</span>
+        <div class="card-title-wrap">
+          <span class="sec-index">01 //</span>
+          <span class="card-title" data-i18n="sec1">다중 시료 불러오기 (Multi-Sample)</span>
+        </div>
         <button class="btn-sm btn-ghost" id="btnClearSamples" data-i18n="clearBtn">초기화</button>
       </div>
       <div class="dropzone" id="dropzone">
         <div style="font-weight:700; margin-bottom:2px;" data-i18n="dropTitle">여기에 여러 XRD 파일 동시 드래그/클릭</div>
-        <div style="font-size:11px; color:var(--muted);">.xrdml, HighScore .txt (Pos/Counts), .csv, .xy</div>
+        <div class="mono" style="font-size:10.5px; color:var(--muted);">.xrdml · HighScore .txt · .csv · .xy</div>
         <input type="file" id="fileInput" accept=".xrdml,.xml,.csv,.txt,.xy" multiple style="display:none" />
       </div>
       <div class="sample-list" id="sampleList"></div>
     </div>
 
-    <!-- 2. Displacement & Multi-Phase RIR Weight% -->
+    <!-- 02. Displacement & Multi-Phase RIR Weight% -->
     <div class="card">
       <div class="card-header">
-        <span class="card-title" data-i18n="sec2">2. 변위 보정 & 다중 피크 RIR 정량</span>
+        <div class="card-title-wrap">
+          <span class="sec-index">02 //</span>
+          <span class="card-title" data-i18n="sec2">변위 보정 & 다중 피크 RIR 정량</span>
+        </div>
         <button class="btn-primary btn-sm" id="btnAutoFit" data-i18n="autoFit">자동 보정</button>
       </div>
       <div class="slider-group">
@@ -398,11 +488,11 @@
         <button class="btn-sm btn-ghost" id="btnResetRir" style="padding:1px 5px; font-size:10px;" title="Reset RIR to COD defaults">RIR 초기화</button>
       </div>
 
-      <!-- HighScore-Style Multi-Phase Weight% Box -->
+      <!-- Multi-Phase Weight% Box -->
       <div class="quant-box">
         <div style="display:flex; justify-content:space-between; align-items:center; font-size:11.5px; font-weight:700;">
           <span data-i18n="carbTitle">활성 광물 RIR 정량 (합계 100.0%)</span>
-          <span style="font-size:10px; color:var(--muted);">PO · FWHM · I/I<sub>c</sub></span>
+          <span class="mono" style="font-size:10px; color:var(--muted);">PO · FWHM · I/I<sub>c</sub></span>
         </div>
         <div class="multi-bar" id="multiPhaseBar"></div>
         <div class="quant-list" id="multiPhaseList"></div>
@@ -417,10 +507,13 @@
       </div>
     </div>
 
-    <!-- 3. Peak Detection & Mineral DB + Suite Presets -->
+    <!-- 03. Peak Detection & Mineral DB + Suite Presets -->
     <div class="card">
       <div class="card-header">
-        <span class="card-title" data-i18n="sec3">3. 광물 조합 프리셋 & DB 선택</span>
+        <div class="card-title-wrap">
+          <span class="sec-index">03 //</span>
+          <span class="card-title" data-i18n="sec3">광물 조합 프리셋 & DB 선택</span>
+        </div>
         <button class="btn-sm" id="btnToggleAll" data-i18n="toggleAll">전체 토글</button>
       </div>
 
@@ -478,7 +571,7 @@
             <button class="active" data-mode="stack" data-i18n="modeStack">스택 비교 (Stack)</button>
             <button data-mode="single" data-i18n="modeSingle">단일 상세 (Single)</button>
           </div>
-          <span style="font-weight:700; margin-left:4px;" data-i18n="rangeLbl">2θ:</span>
+          <span class="mono" style="font-weight:700; margin-left:4px;" data-i18n="rangeLbl">2θ:</span>
           <input type="number" id="inpMin2T" step="0.5" style="width:66px" />
           <span>~</span>
           <input type="number" id="inpMax2T" step="0.5" style="width:66px" />
@@ -491,7 +584,7 @@
       </div>
 
       <div id="svgChartWrapper">
-        <svg id="xrdSvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 430" preserveAspectRatio="none"></svg>
+        <svg id="xrdSvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 435" preserveAspectRatio="none"></svg>
       </div>
 
       <div class="chart-footer">
@@ -665,7 +758,7 @@
       </p>
       <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px;">
         <button class="btn-primary" id="btnDownloadJson" data-i18n="btnDownJson">사용자 DB JSON 다운로드</button>
-        <label style="border:1px solid var(--border-strong); background:#ffffff; padding:5px 10px; border-radius:6px; cursor:pointer; font-weight:600;">
+        <label style="border:1px solid var(--border); background:var(--surface-elevated); padding:5px 10px; border-radius:4px; cursor:pointer; font-weight:600;">
           <span data-i18n="btnUpJson">JSON 파일 불러오기 (병합)</span>
           <input type="file" id="jsonFileInput" accept=".json" style="display:none;" />
         </label>
@@ -682,8 +775,8 @@
 
   const I18N = {
     ko: {
-      appTitle: "IsoXRD — 잔차 피크 기반 누적 상추천 & 프리셋 정량 노트",
-      appSub: "Additive Residual-Peak Phase Suggestion, Preset Suites & PO-Corrected RIR Engine",
+      appTitle: "IsoXRD — Crystallography & RIR Workbench",
+      appSub: "Residual-Peak Phase Suggestion · Adaptive-FWHM Deconvolution · PO-Corrected RIR",
       pubModeBtn: "출판용 흑백",
       pubModeBtnActive: "테마 컬러 복귀",
       exportCsv: "엑셀 CSV",
@@ -692,14 +785,14 @@
       guideBtn: "사용법 / 업데이트",
       citeBtn: "인용 / DOI",
       langBtn: "English",
-      kpiFile: "활성 시료 / 스택 수",
-      kpiPrimary: "1순위 판별 광물 (Match)",
-      kpiShift: "보정 변위 (Δ2θ = s₀ + s₁cosθ)",
-      kpiCarbKpi: "최다 함량 광물 (PO-Corrected wt%)",
-      sec1: "1. 다중 시료 불러오기 (Multi-Sample)",
+      kpiFile: "01 · 활성 시료 / 스택 수",
+      kpiPrimary: "02 · 1순위 판별 광물 (Match)",
+      kpiShift: "03 · 보정 변위 (Δ2θ = s₀ + s₁cosθ)",
+      kpiCarbKpi: "04 · 최다 함량 광물 (PO-Corrected wt%)",
+      sec1: "다중 시료 불러오기 (Multi-Sample)",
       clearBtn: "초기화",
       dropTitle: "여기에 여러 XRD 파일 동시 드래그/클릭",
-      sec2: "2. 변위 보정 & 다중 피크 RIR 정량",
+      sec2: "변위 보정 & 다중 피크 RIR 정량",
       autoFit: "자동 보정",
       lblS0Text: "영점 오차 (s₀):",
       lblS1Text: "시료 높이 변위 (s₁·cosθ):",
@@ -707,7 +800,7 @@
       carbTitle: "활성 광물 RIR 정량 (합계 100.0%)",
       rankTitle: "후보 광물 적합도 순위 (Top 4)",
       btnSuggest: "+ 미설명 피크 상추가",
-      sec3: "3. 광물 조합 프리셋 & DB 선택",
+      sec3: "광물 조합 프리셋 & DB 선택",
       toggleAll: "전체 토글",
       suiteTitle: "암석·시료 유형별 광물 조합 프리셋:",
       btnSaveSuite: "+ 내 조합 저장",
@@ -777,8 +870,8 @@
       unassigned: "미할당 / Unassigned"
     },
     en: {
-      appTitle: "IsoXRD — Additive Residual-Peak Phase Suggestion & RIR Notebook",
-      appSub: "Additive Residual-Peak Phase Suggestion, Preset Suites & PO-Corrected RIR Engine",
+      appTitle: "IsoXRD — Crystallography & RIR Workbench",
+      appSub: "Residual-Peak Phase Suggestion · Adaptive-FWHM Deconvolution · PO-Corrected RIR",
       pubModeBtn: "Publication B&W",
       pubModeBtnActive: "Restore Theme Color",
       exportCsv: "Excel CSV",
@@ -787,14 +880,14 @@
       guideBtn: "SOP / Changelog",
       citeBtn: "Cite / DOI",
       langBtn: "한국어",
-      kpiFile: "Active Sample / Stack",
-      kpiPrimary: "Primary Matched Phase",
-      kpiShift: "Displacement (Δ2θ = s₀ + s₁cosθ)",
-      kpiCarbKpi: "Dominant Phase (PO-Corrected wt%)",
-      sec1: "1. Multi-Sample Data Loader",
+      kpiFile: "01 · Active Sample / Stack",
+      kpiPrimary: "02 · Primary Matched Phase",
+      kpiShift: "03 · Displacement (Δ2θ = s₀ + s₁cosθ)",
+      kpiCarbKpi: "04 · Dominant Phase (PO-Corrected wt%)",
+      sec1: "Multi-Sample Data Loader",
       clearBtn: "Clear",
       dropTitle: "Drag & Drop Multiple XRD Files or Click",
-      sec2: "2. Displacement & Multi-Peak RIR Quant",
+      sec2: "Displacement & Multi-Peak RIR Quant",
       autoFit: "Auto-Fit",
       lblS0Text: "Zero-Point Shift (s₀):",
       lblS1Text: "Sample Height Shift (s₁·cosθ):",
@@ -802,7 +895,7 @@
       carbTitle: "Active Phases RIR Weight% (Sum 100.0%)",
       rankTitle: "Candidate Phase Ranking (Top 4)",
       btnSuggest: "+ Add Residual Phases",
-      sec3: "3. Phase Suite Presets & Mineral DB",
+      sec3: "Phase Suite Presets & Mineral DB",
       toggleAll: "Toggle All",
       suiteTitle: "Rock / Sediment Phase Combination Presets:",
       btnSaveSuite: "+ Save My Suite",
@@ -875,16 +968,20 @@
 
   const THEME_CHART_PALETTE = {
     linen: {
-      bg: "#fffdf9", grid: "#f2ece0", frame: "#44403c", text: "#27272a",
-      traces: ["#a84a28", "#1b4d3e", "#1e40af", "#854d0e", "#6b21a8", "#0f766e", "#44403c"]
+      bg: "#fffefb", grid: "#eee8da", frame: "#1c1917", text: "#1c1917",
+      traces: ["#b44322", "#1b4d3e", "#1e40af", "#854d0e", "#6b21a8", "#0f766e", "#44403c"]
     },
     journal: {
-      bg: "#ffffff", grid: "#f1f5f9", frame: "#18181b", text: "#18181b",
+      bg: "#ffffff", grid: "#f1f5f9", frame: "#09090b", text: "#09090b",
       traces: ["#1d4ed8", "#9f1239", "#047857", "#6d28d9", "#b45309", "#0e7490", "#374151"]
     },
     blueprint: {
       bg: "#fcfdff", grid: "#e3ecf5", frame: "#1e3a5f", text: "#0f2942",
       traces: ["#1e3a5f", "#b45309", "#0284c7", "#0f766e", "#6d28d9", "#be123c", "#334e68"]
+    },
+    obsidian: {
+      bg: "#16181d", grid: "#252830", frame: "#a1a1aa", text: "#f4f4f5",
+      traces: ["#e06d44", "#34d399", "#60a5fa", "#fbbf24", "#c084fc", "#2dd4bf", "#f472b6"]
     }
   };
 
@@ -893,7 +990,7 @@
       {
         title: "Step 1. 다중 시료 데이터 로드 (Multi-Sample Data Loader)",
         items: [
-          "좌측 상단 <strong>[1. 다중 시료 불러오기]</strong> 영역에 분석할 XRD 원본 파일(<code>.xrdml</code>, HighScore <code>.txt</code>, <code>.csv</code>, <code>.xy</code>)을 여러 개 동시에 드래그하거나 클릭하여 업로드합니다.",
+          "좌측 상단 <strong>[01 // 다중 시료 불러오기]</strong> 영역에 분석할 XRD 원본 파일(<code>.xrdml</code>, HighScore <code>.txt</code>, <code>.csv</code>, <code>.xy</code>)을 여러 개 동시에 드래그하거나 클릭하여 업로드합니다.",
           "업로드 즉시 스무딩(Smoothing) 및 배경선 제거(Baseline Subtraction)가 자동 수행되며, 다중 파일일 경우 상하 비교가 용이한 <strong>스택 비교(Stack)</strong> 모드로 자동 전환됩니다.",
           "시료 목록의 체크박스로 차트 표시 여부를 제어하고, 시료명을 클릭해 현재 상세 분석할 활성 시료를 전환합니다."
         ]
@@ -908,7 +1005,7 @@
       {
         title: "Step 3. 광물 후보군 설정 및 잔차 피크 상동정 (Phase Identification)",
         items: [
-          "<strong>[3. 광물 조합 프리셋 & DB 선택]</strong>에서 시료의 지질학적 환경에 맞는 프리셋 버튼(예: <code>탄산염/석순</code>, <code>탄산염-규산염 혼합</code>)을 클릭해 1차 후보 광물군을 불러옵니다.",
+          "<strong>[03 // 광물 조합 프리셋 & DB 선택]</strong>에서 시료의 지질학적 환경에 맞는 프리셋 버튼(예: <code>탄산염/석순</code>, <code>탄산염-규산염 혼합</code>)을 클릭해 1차 후보 광물군을 불러옵니다.",
           "차트 상에 주황색 다이아몬드(<strong>◆2θ°</strong>)로 표시된 미할당 피크가 남아 있다면, <strong>[+ 미설명 피크 상추가]</strong> 버튼을 클릭합니다. 기존 선택을 유지한 채 미할당 피크와 일치하는 후보 광물 최대 3종이 누적 추가됩니다.",
           "개별 광물 알약(Pill)을 클릭해 불필요한 상은 끄고 필요한 상은 켜서 최종 구성 광물을 확정하며, 자주 쓰는 조합은 <strong>[+ 내 조합 저장]</strong>으로 영구 저장할 수 있습니다."
         ]
@@ -925,7 +1022,7 @@
         title: "Step 5. 논문용 그림 및 정량 데이터 내보내기 (Export & Citation)",
         items: [
           "<strong>엑셀 CSV:</strong> 다중 시료 일괄 정량 요약표(Weight%)와 활성 시료의 상세 피크 적분 면적표를 UTF-8 BOM 형식으로 다운로드합니다.",
-          "<strong>그림 PNG / 벡터 SVG:</strong> 상단 테마(<code>Linen</code>, <code>Journal</code>, <code>Blueprint</code>) 또는 <strong>[출판용 흑백]</strong> 모드로 전환한 뒤 고해상도 래스터 이미지(PNG)나 일러스트레이터 편집용 벡터 그래픽(SVG)으로 저장합니다."
+          "<strong>그림 PNG / 벡터 SVG:</strong> 상단 테마(<code>Linen</code>, <code>Swiss</code>, <code>Blueprint</code>, <code>Obsidian</code>) 또는 <strong>[출판용 흑백]</strong> 모드로 전환한 뒤 고해상도 래스터 이미지(PNG)나 일러스트레이터 편집용 벡터 그래픽(SVG)으로 저장합니다."
         ]
       }
     ],
@@ -933,7 +1030,7 @@
       {
         title: "Step 1. Multi-Sample Data Loader",
         items: [
-          "Drag and drop multiple XRD raw files (<code>.xrdml</code>, HighScore <code>.txt</code>, <code>.csv</code>, <code>.xy</code>) into the <strong>[1. Multi-Sample Data Loader]</strong> dropzone.",
+          "Drag and drop multiple XRD raw files (<code>.xrdml</code>, HighScore <code>.txt</code>, <code>.csv</code>, <code>.xy</code>) into the <strong>[01 // Multi-Sample Data Loader]</strong> dropzone.",
           "Smoothing and baseline subtraction are applied automatically, switching to <strong>Stack View</strong> when multiple spectra are loaded.",
           "Toggle trace visibility via checkboxes and click any sample row to set it as the active spectrum."
         ]
@@ -948,7 +1045,7 @@
       {
         title: "Step 3. Phase Suite Presets & Residual-Peak Identification",
         items: [
-          "Select a geological preset in <strong>[3. Phase Suite Presets & Mineral DB]</strong> (e.g., <code>Carbonate / Speleothem</code> or <code>Calc-Silicate / Skarn</code>) to load initial candidate phases.",
+          "Select a geological preset in <strong>[03 // Phase Suite Presets & Mineral DB]</strong> (e.g., <code>Carbonate / Speleothem</code> or <code>Calc-Silicate / Skarn</code>) to load initial candidate phases.",
           "If unassigned residual peaks marked with amber diamonds (<strong>◆2θ°</strong>) remain on the chart, click <strong>[+ Add Residual Phases]</strong> to incrementally add up to 3 matching candidates without overwriting your current selection.",
           "Click individual mineral pills to fine-tune the phase assemblage, and click <strong>[+ Save My Suite]</strong> to store custom combinations."
         ]
@@ -965,7 +1062,7 @@
         title: "Step 5. Publication Figure Export & Citation",
         items: [
           "<strong>Excel CSV:</strong> Exports both the 100%-normalized batch Weight% summary and the active sample's integrated peak area table.",
-          "<strong>Image PNG / Vector SVG:</strong> Switch between themes (<code>Linen</code>, <code>Journal</code>, <code>Blueprint</code>) or <strong>[Publication B&W]</strong> mode and export publication-grade figures."
+          "<strong>Image PNG / Vector SVG:</strong> Switch between editorial themes (<code>Linen</code>, <code>Swiss</code>, <code>Blueprint</code>, <code>Obsidian</code>) or <strong>[Publication B&W]</strong> mode and export publication-grade figures."
         ]
       }
     ]
@@ -973,7 +1070,19 @@
 
   const CHANGELOG_DATA = [
     {
-      ver: "v4.4 (Current)",
+      ver: "v4.5 (Current — Editorial Workbench Edition)",
+      date: "2026-11-20",
+      notesKo: [
+        "CSSDA WOTD 영감의 Swiss Grid 에디토리얼 레이아웃 도입: 1px 아키텍처 보더 그리드, 세리프-모노스페이스 대비 타이포그래피, 섹션 인덱스 번호(01//~03//) 및 Dark Obsidian 스튜디오 테마 추가.",
+        "전체 분석 엔진(Pseudo-Voigt 디컨볼루션, PO 보정, 잔차 피크 누적 추천, SOP 모달) UI 통합 고도화."
+      ],
+      notesEn: [
+        "Introduced CSSDA WOTD-inspired Swiss Grid Editorial UI: 1px architectural grid frames, Serif/Monospace typography contrast, section indices (01//–03//), and Dark Obsidian studio theme.",
+        "Refined interactive transitions and theme-synchronized SVG chart palettes."
+      ]
+    },
+    {
+      ver: "v4.4",
       date: "2026-11-17",
       notesKo: [
         "상단 헤더에 [사용법 / 업데이트] 모달 창을 추가하여 표준 작업 절차서(SOP)와 버전별 릴리스 노트를 한/영 양방향으로 즉시 열람 가능.",
@@ -988,46 +1097,20 @@
       ver: "v4.3",
       date: "2026-11-17",
       notesKo: [
-        "누적 방식의 [+ 미설명 피크 상추가] 버튼 도입: 기존 선택을 덮어쓰지 않고 미할당 피크와 일치하는 후보 광물 최대 3종씩 점진적 추가.",
-        "미할당 잔차 피크를 차트 상에 주황색 다이아몬드(◆2θ°) 마커로 강조 표시."
+        "누적 방식의 [+ 미설명 피크 상추가] 버튼 도입 및 미할당 잔차 피크 주황색 다이아몬드(◆2θ°) 마커 강조 표시."
       ],
       notesEn: [
-        "Introduced additive [+ Add Residual Phases] button that preserves active selections while incrementally adding up to 3 candidates matching unexplained peaks.",
-        "Highlighted unassigned peaks with amber diamond (◆2θ°) markers on the chart."
+        "Introduced additive [+ Add Residual Phases] button and amber diamond (◆2θ°) markers for unassigned peaks."
       ]
     },
     {
-      ver: "v4.2",
+      ver: "v4.1 – v4.2",
       date: "2026-11-17",
       notesKo: [
-        "암석·퇴적물 유형별 광물 조합 프리셋([탄산염/석순], [탄산염-규산염 혼합], [쇄설성/풍화토]) 및 사용자 정의 조합 영구 저장([+ 내 조합 저장]) 기능 추가."
+        "암석·퇴적물 유형별 광물 조합 프리셋 추가, 범용 우선 배향성(PO) 자동 감쇠 보정(PO×0.xx), 개별 피크 반치폭(Adaptive FWHM) 측정 및 잔차(Residual) 곡선 시각화."
       ],
       notesEn: [
-        "Added geological phase combination suite presets and persistent custom suite saving ([+ Save My Suite])."
-      ]
-    },
-    {
-      ver: "v4.1",
-      date: "2026-11-17",
-      notesKo: [
-        "범용 우선 배향성(PO) 자동 감쇠 보정(PO×0.xx) 도입: 보조 피크 일관성 검증을 통해 벽개·판상 배향성 광물의 과대평가를 광물 구분 없이 자동 보정.",
-        "개별 피크 반치폭(Adaptive FWHM) 자동 추정 및 관측-피팅 차이(Residual) 곡선 시각화 추가."
-      ],
-      notesEn: [
-        "Implemented phase-agnostic Preferred Orientation (PO) auto-attenuation based on secondary reflection consistency.",
-        "Added per-peak adaptive FWHM profiling and residual curve overlay."
-      ]
-    },
-    {
-      ver: "v4.0 & v3.6 – v3.8",
-      date: "2026-11-16",
-      notesKo: [
-        "Pseudo-Voigt 프로파일 디컨볼루션(NNLS 좌표 하강법) 엔진 및 다중 광물 RIR(I/Ic) 100% 정규화 Weight% 반정량 계산기 탑재.",
-        "광물별 인라인 RIR 수정(localStorage 저장), HighScore 9열 탭 구분 .txt 파서 및 .xrdml 파장 메타데이터 자동 인식."
-      ],
-      notesEn: [
-        "Built Pseudo-Voigt profile deconvolution (NNLS coordinate descent) and 100%-normalized multi-phase RIR Weight% engine.",
-        "Added inline RIR overrides, HighScore 9-column .txt parser, and .xrdml wavelength auto-detection."
+        "Added geological suite presets, phase-agnostic Preferred Orientation (PO) auto-attenuation, adaptive FWHM profiling, and residual curve overlay."
       ]
     }
   ];
@@ -1055,7 +1138,7 @@
 
   const CORE_MINERALS = [
     {
-      id: "calcite", name: "Calcite", nameKo: "방해석", formula: "CaCO3", color: "#a84a28", rir: 3.20, defaultRir: 3.20, active: true,
+      id: "calcite", name: "Calcite", nameKo: "방해석", formula: "CaCO3", color: "#b44322", rir: 3.20, defaultRir: 3.20, active: true,
       peaks: [
         [29.40, 100, 3.035, "(104)"], [39.40, 18, 2.285, "(113)"], [43.15, 18, 2.095, "(202)"],
         [47.50, 17, 1.913, "(018)"], [48.51, 17, 1.875, "(116)"], [35.97, 14, 2.495, "(110)"],
@@ -1114,7 +1197,7 @@
       peaks: [[29.80,100,3.000,"(221)"],[30.50,60,2.928,"(310)"],[35.50,55,2.527,"(022)"],[31.10,45,2.873,"(002)"],[27.60,30,3.230,"(220)"]] },
     { id: "k_feldspar", name: "K-feldspar", nameKo: "칼륨장석", formula: "KAlSi3O8", color: "#854d0e", rir: 0.95, defaultRir: 0.95, active: false,
       peaks: [[27.50,100,3.242,"(002)"],[21.00,40,4.227,"(201)"],[27.80,35,3.207,"(220)"],[29.50,30,3.026,"(131)"],[23.60,25,3.767,"(111)"]] },
-    { id: "biotite", name: "Biotite", nameKo: "흑운모", formula: "K(Mg,Fe)3(AlSi3O10)(OH)2", color: "#3f3f46", rir: 1.20, defaultRir: 1.20, active: false,
+    { id: "biotite", name: "Biotite", nameKo: "흑운모", formula: "K(Mg,Fe)3(AlSi3O10)(OH)2", color: "#52525b", rir: 1.20, defaultRir: 1.20, active: false,
       peaks: [[8.85,100,9.985,"(001)"],[26.80,85,3.324,"(006)"],[17.80,30,4.980,"(004)"],[19.90,25,4.459,"(020)"],[35.00,20,2.562,"(202)"]] },
     { id: "apatite", name: "Apatite", nameKo: "인회석", formula: "Ca5(PO4)3(F,Cl,OH)", color: "#0284c7", rir: 1.10, defaultRir: 1.10, active: false,
       peaks: [[31.78,100,2.813,"(211)"],[25.87,85,3.442,"(002)"],[32.18,70,2.779,"(112)"],[28.93,55,3.084,"(210)"],[34.04,40,2.631,"(300)"]] },
@@ -1154,7 +1237,7 @@
   } catch (e) {}
 
   let lang = "ko";
-  let currentTheme = safeGet("isoxrd_theme_v3") || "linen";
+  let currentTheme = safeGet("isoxrd_theme_v4") || "linen";
   let savedDoi = safeGet("isoxrd_zenodo_doi") || DEFAULT_DOI;
   let pubMode = false;
   let viewMode = "stack";
@@ -1201,10 +1284,10 @@
     document.getElementById("linkZenodoDoi").href = doiUrl;
 
     document.getElementById("citeTextStatement").textContent =
-      `X-ray diffraction (XRD) baseline subtraction, non-linear sample height displacement correction (Δ2θ = s₀ + s₁cosθ), adaptive-FWHM Pseudo-Voigt deconvolution, and preferred-orientation-attenuated multi-peak RIR (I/Ic) semi-quantitative weight quantification were performed using IsoXRD v4.4 (Yang, 2026; ${doiUrl}).`;
+      `X-ray diffraction (XRD) baseline subtraction, non-linear sample height displacement correction (Δ2θ = s₀ + s₁cosθ), adaptive-FWHM Pseudo-Voigt deconvolution, and preferred-orientation-attenuated multi-peak RIR (I/Ic) semi-quantitative weight quantification were performed using IsoXRD v4.5 (Yang, 2026; ${doiUrl}).`;
 
     document.getElementById("citeTextApa").textContent =
-      `Yang, Y.-S. (2026). IsoXRD: Lightweight Browser-Based XRD Phase Identification and Semi-Quantitative Carbonate Analysis Tool (Version 4.4) [Computer software]. Zenodo. ${doiUrl}`;
+      `Yang, Y.-S. (2026). IsoXRD: Lightweight Browser-Based XRD Phase Identification and Semi-Quantitative Carbonate Analysis Tool (Version 4.5) [Computer software]. Zenodo. ${doiUrl}`;
 
     document.getElementById("citeTextBib").textContent =
 `@software{Yang_IsoXRD_2026,
@@ -1213,7 +1296,7 @@
   month        = nov,
   year         = 2026,
   publisher    = {Zenodo},
-  version      = {v4.4},
+  version      = {v4.5},
   doi          = {${cleanDoi}},
   url          = {${doiUrl}}
 }`;
@@ -1222,7 +1305,7 @@
   function setTheme(themeKey, persist = true) {
     if (!THEME_CHART_PALETTE[themeKey]) themeKey = "linen";
     currentTheme = themeKey;
-    if (persist) safeSet("isoxrd_theme_v3", themeKey);
+    if (persist) safeSet("isoxrd_theme_v4", themeKey);
     document.body.setAttribute("data-theme", themeKey);
     document.querySelectorAll("#themeSwitcher .theme-btn").forEach(btn => {
       btn.classList.toggle("active", btn.dataset.themeVal === themeKey);
@@ -1300,7 +1383,6 @@
     });
   }
 
-  // Safe async external preset loader (prevents blocking demo rendering on local file:// or slow networks)
   async function loadExternalPresetJson() {
     const badge = document.getElementById("presetSourceBadge");
     try {
@@ -1983,7 +2065,7 @@
 
   function renderChart() {
     const svg = document.getElementById("xrdSvg");
-    const W = 980, H = 430;
+    const W = 980, H = 435;
     const padL = 62, padR = 24, padT = 26, padB = 46;
     const plotW = W - padL - padR;
     const plotH = H - padT - padB;
@@ -2136,7 +2218,7 @@
             if (py - lblY > 14) {
               html += `<line x1="${px}" y1="${py - 3}" x2="${px}" y2="${lblY + 2}" stroke="#9ca3af" stroke-width="0.7" />`;
             }
-            const lblFill = isSel ? "#9f1239" : (p.isUnassigned && !pubMode ? "#b45309" : textColor);
+            const lblFill = isSel ? "#9f1239" : (p.isUnassigned && !pubMode ? "#d97706" : textColor);
             html += `<text x="${px}" y="${lblY}" font-size="9.5" font-weight="700" fill="${lblFill}" text-anchor="middle" font-family="monospace">${labelStr}</text>`;
           }
         });
@@ -2144,7 +2226,7 @@
     });
 
     html += `<text x="18" y="${padT + plotH / 2}" font-size="12" font-weight="700" fill="${textColor}" text-anchor="middle" font-family="Georgia, serif" transform="rotate(-90 18 ${padT + plotH / 2})">Normalized Intensity (a.u.)</text>`;
-    html += `<rect id="zoomRect" x="0" y="${padT}" width="0" height="${plotH}" fill="rgba(168,74,40,0.12)" stroke="${frameColor}" stroke-dasharray="3,2" visibility="hidden" />`;
+    html += `<rect id="zoomRect" x="0" y="${padT}" width="0" height="${plotH}" fill="rgba(180,67,34,0.12)" stroke="${frameColor}" stroke-dasharray="3,2" visibility="hidden" />`;
     html += `<line id="crossX" x1="0" y1="${padT}" x2="0" y2="${padT + plotH}" stroke="#94a3b8" stroke-width="0.9" stroke-dasharray="2,2" visibility="hidden" />`;
 
     svg.innerHTML = html;
@@ -2625,7 +2707,7 @@
     const svgNode = document.getElementById("xrdSvg").cloneNode(true);
     svgNode.setAttribute("xmlns", "http://www.w3.org/2000/svg");
     svgNode.setAttribute("width", "1960");
-    svgNode.setAttribute("height", "860");
+    svgNode.setAttribute("height", "870");
     const zr = svgNode.querySelector("#zoomRect");
     const cx = svgNode.querySelector("#crossX");
     if (zr) zr.remove();
@@ -2665,7 +2747,7 @@
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = "IsoXRD_v4_4_WeightPercent.csv";
+    a.download = "IsoXRD_v4_5_WeightPercent.csv";
     a.click();
   };
 
@@ -2677,7 +2759,7 @@
     img.onload = () => {
       const canvas = document.createElement("canvas");
       canvas.width = 1960;
-      canvas.height = 860;
+      canvas.height = 870;
       const ctx = canvas.getContext("2d");
       ctx.fillStyle = "#ffffff";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -2878,7 +2960,7 @@
 
   document.getElementById("btnReloadRemotePreset").onclick = loadExternalPresetJson;
 
-  // Safe Boot Sequence (Initializes built-in DB and renders demo immediately before async fetch)
+  // Safe Boot Sequence
   setTheme(currentTheme, false);
   mergeMinerals(LAB_PRESET_FALLBACK, false);
   applySavedRirOverrides();
