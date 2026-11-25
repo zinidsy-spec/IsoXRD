@@ -3,8 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IsoXRD v4.7 — Spectrum-First Minimalist XRD Workbench</title>
+  <title>IsoXRD v4.6 — Spectrum-First Minimalist XRD Workbench</title>
   <style>
+    /* ==========================================================================
+       IsoXRD v4.6: Spectrum-First Minimalist Workbench (Linen / Swiss / Blueprint / Obsidian)
+       ========================================================================== */
     :root, [data-theme="linen"] {
       --bg: #f5f1e8;
       --surface: #fcfaf4;
@@ -94,6 +97,7 @@
       -webkit-font-smoothing: antialiased;
     }
 
+    /* Compact Masthead */
     header {
       background: var(--surface);
       border-bottom: 1px solid var(--border);
@@ -155,6 +159,7 @@
     button.btn-ghost { border-color: transparent; background: transparent; color: var(--text-secondary); }
     button.btn-ghost:hover { background: var(--surface-subtle); }
 
+    /* Slim Tabbed Workspace (310px Left Sidebar + Expansive Spectrum Canvas) */
     .workspace {
       display: grid;
       grid-template-columns: 310px 1fr;
@@ -264,6 +269,7 @@
     }
     .db-pill.active { border-color: var(--primary); background: var(--primary-soft); color: var(--primary); }
 
+    /* Expansive Main Spectrum Stage */
     .main-area { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
     .card {
       background: var(--surface);
@@ -280,6 +286,7 @@
     .segmented button { border: none; border-radius: 0; background: transparent; padding: 3.5px 9px; font-size: 11px; color: var(--text-secondary); }
     .segmented button.active { background: var(--border-strong); color: var(--surface); }
 
+    /* Inline KPI Status Strip inside Chart Toolbar */
     .inline-status-bar {
       display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
       font-family: var(--mono); font-size: 11px;
@@ -306,7 +313,10 @@
       font-size: 11px; color: var(--muted); margin-top: 6px; flex-wrap: wrap; gap: 6px;
     }
 
-    .table-header-bar { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    /* Collapsible Bottom Tables */
+    .table-header-bar {
+      display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    }
     .sub-tabs { display: flex; gap: 6px; align-items: center; }
     .sub-tab-btn {
       padding: 3.5px 9px; font-size: 11.5px; border-radius: 4px; border: 1px solid transparent;
@@ -326,6 +336,7 @@
     tr:hover td { background: var(--surface-subtle); cursor: pointer; }
     tr.selected td { background: var(--primary-soft); }
 
+    /* Modals */
     .modal-backdrop { position: fixed; inset: 0; background: rgba(9, 9, 11, 0.5); backdrop-filter: blur(2px); display: none; align-items: center; justify-content: center; z-index: 50; padding: 16px; }
     .modal-backdrop.open { display: flex; }
     .modal { background: var(--surface); border: 1px solid var(--border-strong); border-radius: 7px; width: 100%; max-width: 720px; max-height: 88vh; overflow-y: auto; padding: 20px 24px; }
@@ -363,7 +374,7 @@
   <div class="brand">
     <div class="brand-emblem">Xr</div>
     <span class="brand-title">IsoXRD</span>
-    <span class="version-tag">v4.7</span>
+    <span class="version-tag">v4.6</span>
   </div>
 
   <div class="header-actions">
@@ -391,6 +402,7 @@
 </header>
 
 <div class="workspace" id="mainWorkspace">
+  <!-- Slim 3-Tab Left Control Sidebar -->
   <aside class="sidebar">
     <div class="sidebar-shell">
       <div class="side-nav">
@@ -446,11 +458,8 @@
 
         <div class="section-block">
           <div class="section-lbl">
-            <span data-i18n="sec3">광물 DB 선택</span>
-            <div style="display:flex; gap:4px;">
-              <button class="btn-sm" id="btnClearAllPhases" data-i18n="clearPhasesBtn">모두 해제</button>
-              <button class="btn-sm" id="btnToggleAll" data-i18n="toggleAll">반전</button>
-            </div>
+            <span data-i18n="sec3">광물 DB 선택 (클릭 토글)</span>
+            <button class="btn-sm" id="btnToggleAll" data-i18n="toggleAll">전체 토글</button>
           </div>
           <div class="pill-wrap" id="dbPills"></div>
           <button class="btn-primary" id="btnOpenDbModal" style="width:100%; margin-top:9px; padding:6px;" data-i18n="openDbBtn">
@@ -480,11 +489,7 @@
             </div>
             <input type="range" id="sliderS1" min="-0.3" max="0.3" step="0.005" value="0" />
           </div>
-          <div style="margin-top:8px; display:flex; flex-direction:column; gap:5px; font-size:11px;">
-            <label style="cursor:pointer; font-weight:600; color:var(--text-secondary);">
-              <input type="checkbox" id="chkPrimaryGate" checked />
-              <span data-i18n="chkGateText">주피크(I100) 미검출 상 자동 제외</span>
-            </label>
+          <div style="margin-top:8px; font-size:11px;">
             <label style="cursor:pointer; font-weight:600; color:var(--text-secondary);">
               <input type="checkbox" id="chkAutoPo" checked />
               <span data-i18n="chkPoText">범용 우선 배향성(PO) 자동 감쇠 보정</span>
@@ -521,6 +526,7 @@
     </div>
   </aside>
 
+  <!-- Expansive Spectrum Main Stage -->
   <main class="main-area">
     <div class="card">
       <div class="chart-toolbar">
@@ -537,6 +543,7 @@
           <button class="btn-sm" id="btnResetZoom" data-i18n="btnReset">전체</button>
         </div>
 
+        <!-- Compact Inline Summary Chips (Replaces bulky top KPI strip) -->
         <div class="inline-status-bar">
           <span class="status-chip" id="chipSampleInfo">—</span>
           <span class="status-chip highlight" id="chipTopMatch">—</span>
@@ -545,6 +552,7 @@
         </div>
       </div>
 
+      <!-- Chart Overlay Toggles + Live Cursor Readout -->
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:7px; flex-wrap:wrap; gap:8px; font-size:11.5px;">
         <div style="display:flex; gap:10px; flex-wrap:wrap; color:var(--text-secondary);">
           <label style="cursor:pointer;"><input type="checkbox" id="chkBaseline" checked /> <span data-i18n="chkBase">배경선 제거</span></label>
@@ -562,11 +570,12 @@
       </div>
 
       <div class="chart-footer">
-        <span data-i18n="chartHint">💡 주피크 검증 + 1% 미만 노이즈 컷오프가 적용되어 순수 상은 정확히 100.0%로 산출됩니다.</span>
+        <span data-i18n="chartHint">💡 드래그로 2θ 구간 확대 · 더블클릭 전체 복귀 · 주황색 ◆ 마커는 미할당 피크</span>
         <span class="mono" id="presetSourceBadge">DB: 22 phases</span>
       </div>
     </div>
 
+    <!-- Collapsible Bottom Data Tables -->
     <div class="card">
       <div class="table-header-bar">
         <div class="sub-tabs">
@@ -763,14 +772,12 @@
       autoFit: "자동 보정",
       lblS0Text: "영점 오차 (s₀):",
       lblS1Text: "시료 높이 변위 (s₁·cosθ):",
-      chkGateText: "주피크(I100) 미검출 상 자동 제외",
       chkPoText: "범용 우선 배향성(PO) 자동 감쇠 보정",
       carbTitle: "RIR 반정량 (합계 100.0%)",
       rankTitle: "후보 광물 적합도 (Top 4)",
       btnSuggest: "+ 미설명 피크 상추가",
-      sec3: "광물 DB 선택",
-      clearPhasesBtn: "모두 해제",
-      toggleAll: "반전",
+      sec3: "광물 DB 선택 (클릭 토글)",
+      toggleAll: "전체 토글",
       suiteTitle: "암석·시료 유형별 프리셋",
       btnSaveSuite: "+ 조합 저장",
       lblWavelength: "X-선 파장 (λ) & 피크 검출",
@@ -787,7 +794,7 @@
       modeSingle: "단일",
       btnApply: "적용",
       btnReset: "전체",
-      chartHint: "💡 주피크 검증 + 1% 미만 노이즈 컷오프가 적용되어 순수 상은 정확히 100.0%로 산출됩니다.",
+      chartHint: "💡 드래그로 2θ 구간 확대 · 더블클릭 전체 복귀 · 주황색 ◆ 마커는 미할당 피크",
       subTabPeaks: "활성 시료 피크 면적표",
       subTabBatch: "다중 시료 정량 요약표 (100%)",
       tableHint: "시료 행 클릭 시 해당 스펙트럼 선택",
@@ -858,14 +865,12 @@
       autoFit: "Auto-Fit",
       lblS0Text: "Zero-Point Shift (s₀):",
       lblS1Text: "Sample Height Shift (s₁·cosθ):",
-      chkGateText: "Primary-Peak (I100) Presence Gate",
       chkPoText: "Universal PO Auto-Attenuation",
       carbTitle: "RIR Weight% (Sum 100.0%)",
       rankTitle: "Candidate Ranking (Top 4)",
       btnSuggest: "+ Add Residual Phases",
       sec3: "Mineral DB (Click to Toggle)",
-      clearPhasesBtn: "Clear All",
-      toggleAll: "Invert",
+      toggleAll: "Toggle All",
       suiteTitle: "Geological Suite Presets",
       btnSaveSuite: "+ Save Suite",
       lblWavelength: "Wavelength (λ) & Peak Detection",
@@ -882,7 +887,7 @@
       modeSingle: "Single",
       btnApply: "Apply",
       btnReset: "Full",
-      chartHint: "💡 Primary-peak presence gate + 1% trace noise cutoff ensures pure phases quantify cleanly to 100.0%.",
+      chartHint: "💡 Drag to zoom 2θ · Double-click to reset · Amber ◆ indicates unassigned peaks",
       subTabPeaks: "Active Sample Peaks & Area",
       subTabBatch: "Multi-Sample Weight% Summary (100%)",
       tableHint: "Click a sample row to inspect its spectrum",
@@ -958,46 +963,49 @@
   const SOP_CONTENT = {
     ko: [
       {
-        title: "Step 1. 미지 시료 소거법 분석 & 정량 ([1. 시료/정량] & [2. 광물/프리셋])",
+        title: "Step 1. 다중 시료 로드 & 정량 확인 ([1. 시료/정량] 탭)",
         items: [
-          "미지 시료를 분석할 때는 <strong>[2. 광물/프리셋]</strong> 탭의 <strong>[모두 해제]</strong>를 누른 뒤, 가장 키가 큰 주피크와 일치하는 1순위 광물만 먼저 켜서 주피크+보조피크 세트가 맞는지 확인합니다.",
-          "차트에 주황색 다이아몬드(<strong>◆</strong>) 미할당 피크가 남아 있으면 <strong>[1. 시료/정량]</strong> 탭의 <strong>[+ 미설명 피크 상추가]</strong>를 눌러 후보 광물을 3종씩 추가하고, 실제 주피크가 없는 광물은 꺼서 최종 구성 광물을 확정합니다."
+          "좌측 <strong>[1. 시료/정량]</strong> 탭 상단에 XRD 원본 파일(<code>.xrdml</code>, HighScore <code>.txt</code>, <code>.csv</code>, <code>.xy</code>)을 여러 개 동시에 드래그하여 올립니다.",
+          "하단 <strong>RIR 반정량</strong> 박스에서 활성 광물들의 총합 <code>100.0%</code> 기준 <code>Weight%</code>와 인라인 <code>RIR</code> 값을 바로 확인·수정할 수 있습니다.",
+          "미할당 피크(주황색 <strong>◆</strong> 마커)가 남아 있으면 <strong>[+ 미설명 피크 상추가]</strong> 버튼을 눌러 후보 광물을 3종씩 누적 추가합니다."
         ]
       },
       {
-        title: "Step 2. 주피크 검증(I100 Gate) & 노이즈 컷오프(1% Cutoff)",
+        title: "Step 2. 프리셋 및 광물 DB 선택 ([2. 광물/프리셋] 탭)",
         items: [
-          "<strong>[3. 보정/피크]</strong> 탭의 <strong>주피크(I100) 미검출 상 자동 제외</strong> 옵션이 켜져 있으면, 해당 광물의 100% 주피크 위치에 실제 피크가 없는 후보는 배경 노이즈 피팅에서 자동 제외됩니다.",
-          "전체 환산 무게의 <strong>1.0% 미만</strong>인 노이즈 허수는 자동 컷오프되므로, 순수 단일 광물 시료는 정확히 <strong>100.0%</strong>로 산출됩니다."
+          "<strong>[2. 광물/프리셋]</strong> 탭에서 <code>탄산염/석순</code>, <code>탄산염-규산염 혼합</code>, <code>쇄설성/풍화토</code> 프리셋을 클릭해 후보 광물군을 원클릭으로 세팅합니다.",
+          "개별 광물 알약(Pill)을 클릭해 미세 조정하고, 자주 쓰는 조합은 <strong>[+ 조합 저장]</strong>으로 저장할 수 있습니다."
         ]
       },
       {
-        title: "Step 3. 회절각 변위 보정 & 그래프 확대 보기",
+        title: "Step 3. 회절각 변위 보정 & 피크 검출 ([3. 보정/피크] 탭)",
         items: [
           "<strong>[3. 보정/피크]</strong> 탭의 <strong>[자동 보정]</strong> 버튼 또는 <code>s₀</code>, <code>s₁·cosθ</code> 슬라이더로 회절각 밀림을 정렬합니다.",
-          "상단 차트 툴바의 <strong>[⛶ 그래프 확대]</strong> 또는 하단 <strong>[▼ 표 접기]</strong>를 사용하면 회절 스펙트럼만 화면 가득 넓혀서 정밀 판독할 수 있습니다."
+          "상단 차트 툴바의 <strong>[⛶ 그래프 확대]</strong> 버튼이나 하단 <strong>[▼ 표 접기]</strong>를 사용하면 회절 스펙트럼만 화면 가득 넓혀서 정밀 판독할 수 있습니다."
         ]
       }
     ],
     en: [
       {
-        title: "Step 1. Unknown Sample Screening & Quantification",
+        title: "Step 1. Load Spectra & Quantify ([1. Samples/Quant] Tab)",
         items: [
-          "For unknown samples, click <strong>[Clear All]</strong> in <strong>[2. Minerals/Suite]</strong>, activate the primary phase matching the strongest diffraction peak, and verify its secondary peak set.",
-          "Click <strong>[+ Add Residual Phases]</strong> in <strong>[1. Samples/Quant]</strong> to incrementally match remaining unassigned (<strong>◆</strong>) peaks."
+          "Drag & drop multiple XRD files (<code>.xrdml</code>, HighScore <code>.txt</code>, <code>.csv</code>, <code>.xy</code>) into <strong>[1. Samples/Quant]</strong>.",
+          "Inspect 100%-normalized <code>Weight%</code> and edit inline <code>RIR</code> factors directly below.",
+          "Click <strong>[+ Add Residual Phases]</strong> to incrementally match remaining unassigned (<strong>◆</strong>) peaks."
         ]
       },
       {
-        title: "Step 2. Primary-Peak Gate & 1% Noise Cutoff",
+        title: "Step 2. Suite Presets & Mineral DB ([2. Minerals/Suite] Tab)",
         items: [
-          "When <strong>Primary-Peak (I100) Presence Gate</strong> is active in <strong>[3. Align/Peaks]</strong>, phases lacking an observed peak at their main reflection are excluded from NNLS noise fitting.",
-          "Sub-1.0% background noise artifacts are automatically cut off so pure monomineralic samples quantify cleanly to <strong>100.0%</strong>."
+          "Use geological suite presets (<code>Carbonate / Speleothem</code>, <code>Calc-Silicate / Skarn</code>, <code>Clastic / Soil</code>) or toggle individual mineral pills.",
+          "Save custom combinations via <strong>[+ Save Suite]</strong>."
         ]
       },
       {
-        title: "Step 3. Displacement Alignment & Full-Screen View",
+        title: "Step 3. Displacement Alignment & Full-Screen View ([3. Align/Peaks] Tab)",
         items: [
-          "Click <strong>[Auto-Fit]</strong> or adjust <code>s₀</code> and <code>s₁·cosθ</code> sliders to align reference sticks, and toggle <strong>[⛶ Expand Chart]</strong> for full-width inspection."
+          "Click <strong>[Auto-Fit]</strong> or adjust <code>s₀</code> and <code>s₁·cosθ</code> sliders to align reference sticks.",
+          "Use <strong>[⛶ Expand Chart]</strong> or <strong>[▼ Collapse Table]</strong> to maximize the diffraction spectrum canvas."
         ]
       }
     ]
@@ -1005,35 +1013,35 @@
 
   const CHANGELOG_DATA = [
     {
-      ver: "v4.7 (Current — Primary-Peak Gate & 1% Noise Cutoff)",
-      date: "2026-11-25",
-      notesKo: [
-        "주피크(I100) 존재 검증 게이트 도입: 스펙트럼에 해당 광물의 100% 주피크가 관측되지 않으면 배경 노이즈로 인한 가짜 NNLS 피팅을 원천 차단.",
-        "1.0% 미만 노이즈 컷오프 적용으로 순수 단일 상 시료(예: Demo: Pure Calcite) 정량 시 정확히 100.0%가 출력되도록 개선 및 [모두 해제] 버튼 추가."
-      ],
-      notesEn: [
-        "Added Primary-Peak (I100) Presence Gate to prevent false NNLS fitting on background noise when a phase's main reflection is absent.",
-        "Added 1.0% trace noise cutoff so pure single-phase samples quantify cleanly to 100.0%, plus a [Clear All] phase button."
-      ]
-    },
-    {
-      ver: "v4.6",
+      ver: "v4.6 (Current — Spectrum-First Minimalist Layout)",
       date: "2026-11-20",
       notesKo: [
-        "상단 KPI 박스를 차트 툴바 인라인 칩으로 통합하고 좌측 사이드바를 3개 탭(1. 시료/정량, 2. 광물/프리셋, 3. 보정/피크)으로 슬림화(310px)하여 대형 회절 스펙트럼 레이아웃 구현."
+        "상단 4칸 KPI 박스를 제거하고 핵심 요약 칩을 차트 툴바에 통합하여 세로 그래프 공간 대폭 확장.",
+        "길었던 좌측 사이드바를 3개 컴팩트 탭(1. 시료/정량, 2. 광물/프리셋, 3. 보정/피크)으로 슬림화(310px)하고 [⛶ 그래프 확대] 및 [▼ 표 접기] 기능 추가."
       ],
       notesEn: [
-        "Replaced top KPI strip with inline toolbar chips and consolidated sidebar into 3 compact tabs (310px) with [⛶ Expand Chart] toggle."
+        "Replaced bulky top KPI strip with inline chart toolbar status chips to maximize vertical spectrum space.",
+        "Consolidated left sidebar into 3 compact tabs (310px) and added [⛶ Expand Chart] and [▼ Collapse Table] toggles."
       ]
     },
     {
-      ver: "v4.1 – v4.5",
+      ver: "v4.4 – v4.5",
       date: "2026-11-17",
       notesKo: [
-        "잔차 피크 기반 누적 상추천([+ 미설명 피크 상추가]), 범용 우선 배향성(PO) 자동 감쇠 보정, 적응형 FWHM Pseudo-Voigt 디컨볼루션 및 내장 SOP 모달 탑재."
+        "헤더 [사용법 / 업데이트] 모달(SOP & Changelog) 추가 및 Linen / Swiss / Blueprint / Obsidian 4종 테마 시스템 도입."
       ],
       notesEn: [
-        "Introduced additive residual-peak phase suggestion, phase-agnostic PO auto-attenuation, adaptive-FWHM Pseudo-Voigt deconvolution, and in-app SOP modal."
+        "Added bilingual [SOP / Changelog] modal and 4 themes (Linen, Swiss, Blueprint, Obsidian)."
+      ]
+    },
+    {
+      ver: "v4.1 – v4.3",
+      date: "2026-11-17",
+      notesKo: [
+        "잔차 피크 기반 누적 상추천([+ 미설명 피크 상추가]), 미할당 피크 다이아몬드(◆) 마커, 범용 우선 배향성(PO) 자동 감쇠 보정 및 적응형 FWHM Pseudo-Voigt 디컨볼루션 탑재."
+      ],
+      notesEn: [
+        "Introduced additive residual-peak suggestion, unassigned ◆ markers, phase-agnostic PO auto-attenuation, and adaptive-FWHM Pseudo-Voigt deconvolution."
       ]
     }
   ];
@@ -1193,10 +1201,10 @@
     document.getElementById("linkZenodoDoi").href = doiUrl;
 
     document.getElementById("citeTextStatement").textContent =
-      `X-ray diffraction (XRD) baseline subtraction, non-linear sample height displacement correction (Δ2θ = s₀ + s₁cosθ), adaptive-FWHM Pseudo-Voigt deconvolution, and preferred-orientation-attenuated multi-peak RIR (I/Ic) semi-quantitative weight quantification were performed using IsoXRD v4.7 (Yang, 2026; ${doiUrl}).`;
+      `X-ray diffraction (XRD) baseline subtraction, non-linear sample height displacement correction (Δ2θ = s₀ + s₁cosθ), adaptive-FWHM Pseudo-Voigt deconvolution, and preferred-orientation-attenuated multi-peak RIR (I/Ic) semi-quantitative weight quantification were performed using IsoXRD v4.6 (Yang, 2026; ${doiUrl}).`;
 
     document.getElementById("citeTextApa").textContent =
-      `Yang, Y.-S. (2026). IsoXRD: Lightweight Browser-Based XRD Phase Identification and Semi-Quantitative Carbonate Analysis Tool (Version 4.7) [Computer software]. Zenodo. ${doiUrl}`;
+      `Yang, Y.-S. (2026). IsoXRD: Lightweight Browser-Based XRD Phase Identification and Semi-Quantitative Carbonate Analysis Tool (Version 4.6) [Computer software]. Zenodo. ${doiUrl}`;
 
     document.getElementById("citeTextBib").textContent =
 `@software{Yang_IsoXRD_2026,
@@ -1205,7 +1213,7 @@
   month        = nov,
   year         = 2026,
   publisher    = {Zenodo},
-  version      = {v4.7},
+  version      = {v4.6},
   doi          = {${cleanDoi}},
   url          = {${doiUrl}}
 }`;
@@ -1402,7 +1410,7 @@
     return eta * lorentz + (1 - eta) * gauss;
   }
 
-  function deconvolveActiveMinerals(sample, activeMins, usePoCorrection, usePrimaryGate) {
+  function deconvolveActiveMinerals(sample, activeMins, usePoCorrection) {
     const nPts = sample.rawX.length;
     const sMin = sample.rawX[0], sMax = sample.rawX[nPts - 1];
     const step = (sMax - sMin) / Math.max(1, nPts - 1);
@@ -1410,16 +1418,6 @@
 
     const components = [];
     activeMins.forEach(min => {
-      if (usePrimaryGate && sample.peaks && sample.peaks.length > 0) {
-        const strongRefs = min.peaks.filter(([std2T, relI]) => relI >= 80 && std2T >= sMin + 0.1 && std2T <= sMax - 0.1);
-        if (strongRefs.length > 0) {
-          const hasPrimaryPeak = strongRefs.some(([std2T]) =>
-            sample.peaks.some(dp => Math.abs(dp.corr2T - std2T) <= 0.16 && dp.rel >= 3.0)
-          );
-          if (!hasPrimaryPeak) return;
-        }
-      }
-
       const subPeaks = [];
       min.peaks.forEach(([std2T, relI]) => {
         if (relI < 15) return;
@@ -1556,7 +1554,6 @@
     const promPct = parseFloat(document.getElementById("sliderProm").value);
     const useBase = document.getElementById("chkBaseline").checked;
     const usePo = document.getElementById("chkAutoPo").checked;
-    const usePrimaryGate = document.getElementById("chkPrimaryGate").checked;
     const wl = parseFloat(document.getElementById("wavelengthSelect").value);
 
     sample.smoothY = smoothArray(sample.rawY, win);
@@ -1632,40 +1629,28 @@
       p.matchDiff = bestMatch ? bestMatch.diff : null;
     });
 
-    const deconvComponents = deconvolveActiveMinerals(sample, activeMins, usePo, usePrimaryGate);
+    const deconvComponents = deconvolveActiveMinerals(sample, activeMins, usePo);
 
-    let rawTotalWeight = 0;
+    let totalWeight = 0;
     const phaseWeights = activeMins.map(min => {
       const comp = deconvComponents.find(c => c.min.id === min.id);
       const deconvolvedI100Area = comp ? (comp.areaScale * comp.poFactor) : 0;
       const poFactor = comp ? comp.poFactor : 1.0;
       const rir = min.rir || 1.2;
       const w = deconvolvedI100Area > 0 ? (deconvolvedI100Area / rir) : 0;
-      rawTotalWeight += w;
+      totalWeight += w;
       return { id: min.id, nameKo: min.nameKo, nameEn: min.name, color: min.color, rir, poFactor, weight: w };
     });
 
-    let cleanTotalWeight = 0;
-    if (rawTotalWeight > 0) {
-      phaseWeights.forEach(item => {
-        const prelimPct = (item.weight / rawTotalWeight) * 100;
-        if (prelimPct < 1.0) {
-          item.weight = 0;
-        } else {
-          cleanTotalWeight += item.weight;
-        }
-      });
-    }
-
     sample.phaseQuantList = [];
-    if (cleanTotalWeight > 0) {
+    if (totalWeight > 0) {
       let runningSum = 0;
       const sortedW = phaseWeights.sort((a, b) => b.weight - a.weight);
       sortedW.forEach(item => {
         if (item.weight <= 0) {
           sample.phaseQuantList.push({ ...item, pct: 0 });
         } else {
-          const pct = Math.round((item.weight / cleanTotalWeight) * 1000) / 10;
+          const pct = Math.round((item.weight / totalWeight) * 1000) / 10;
           sample.phaseQuantList.push({ ...item, pct });
           runningSum += pct;
         }
@@ -1814,7 +1799,7 @@
           <div style="display:flex; align-items:center; gap:3px; flex-shrink:0;">
             <span style="font-size:9.5px; color:var(--muted);">RIR:</span>
             <input type="number" class="rir-inline-inp" data-min-id="${item.id}" value="${item.rir.toFixed(2)}" step="0.05" min="0.1" max="20" title="Edit I/Ic RIR factor" />
-            <span class="mono" style="font-weight:700; width:44px; text-align:right; color:${item.pct > 0 ? 'var(--text)' : 'var(--muted)'};">${item.pct > 0 ? item.pct.toFixed(1) + '%' : '—'}</span>
+            <span class="mono" style="font-weight:700; width:44px; text-align:right; color:${item.pct > 0 ? 'var(--text)' : 'var(--muted)'};">${item.pct > 0 ? item.pct.toFixed(1) + '%' : 'trace'}</span>
           </div>
         `;
         const inp = r.querySelector("input");
@@ -2377,6 +2362,7 @@
     reprocessAllSamples(false);
   }
 
+  // Left Sidebar 3-Tab Switcher
   document.querySelectorAll(".side-nav-btn").forEach(btn => {
     btn.onclick = () => {
       document.querySelectorAll(".side-nav-btn").forEach(b => b.classList.remove("active"));
@@ -2386,6 +2372,7 @@
     };
   });
 
+  // Expand Chart / Collapse Table Toggles
   document.getElementById("btnToggleExpand").onclick = () => {
     const ws = document.getElementById("mainWorkspace");
     ws.classList.toggle("expanded-chart");
@@ -2484,12 +2471,6 @@
     reprocessAllSamples(false);
   };
 
-  document.getElementById("btnClearAllPhases").onclick = () => {
-    minerals.forEach(m => { m.active = false; });
-    renderDbPills();
-    reprocessAllSamples(false);
-  };
-
   document.getElementById("btnSaveCustomSuite").onclick = () => {
     const activeIds = minerals.filter(m => m.active).map(m => m.id);
     if (!activeIds.length) {
@@ -2538,12 +2519,13 @@
     document.getElementById("lblSmooth").textContent = e.target.value + " pts";
     reprocessAllSamples(false);
   };
-  ["chkBaseline", "chkPrimaryGate", "chkAutoPo", "chkFitCurve", "chkResidual", "chkLabels", "wavelengthSelect"].forEach(id => {
+  ["chkBaseline", "chkAutoPo", "chkFitCurve", "chkResidual", "chkLabels", "wavelengthSelect"].forEach(id => {
     document.getElementById(id).onchange = () => reprocessAllSamples(false);
   });
 
   document.getElementById("btnToggleAll").onclick = () => {
-    minerals.forEach(m => m.active = !m.active);
+    const anyOn = minerals.some(m => m.active);
+    minerals.forEach(m => m.active = !anyOn);
     renderDbPills();
     reprocessAllSamples(false);
   };
@@ -2692,7 +2674,7 @@
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = "IsoXRD_v4_7_WeightPercent.csv";
+    a.download = "IsoXRD_v4_6_WeightPercent.csv";
     a.click();
   };
 
@@ -2902,6 +2884,7 @@
 
   document.getElementById("btnReloadRemotePreset").onclick = loadExternalPresetJson;
 
+  // Safe Boot Sequence
   setTheme(currentTheme, false);
   mergeMinerals(LAB_PRESET_FALLBACK, false);
   applySavedRirOverrides();
