@@ -3,341 +3,122 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IsoXRD v4.6 — Spectrum-First Minimalist XRD Workbench</title>
+  <title>IsoXRD v4.6.1 — Spectrum-First Minimalist XRD Workbench</title>
   <style>
-    /* ==========================================================================
-       IsoXRD v4.6: Spectrum-First Minimalist Workbench (Linen / Swiss / Blueprint / Obsidian)
-       ========================================================================== */
     :root, [data-theme="linen"] {
-      --bg: #f5f1e8;
-      --surface: #fcfaf4;
-      --surface-elevated: #ffffff;
-      --surface-subtle: #ede7da;
-      --border: #ddd5c5;
-      --border-strong: #57534e;
-      --text: #292524;
-      --text-secondary: #57534e;
-      --muted: #78716c;
-      --primary: #a84a28;
-      --primary-hover: #8a3b1e;
-      --primary-soft: #f9ebe4;
-      --primary-border: #e5bfb0;
-      --chart-bg: #fffefb;
-      --chart-grid: #f0eadc;
-      --chart-frame: #44403c;
+      --bg: #f5f1e8; --surface: #fcfaf4; --surface-elevated: #ffffff; --surface-subtle: #ede7da;
+      --border: #ddd5c5; --border-strong: #57534e; --text: #292524; --text-secondary: #57534e; --muted: #78716c;
+      --primary: #a84a28; --primary-hover: #8a3b1e; --primary-soft: #f9ebe4; --primary-border: #e5bfb0;
+      --chart-bg: #fffefb; --chart-grid: #f0eadc; --chart-frame: #44403c;
       --mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
       --serif: "Georgia", "Noto Serif KR", "Times New Roman", serif;
       --sans: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", "Noto Sans KR", sans-serif;
     }
-
     [data-theme="journal"] {
-      --bg: #f4f4f5;
-      --surface: #ffffff;
-      --surface-elevated: #ffffff;
-      --surface-subtle: #f4f4f5;
-      --border: #e4e4e7;
-      --border-strong: #3f3f46;
-      --text: #18181b;
-      --text-secondary: #52525b;
-      --muted: #71717a;
-      --primary: #1d4ed8;
-      --primary-hover: #1e40af;
-      --primary-soft: #eff6ff;
-      --primary-border: #bfdbfe;
-      --chart-bg: #ffffff;
-      --chart-grid: #f1f5f9;
-      --chart-frame: #27272a;
+      --bg: #f4f4f5; --surface: #ffffff; --surface-elevated: #ffffff; --surface-subtle: #f4f4f5;
+      --border: #e4e4e7; --border-strong: #3f3f46; --text: #18181b; --text-secondary: #52525b; --muted: #71717a;
+      --primary: #1d4ed8; --primary-hover: #1e40af; --primary-soft: #eff6ff; --primary-border: #bfdbfe;
+      --chart-bg: #ffffff; --chart-grid: #f1f5f9; --chart-frame: #27272a;
     }
-
     [data-theme="blueprint"] {
-      --bg: #eaf0f6;
-      --surface: #f8fbff;
-      --surface-elevated: #ffffff;
-      --surface-subtle: #e4edf7;
-      --border: #c5d4e6;
-      --border-strong: #1e3a5f;
-      --text: #0f2942;
-      --text-secondary: #334e68;
-      --muted: #627d98;
-      --primary: #1e3a5f;
-      --primary-hover: #102a43;
-      --primary-soft: #dce8f5;
-      --primary-border: #9fb4ce;
-      --chart-bg: #fcfdff;
-      --chart-grid: #e3ecf5;
-      --chart-frame: #1e3a5f;
+      --bg: #eaf0f6; --surface: #f8fbff; --surface-elevated: #ffffff; --surface-subtle: #e4edf7;
+      --border: #c5d4e6; --border-strong: #1e3a5f; --text: #0f2942; --text-secondary: #334e68; --muted: #627d98;
+      --primary: #1e3a5f; --primary-hover: #102a43; --primary-soft: #dce8f5; --primary-border: #9fb4ce;
+      --chart-bg: #fcfdff; --chart-grid: #e3ecf5; --chart-frame: #1e3a5f;
     }
-
     [data-theme="obsidian"] {
-      --bg: #121316;
-      --surface: #191b20;
-      --surface-elevated: #22252c;
-      --surface-subtle: #252830;
-      --border: #323640;
-      --border-strong: #a1a1aa;
-      --text: #f4f4f5;
-      --text-secondary: #d4d4d8;
-      --muted: #8e929f;
-      --primary: #e06d44;
-      --primary-hover: #f0825b;
-      --primary-soft: rgba(224, 109, 68, 0.16);
-      --primary-border: rgba(224, 109, 68, 0.45);
-      --chart-bg: #16181d;
-      --chart-grid: #252830;
-      --chart-frame: #a1a1aa;
+      --bg: #121316; --surface: #191b20; --surface-elevated: #22252c; --surface-subtle: #252830;
+      --border: #323640; --border-strong: #a1a1aa; --text: #f4f4f5; --text-secondary: #d4d4d8; --muted: #8e929f;
+      --primary: #e06d44; --primary-hover: #f0825b; --primary-soft: rgba(224,109,68,0.16); --primary-border: rgba(224,109,68,0.45);
+      --chart-bg: #16181d; --chart-grid: #252830; --chart-frame: #a1a1aa;
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: var(--sans);
-      background-color: var(--bg);
-      color: var(--text);
-      font-size: 12.5px;
-      line-height: 1.45;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    /* Compact Masthead */
-    header {
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      padding: 8px 18px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      flex-wrap: wrap;
-      position: sticky;
-      top: 0;
-      z-index: 30;
-    }
+    body { font-family: var(--sans); background: var(--bg); color: var(--text); font-size: 12.5px; line-height: 1.45; -webkit-font-smoothing: antialiased; }
+    header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 8px 18px; display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; position: sticky; top: 0; z-index: 30; }
     .brand { display: flex; align-items: center; gap: 9px; }
-    .brand-emblem {
-      width: 28px; height: 28px; border-radius: 5px;
-      background: var(--primary); color: #ffffff;
-      display: flex; align-items: center; justify-content: center;
-      font-family: var(--serif); font-weight: 700; font-size: 14px;
-    }
-    .brand-title { font-family: var(--serif); font-weight: 700; font-size: 15px; color: var(--text); }
-    .version-tag {
-      font-family: var(--mono); font-size: 10px; font-weight: 700;
-      color: var(--primary); background: var(--primary-soft);
-      border: 1px solid var(--primary-border); padding: 1px 6px; border-radius: 4px;
-    }
+    .brand-emblem { width: 28px; height: 28px; border-radius: 5px; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-weight: 700; font-size: 14px; }
+    .brand-title { font-family: var(--serif); font-weight: 700; font-size: 15px; }
+    .version-tag { font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--primary); background: var(--primary-soft); border: 1px solid var(--primary-border); padding: 1px 6px; border-radius: 4px; }
     .header-actions { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-
-    .theme-switcher {
-      display: inline-flex; border: 1px solid var(--border);
-      border-radius: 5px; overflow: hidden; background: var(--surface-subtle); padding: 2px; gap: 2px;
-    }
-    .theme-btn {
-      border: none; background: transparent; padding: 3px 7px;
-      font-family: var(--mono); font-size: 10px; font-weight: 600; border-radius: 3px;
-      color: var(--text-secondary); display: inline-flex; align-items: center; gap: 4px;
-      cursor: pointer;
-    }
+    .theme-switcher { display: inline-flex; border: 1px solid var(--border); border-radius: 5px; overflow: hidden; background: var(--surface-subtle); padding: 2px; gap: 2px; }
+    .theme-btn { border: none; background: transparent; padding: 3px 7px; font-family: var(--mono); font-size: 10px; font-weight: 600; border-radius: 3px; color: var(--text-secondary); display: inline-flex; align-items: center; gap: 4px; cursor: pointer; }
     .theme-btn.active { background: var(--border-strong); color: var(--surface); }
     .swatch-dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
-
-    select, input[type="number"], input[type="text"], textarea {
-      border: 1px solid var(--border); border-radius: 5px; padding: 4px 8px;
-      font-size: 11.5px; font-family: inherit; background: var(--surface-elevated); color: var(--text);
-    }
+    select, input[type="number"], input[type="text"], textarea { border: 1px solid var(--border); border-radius: 5px; padding: 4px 8px; font-size: 11.5px; font-family: inherit; background: var(--surface-elevated); color: var(--text); }
     select:focus, input:focus, textarea:focus { outline: none; border-color: var(--primary); }
-
-    button {
-      border: 1px solid var(--border); background: var(--surface-elevated); color: var(--text);
-      border-radius: 5px; padding: 4px 9px; font-size: 11.5px; font-weight: 600;
-      cursor: pointer; transition: all 0.14s ease;
-    }
+    button { border: 1px solid var(--border); background: var(--surface-elevated); color: var(--text); border-radius: 5px; padding: 4px 9px; font-size: 11.5px; font-weight: 600; cursor: pointer; transition: all 0.14s ease; }
     button:hover { border-color: var(--border-strong); background: var(--surface-subtle); }
-    button.btn-primary { background: var(--primary); color: #ffffff; border-color: var(--primary); }
+    button.btn-primary { background: var(--primary); color: #fff; border-color: var(--primary); }
     button.btn-primary:hover { background: var(--primary-hover); }
     button.btn-cite { background: var(--primary-soft); color: var(--primary); border-color: var(--primary-border); }
-    button.btn-cite:hover { background: var(--primary); color: #ffffff; }
+    button.btn-cite:hover { background: var(--primary); color: #fff; }
     button.btn-sm { padding: 2.5px 7px; font-size: 11px; }
     button.btn-ghost { border-color: transparent; background: transparent; color: var(--text-secondary); }
     button.btn-ghost:hover { background: var(--surface-subtle); }
-
-    /* Slim Tabbed Workspace (310px Left Sidebar + Expansive Spectrum Canvas) */
-    .workspace {
-      display: grid;
-      grid-template-columns: 310px 1fr;
-      gap: 12px;
-      padding: 12px 18px 20px;
-      align-items: start;
-    }
+    .workspace { display: grid; grid-template-columns: 310px 1fr; gap: 12px; padding: 12px 18px 20px; align-items: start; }
     .workspace.expanded-chart { grid-template-columns: 1fr; }
     .workspace.expanded-chart .sidebar { display: none; }
     @media (max-width: 980px) { .workspace { grid-template-columns: 1fr; } }
-
-    .sidebar-shell {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 7px;
-      overflow: hidden;
-    }
-    .side-nav {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      background: var(--surface-subtle);
-      border-bottom: 1px solid var(--border);
-    }
-    .side-nav-btn {
-      border: none; border-radius: 0; background: transparent;
-      padding: 8px 4px; font-size: 11.5px; font-weight: 700;
-      color: var(--text-secondary); border-bottom: 2px solid transparent;
-      text-align: center;
-    }
-    .side-nav-btn:hover { background: rgba(0,0,0,0.03); }
-    .side-nav-btn.active {
-      background: var(--surface);
-      color: var(--primary);
-      border-bottom-color: var(--primary);
-    }
+    .sidebar-shell { background: var(--surface); border: 1px solid var(--border); border-radius: 7px; overflow: hidden; }
+    .side-nav { display: grid; grid-template-columns: repeat(3, 1fr); background: var(--surface-subtle); border-bottom: 1px solid var(--border); }
+    .side-nav-btn { border: none; border-radius: 0; background: transparent; padding: 8px 4px; font-size: 11.5px; font-weight: 700; color: var(--text-secondary); border-bottom: 2px solid transparent; text-align: center; }
+    .side-nav-btn.active { background: var(--surface); color: var(--primary); border-bottom-color: var(--primary); }
     .side-pane { display: none; padding: 12px; }
     .side-pane.active { display: block; }
-
     .section-block { margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
     .section-block:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
-    .section-lbl {
-      display: flex; align-items: center; justify-content: space-between;
-      font-size: 11px; font-weight: 700; color: var(--text-secondary); margin-bottom: 6px;
-    }
-
-    .dropzone {
-      border: 1.5px dashed var(--border); border-radius: 5px; padding: 10px 8px;
-      text-align: center; background: var(--surface-subtle); cursor: pointer;
-    }
+    .section-lbl { display: flex; align-items: center; justify-content: space-between; font-size: 11px; font-weight: 700; color: var(--text-secondary); margin-bottom: 6px; }
+    .dropzone { border: 1.5px dashed var(--border); border-radius: 5px; padding: 10px 8px; text-align: center; background: var(--surface-subtle); cursor: pointer; }
     .dropzone:hover, .dropzone.dragover { border-color: var(--primary); background: var(--primary-soft); }
-
     .sample-list { display: flex; flex-direction: column; gap: 4px; margin-top: 7px; max-height: 135px; overflow-y: auto; }
-    .sample-row {
-      display: flex; align-items: center; justify-content: space-between; gap: 5px;
-      padding: 4px 7px; border-radius: 4px; border: 1px solid var(--border);
-      background: var(--surface-elevated); font-size: 11px; cursor: pointer;
-    }
+    .sample-row { display: flex; align-items: center; justify-content: space-between; gap: 5px; padding: 4px 7px; border-radius: 4px; border: 1px solid var(--border); background: var(--surface-elevated); font-size: 11px; cursor: pointer; }
     .sample-row.active { border-color: var(--primary); background: var(--primary-soft); font-weight: 600; }
     .sample-swatch { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
-
     .mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
     .slider-group { margin-top: 6px; }
     .slider-header { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 2px; color: var(--text-secondary); }
     input[type="range"] { width: 100%; accent-color: var(--primary); cursor: pointer; }
-
-    .quant-box {
-      padding: 8px 9px; border-radius: 5px;
-      background: var(--surface-subtle); border: 1px solid var(--border);
-    }
+    .quant-box { padding: 8px 9px; border-radius: 5px; background: var(--surface-subtle); border: 1px solid var(--border); }
     .multi-bar { height: 9px; border-radius: 3px; background: var(--border); overflow: hidden; display: flex; margin: 5px 0 7px; }
     .quant-list { display: flex; flex-direction: column; gap: 3px; max-height: 225px; overflow-y: auto; }
-    .quant-row {
-      display: flex; align-items: center; justify-content: space-between;
-      font-size: 11px; padding: 3px 6px; border-radius: 4px;
-      background: var(--surface-elevated); border: 1px solid var(--border);
-    }
-    .po-badge {
-      font-family: var(--mono); font-size: 9px; padding: 0 3px; border-radius: 3px;
-      background: var(--primary-soft); color: var(--primary); border: 1px solid var(--primary-border);
-    }
-    .rir-inline-inp {
-      width: 42px !important; padding: 1px 3px !important; font-size: 10.5px !important;
-      font-family: var(--mono) !important; text-align: right;
-    }
-
+    .quant-row { display: flex; align-items: center; justify-content: space-between; font-size: 11px; padding: 3px 6px; border-radius: 4px; background: var(--surface-elevated); border: 1px solid var(--border); }
+    .po-badge { font-family: var(--mono); font-size: 9px; padding: 0 3px; border-radius: 3px; background: var(--primary-soft); color: var(--primary); border: 1px solid var(--primary-border); }
+    .rir-inline-inp { width: 42px !important; padding: 1px 3px !important; font-size: 10.5px !important; font-family: var(--mono) !important; text-align: right; }
     .rank-list { display: flex; flex-direction: column; gap: 4px; }
-    .rank-item {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 5px 8px; border-radius: 4px; border: 1px solid var(--border);
-      background: var(--surface-elevated); cursor: pointer; font-size: 11.5px;
-    }
+    .rank-item { display: flex; align-items: center; justify-content: space-between; padding: 5px 8px; border-radius: 4px; border: 1px solid var(--border); background: var(--surface-elevated); cursor: pointer; font-size: 11.5px; }
     .rank-item:hover { border-color: var(--primary); background: var(--primary-soft); }
     .rank-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; margin-right: 5px; }
-
     .preset-suite-grid { display: flex; flex-wrap: wrap; gap: 4px; }
-    .suite-btn {
-      font-size: 10.5px; padding: 3px 6px; border-radius: 4px;
-      background: var(--surface-elevated); border: 1px solid var(--border); color: var(--text-secondary);
-    }
+    .suite-btn { font-size: 10.5px; padding: 3px 6px; border-radius: 4px; background: var(--surface-elevated); border: 1px solid var(--border); color: var(--text-secondary); }
     .suite-btn:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-soft); }
-
     .pill-wrap { display: flex; flex-wrap: wrap; gap: 4px; max-height: 255px; overflow-y: auto; }
-    .db-pill {
-      display: inline-flex; align-items: center; gap: 4px; padding: 3px 7px;
-      border-radius: 4px; border: 1px solid var(--border); background: var(--surface-elevated);
-      font-size: 11px; font-weight: 600; cursor: pointer; user-select: none;
-    }
+    .db-pill { display: inline-flex; align-items: center; gap: 4px; padding: 3px 7px; border-radius: 4px; border: 1px solid var(--border); background: var(--surface-elevated); font-size: 11px; font-weight: 600; cursor: pointer; user-select: none; }
     .db-pill.active { border-color: var(--primary); background: var(--primary-soft); color: var(--primary); }
-
-    /* Expansive Main Spectrum Stage */
     .main-area { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 7px;
-      padding: 11px 14px;
-    }
-
-    .chart-toolbar {
-      display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: 8px; margin-bottom: 8px;
-    }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 7px; padding: 11px 14px; }
+    .chart-toolbar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
     .segmented { display: inline-flex; border: 1px solid var(--border); border-radius: 5px; overflow: hidden; background: var(--surface-subtle); }
     .segmented button { border: none; border-radius: 0; background: transparent; padding: 3.5px 9px; font-size: 11px; color: var(--text-secondary); }
     .segmented button.active { background: var(--border-strong); color: var(--surface); }
-
-    /* Inline KPI Status Strip inside Chart Toolbar */
-    .inline-status-bar {
-      display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
-      font-family: var(--mono); font-size: 11px;
-    }
-    .status-chip {
-      padding: 2.5px 8px; border-radius: 4px;
-      background: var(--surface-subtle); border: 1px solid var(--border);
-      color: var(--text); font-weight: 600;
-    }
-    .status-chip.highlight {
-      background: var(--primary-soft); border-color: var(--primary-border); color: var(--primary);
-    }
-
-    #svgChartWrapper {
-      width: 100%; height: 560px; min-height: 420px; border: 1px solid var(--border);
-      border-radius: 5px; background: var(--chart-bg); position: relative; overflow: hidden;
-      transition: height 0.2s ease;
-    }
+    .inline-status-bar { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; font-family: var(--mono); font-size: 11px; }
+    .status-chip { padding: 2.5px 8px; border-radius: 4px; background: var(--surface-subtle); border: 1px solid var(--border); color: var(--text); font-weight: 600; }
+    .status-chip.highlight { background: var(--primary-soft); border-color: var(--primary-border); color: var(--primary); }
+    #svgChartWrapper { width: 100%; height: 560px; min-height: 420px; border: 1px solid var(--border); border-radius: 5px; background: var(--chart-bg); position: relative; overflow: hidden; transition: height 0.2s ease; }
     .workspace.expanded-chart #svgChartWrapper { height: 74vh; }
     svg#xrdSvg { width: 100%; height: 100%; display: block; cursor: crosshair; }
-
-    .chart-footer {
-      display: flex; justify-content: space-between; align-items: center;
-      font-size: 11px; color: var(--muted); margin-top: 6px; flex-wrap: wrap; gap: 6px;
-    }
-
-    /* Collapsible Bottom Tables */
-    .table-header-bar {
-      display: flex; align-items: center; justify-content: space-between; gap: 8px;
-    }
+    .chart-footer { display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--muted); margin-top: 6px; flex-wrap: wrap; gap: 6px; }
+    .table-header-bar { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
     .sub-tabs { display: flex; gap: 6px; align-items: center; }
-    .sub-tab-btn {
-      padding: 3.5px 9px; font-size: 11.5px; border-radius: 4px; border: 1px solid transparent;
-      background: transparent; color: var(--text-secondary);
-    }
+    .sub-tab-btn { padding: 3.5px 9px; font-size: 11.5px; border-radius: 4px; border: 1px solid transparent; background: transparent; color: var(--text-secondary); }
     .sub-tab-btn.active { background: var(--primary-soft); border-color: var(--primary-border); color: var(--primary); }
-
     .table-wrap { max-height: 240px; overflow: auto; border: 1px solid var(--border); border-radius: 5px; background: var(--surface-elevated); margin-top: 8px; }
     .table-wrap.collapsed { display: none !important; }
     table { width: 100%; border-collapse: collapse; font-size: 11.5px; }
-    th {
-      position: sticky; top: 0; background: var(--surface-subtle); text-align: left;
-      padding: 6px 9px; font-weight: 700; border-bottom: 1px solid var(--border); z-index: 2;
-      font-family: var(--mono); font-size: 10.5px;
-    }
+    th { position: sticky; top: 0; background: var(--surface-subtle); text-align: left; padding: 6px 9px; font-weight: 700; border-bottom: 1px solid var(--border); z-index: 2; font-family: var(--mono); font-size: 10.5px; }
     td { padding: 5px 9px; border-bottom: 1px solid var(--border); font-family: var(--mono); }
     tr:hover td { background: var(--surface-subtle); cursor: pointer; }
     tr.selected td { background: var(--primary-soft); }
-
-    /* Modals */
-    .modal-backdrop { position: fixed; inset: 0; background: rgba(9, 9, 11, 0.5); backdrop-filter: blur(2px); display: none; align-items: center; justify-content: center; z-index: 50; padding: 16px; }
+    .modal-backdrop { position: fixed; inset: 0; background: rgba(9,9,11,0.5); backdrop-filter: blur(2px); display: none; align-items: center; justify-content: center; z-index: 50; padding: 16px; }
     .modal-backdrop.open { display: flex; }
     .modal { background: var(--surface); border: 1px solid var(--border-strong); border-radius: 7px; width: 100%; max-width: 720px; max-height: 88vh; overflow-y: auto; padding: 20px 24px; }
     .tabs { display: flex; gap: 6px; border-bottom: 1px solid var(--border); margin: 10px 0 12px; }
@@ -345,23 +126,15 @@
     .tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
     .tab-pane { display: none; }
     .tab-pane.active { display: block; }
-
-    .sop-step {
-      background: var(--surface-elevated); border: 1px solid var(--border); border-left: 3px solid var(--primary);
-      border-radius: 5px; padding: 9px 12px; margin-bottom: 9px;
-    }
+    .sop-step { background: var(--surface-elevated); border: 1px solid var(--border); border-left: 3px solid var(--primary); border-radius: 5px; padding: 9px 12px; margin-bottom: 9px; }
     .sop-step-title { font-family: var(--serif); font-weight: 700; font-size: 13px; color: var(--text); margin-bottom: 4px; }
     .sop-step-body { font-size: 12px; color: var(--text-secondary); line-height: 1.55; }
     .sop-step-body ul { padding-left: 18px; margin-top: 3px; }
-    .log-entry {
-      background: var(--surface-elevated); border: 1px solid var(--border); border-radius: 5px;
-      padding: 9px 12px; margin-bottom: 8px;
-    }
+    .log-entry { background: var(--surface-elevated); border: 1px solid var(--border); border-radius: 5px; padding: 9px 12px; margin-bottom: 8px; }
     .log-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
     .log-ver { font-family: var(--mono); font-weight: 700; font-size: 12px; color: var(--primary); }
     .log-date { font-family: var(--mono); font-size: 10.5px; color: var(--muted); }
     .log-list { padding-left: 18px; font-size: 12px; color: var(--text-secondary); line-height: 1.55; }
-
     .cite-section { margin-top: 10px; padding: 10px 12px; border-radius: 5px; background: var(--surface-elevated); border: 1px solid var(--border); }
     .cite-section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 5px; font-size: 11.5px; font-weight: 700; color: var(--text-secondary); }
     .cite-code { font-family: var(--mono); font-size: 11px; line-height: 1.45; background: var(--surface-subtle); padding: 7px 9px; border-radius: 4px; border: 1px solid var(--border); white-space: pre-wrap; user-select: all; color: var(--text); }
@@ -369,14 +142,12 @@
   </style>
 </head>
 <body data-theme="linen">
-
 <header>
   <div class="brand">
     <div class="brand-emblem">Xr</div>
     <span class="brand-title">IsoXRD</span>
-    <span class="version-tag">v4.6</span>
+    <span class="version-tag">v4.6.1</span>
   </div>
-
   <div class="header-actions">
     <div class="theme-switcher" id="themeSwitcher" title="Select Theme">
       <button class="theme-btn active" data-theme-val="linen"><span class="swatch-dot" style="background:#a84a28;"></span>Linen</button>
@@ -384,7 +155,6 @@
       <button class="theme-btn" data-theme-val="blueprint"><span class="swatch-dot" style="background:#1e3a5f;"></span>Blueprint</button>
       <button class="theme-btn" data-theme-val="obsidian"><span class="swatch-dot" style="background:#e06d44;"></span>Obsidian</button>
     </div>
-
     <select id="demoSelect">
       <option value="core_suite">Demo: Speleothem Core (3 Stack)</option>
       <option value="aragonite">Demo: WDS2_170 (Aragonite)</option>
@@ -402,7 +172,6 @@
 </header>
 
 <div class="workspace" id="mainWorkspace">
-  <!-- Slim 3-Tab Left Control Sidebar -->
   <aside class="sidebar">
     <div class="sidebar-shell">
       <div class="side-nav">
@@ -410,8 +179,6 @@
         <button class="side-nav-btn" data-side-tab="paneMineralsDb" data-i18n="navTab2">2. 광물/프리셋</button>
         <button class="side-nav-btn" data-side-tab="paneAlignPeaks" data-i18n="navTab3">3. 보정/피크</button>
       </div>
-
-      <!-- Tab 1: Samples & RIR Quantification -->
       <div class="side-pane active" id="paneSamplesQuant">
         <div class="section-block">
           <div class="section-lbl">
@@ -425,7 +192,6 @@
           </div>
           <div class="sample-list" id="sampleList"></div>
         </div>
-
         <div class="section-block">
           <div class="section-lbl">
             <span data-i18n="carbTitle">RIR 반정량 (합계 100.0%)</span>
@@ -436,7 +202,6 @@
             <div class="quant-list" id="multiPhaseList"></div>
           </div>
         </div>
-
         <div class="section-block">
           <div class="section-lbl">
             <span data-i18n="rankTitle">후보 광물 적합도 (Top 4)</span>
@@ -446,7 +211,6 @@
         </div>
       </div>
 
-      <!-- Tab 2: Mineral DB & Suite Presets -->
       <div class="side-pane" id="paneMineralsDb">
         <div class="section-block">
           <div class="section-lbl">
@@ -455,20 +219,19 @@
           </div>
           <div class="preset-suite-grid" id="suitePresetGrid"></div>
         </div>
-
         <div class="section-block">
           <div class="section-lbl">
-            <span data-i18n="sec3">광물 DB 선택 (클릭 토글)</span>
-            <button class="btn-sm" id="btnToggleAll" data-i18n="toggleAll">전체 토글</button>
+            <span data-i18n="sec3">광물 DB 선택</span>
+            <div style="display:flex; gap:4px;">
+              <button class="btn-sm" id="btnClearAllPhases" data-i18n="clearPhasesBtn">모두 해제</button>
+              <button class="btn-sm" id="btnToggleAll" data-i18n="toggleAll">반전</button>
+            </div>
           </div>
           <div class="pill-wrap" id="dbPills"></div>
-          <button class="btn-primary" id="btnOpenDbModal" style="width:100%; margin-top:9px; padding:6px;" data-i18n="openDbBtn">
-            + 광물 DB 추가 / RIR 관리
-          </button>
+          <button class="btn-primary" id="btnOpenDbModal" style="width:100%; margin-top:9px; padding:6px;" data-i18n="openDbBtn">+ 광물 DB 추가 / RIR 관리</button>
         </div>
       </div>
 
-      <!-- Tab 3: Displacement Alignment & Peak Detection -->
       <div class="side-pane" id="paneAlignPeaks">
         <div class="section-block">
           <div class="section-lbl">
@@ -476,31 +239,26 @@
             <button class="btn-primary btn-sm" id="btnAutoFit" data-i18n="autoFit">자동 보정</button>
           </div>
           <div class="slider-group">
-            <div class="slider-header">
-              <span data-i18n="lblS0Text">영점 오차 (s₀):</span>
-              <span class="mono" id="lblS0">0.000°</span>
-            </div>
+            <div class="slider-header"><span data-i18n="lblS0Text">영점 오차 (s₀):</span><span class="mono" id="lblS0">0.000°</span></div>
             <input type="range" id="sliderS0" min="-0.6" max="0.6" step="0.005" value="0" />
           </div>
           <div class="slider-group">
-            <div class="slider-header">
-              <span data-i18n="lblS1Text">시료 높이 변위 (s₁·cosθ):</span>
-              <span class="mono" id="lblS1">0.000°</span>
-            </div>
+            <div class="slider-header"><span data-i18n="lblS1Text">시료 높이 변위 (s₁·cosθ):</span><span class="mono" id="lblS1">0.000°</span></div>
             <input type="range" id="sliderS1" min="-0.3" max="0.3" step="0.005" value="0" />
           </div>
-          <div style="margin-top:8px; font-size:11px;">
+          <div style="margin-top:8px; display:flex; flex-direction:column; gap:5px; font-size:11px;">
+            <label style="cursor:pointer; font-weight:600; color:var(--text-secondary);">
+              <input type="checkbox" id="chkSnrFilter" checked />
+              <span data-i18n="chkSnrText">연속 파형 SNR 노이즈 검증 (3.5σ)</span>
+            </label>
             <label style="cursor:pointer; font-weight:600; color:var(--text-secondary);">
               <input type="checkbox" id="chkAutoPo" checked />
               <span data-i18n="chkPoText">범용 우선 배향성(PO) 자동 감쇠 보정</span>
             </label>
           </div>
         </div>
-
         <div class="section-block">
-          <div class="section-lbl">
-            <span data-i18n="lblWavelength">X-선 파장 (λ) & 피크 검출</span>
-          </div>
+          <div class="section-lbl"><span data-i18n="lblWavelength">X-선 파장 (λ) & 피크 검출</span></div>
           <select id="wavelengthSelect" style="width:100%; margin-bottom:6px;">
             <option value="1.540598" selected>Cu Kα1 (1.540598 Å)</option>
             <option value="1.54184">Cu Kα avg (1.54184 Å)</option>
@@ -508,17 +266,11 @@
             <option value="0.70930">Mo Kα1 (0.70930 Å)</option>
           </select>
           <div class="slider-group">
-            <div class="slider-header">
-              <span data-i18n="lblPromText">피크 민감도 (Prominence):</span>
-              <span class="mono" id="lblProm">3.5%</span>
-            </div>
+            <div class="slider-header"><span data-i18n="lblPromText">피크 민감도 (Prominence):</span><span class="mono" id="lblProm">3.5%</span></div>
             <input type="range" id="sliderProm" min="0.5" max="20.0" step="0.5" value="3.5" />
           </div>
           <div class="slider-group">
-            <div class="slider-header">
-              <span data-i18n="lblSmoothText">스무딩 윈도우 (Smoothing):</span>
-              <span class="mono" id="lblSmooth">7 pts</span>
-            </div>
+            <div class="slider-header"><span data-i18n="lblSmoothText">스무딩 윈도우 (Smoothing):</span><span class="mono" id="lblSmooth">7 pts</span></div>
             <input type="range" id="sliderSmooth" min="1" max="25" step="2" value="7" />
           </div>
         </div>
@@ -526,24 +278,21 @@
     </div>
   </aside>
 
-  <!-- Expansive Spectrum Main Stage -->
   <main class="main-area">
     <div class="card">
       <div class="chart-toolbar">
         <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
-          <button class="btn-sm" id="btnToggleExpand" data-i18n="btnExpand" title="Toggle Full-Width Spectrum View">⛶ 그래프 확대</button>
+          <button class="btn-sm" id="btnToggleExpand" data-i18n="btnExpand">⛶ 그래프 확대</button>
           <div class="segmented" id="viewModeGroup">
             <button class="active" data-mode="stack" data-i18n="modeStack">스택</button>
             <button data-mode="single" data-i18n="modeSingle">단일</button>
           </div>
-          <input type="number" id="inpMin2T" step="0.5" style="width:58px" title="Min 2θ" />
+          <input type="number" id="inpMin2T" step="0.5" style="width:58px" />
           <span>~</span>
-          <input type="number" id="inpMax2T" step="0.5" style="width:58px" title="Max 2θ" />
+          <input type="number" id="inpMax2T" step="0.5" style="width:58px" />
           <button class="btn-sm" id="btnApplyRange" data-i18n="btnApply">적용</button>
           <button class="btn-sm" id="btnResetZoom" data-i18n="btnReset">전체</button>
         </div>
-
-        <!-- Compact Inline Summary Chips (Replaces bulky top KPI strip) -->
         <div class="inline-status-bar">
           <span class="status-chip" id="chipSampleInfo">—</span>
           <span class="status-chip highlight" id="chipTopMatch">—</span>
@@ -552,7 +301,6 @@
         </div>
       </div>
 
-      <!-- Chart Overlay Toggles + Live Cursor Readout -->
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:7px; flex-wrap:wrap; gap:8px; font-size:11.5px;">
         <div style="display:flex; gap:10px; flex-wrap:wrap; color:var(--text-secondary);">
           <label style="cursor:pointer;"><input type="checkbox" id="chkBaseline" checked /> <span data-i18n="chkBase">배경선 제거</span></label>
@@ -560,9 +308,7 @@
           <label style="cursor:pointer;"><input type="checkbox" id="chkResidual" /> <span data-i18n="chkRes">잔차(Residual)</span></label>
           <label style="cursor:pointer;"><input type="checkbox" id="chkLabels" checked /> <span data-i18n="chkLbl">피크 라벨</span></label>
         </div>
-        <div class="mono" style="font-size:11px; color:var(--muted);" id="cursorReadout">
-          Obs 2θ: — | Corr 2θ: — | d: — Å
-        </div>
+        <div class="mono" style="font-size:11px; color:var(--muted);" id="cursorReadout">Obs 2θ: — | Corr 2θ: — | d: — Å</div>
       </div>
 
       <div id="svgChartWrapper">
@@ -570,12 +316,11 @@
       </div>
 
       <div class="chart-footer">
-        <span data-i18n="chartHint">💡 드래그로 2θ 구간 확대 · 더블클릭 전체 복귀 · 주황색 ◆ 마커는 미할당 피크</span>
+        <span data-i18n="chartHint">💡 연속 파형 SNR 검증(3.5σ) + 0.2% 컷오프로 순수 시료는 100.0%, 복합 암석의 미량 상은 정밀 보존됩니다.</span>
         <span class="mono" id="presetSourceBadge">DB: 22 phases</span>
       </div>
     </div>
 
-    <!-- Collapsible Bottom Data Tables -->
     <div class="card">
       <div class="table-header-bar">
         <div class="sub-tabs">
@@ -583,7 +328,7 @@
           <button class="sub-tab-btn" data-subtab="panePeaks" data-i18n="subTabPeaks">활성 시료 피크 면적표</button>
         </div>
         <div style="display:flex; align-items:center; gap:8px;">
-          <span style="font-size:11px; color:var(--muted);" id="tableRightHint" data-i18n="tableHint">시료 행 클릭 시 해당 스펙트럼 선택</span>
+          <span style="font-size:11px; color:var(--muted);" data-i18n="tableHint">시료 행 클릭 시 해당 스펙트럼 선택</span>
           <button class="btn-sm" id="btnToggleTable" data-i18n="btnCollapseTable">▼ 표 접기</button>
         </div>
       </div>
@@ -625,7 +370,6 @@
   </main>
 </div>
 
-<!-- SOP Manual & Changelog Modal -->
 <div class="modal-backdrop" id="guideModalBackdrop">
   <div class="modal">
     <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -641,16 +385,13 @@
   </div>
 </div>
 
-<!-- Citation & DOI Modal -->
 <div class="modal-backdrop" id="citeModalBackdrop">
   <div class="modal">
     <div style="display:flex; justify-content:space-between; align-items:center;">
       <h3 style="font-family:var(--serif); font-size:16px;" data-i18n="citeModalTitle">학술 인용 및 Zenodo DOI 안내 (How to Cite IsoXRD)</h3>
       <button id="btnCloseCiteModal" data-i18n="btnClose">닫기 ✕</button>
     </div>
-    <p style="font-size:12px; color:var(--text-secondary); margin-top:6px;" data-i18n="citeModalDesc">
-      연구 논문(Methods / Data Availability)이나 학술 발표에 IsoXRD를 활용하신 경우 아래 서지 정보와 Zenodo 영구 DOI를 인용해 주세요.
-    </p>
+    <p style="font-size:12px; color:var(--text-secondary); margin-top:6px;" data-i18n="citeModalDesc">연구 논문(Methods / Data Availability)이나 학술 발표에 IsoXRD를 활용하신 경우 아래 서지 정보와 Zenodo 영구 DOI를 인용해 주세요.</p>
     <div class="doi-badge-bar">
       <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
         <span style="font-weight:700; font-size:12px; color:var(--primary);">Zenodo DOI:</span>
@@ -663,30 +404,20 @@
       </div>
     </div>
     <div class="cite-section">
-      <div class="cite-section-header">
-        <span data-i18n="citeSec1">1. 논문 본문 / Methods 표기 예시 (In-Text Statement)</span>
-        <button class="btn-sm" data-copy-target="citeTextStatement" data-i18n="copyBtn">복사</button>
-      </div>
+      <div class="cite-section-header"><span data-i18n="citeSec1">1. 논문 본문 / Methods 표기 예시 (In-Text Statement)</span><button class="btn-sm" data-copy-target="citeTextStatement" data-i18n="copyBtn">복사</button></div>
       <div class="cite-code" id="citeTextStatement"></div>
     </div>
     <div class="cite-section">
-      <div class="cite-section-header">
-        <span data-i18n="citeSec2">2. 참고문헌 표기 (Reference Format)</span>
-        <button class="btn-sm" data-copy-target="citeTextApa" data-i18n="copyBtn">복사</button>
-      </div>
+      <div class="cite-section-header"><span data-i18n="citeSec2">2. 참고문헌 표기 (Reference Format)</span><button class="btn-sm" data-copy-target="citeTextApa" data-i18n="copyBtn">복사</button></div>
       <div class="cite-code" id="citeTextApa"></div>
     </div>
     <div class="cite-section">
-      <div class="cite-section-header">
-        <span data-i18n="citeSec3">3. BibTeX (LaTeX / Overleaf)</span>
-        <button class="btn-sm" data-copy-target="citeTextBib" data-i18n="copyBtn">복사</button>
-      </div>
+      <div class="cite-section-header"><span data-i18n="citeSec3">3. BibTeX (LaTeX / Overleaf)</span><button class="btn-sm" data-copy-target="citeTextBib" data-i18n="copyBtn">복사</button></div>
       <div class="cite-code" id="citeTextBib"></div>
     </div>
   </div>
 </div>
 
-<!-- Custom DB Modal -->
 <div class="modal-backdrop" id="dbModalBackdrop">
   <div class="modal">
     <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -698,13 +429,12 @@
       <button class="tab-btn" data-tab="tabCapture" data-i18n="tab2">2. 현재 스펙트럼에서 추출</button>
       <button class="tab-btn" data-tab="tabJson" data-i18n="tab3">3. JSON 내보내기 / 가져오기</button>
     </div>
-
     <div class="tab-pane active" id="tabPaste">
       <div style="display:grid; grid-template-columns:1fr 1fr 1fr 65px 60px; gap:6px; margin-bottom:8px;">
         <input type="text" id="newMinName" data-i18n-ph="phEnName" placeholder="영문명 (예: Vaterite)" />
         <input type="text" id="newMinKo" data-i18n-ph="phKoName" placeholder="한글명 (예: 바테라이트)" />
         <input type="text" id="newMinFormula" data-i18n-ph="phFormula" placeholder="화학식 (예: CaCO3)" />
-        <input type="number" id="newMinRir" value="1.5" step="0.1" min="0.1" max="20" title="RIR (I/Ic)" placeholder="RIR" />
+        <input type="number" id="newMinRir" value="1.5" step="0.1" min="0.1" max="20" placeholder="RIR" />
         <input type="color" id="newMinColor" value="#9d174d" style="height:30px; width:100%;" />
       </div>
       <div style="margin-bottom:6px; font-size:12px;">
@@ -712,16 +442,13 @@
         <label style="margin-left:6px;"><input type="radio" name="pasteUnit" value="2theta" checked /> <span data-i18n="unit2T">2θ (°) + 세기</span></label>
         <label style="margin-left:10px;"><input type="radio" name="pasteUnit" value="d" /> <span data-i18n="unitD">d-spacing (Å) + 세기</span></label>
       </div>
-      <textarea id="pasteArea" rows="6" style="width:100%; font-family:var(--mono);" data-i18n-ph="phPaste" placeholder="예시 (탭/공백/쉼표 구분):&#10;24.90  65  (110)\n27.05  100 (112)\n32.78  95  (114)"></textarea>
+      <textarea id="pasteArea" rows="6" style="width:100%; font-family:var(--mono);" data-i18n-ph="phPaste" placeholder="24.90  65  (110)&#10;27.05  100 (112)&#10;32.78  95  (114)"></textarea>
       <div style="margin-top:8px; display:flex; justify-content:flex-end; gap:8px;">
         <button class="btn-primary" id="btnSavePastedMin" data-i18n="btnSaveMin">DB에 등록하기</button>
       </div>
     </div>
-
     <div class="tab-pane" id="tabCapture">
-      <p style="font-size:12px; color:var(--muted); margin-bottom:8px;" data-i18n="capDesc">
-        현재 활성 시료의 보정된 상위 피크(최대 12개)를 새로운 표준 광물로 등록합니다.
-      </p>
+      <p style="font-size:12px; color:var(--muted); margin-bottom:8px;" data-i18n="capDesc">현재 활성 시료의 보정된 상위 피크(최대 12개)를 새로운 표준 광물로 등록합니다.</p>
       <div style="display:grid; grid-template-columns:1fr 1fr 1fr 70px; gap:8px; margin-bottom:10px;">
         <input type="text" id="capMinName" data-i18n-ph="phCapEn" placeholder="영문명 (예: Lab_Calcite_Std)" />
         <input type="text" id="capMinKo" data-i18n-ph="phCapKo" placeholder="한글명 (예: 표준방해석)" />
@@ -730,11 +457,8 @@
       </div>
       <button class="btn-primary" id="btnCaptureSpectrum" data-i18n="btnCapture">현재 상위 검출 피크 저장</button>
     </div>
-
     <div class="tab-pane" id="tabJson">
-      <p style="font-size:12px; color:var(--muted); margin-bottom:10px;" data-i18n="jsonDesc">
-        연구실 공용 JSON 파일을 불러오거나 현재 사용자 정의 광물 목록을 JSON으로 저장합니다.
-      </p>
+      <p style="font-size:12px; color:var(--muted); margin-bottom:10px;" data-i18n="jsonDesc">연구실 공용 JSON 파일을 불러오거나 현재 사용자 정의 광물 목록을 JSON으로 저장합니다.</p>
       <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px;">
         <button class="btn-primary" id="btnDownloadJson" data-i18n="btnDownJson">사용자 DB JSON 다운로드</button>
         <label style="border:1px solid var(--border); background:var(--surface-elevated); padding:5px 10px; border-radius:5px; cursor:pointer; font-weight:600;">
@@ -754,296 +478,118 @@
 
   const I18N = {
     ko: {
-      pubModeBtn: "출판용 흑백",
-      pubModeBtnActive: "컬러 복귀",
-      exportCsv: "CSV",
-      exportPng: "PNG",
-      exportSvg: "SVG",
-      guideBtn: "사용법 / 업데이트",
-      citeBtn: "인용 / DOI",
-      langBtn: "EN",
-      navTab1: "1. 시료/정량",
-      navTab2: "2. 광물/프리셋",
-      navTab3: "3. 보정/피크",
-      sec1: "다중 시료 불러오기",
-      clearBtn: "초기화",
-      dropTitle: "+ XRD 파일 드래그 또는 클릭",
-      sec2: "회절각 변위 보정 (Δ2θ)",
-      autoFit: "자동 보정",
-      lblS0Text: "영점 오차 (s₀):",
-      lblS1Text: "시료 높이 변위 (s₁·cosθ):",
-      chkPoText: "범용 우선 배향성(PO) 자동 감쇠 보정",
-      carbTitle: "RIR 반정량 (합계 100.0%)",
-      rankTitle: "후보 광물 적합도 (Top 4)",
-      btnSuggest: "+ 미설명 피크 상추가",
-      sec3: "광물 DB 선택 (클릭 토글)",
-      toggleAll: "전체 토글",
-      suiteTitle: "암석·시료 유형별 프리셋",
-      btnSaveSuite: "+ 조합 저장",
-      lblWavelength: "X-선 파장 (λ) & 피크 검출",
-      lblPromText: "피크 민감도 (Prominence):",
-      lblSmoothText: "스무딩 윈도우 (Smoothing):",
-      chkBase: "배경선 제거",
-      chkFit: "합성 피팅(Fit)",
-      chkRes: "잔차(Residual)",
-      chkLbl: "피크 라벨",
-      openDbBtn: "+ 광물 DB 추가 / RIR 관리",
-      btnExpand: "⛶ 그래프 확대",
-      btnCollapseExpand: "🗗 사이드바 복귀",
-      modeStack: "스택",
-      modeSingle: "단일",
-      btnApply: "적용",
-      btnReset: "전체",
-      chartHint: "💡 드래그로 2θ 구간 확대 · 더블클릭 전체 복귀 · 주황색 ◆ 마커는 미할당 피크",
-      subTabPeaks: "활성 시료 피크 면적표",
-      subTabBatch: "다중 시료 정량 요약표 (100%)",
-      tableHint: "시료 행 클릭 시 해당 스펙트럼 선택",
-      btnCollapseTable: "▼ 표 접기",
-      btnExpandTable: "▲ 표 펼치기",
-      thObs: "관측 2θ (°)",
-      thCorr: "보정 2θ (°)",
-      thD: "면간거리 d (Å)",
-      thNet: "순수 높이",
-      thArea: "적분 면적",
-      thRel: "상대 면적 (%)",
-      thMatch: "매칭 광물 & (hkl)",
-      thDiff: "Δ2θ",
-      thSample: "시료명 (Sample)",
-      thTopMatch: "1순위 광물 (Match)",
-      thShift: "보정 변위 (Δ2θ)",
-      thWeightTable: "광물별 반정량 Weight% (총합 100.0%)",
-      guideModalTitle: "IsoXRD 표준 작업 절차서 (SOP) & 업데이트 로그",
-      tabSop: "1. 상세 사용 방법 (SOP Manual)",
-      tabLog: "2. 버전 업데이트 로그 (Changelog)",
+      pubModeBtn: "출판용 흑백", pubModeBtnActive: "컬러 복귀", exportCsv: "CSV", exportPng: "PNG", exportSvg: "SVG",
+      guideBtn: "사용법 / 업데이트", citeBtn: "인용 / DOI", langBtn: "EN",
+      navTab1: "1. 시료/정량", navTab2: "2. 광물/프리셋", navTab3: "3. 보정/피크",
+      sec1: "다중 시료 불러오기", clearBtn: "초기화", dropTitle: "+ XRD 파일 드래그 또는 클릭",
+      sec2: "회절각 변위 보정 (Δ2θ)", autoFit: "자동 보정", lblS0Text: "영점 오차 (s₀):", lblS1Text: "시료 높이 변위 (s₁·cosθ):",
+      chkSnrText: "연속 파형 SNR 노이즈 검증 (3.5σ)", chkPoText: "범용 우선 배향성(PO) 자동 감쇠 보정",
+      carbTitle: "RIR 반정량 (합계 100.0%)", rankTitle: "후보 광물 적합도 (Top 4)", btnSuggest: "+ 미설명 피크 상추가",
+      sec3: "광물 DB 선택", clearPhasesBtn: "모두 해제", toggleAll: "반전", suiteTitle: "암석·시료 유형별 프리셋", btnSaveSuite: "+ 조합 저장",
+      lblWavelength: "X-선 파장 (λ) & 피크 검출", lblPromText: "피크 민감도 (Prominence):", lblSmoothText: "스무딩 윈도우 (Smoothing):",
+      chkBase: "배경선 제거", chkFit: "합성 피팅(Fit)", chkRes: "잔차(Residual)", chkLbl: "피크 라벨",
+      openDbBtn: "+ 광물 DB 추가 / RIR 관리", btnExpand: "⛶ 그래프 확대", btnCollapseExpand: "🗗 사이드바 복귀",
+      modeStack: "스택", modeSingle: "단일", btnApply: "적용", btnReset: "전체",
+      chartHint: "💡 연속 파형 SNR 검증(3.5σ) + 0.2% 컷오프로 순수 시료는 100.0%, 복합 암석의 미량 상은 정밀 보존됩니다.",
+      subTabPeaks: "활성 시료 피크 면적표", subTabBatch: "다중 시료 정량 요약표 (100%)", tableHint: "시료 행 클릭 시 해당 스펙트럼 선택",
+      btnCollapseTable: "▼ 표 접기", btnExpandTable: "▲ 표 펼치기",
+      thObs: "관측 2θ (°)", thCorr: "보정 2θ (°)", thD: "면간거리 d (Å)", thNet: "순수 높이", thArea: "적분 면적",
+      thRel: "상대 면적 (%)", thMatch: "매칭 광물 & (hkl)", thDiff: "Δ2θ",
+      thSample: "시료명 (Sample)", thTopMatch: "1순위 광물 (Match)", thShift: "보정 변위 (Δ2θ)", thWeightTable: "광물별 반정량 Weight% (총합 100.0%)",
+      guideModalTitle: "IsoXRD 표준 작업 절차서 (SOP) & 업데이트 로그", tabSop: "1. 상세 사용 방법 (SOP Manual)", tabLog: "2. 버전 업데이트 로그 (Changelog)",
       citeModalTitle: "학술 인용 및 Zenodo DOI 안내 (How to Cite IsoXRD)",
       citeModalDesc: "연구 논문(Methods / Data Availability)이나 학술 발표에 IsoXRD를 활용하신 경우 아래 서지 정보와 Zenodo 영구 DOI를 인용해 주세요.",
-      saveDoiBtn: "DOI 반영",
-      citeSec1: "1. 논문 본문 / Methods 표기 예시 (In-Text Statement)",
-      citeSec2: "2. 참고문헌 표기 (Reference Format)",
-      citeSec3: "3. BibTeX (LaTeX / Overleaf)",
-      copyBtn: "복사",
-      copiedBtn: "복사됨 ✓",
-      modalTitle: "광물 표준 DB 추가 및 RIR(I/Ic) 관리",
-      btnClose: "닫기 ✕",
-      tab1: "1. 피크 표 붙여넣기 (RRUFF/COD)",
-      tab2: "2. 현재 스펙트럼에서 추출",
-      tab3: "3. JSON 내보내기 / 가져오기",
-      pasteUnitLbl: "입력 단위:",
-      unit2T: "2θ (°) + 세기",
-      unitD: "d-spacing (Å) + 세기",
-      btnSaveMin: "DB에 등록하기",
-      capDesc: "현재 활성 시료의 보정된 상위 피크(최대 12개)를 새로운 표준 광물로 등록합니다.",
-      btnCapture: "현재 상위 검출 피크 저장",
+      saveDoiBtn: "DOI 반영", citeSec1: "1. 논문 본문 / Methods 표기 예시 (In-Text Statement)", citeSec2: "2. 참고문헌 표기 (Reference Format)", citeSec3: "3. BibTeX (LaTeX / Overleaf)",
+      copyBtn: "복사", copiedBtn: "복사됨 ✓", modalTitle: "광물 표준 DB 추가 및 RIR(I/Ic) 관리", btnClose: "닫기 ✕",
+      tab1: "1. 피크 표 붙여넣기 (RRUFF/COD)", tab2: "2. 현재 스펙트럼에서 추출", tab3: "3. JSON 내보내기 / 가져오기",
+      pasteUnitLbl: "입력 단위:", unit2T: "2θ (°) + 세기", unitD: "d-spacing (Å) + 세기", btnSaveMin: "DB에 등록하기",
+      capDesc: "현재 활성 시료의 보정된 상위 피크(최대 12개)를 새로운 표준 광물로 등록합니다.", btnCapture: "현재 상위 검출 피크 저장",
       jsonDesc: "연구실 공용 JSON 파일을 불러오거나 현재 사용자 정의 광물 목록을 JSON으로 저장합니다.",
-      btnDownJson: "사용자 DB JSON 다운로드",
-      btnUpJson: "JSON 파일 불러오기 (병합)",
-      btnReloadPreset: "GitHub presets/lab_custom_minerals.json 다시 불러오기",
-      phEnName: "영문명 (예: Vaterite)",
-      phKoName: "한글명 (예: 바테라이트)",
-      phFormula: "화학식 (예: CaCO3)",
+      btnDownJson: "사용자 DB JSON 다운로드", btnUpJson: "JSON 파일 불러오기 (병합)", btnReloadPreset: "GitHub presets/lab_custom_minerals.json 다시 불러오기",
+      phEnName: "영문명 (예: Vaterite)", phKoName: "한글명 (예: 바테라이트)", phFormula: "화학식 (예: CaCO3)",
       phPaste: "예시 (탭/공백/쉼표 구분):\n24.90  65  (110)\n27.05  100 (112)\n32.78  95  (114)",
-      phCapEn: "영문명 (예: Lab_Calcite_Std)",
-      phCapKo: "한글명 (예: 표준방해석)",
-      unassigned: "미할당 / Unassigned"
+      phCapEn: "영문명 (예: Lab_Calcite_Std)", phCapKo: "한글명 (예: 표준방해석)", unassigned: "미할당 / Unassigned"
     },
     en: {
-      pubModeBtn: "B&W Print",
-      pubModeBtnActive: "Restore Color",
-      exportCsv: "CSV",
-      exportPng: "PNG",
-      exportSvg: "SVG",
-      guideBtn: "SOP / Changelog",
-      citeBtn: "Cite / DOI",
-      langBtn: "KO",
-      navTab1: "1. Samples/Quant",
-      navTab2: "2. Minerals/Suite",
-      navTab3: "3. Align/Peaks",
-      sec1: "Multi-Sample Data Loader",
-      clearBtn: "Clear",
-      dropTitle: "+ Drag & Drop XRD Files or Click",
-      sec2: "Displacement Correction (Δ2θ)",
-      autoFit: "Auto-Fit",
-      lblS0Text: "Zero-Point Shift (s₀):",
-      lblS1Text: "Sample Height Shift (s₁·cosθ):",
-      chkPoText: "Universal PO Auto-Attenuation",
-      carbTitle: "RIR Weight% (Sum 100.0%)",
-      rankTitle: "Candidate Ranking (Top 4)",
-      btnSuggest: "+ Add Residual Phases",
-      sec3: "Mineral DB (Click to Toggle)",
-      toggleAll: "Toggle All",
-      suiteTitle: "Geological Suite Presets",
-      btnSaveSuite: "+ Save Suite",
-      lblWavelength: "Wavelength (λ) & Peak Detection",
-      lblPromText: "Prominence Threshold:",
-      lblSmoothText: "Smoothing Window:",
-      chkBase: "Subtract Baseline",
-      chkFit: "Synthetic Fit",
-      chkRes: "Residual",
-      chkLbl: "Peak Labels",
-      openDbBtn: "+ Add / Manage Mineral DB & RIR",
-      btnExpand: "⛶ Expand Chart",
-      btnCollapseExpand: "🗗 Show Sidebar",
-      modeStack: "Stack",
-      modeSingle: "Single",
-      btnApply: "Apply",
-      btnReset: "Full",
-      chartHint: "💡 Drag to zoom 2θ · Double-click to reset · Amber ◆ indicates unassigned peaks",
-      subTabPeaks: "Active Sample Peaks & Area",
-      subTabBatch: "Multi-Sample Weight% Summary (100%)",
-      tableHint: "Click a sample row to inspect its spectrum",
-      btnCollapseTable: "▼ Collapse Table",
-      btnExpandTable: "▲ Expand Table",
-      thObs: "Obs 2θ (°)",
-      thCorr: "Corr 2θ (°)",
-      thD: "d-Spacing (Å)",
-      thNet: "Net Height",
-      thArea: "Area",
-      thRel: "Rel. Area (%)",
-      thMatch: "Matched Phase & (hkl)",
-      thDiff: "Δ2θ",
-      thSample: "Sample Name",
-      thTopMatch: "Primary Match",
-      thShift: "Shift (Δ2θ)",
-      thWeightTable: "Semi-Quantitative Weight% (Sum 100.0%)",
-      guideModalTitle: "IsoXRD Standard Operating Procedure (SOP) & Changelog",
-      tabSop: "1. Detailed User Manual (SOP)",
-      tabLog: "2. Version Release Notes (Changelog)",
+      pubModeBtn: "B&W Print", pubModeBtnActive: "Restore Color", exportCsv: "CSV", exportPng: "PNG", exportSvg: "SVG",
+      guideBtn: "SOP / Changelog", citeBtn: "Cite / DOI", langBtn: "KO",
+      navTab1: "1. Samples/Quant", navTab2: "2. Minerals/Suite", navTab3: "3. Align/Peaks",
+      sec1: "Multi-Sample Data Loader", clearBtn: "Clear", dropTitle: "+ Drag & Drop XRD Files or Click",
+      sec2: "Displacement Correction (Δ2θ)", autoFit: "Auto-Fit", lblS0Text: "Zero-Point Shift (s₀):", lblS1Text: "Sample Height Shift (s₁·cosθ):",
+      chkSnrText: "Continuous Profile SNR Filter (3.5σ)", chkPoText: "Universal PO Auto-Attenuation",
+      carbTitle: "RIR Weight% (Sum 100.0%)", rankTitle: "Candidate Ranking (Top 4)", btnSuggest: "+ Add Residual Phases",
+      sec3: "Mineral DB", clearPhasesBtn: "Clear All", toggleAll: "Invert", suiteTitle: "Geological Suite Presets", btnSaveSuite: "+ Save Suite",
+      lblWavelength: "Wavelength (λ) & Peak Detection", lblPromText: "Prominence Threshold:", lblSmoothText: "Smoothing Window:",
+      chkBase: "Subtract Baseline", chkFit: "Synthetic Fit", chkRes: "Residual", chkLbl: "Peak Labels",
+      openDbBtn: "+ Add / Manage Mineral DB & RIR", btnExpand: "⛶ Expand Chart", btnCollapseExpand: "🗗 Show Sidebar",
+      modeStack: "Stack", modeSingle: "Single", btnApply: "Apply", btnReset: "Full",
+      chartHint: "💡 Continuous SNR check (3.5σ) + 0.2% cutoff keeps pure phases at 100.0% while preserving minor phases in complex rocks.",
+      subTabPeaks: "Active Sample Peaks & Area", subTabBatch: "Multi-Sample Weight% Summary (100%)", tableHint: "Click a sample row to inspect its spectrum",
+      btnCollapseTable: "▼ Collapse Table", btnExpandTable: "▲ Expand Table",
+      thObs: "Obs 2θ (°)", thCorr: "Corr 2θ (°)", thD: "d-Spacing (Å)", thNet: "Net Height", thArea: "Area",
+      thRel: "Rel. Area (%)", thMatch: "Matched Phase & (hkl)", thDiff: "Δ2θ",
+      thSample: "Sample Name", thTopMatch: "Primary Match", thShift: "Shift (Δ2θ)", thWeightTable: "Semi-Quantitative Weight% (Sum 100.0%)",
+      guideModalTitle: "IsoXRD Standard Operating Procedure (SOP) & Changelog", tabSop: "1. Detailed User Manual (SOP)", tabLog: "2. Version Release Notes (Changelog)",
       citeModalTitle: "How to Cite IsoXRD & Zenodo DOI",
       citeModalDesc: "If you use IsoXRD in your research paper (Methods / Data Availability) or presentation, please cite the software using the metadata and Zenodo DOI below.",
-      saveDoiBtn: "Update DOI",
-      citeSec1: "1. In-Text / Methods Section Statement",
-      citeSec2: "2. Reference List Format (APA / Journal Style)",
-      citeSec3: "3. BibTeX (LaTeX / Overleaf)",
-      copyBtn: "Copy",
-      copiedBtn: "Copied ✓",
-      modalTitle: "Add & Manage Custom Mineral Library & RIR (I/Ic)",
-      btnClose: "Close ✕",
-      tab1: "1. Paste Peak Table (RRUFF/COD)",
-      tab2: "2. Capture from Active Spectrum",
-      tab3: "3. Export / Import JSON",
-      pasteUnitLbl: "Input Unit:",
-      unit2T: "2θ (°) + Intensity",
-      unitD: "d-spacing (Å) + Intensity",
-      btnSaveMin: "Save to Library",
-      capDesc: "Capture the top corrected peaks (up to 12) from the active sample as a new reference phase.",
-      btnCapture: "Save Top Detected Peaks",
+      saveDoiBtn: "Update DOI", citeSec1: "1. In-Text / Methods Section Statement", citeSec2: "2. Reference List Format (APA / Journal Style)", citeSec3: "3. BibTeX (LaTeX / Overleaf)",
+      copyBtn: "Copy", copiedBtn: "Copied ✓", modalTitle: "Add & Manage Custom Mineral Library & RIR (I/Ic)", btnClose: "Close ✕",
+      tab1: "1. Paste Peak Table (RRUFF/COD)", tab2: "2. Capture from Active Spectrum", tab3: "3. Export / Import JSON",
+      pasteUnitLbl: "Input Unit:", unit2T: "2θ (°) + Intensity", unitD: "d-spacing (Å) + Intensity", btnSaveMin: "Save to Library",
+      capDesc: "Capture the top corrected peaks (up to 12) from the active sample as a new reference phase.", btnCapture: "Save Top Detected Peaks",
       jsonDesc: "Import shared lab JSON presets or export your custom mineral library as JSON.",
-      btnDownJson: "Download Custom DB JSON",
-      btnUpJson: "Import & Merge JSON",
-      btnReloadPreset: "Reload GitHub presets/lab_custom_minerals.json",
-      phEnName: "English Name (e.g., Vaterite)",
-      phKoName: "Korean Name (optional)",
-      phFormula: "Formula (e.g., CaCO3)",
+      btnDownJson: "Download Custom DB JSON", btnUpJson: "Import & Merge JSON", btnReloadPreset: "Reload GitHub presets/lab_custom_minerals.json",
+      phEnName: "English Name (e.g., Vaterite)", phKoName: "Korean Name (optional)", phFormula: "Formula (e.g., CaCO3)",
       phPaste: "Example (tab/space/comma separated):\n24.90  65  (110)\n27.05  100 (112)\n32.78  95  (114)",
-      phCapEn: "English Name (e.g., Lab_Calcite_Std)",
-      phCapKo: "Korean Name (optional)",
-      unassigned: "Unassigned"
+      phCapEn: "English Name (e.g., Lab_Calcite_Std)", phCapKo: "Korean Name (optional)", unassigned: "Unassigned"
     }
   };
 
   const THEME_CHART_PALETTE = {
-    linen: {
-      bg: "#fffefb", grid: "#f0eadc", frame: "#44403c", text: "#292524",
-      traces: ["#a84a28", "#1b4d3e", "#1e40af", "#854d0e", "#6b21a8", "#0f766e", "#44403c"]
-    },
-    journal: {
-      bg: "#ffffff", grid: "#f1f5f9", frame: "#27272a", text: "#18181b",
-      traces: ["#1d4ed8", "#9f1239", "#047857", "#6d28d9", "#b45309", "#0e7490", "#374151"]
-    },
-    blueprint: {
-      bg: "#fcfdff", grid: "#e3ecf5", frame: "#1e3a5f", text: "#0f2942",
-      traces: ["#1e3a5f", "#b45309", "#0284c7", "#0f766e", "#6d28d9", "#be123c", "#334e68"]
-    },
-    obsidian: {
-      bg: "#16181d", grid: "#252830", frame: "#a1a1aa", text: "#f4f4f5",
-      traces: ["#e06d44", "#34d399", "#60a5fa", "#fbbf24", "#c084fc", "#2dd4bf", "#f472b6"]
-    }
+    linen: { bg: "#fffefb", grid: "#f0eadc", frame: "#44403c", text: "#292524", traces: ["#a84a28", "#1b4d3e", "#1e40af", "#854d0e", "#6b21a8", "#0f766e", "#44403c"] },
+    journal: { bg: "#ffffff", grid: "#f1f5f9", frame: "#27272a", text: "#18181b", traces: ["#1d4ed8", "#9f1239", "#047857", "#6d28d9", "#b45309", "#0e7490", "#374151"] },
+    blueprint: { bg: "#fcfdff", grid: "#e3ecf5", frame: "#1e3a5f", text: "#0f2942", traces: ["#1e3a5f", "#b45309", "#0284c7", "#0f766e", "#6d28d9", "#be123c", "#334e68"] },
+    obsidian: { bg: "#16181d", grid: "#252830", frame: "#a1a1aa", text: "#f4f4f5", traces: ["#e06d44", "#34d399", "#60a5fa", "#fbbf24", "#c084fc", "#2dd4bf", "#f472b6"] }
   };
 
   const SOP_CONTENT = {
     ko: [
-      {
-        title: "Step 1. 다중 시료 로드 & 정량 확인 ([1. 시료/정량] 탭)",
-        items: [
-          "좌측 <strong>[1. 시료/정량]</strong> 탭 상단에 XRD 원본 파일(<code>.xrdml</code>, HighScore <code>.txt</code>, <code>.csv</code>, <code>.xy</code>)을 여러 개 동시에 드래그하여 올립니다.",
-          "하단 <strong>RIR 반정량</strong> 박스에서 활성 광물들의 총합 <code>100.0%</code> 기준 <code>Weight%</code>와 인라인 <code>RIR</code> 값을 바로 확인·수정할 수 있습니다.",
-          "미할당 피크(주황색 <strong>◆</strong> 마커)가 남아 있으면 <strong>[+ 미설명 피크 상추가]</strong> 버튼을 눌러 후보 광물을 3종씩 누적 추가합니다."
-        ]
-      },
-      {
-        title: "Step 2. 프리셋 및 광물 DB 선택 ([2. 광물/프리셋] 탭)",
-        items: [
-          "<strong>[2. 광물/프리셋]</strong> 탭에서 <code>탄산염/석순</code>, <code>탄산염-규산염 혼합</code>, <code>쇄설성/풍화토</code> 프리셋을 클릭해 후보 광물군을 원클릭으로 세팅합니다.",
-          "개별 광물 알약(Pill)을 클릭해 미세 조정하고, 자주 쓰는 조합은 <strong>[+ 조합 저장]</strong>으로 저장할 수 있습니다."
-        ]
-      },
-      {
-        title: "Step 3. 회절각 변위 보정 & 피크 검출 ([3. 보정/피크] 탭)",
-        items: [
-          "<strong>[3. 보정/피크]</strong> 탭의 <strong>[자동 보정]</strong> 버튼 또는 <code>s₀</code>, <code>s₁·cosθ</code> 슬라이더로 회절각 밀림을 정렬합니다.",
-          "상단 차트 툴바의 <strong>[⛶ 그래프 확대]</strong> 버튼이나 하단 <strong>[▼ 표 접기]</strong>를 사용하면 회절 스펙트럼만 화면 가득 넓혀서 정밀 판독할 수 있습니다."
-        ]
-      }
+      { title: "Step 1. 시료 로드 & 정량 확인 ([1. 시료/정량] 탭)", items: [
+        "좌측 <strong>[1. 시료/정량]</strong> 탭에 XRD 원본 파일(<code>.xrdml</code>, HighScore <code>.txt</code>, <code>.csv</code>, <code>.xy</code>)을 드래그하여 업로드합니다.",
+        "연속 파형 SNR 검증(3.5σ)과 0.2% 노이즈 컷오프가 자동 적용되어 순수 상은 100.0%로, 복합 암석의 미량 광물은 손실 없이 정량됩니다.",
+        "미할당(<strong>◆</strong>) 피크가 남으면 <strong>[+ 미설명 피크 상추가]</strong> 버튼으로 후보 광물을 3종씩 누적 추가합니다."
+      ]},
+      { title: "Step 2. 광물 프리셋 및 DB 선택 ([2. 광물/프리셋] 탭)", items: [
+        "<code>탄산염/석순</code>, <code>탄산염-규산염</code>, <code>쇄설성/풍화토</code> 프리셋을 원클릭으로 적용하거나 <strong>[모두 해제]</strong> 후 필요한 광물만 선택할 수 있습니다."
+      ]},
+      { title: "Step 3. 회절각 보정 & 대형 차트 보기 ([3. 보정/피크] 탭)", items: [
+        "<strong>[자동 보정]</strong> 또는 <code>s₀</code>, <code>s₁·cosθ</code> 슬라이더로 위치를 정렬하고, 차트 상단 <strong>[⛶ 그래프 확대]</strong>로 스펙트럼을 넓혀 판독합니다."
+      ]}
     ],
     en: [
-      {
-        title: "Step 1. Load Spectra & Quantify ([1. Samples/Quant] Tab)",
-        items: [
-          "Drag & drop multiple XRD files (<code>.xrdml</code>, HighScore <code>.txt</code>, <code>.csv</code>, <code>.xy</code>) into <strong>[1. Samples/Quant]</strong>.",
-          "Inspect 100%-normalized <code>Weight%</code> and edit inline <code>RIR</code> factors directly below.",
-          "Click <strong>[+ Add Residual Phases]</strong> to incrementally match remaining unassigned (<strong>◆</strong>) peaks."
-        ]
-      },
-      {
-        title: "Step 2. Suite Presets & Mineral DB ([2. Minerals/Suite] Tab)",
-        items: [
-          "Use geological suite presets (<code>Carbonate / Speleothem</code>, <code>Calc-Silicate / Skarn</code>, <code>Clastic / Soil</code>) or toggle individual mineral pills.",
-          "Save custom combinations via <strong>[+ Save Suite]</strong>."
-        ]
-      },
-      {
-        title: "Step 3. Displacement Alignment & Full-Screen View ([3. Align/Peaks] Tab)",
-        items: [
-          "Click <strong>[Auto-Fit]</strong> or adjust <code>s₀</code> and <code>s₁·cosθ</code> sliders to align reference sticks.",
-          "Use <strong>[⛶ Expand Chart]</strong> or <strong>[▼ Collapse Table]</strong> to maximize the diffraction spectrum canvas."
-        ]
-      }
+      { title: "Step 1. Load Spectra & Quantify ([1. Samples/Quant])", items: [
+        "Drag & drop XRD files (<code>.xrdml</code>, HighScore <code>.txt</code>, <code>.csv</code>, <code>.xy</code>) into <strong>[1. Samples/Quant]</strong>.",
+        "Continuous SNR verification (3.5σ) and 0.2% cutoff quantify pure phases at 100.0% while preserving minor phases in complex rocks."
+      ]},
+      { title: "Step 2. Suite Presets & Mineral DB ([2. Minerals/Suite])", items: [
+        "Apply geological presets or click <strong>[Clear All]</strong> to screen unknown samples from scratch."
+      ]},
+      { title: "Step 3. Alignment & Full-Width Spectrum ([3. Align/Peaks])", items: [
+        "Click <strong>[Auto-Fit]</strong> to align reference sticks and toggle <strong>[⛶ Expand Chart]</strong> for full-width inspection."
+      ]}
     ]
   };
 
   const CHANGELOG_DATA = [
-    {
-      ver: "v4.6 (Current — Spectrum-First Minimalist Layout)",
-      date: "2026-11-20",
-      notesKo: [
-        "상단 4칸 KPI 박스를 제거하고 핵심 요약 칩을 차트 툴바에 통합하여 세로 그래프 공간 대폭 확장.",
-        "길었던 좌측 사이드바를 3개 컴팩트 탭(1. 시료/정량, 2. 광물/프리셋, 3. 보정/피크)으로 슬림화(310px)하고 [⛶ 그래프 확대] 및 [▼ 표 접기] 기능 추가."
-      ],
-      notesEn: [
-        "Replaced bulky top KPI strip with inline chart toolbar status chips to maximize vertical spectrum space.",
-        "Consolidated left sidebar into 3 compact tabs (310px) and added [⛶ Expand Chart] and [▼ Collapse Table] toggles."
-      ]
-    },
-    {
-      ver: "v4.4 – v4.5",
-      date: "2026-11-17",
-      notesKo: [
-        "헤더 [사용법 / 업데이트] 모달(SOP & Changelog) 추가 및 Linen / Swiss / Blueprint / Obsidian 4종 테마 시스템 도입."
-      ],
-      notesEn: [
-        "Added bilingual [SOP / Changelog] modal and 4 themes (Linen, Swiss, Blueprint, Obsidian)."
-      ]
-    },
-    {
-      ver: "v4.1 – v4.3",
-      date: "2026-11-17",
-      notesKo: [
-        "잔차 피크 기반 누적 상추천([+ 미설명 피크 상추가]), 미할당 피크 다이아몬드(◆) 마커, 범용 우선 배향성(PO) 자동 감쇠 보정 및 적응형 FWHM Pseudo-Voigt 디컨볼루션 탑재."
-      ],
-      notesEn: [
-        "Introduced additive residual-peak suggestion, unassigned ◆ markers, phase-agnostic PO auto-attenuation, and adaptive-FWHM Pseudo-Voigt deconvolution."
-      ]
-    }
+    { ver: "v4.6.1 (Current)", date: "2026-11-25",
+      notesKo: ["연속 파형 SNR 검증(3.5σ) 및 0.2% 노이즈 컷오프 도입: Pure Calcite 데모는 100.0%로 정량하고 KLs-1 등 복합 암석의 미량 상은 손실 없이 보존, [모두 해제] 버튼 추가."],
+      notesEn: ["Added continuous profile SNR verification (3.5σ) and 0.2% cutoff so pure phases quantify to 100.0% while preserving minor phases in complex rocks, plus [Clear All] button."] },
+    { ver: "v4.6", date: "2026-11-20",
+      notesKo: ["상단 KPI 박스를 차트 툴바 인라인 칩으로 통합하고 좌측 사이드바를 3개 탭(310px)으로 압축하여 대형 회절 스펙트럼 레이아웃 구현."],
+      notesEn: ["Replaced top KPI strip with inline toolbar chips and consolidated sidebar into 3 compact tabs (310px)."] },
+    { ver: "v4.1 – v4.5", date: "2026-11-17",
+      notesKo: ["잔차 피크 누적 상추천, 범용 우선 배향성(PO) 자동 감쇠 보정, 적응형 FWHM Pseudo-Voigt 디컨볼루션 및 내장 SOP 모달 탑재."],
+      notesEn: ["Introduced additive residual-peak suggestion, phase-agnostic PO auto-attenuation, adaptive-FWHM Pseudo-Voigt deconvolution, and SOP modal."] }
   ];
 
   const BUILTIN_SUITES = [
@@ -1053,92 +599,38 @@
   ];
 
   const CORE_MINERALS = [
-    {
-      id: "calcite", name: "Calcite", nameKo: "방해석", formula: "CaCO3", color: "#a84a28", rir: 3.20, defaultRir: 3.20, active: true,
-      peaks: [
-        [29.40, 100, 3.035, "(104)"], [39.40, 18, 2.285, "(113)"], [43.15, 18, 2.095, "(202)"],
-        [47.50, 17, 1.913, "(018)"], [48.51, 17, 1.875, "(116)"], [35.97, 14, 2.495, "(110)"],
-        [23.02, 12, 3.860, "(012)"], [57.40, 8, 1.604, "(122)"]
-      ]
-    },
-    {
-      id: "aragonite", name: "Aragonite", nameKo: "아라고나이트", formula: "CaCO3", color: "#1d4ed8", rir: 1.15, defaultRir: 1.15, active: true,
-      peaks: [
-        [26.21, 100, 3.396, "(111)"], [45.85, 65, 1.977, "(221)"], [27.22, 52, 3.273, "(021)"],
-        [33.13, 46, 2.702, "(012)"], [37.88, 38, 2.373, "(112)"], [36.12, 33, 2.484, "(200)"],
-        [48.31, 32, 1.882, "(041)"], [38.41, 31, 2.341, "(130)"], [48.43, 25, 1.877, "(202)"],
-        [52.40, 25, 1.745, "(113)"], [42.90, 23, 2.106, "(220)"], [50.23, 23, 1.815, "(132)"],
-        [52.96, 15, 1.728, "(231)"], [41.18, 11, 2.190, "(211)"]
-      ]
-    },
-    {
-      id: "dolomite", name: "Dolomite", nameKo: "돌로마이트", formula: "CaMg(CO3)2", color: "#1b4d3e", rir: 2.60, defaultRir: 2.60, active: true,
-      peaks: [
-        [30.96, 100, 2.886, "(104)"], [41.13, 30, 2.193, "(113)"], [50.54, 20, 1.804, "(018)"],
-        [51.07, 20, 1.787, "(116)"], [44.94, 15, 2.015, "(202)"], [37.36, 10, 2.405, "(110)"]
-      ]
-    },
-    {
-      id: "quartz", name: "Quartz", nameKo: "석영", formula: "SiO2", color: "#b45309", rir: 3.40, defaultRir: 3.40, active: true,
-      peaks: [
-        [26.64, 100, 3.343, "(101)"], [20.86, 22, 4.255, "(100)"], [50.14, 14, 1.818, "(112)"],
-        [36.54, 9, 2.457, "(110)"], [59.96, 9, 1.541, "(211)"], [39.46, 8, 2.282, "(102)"]
-      ]
-    },
-    {
-      id: "pyrite", name: "Pyrite", nameKo: "황철석", formula: "FeS2", color: "#6d28d9", rir: 1.60, defaultRir: 1.60, active: false,
-      peaks: [
-        [56.28, 100, 1.633, "(311)"], [33.05, 84, 2.709, "(200)"], [37.08, 66, 2.423, "(210)"],
-        [40.78, 52, 2.212, "(211)"], [47.43, 40, 1.915, "(220)"], [28.51, 36, 3.128, "(111)"]
-      ]
-    },
-    {
-      id: "halite", name: "Halite", nameKo: "암염", formula: "NaCl", color: "#0e7490", rir: 4.40, defaultRir: 4.40, active: false,
-      peaks: [
-        [31.69, 100, 2.821, "(200)"], [45.45, 55, 1.994, "(220)"], [56.48, 15, 1.628, "(222)"],
-        [27.37, 13, 3.256, "(111)"]
-      ]
-    },
-    {
-      id: "gypsum", name: "Gypsum", nameKo: "석고", formula: "CaSO4·2H2O", color: "#0369a1", rir: 1.80, defaultRir: 1.80, active: false,
-      peaks: [
-        [11.59, 100, 7.630, "(020)"], [29.11, 57, 3.065, "(14-1)"], [20.72, 51, 4.283, "(12-1)"],
-        [31.10, 28, 2.873, "(002)"], [23.39, 21, 3.800, "(040)"]
-      ]
-    }
+    { id: "calcite", name: "Calcite", nameKo: "방해석", formula: "CaCO3", color: "#a84a28", rir: 3.20, defaultRir: 3.20, active: true,
+      peaks: [[29.40,100,3.035,"(104)"],[39.40,18,2.285,"(113)"],[43.15,18,2.095,"(202)"],[47.50,17,1.913,"(018)"],[48.51,17,1.875,"(116)"],[35.97,14,2.495,"(110)"],[23.02,12,3.860,"(012)"],[57.40,8,1.604,"(122)"]] },
+    { id: "aragonite", name: "Aragonite", nameKo: "아라고나이트", formula: "CaCO3", color: "#1d4ed8", rir: 1.15, defaultRir: 1.15, active: true,
+      peaks: [[26.21,100,3.396,"(111)"],[45.85,65,1.977,"(221)"],[27.22,52,3.273,"(021)"],[33.13,46,2.702,"(012)"],[37.88,38,2.373,"(112)"],[36.12,33,2.484,"(200)"],[48.31,32,1.882,"(041)"],[38.41,31,2.341,"(130)"],[48.43,25,1.877,"(202)"],[52.40,25,1.745,"(113)"],[42.90,23,2.106,"(220)"],[50.23,23,1.815,"(132)"],[52.96,15,1.728,"(231)"],[41.18,11,2.190,"(211)"]] },
+    { id: "dolomite", name: "Dolomite", nameKo: "돌로마이트", formula: "CaMg(CO3)2", color: "#1b4d3e", rir: 2.60, defaultRir: 2.60, active: true,
+      peaks: [[30.96,100,2.886,"(104)"],[41.13,30,2.193,"(113)"],[50.54,20,1.804,"(018)"],[51.07,20,1.787,"(116)"],[44.94,15,2.015,"(202)"],[37.36,10,2.405,"(110)"]] },
+    { id: "quartz", name: "Quartz", nameKo: "석영", formula: "SiO2", color: "#b45309", rir: 3.40, defaultRir: 3.40, active: true,
+      peaks: [[26.64,100,3.343,"(101)"],[20.86,22,4.255,"(100)"],[50.14,14,1.818,"(112)"],[36.54,9,2.457,"(110)"],[59.96,9,1.541,"(211)"],[39.46,8,2.282,"(102)"]] },
+    { id: "pyrite", name: "Pyrite", nameKo: "황철석", formula: "FeS2", color: "#6d28d9", rir: 1.60, defaultRir: 1.60, active: false,
+      peaks: [[56.28,100,1.633,"(311)"],[33.05,84,2.709,"(200)"],[37.08,66,2.423,"(210)"],[40.78,52,2.212,"(211)"],[47.43,40,1.915,"(220)"],[28.51,36,3.128,"(111)"]] },
+    { id: "halite", name: "Halite", nameKo: "암염", formula: "NaCl", color: "#0e7490", rir: 4.40, defaultRir: 4.40, active: false,
+      peaks: [[31.69,100,2.821,"(200)"],[45.45,55,1.994,"(220)"],[56.48,15,1.628,"(222)"],[27.37,13,3.256,"(111)"]] },
+    { id: "gypsum", name: "Gypsum", nameKo: "석고", formula: "CaSO4·2H2O", color: "#0369a1", rir: 1.80, defaultRir: 1.80, active: false,
+      peaks: [[11.59,100,7.630,"(020)"],[29.11,57,3.065,"(14-1)"],[20.72,51,4.283,"(12-1)"],[31.10,28,2.873,"(002)"],[23.39,21,3.800,"(040)"]] }
   ];
 
   const LAB_PRESET_FALLBACK = [
-    { id: "diopside", name: "Diopside", nameKo: "투휘석", formula: "CaMgSi2O6", color: "#16a34a", rir: 1.15, defaultRir: 1.15, active: false,
-      peaks: [[29.80,100,3.000,"(221)"],[30.50,60,2.928,"(310)"],[35.50,55,2.527,"(022)"],[31.10,45,2.873,"(002)"],[27.60,30,3.230,"(220)"]] },
-    { id: "k_feldspar", name: "K-feldspar", nameKo: "칼륨장석", formula: "KAlSi3O8", color: "#854d0e", rir: 0.95, defaultRir: 0.95, active: false,
-      peaks: [[27.50,100,3.242,"(002)"],[21.00,40,4.227,"(201)"],[27.80,35,3.207,"(220)"],[29.50,30,3.026,"(131)"],[23.60,25,3.767,"(111)"]] },
-    { id: "biotite", name: "Biotite", nameKo: "흑운모", formula: "K(Mg,Fe)3(AlSi3O10)(OH)2", color: "#52525b", rir: 1.20, defaultRir: 1.20, active: false,
-      peaks: [[8.85,100,9.985,"(001)"],[26.80,85,3.324,"(006)"],[17.80,30,4.980,"(004)"],[19.90,25,4.459,"(020)"],[35.00,20,2.562,"(202)"]] },
-    { id: "apatite", name: "Apatite", nameKo: "인회석", formula: "Ca5(PO4)3(F,Cl,OH)", color: "#0284c7", rir: 1.10, defaultRir: 1.10, active: false,
-      peaks: [[31.78,100,2.813,"(211)"],[25.87,85,3.442,"(002)"],[32.18,70,2.779,"(112)"],[28.93,55,3.084,"(210)"],[34.04,40,2.631,"(300)"]] },
-    { id: "muscovite", name: "Muscovite", nameKo: "백운모", formula: "KAl2(AlSi3O10)(OH)2", color: "#047857", rir: 0.90, defaultRir: 0.90, active: false,
-      peaks: [[8.88,95,9.950,"(002)"],[26.82,100,3.321,"(006)"],[17.78,31,4.985,"(004)"],[34.96,25,2.564,"(202)"],[45.42,22,1.995,"(0010)"]] },
-    { id: "vaterite", name: "Vaterite", nameKo: "바테라이트", formula: "CaCO3", color: "#9d174d", rir: 1.30, defaultRir: 1.30, active: false,
-      peaks: [[24.90,65,3.573,"(110)"],[27.05,100,3.294,"(112)"],[32.78,95,2.730,"(114)"],[43.85,50,2.063,"(300)"],[49.10,30,1.854,"(304)"],[50.08,45,1.820,"(118)"]] },
-    { id: "magnesite", name: "Magnesite", nameKo: "마그네사이트", formula: "MgCO3", color: "#6b21a8", rir: 2.30, defaultRir: 2.30, active: false,
-      peaks: [[32.63,100,2.742,"(104)"],[42.99,43,2.102,"(113)"],[53.88,34,1.700,"(116)"],[35.85,12,2.503,"(110)"],[46.81,12,1.939,"(202)"]] },
-    { id: "siderite", name: "Siderite", nameKo: "능철석", formula: "FeCO3", color: "#78350f", rir: 2.80, defaultRir: 2.80, active: false,
-      peaks: [[32.02,100,2.793,"(104)"],[52.76,35,1.734,"(116)"],[42.31,25,2.134,"(113)"],[24.81,22,3.586,"(012)"],[46.23,20,1.962,"(202)"]] },
-    { id: "anhydrite", name: "Anhydrite", nameKo: "경석고", formula: "CaSO4", color: "#0369a1", rir: 2.10, defaultRir: 2.10, active: false,
-      peaks: [[25.44,100,3.498,"(002)"],[31.36,33,2.850,"(210)"],[38.63,22,2.329,"(202)"],[40.82,20,2.209,"(212)"],[48.68,15,1.869,"(230)"]] },
-    { id: "kaolinite", name: "Kaolinite", nameKo: "카올리나이트", formula: "Al2Si2O5(OH)4", color: "#0f766e", rir: 1.00, defaultRir: 1.00, active: false,
-      peaks: [[12.36,100,7.155,"(001)"],[24.88,80,3.576,"(002)"],[20.36,35,4.358,"(110)"],[38.45,30,2.339,"(202)"],[62.31,25,1.489,"(060)"]] },
-    { id: "albite", name: "Albite (Plagioclase)", nameKo: "조장석(사장석)", formula: "NaAlSi3O8", color: "#3730a3", rir: 1.10, defaultRir: 1.10, active: false,
-      peaks: [[27.93,100,3.192,"(002)"],[22.05,25,4.028,"(201)"],[23.54,20,3.776,"(111)"],[24.22,20,3.672,"(130)"],[30.48,18,2.930,"(041)"]] },
-    { id: "microcline", name: "Microcline (K-Feldspar)", nameKo: "미사장석(알칼리장석)", formula: "KAlSi3O8", color: "#86198f", rir: 0.95, defaultRir: 0.95, active: false,
-      peaks: [[27.46,100,3.246,"(002)"],[21.05,30,4.217,"(201)"],[25.63,25,3.473,"(112)"],[29.48,22,3.027,"(131)"],[41.80,20,2.159,"(060)"]] },
-    { id: "hematite", name: "Hematite", nameKo: "적철석", formula: "Fe2O3", color: "#991b1b", rir: 2.40, defaultRir: 2.40, active: false,
-      peaks: [[33.15,100,2.700,"(104)"],[35.61,70,2.519,"(110)"],[54.09,45,1.694,"(116)"],[49.48,40,1.841,"(024)"],[24.14,30,3.684,"(012)"],[40.85,20,2.207,"(113)"]] },
-    { id: "goethite", name: "Goethite", nameKo: "침철석", formula: "FeO(OH)", color: "#b45309", rir: 1.90, defaultRir: 1.90, active: false,
-      peaks: [[21.22,100,4.183,"(110)"],[36.65,50,2.450,"(111)"],[33.24,35,2.693,"(130)"],[53.24,30,1.719,"(221)"],[34.70,20,2.583,"(021)"]] },
-    { id: "fluorite", name: "Fluorite", nameKo: "형석", formula: "CaF2", color: "#15803d", rir: 3.60, defaultRir: 3.60, active: false,
-      peaks: [[28.27,94,3.154,"(111)"],[47.00,100,1.932,"(220)"],[55.76,35,1.647,"(311)"]] }
+    { id: "diopside", name: "Diopside", nameKo: "투휘석", formula: "CaMgSi2O6", color: "#16a34a", rir: 1.15, defaultRir: 1.15, active: false, peaks: [[29.80,100,3.000,"(221)"],[30.50,60,2.928,"(310)"],[35.50,55,2.527,"(022)"],[31.10,45,2.873,"(002)"],[27.60,30,3.230,"(220)"]] },
+    { id: "k_feldspar", name: "K-feldspar", nameKo: "칼륨장석", formula: "KAlSi3O8", color: "#854d0e", rir: 0.95, defaultRir: 0.95, active: false, peaks: [[27.50,100,3.242,"(002)"],[21.00,40,4.227,"(201)"],[27.80,35,3.207,"(220)"],[29.50,30,3.026,"(131)"],[23.60,25,3.767,"(111)"]] },
+    { id: "biotite", name: "Biotite", nameKo: "흑운모", formula: "K(Mg,Fe)3(AlSi3O10)(OH)2", color: "#52525b", rir: 1.20, defaultRir: 1.20, active: false, peaks: [[8.85,100,9.985,"(001)"],[26.80,85,3.324,"(006)"],[17.80,30,4.980,"(004)"],[19.90,25,4.459,"(020)"],[35.00,20,2.562,"(202)"]] },
+    { id: "apatite", name: "Apatite", nameKo: "인회석", formula: "Ca5(PO4)3(F,Cl,OH)", color: "#0284c7", rir: 1.10, defaultRir: 1.10, active: false, peaks: [[31.78,100,2.813,"(211)"],[25.87,85,3.442,"(002)"],[32.18,70,2.779,"(112)"],[28.93,55,3.084,"(210)"],[34.04,40,2.631,"(300)"]] },
+    { id: "muscovite", name: "Muscovite", nameKo: "백운모", formula: "KAl2(AlSi3O10)(OH)2", color: "#047857", rir: 0.90, defaultRir: 0.90, active: false, peaks: [[8.88,95,9.950,"(002)"],[26.82,100,3.321,"(006)"],[17.78,31,4.985,"(004)"],[34.96,25,2.564,"(202)"],[45.42,22,1.995,"(0010)"]] },
+    { id: "vaterite", name: "Vaterite", nameKo: "바테라이트", formula: "CaCO3", color: "#9d174d", rir: 1.30, defaultRir: 1.30, active: false, peaks: [[24.90,65,3.573,"(110)"],[27.05,100,3.294,"(112)"],[32.78,95,2.730,"(114)"],[43.85,50,2.063,"(300)"],[49.10,30,1.854,"(304)"],[50.08,45,1.820,"(118)"]] },
+    { id: "magnesite", name: "Magnesite", nameKo: "마그네사이트", formula: "MgCO3", color: "#6b21a8", rir: 2.30, defaultRir: 2.30, active: false, peaks: [[32.63,100,2.742,"(104)"],[42.99,43,2.102,"(113)"],[53.88,34,1.700,"(116)"],[35.85,12,2.503,"(110)"],[46.81,12,1.939,"(202)"]] },
+    { id: "siderite", name: "Siderite", nameKo: "능철석", formula: "FeCO3", color: "#78350f", rir: 2.80, defaultRir: 2.80, active: false, peaks: [[32.02,100,2.793,"(104)"],[52.76,35,1.734,"(116)"],[42.31,25,2.134,"(113)"],[24.81,22,3.586,"(012)"],[46.23,20,1.962,"(202)"]] },
+    { id: "anhydrite", name: "Anhydrite", nameKo: "경석고", formula: "CaSO4", color: "#0369a1", rir: 2.10, defaultRir: 2.10, active: false, peaks: [[25.44,100,3.498,"(002)"],[31.36,33,2.850,"(210)"],[38.63,22,2.329,"(202)"],[40.82,20,2.209,"(212)"],[48.68,15,1.869,"(230)"]] },
+    { id: "kaolinite", name: "Kaolinite", nameKo: "카올리나이트", formula: "Al2Si2O5(OH)4", color: "#0f766e", rir: 1.00, defaultRir: 1.00, active: false, peaks: [[12.36,100,7.155,"(001)"],[24.88,80,3.576,"(002)"],[20.36,35,4.358,"(110)"],[38.45,30,2.339,"(202)"],[62.31,25,1.489,"(060)"]] },
+    { id: "albite", name: "Albite (Plagioclase)", nameKo: "조장석(사장석)", formula: "NaAlSi3O8", color: "#3730a3", rir: 1.10, defaultRir: 1.10, active: false, peaks: [[27.93,100,3.192,"(002)"],[22.05,25,4.028,"(201)"],[23.54,20,3.776,"(111)"],[24.22,20,3.672,"(130)"],[30.48,18,2.930,"(041)"]] },
+    { id: "microcline", name: "Microcline (K-Feldspar)", nameKo: "미사장석(알칼리장석)", formula: "KAlSi3O8", color: "#86198f", rir: 0.95, defaultRir: 0.95, active: false, peaks: [[27.46,100,3.246,"(002)"],[21.05,30,4.217,"(201)"],[25.63,25,3.473,"(112)"],[29.48,22,3.027,"(131)"],[41.80,20,2.159,"(060)"]] },
+    { id: "hematite", name: "Hematite", nameKo: "적철석", formula: "Fe2O3", color: "#991b1b", rir: 2.40, defaultRir: 2.40, active: false, peaks: [[33.15,100,2.700,"(104)"],[35.61,70,2.519,"(110)"],[54.09,45,1.694,"(116)"],[49.48,40,1.841,"(024)"],[24.14,30,3.684,"(012)"],[40.85,20,2.207,"(113)"]] },
+    { id: "goethite", name: "Goethite", nameKo: "침철석", formula: "FeO(OH)", color: "#b45309", rir: 1.90, defaultRir: 1.90, active: false, peaks: [[21.22,100,4.183,"(110)"],[36.65,50,2.450,"(111)"],[33.24,35,2.693,"(130)"],[53.24,30,1.719,"(221)"],[34.70,20,2.583,"(021)"]] },
+    { id: "fluorite", name: "Fluorite", nameKo: "형석", formula: "CaF2", color: "#15803d", rir: 3.60, defaultRir: 3.60, active: false, peaks: [[28.27,94,3.154,"(111)"],[47.00,100,1.932,"(220)"],[55.76,35,1.647,"(311)"]] }
   ];
 
   const memStore = {};
@@ -1147,76 +639,35 @@
 
   let minerals = JSON.parse(JSON.stringify(CORE_MINERALS));
   let customSuites = [];
-  try {
-    const savedS = safeGet("isoxrd_custom_suites_v4");
-    if (savedS) customSuites = JSON.parse(savedS);
-  } catch (e) {}
+  try { const savedS = safeGet("isoxrd_custom_suites_v4"); if (savedS) customSuites = JSON.parse(savedS); } catch (e) {}
 
   let lang = "ko";
   let currentTheme = safeGet("isoxrd_theme_v4") || "linen";
   let savedDoi = safeGet("isoxrd_zenodo_doi") || DEFAULT_DOI;
-  let pubMode = false;
-  let viewMode = "stack";
-  let tableCollapsed = false;
-  let samples = [];
-  let activeSampleIdx = 0;
-  let selectedPeakIdx = -1;
-  let viewMin = 15, viewMax = 65;
-  let fullMin = 15, fullMax = 65;
+  let pubMode = false, viewMode = "stack", tableCollapsed = false;
+  let samples = [], activeSampleIdx = 0, selectedPeakIdx = -1;
+  let viewMin = 15, viewMax = 65, fullMin = 15, fullMax = 65;
 
   function renderGuideContent() {
     const sopEl = document.getElementById("sopManualContainer");
     const logEl = document.getElementById("changelogContainer");
     if (!sopEl || !logEl) return;
-
     const steps = SOP_CONTENT[lang] || SOP_CONTENT.ko;
-    sopEl.innerHTML = steps.map(st => `
-      <div class="sop-step">
-        <div class="sop-step-title">${st.title}</div>
-        <div class="sop-step-body">
-          <ul>${st.items.map(li => `<li>${li}</li>`).join("")}</ul>
-        </div>
-      </div>
-    `).join("");
-
+    sopEl.innerHTML = steps.map(st => `<div class="sop-step"><div class="sop-step-title">${st.title}</div><div class="sop-step-body"><ul>${st.items.map(li => `<li>${li}</li>`).join("")}</ul></div></div>`).join("");
     logEl.innerHTML = CHANGELOG_DATA.map(entry => {
       const notes = lang === "ko" ? entry.notesKo : entry.notesEn;
-      return `
-        <div class="log-entry">
-          <div class="log-header">
-            <span class="log-ver">${entry.ver}</span>
-            <span class="log-date">${entry.date}</span>
-          </div>
-          <ul class="log-list">${notes.map(n => `<li>${n}</li>`).join("")}</ul>
-        </div>
-      `;
+      return `<div class="log-entry"><div class="log-header"><span class="log-ver">${entry.ver}</span><span class="log-date">${entry.date}</span></div><ul class="log-list">${notes.map(n => `<li>${n}</li>`).join("")}</ul></div>`;
     }).join("");
   }
 
   function renderCitationTexts() {
     const cleanDoi = (savedDoi || DEFAULT_DOI).replace(/^https?:\/\/doi\.org\//i, "").trim();
     const doiUrl = cleanDoi.startsWith("10.") ? `https://doi.org/${cleanDoi}` : "https://github.com/zinidsy-spec/IsoXRD";
-
     document.getElementById("inpZenodoDoi").value = cleanDoi;
     document.getElementById("linkZenodoDoi").href = doiUrl;
-
-    document.getElementById("citeTextStatement").textContent =
-      `X-ray diffraction (XRD) baseline subtraction, non-linear sample height displacement correction (Δ2θ = s₀ + s₁cosθ), adaptive-FWHM Pseudo-Voigt deconvolution, and preferred-orientation-attenuated multi-peak RIR (I/Ic) semi-quantitative weight quantification were performed using IsoXRD v4.6 (Yang, 2026; ${doiUrl}).`;
-
-    document.getElementById("citeTextApa").textContent =
-      `Yang, Y.-S. (2026). IsoXRD: Lightweight Browser-Based XRD Phase Identification and Semi-Quantitative Carbonate Analysis Tool (Version 4.6) [Computer software]. Zenodo. ${doiUrl}`;
-
-    document.getElementById("citeTextBib").textContent =
-`@software{Yang_IsoXRD_2026,
-  author       = {Yang, Yun-Seok},
-  title        = {{IsoXRD: Lightweight Browser-Based XRD Phase Identification and Semi-Quantitative Carbonate Analysis Tool}},
-  month        = nov,
-  year         = 2026,
-  publisher    = {Zenodo},
-  version      = {v4.6},
-  doi          = {${cleanDoi}},
-  url          = {${doiUrl}}
-}`;
+    document.getElementById("citeTextStatement").textContent = `X-ray diffraction (XRD) baseline subtraction, non-linear sample height displacement correction (Δ2θ = s₀ + s₁cosθ), adaptive-FWHM Pseudo-Voigt deconvolution, and preferred-orientation-attenuated multi-peak RIR (I/Ic) semi-quantitative weight quantification were performed using IsoXRD v4.6.1 (Yang, 2026; ${doiUrl}).`;
+    document.getElementById("citeTextApa").textContent = `Yang, Y.-S. (2026). IsoXRD: Lightweight Browser-Based XRD Phase Identification and Semi-Quantitative Carbonate Analysis Tool (Version 4.6.1) [Computer software]. Zenodo. ${doiUrl}`;
+    document.getElementById("citeTextBib").textContent = `@software{Yang_IsoXRD_2026,\n  author       = {Yang, Yun-Seok},\n  title        = {{IsoXRD: Lightweight Browser-Based XRD Phase Identification and Semi-Quantitative Carbonate Analysis Tool}},\n  month        = nov,\n  year         = 2026,\n  publisher    = {Zenodo},\n  version      = {v4.6.1},\n  doi          = {${cleanDoi}},\n  url          = {${doiUrl}}\n}`;
   }
 
   function setTheme(themeKey, persist = true) {
@@ -1224,9 +675,7 @@
     currentTheme = themeKey;
     if (persist) safeSet("isoxrd_theme_v4", themeKey);
     document.body.setAttribute("data-theme", themeKey);
-    document.querySelectorAll("#themeSwitcher .theme-btn").forEach(btn => {
-      btn.classList.toggle("active", btn.dataset.themeVal === themeKey);
-    });
+    document.querySelectorAll("#themeSwitcher .theme-btn").forEach(btn => btn.classList.toggle("active", btn.dataset.themeVal === themeKey));
     const pal = THEME_CHART_PALETTE[currentTheme].traces;
     samples.forEach((s, i) => { s.color = pal[i % pal.length]; });
     renderSampleList();
@@ -1244,32 +693,17 @@
         if (!existing.defaultRir) existing.defaultRir = existing.rir;
       } else {
         const r = item.rir || 1.2;
-        minerals.push({
-          id: item.id,
-          name: item.name || item.id,
-          nameKo: item.nameKo || item.name || item.id,
-          formula: item.formula || "",
-          color: item.color || "#57534e",
-          rir: r,
-          defaultRir: r,
-          active: item.active !== undefined ? item.active : defaultActive,
-          peaks: item.peaks
-        });
+        minerals.push({ id: item.id, name: item.name || item.id, nameKo: item.nameKo || item.name || item.id, formula: item.formula || "", color: item.color || "#57534e", rir: r, defaultRir: r, active: item.active !== undefined ? item.active : defaultActive, peaks: item.peaks });
       }
     });
   }
 
-  try {
-    const savedCustom = safeGet("isoxrd_custom_minerals_v2");
-    if (savedCustom) mergeMinerals(JSON.parse(savedCustom), false);
-  } catch (e) {}
+  try { const savedCustom = safeGet("isoxrd_custom_minerals_v2"); if (savedCustom) mergeMinerals(JSON.parse(savedCustom), false); } catch (e) {}
 
   function applySavedRirOverrides() {
     try {
       const rirMap = JSON.parse(safeGet("isoxrd_rir_overrides_v4") || "{}");
-      minerals.forEach(m => {
-        if (rirMap[m.id] && !isNaN(rirMap[m.id])) m.rir = rirMap[m.id];
-      });
+      minerals.forEach(m => { if (rirMap[m.id] && !isNaN(rirMap[m.id])) m.rir = rirMap[m.id]; });
     } catch (e) {}
   }
 
@@ -1283,19 +717,12 @@
     const grid = document.getElementById("suitePresetGrid");
     if (!grid) return;
     grid.innerHTML = "";
-    const allSuites = [...BUILTIN_SUITES, ...customSuites];
-    allSuites.forEach(suite => {
+    [...BUILTIN_SUITES, ...customSuites].forEach(suite => {
       const btn = document.createElement("button");
       btn.className = "suite-btn";
       btn.textContent = lang === "ko" ? suite.labelKo : (suite.labelEn || suite.labelKo);
       btn.title = suite.ids.join(", ");
-      btn.onclick = () => {
-        minerals.forEach(m => {
-          m.active = suite.ids.includes(m.id);
-        });
-        renderDbPills();
-        reprocessAllSamples(false);
-      };
+      btn.onclick = () => { minerals.forEach(m => { m.active = suite.ids.includes(m.id); }); renderDbPills(); reprocessAllSamples(false); };
       grid.appendChild(btn);
     });
   }
@@ -1303,7 +730,7 @@
   async function loadExternalPresetJson() {
     const badge = document.getElementById("presetSourceBadge");
     try {
-      if (window.location.protocol === "file:") throw new Error("Local file protocol");
+      if (window.location.protocol === "file:") throw new Error("Local file");
       const resp = await fetch("./presets/lab_custom_minerals.json", { cache: "no-cache" });
       if (!resp.ok) throw new Error("HTTP " + resp.status);
       const data = await resp.json();
@@ -1321,8 +748,7 @@
 
   function smoothArray(arr, win) {
     if (win <= 1) return arr.slice();
-    const half = Math.floor(win / 2);
-    const out = new Array(arr.length);
+    const half = Math.floor(win / 2), out = new Array(arr.length);
     for (let i = 0; i < arr.length; i++) {
       let sum = 0, cnt = 0;
       const s = Math.max(0, i - half), e = Math.min(arr.length - 1, i + half);
@@ -1333,119 +759,77 @@
   }
 
   function estimateBaseline(arr, stepDeg) {
-    const winPts = Math.max(15, Math.round(2.2 / Math.max(0.001, stepDeg)));
-    const half = Math.floor(winPts / 2);
-    const minPass = new Array(arr.length);
+    const winPts = Math.max(15, Math.round(2.2 / Math.max(0.001, stepDeg))), half = Math.floor(winPts / 2), minPass = new Array(arr.length);
     for (let i = 0; i < arr.length; i++) {
       let m = Infinity;
       const s = Math.max(0, i - half), e = Math.min(arr.length - 1, i + half);
-      for (let j = s; j <= e; j += 2) {
-        if (arr[j] < m) m = arr[j];
-      }
+      for (let j = s; j <= e; j += 2) if (arr[j] < m) m = arr[j];
       minPass[i] = m;
     }
     return smoothArray(minPass, Math.max(5, Math.floor(winPts / 2) | 1));
   }
 
-  function corr2Theta(obs2T, s0, s1) {
-    const rad = (obs2T / 2) * Math.PI / 180;
-    return obs2T - (s0 + s1 * Math.cos(rad));
-  }
-
-  function stdToObs2Theta(std2T, s0, s1) {
-    const rad = (std2T / 2) * Math.PI / 180;
-    return std2T + (s0 + s1 * Math.cos(rad));
-  }
+  function corr2Theta(obs2T, s0, s1) { return obs2T - (s0 + s1 * Math.cos((obs2T / 2) * Math.PI / 180)); }
+  function stdToObs2Theta(std2T, s0, s1) { return std2T + (s0 + s1 * Math.cos((std2T / 2) * Math.PI / 180)); }
 
   function computeIntegratedArea(xArr, netArr, peakIdx, stepDeg) {
     const halfPts = Math.max(3, Math.round(0.32 / Math.max(0.001, stepDeg)));
-    const start = Math.max(0, peakIdx - halfPts);
-    const end = Math.min(netArr.length - 1, peakIdx + halfPts);
+    const start = Math.max(0, peakIdx - halfPts), end = Math.min(netArr.length - 1, peakIdx + halfPts);
     let area = 0;
-    for (let i = start; i < end; i++) {
-      const dx = xArr[i + 1] - xArr[i];
-      area += 0.5 * (netArr[i] + netArr[i + 1]) * dx;
-    }
+    for (let i = start; i < end; i++) area += 0.5 * (netArr[i] + netArr[i + 1]) * (xArr[i + 1] - xArr[i]);
     return Math.max(0, area);
   }
 
   function estimateLocalFwhm(xArr, yArr, centerIdx, stepDeg) {
     const peakY = yArr[centerIdx];
     if (peakY <= 20) return 0.22;
-    const halfMax = peakY * 0.5;
-    const maxSearchPts = Math.max(4, Math.round(0.35 / Math.max(0.001, stepDeg)));
-
+    const halfMax = peakY * 0.5, maxSearchPts = Math.max(4, Math.round(0.35 / Math.max(0.001, stepDeg)));
     let leftX = xArr[centerIdx] - 0.11;
     for (let i = centerIdx; i >= Math.max(1, centerIdx - maxSearchPts); i--) {
       if (yArr[i] <= halfMax) {
         const dy = Math.max(1e-6, yArr[i + 1] - yArr[i]);
-        const frac = (halfMax - yArr[i]) / dy;
-        leftX = xArr[i] + frac * (xArr[i + 1] - xArr[i]);
+        leftX = xArr[i] + ((halfMax - yArr[i]) / dy) * (xArr[i + 1] - xArr[i]);
         break;
       }
     }
-
     let rightX = xArr[centerIdx] + 0.11;
     for (let i = centerIdx; i <= Math.min(xArr.length - 2, centerIdx + maxSearchPts); i++) {
       if (yArr[i] <= halfMax) {
         const dy = Math.max(1e-6, yArr[i - 1] - yArr[i]);
-        const frac = (halfMax - yArr[i]) / dy;
-        rightX = xArr[i] - frac * (xArr[i] - xArr[i - 1]);
+        rightX = xArr[i] - ((halfMax - yArr[i]) / dy) * (xArr[i] - xArr[i - 1]);
         break;
       }
     }
-
-    const fwhm = rightX - leftX;
-    return Math.min(0.45, Math.max(0.10, fwhm));
+    return Math.min(0.45, Math.max(0.10, rightX - leftX));
   }
 
   function pseudoVoigtBasis(x, x0, fwhm, eta = 0.55) {
-    const dx = x - x0;
-    const halfW = fwhm * 0.5;
-    const u = dx / halfW;
-    const u2 = u * u;
+    const halfW = fwhm * 0.5, u = (x - x0) / halfW, u2 = u * u;
     if (u2 > 64) return 0;
-    const gauss = (Math.sqrt(Math.LN2 / Math.PI) / halfW) * Math.exp(-Math.LN2 * u2);
-    const lorentz = (1 / (Math.PI * halfW)) / (1 + u2);
-    return eta * lorentz + (1 - eta) * gauss;
+    return eta * ((1 / (Math.PI * halfW)) / (1 + u2)) + (1 - eta) * ((Math.sqrt(Math.LN2 / Math.PI) / halfW) * Math.exp(-Math.LN2 * u2));
   }
 
-  function deconvolveActiveMinerals(sample, activeMins, usePoCorrection) {
-    const nPts = sample.rawX.length;
-    const sMin = sample.rawX[0], sMax = sample.rawX[nPts - 1];
-    const step = (sMax - sMin) / Math.max(1, nPts - 1);
-    const eta = 0.55;
-
+  function deconvolveActiveMinerals(sample, activeMins, usePoCorrection, useSnrFilter = true) {
+    const nPts = sample.rawX.length, sMin = sample.rawX[0], sMax = sample.rawX[nPts - 1];
+    const step = (sMax - sMin) / Math.max(1, nPts - 1), eta = 0.55;
     const components = [];
+
     activeMins.forEach(min => {
       const subPeaks = [];
       min.peaks.forEach(([std2T, relI]) => {
         if (relI < 15) return;
         const obsCenter = stdToObs2Theta(std2T, sample.s0, sample.s1);
         if (obsCenter < sMin + 0.1 || obsCenter > sMax - 0.1) return;
-
-        let snappedIdx = -1;
-        let maxLocalY = -1;
+        let snappedIdx = -1, maxLocalY = -1;
         for (let i = 0; i < nPts; i++) {
-          if (Math.abs(sample.rawX[i] - obsCenter) <= 0.06) {
-            if (sample.netY[i] > maxLocalY) {
-              maxLocalY = sample.netY[i];
-              snappedIdx = i;
-            }
+          if (Math.abs(sample.rawX[i] - obsCenter) <= 0.06 && sample.netY[i] > maxLocalY) {
+            maxLocalY = sample.netY[i]; snappedIdx = i;
           }
         }
         const snappedCenter = snappedIdx !== -1 ? sample.rawX[snappedIdx] : obsCenter;
         const localFwhm = snappedIdx !== -1 ? estimateLocalFwhm(sample.rawX, sample.netY, snappedIdx, step) : 0.22;
-
-        subPeaks.push({
-          center: snappedCenter,
-          idx: snappedIdx,
-          fwhm: localFwhm,
-          relI,
-          weight: relI / 100
-        });
+        subPeaks.push({ center: snappedCenter, idx: snappedIdx, fwhm: localFwhm, relI, weight: relI / 100 });
       });
-
       if (subPeaks.length === 0) return;
 
       const basis = new Float64Array(nPts);
@@ -1455,49 +839,46 @@
         let val = 0;
         for (let k = 0; k < subPeaks.length; k++) {
           const sp = subPeaks[k];
-          if (Math.abs(x - sp.center) <= 2.2) {
-            val += sp.weight * pseudoVoigtBasis(x, sp.center, sp.fwhm, eta);
-          }
+          if (Math.abs(x - sp.center) <= 2.2) val += sp.weight * pseudoVoigtBasis(x, sp.center, sp.fwhm, eta);
         }
         basis[i] = val;
         normSq += val * val;
       }
-
-      if (normSq > 1e-8) {
-        components.push({
-          min,
-          subPeaks,
-          basis,
-          normSq,
-          areaScale: 0,
-          poFactor: 1.0
-        });
-      }
+      if (normSq > 1e-8) components.push({ min, subPeaks, basis, normSq, areaScale: 0, poFactor: 1.0 });
     });
 
     const residual = Float64Array.from(sample.netY);
     for (let iter = 0; iter < 28; iter++) {
       let maxDelta = 0;
       for (let c = 0; c < components.length; c++) {
-        const comp = components[c];
-        const b = comp.basis;
+        const comp = components[c], b = comp.basis;
         let dot = 0;
-        for (let i = 0; i < nPts; i++) {
-          if (b[i] > 0) dot += b[i] * residual[i];
-        }
-        const delta = dot / comp.normSq;
-        const oldA = comp.areaScale;
-        const newA = Math.max(0, oldA + delta);
-        const diffA = newA - oldA;
+        for (let i = 0; i < nPts; i++) if (b[i] > 0) dot += b[i] * residual[i];
+        const delta = dot / comp.normSq, oldA = comp.areaScale, newA = Math.max(0, oldA + delta), diffA = newA - oldA;
         if (Math.abs(diffA) > 1e-4) {
           comp.areaScale = newA;
-          for (let i = 0; i < nPts; i++) {
-            if (b[i] > 0) residual[i] -= diffA * b[i];
-          }
+          for (let i = 0; i < nPts; i++) if (b[i] > 0) residual[i] -= diffA * b[i];
           if (Math.abs(diffA) > maxDelta) maxDelta = Math.abs(diffA);
         }
       }
       if (maxDelta < 0.05) break;
+    }
+
+    if (useSnrFilter) {
+      const sortedNet = Array.from(sample.netY).sort((a, b) => a - b);
+      const q10 = sortedNet[Math.floor(nPts * 0.10)] || 0;
+      const q40 = sortedNet[Math.floor(nPts * 0.40)] || 0;
+      const noiseSigma = Math.max(1.5, (q40 - q10) * 1.1);
+
+      components.forEach(comp => {
+        if (comp.areaScale <= 0) return;
+        let maxFittedHeight = 0;
+        for (let i = 0; i < nPts; i++) {
+          const h = comp.areaScale * comp.basis[i];
+          if (h > maxFittedHeight) maxFittedHeight = h;
+        }
+        if (maxFittedHeight < noiseSigma * 3.5) comp.areaScale = 0;
+      });
     }
 
     if (usePoCorrection) {
@@ -1517,8 +898,7 @@
         const obsPrimaryCrest = getLocalCrest(primary.idx);
         if (obsPrimaryCrest <= 30) return;
 
-        let expectedSecSum = 0;
-        let observedSecSum = 0;
+        let expectedSecSum = 0, observedSecSum = 0;
         secondaries.forEach(sp => {
           const expectedH = obsPrimaryCrest * (sp.relI / primary.relI);
           const obsH = getLocalCrest(sp.idx);
@@ -1528,9 +908,7 @@
 
         if (expectedSecSum > 15) {
           const consistencyRatio = observedSecSum / expectedSecSum;
-          if (consistencyRatio < 0.85) {
-            comp.poFactor = Math.max(0.22, Math.min(1.0, Math.pow(consistencyRatio / 0.85, 1.15)));
-          }
+          if (consistencyRatio < 0.85) comp.poFactor = Math.max(0.22, Math.min(1.0, Math.pow(consistencyRatio / 0.85, 1.15)));
         }
       });
     }
@@ -1539,13 +917,10 @@
     for (let c = 0; c < components.length; c++) {
       const comp = components[c];
       if (comp.areaScale <= 0) continue;
-      for (let i = 0; i < nPts; i++) {
-        fitY[i] += comp.areaScale * comp.basis[i];
-      }
+      for (let i = 0; i < nPts; i++) fitY[i] += comp.areaScale * comp.basis[i];
     }
     sample.fitY = Array.from(fitY);
     sample.resY = sample.netY.map((v, i) => v - sample.fitY[i]);
-
     return components;
   }
 
@@ -1554,6 +929,7 @@
     const promPct = parseFloat(document.getElementById("sliderProm").value);
     const useBase = document.getElementById("chkBaseline").checked;
     const usePo = document.getElementById("chkAutoPo").checked;
+    const useSnr = document.getElementById("chkSnrFilter").checked;
     const wl = parseFloat(document.getElementById("wavelengthSelect").value);
 
     sample.smoothY = smoothArray(sample.rawY, win);
@@ -1572,9 +948,7 @@
         const rightMin = Math.min(...sample.netY.slice(i + 1, Math.min(sample.netY.length, i + minDistPts * 2)));
         if (sample.netY[i] - Math.max(leftMin, rightMin) >= minProm * 0.65) {
           if (peaks.length && (i - peaks[peaks.length - 1].idx) < minDistPts) {
-            if (sample.netY[i] > peaks[peaks.length - 1].net) {
-              peaks[peaks.length - 1] = { idx: i, obs2T: sample.rawX[i], net: sample.netY[i], raw: sample.smoothY[i] };
-            }
+            if (sample.netY[i] > peaks[peaks.length - 1].net) peaks[peaks.length - 1] = { idx: i, obs2T: sample.rawX[i], net: sample.netY[i], raw: sample.smoothY[i] };
           } else {
             peaks.push({ idx: i, obs2T: sample.rawX[i], net: sample.netY[i], raw: sample.smoothY[i] });
           }
@@ -1582,13 +956,8 @@
       }
     }
 
-    peaks.forEach(p => {
-      p.area = computeIntegratedArea(sample.rawX, sample.netY, p.idx, step);
-    });
-
-    if (autoFitFirst && peaks.length) {
-      autoFitSampleShift(sample, peaks);
-    }
+    peaks.forEach(p => { p.area = computeIntegratedArea(sample.rawX, sample.netY, p.idx, step); });
+    if (autoFitFirst && peaks.length) autoFitSampleShift(sample, peaks);
 
     const topArea = peaks.length ? Math.max(...peaks.map(p => p.area), 1e-6) : 1;
     const topNet = peaks.length ? Math.max(...peaks.map(p => p.net), 1e-6) : 1;
@@ -1613,12 +982,7 @@
           if (Math.abs(diff) <= 0.16) {
             const penalty = Math.abs(diff) * 100 - relI * 0.05;
             if (!bestMatch || penalty < bestMatch.penalty) {
-              bestMatch = {
-                label: `${lang === "ko" ? min.nameKo : min.name} ${hkl || ""}`.trim(),
-                bilingualLabel: `${min.nameKo} / ${min.name} ${hkl || ""}`.trim(),
-                diff,
-                penalty
-              };
+              bestMatch = { label: `${lang === "ko" ? min.nameKo : min.name} ${hkl || ""}`.trim(), bilingualLabel: `${min.nameKo} / ${min.name} ${hkl || ""}`.trim(), diff, penalty };
             }
           }
         });
@@ -1629,27 +993,34 @@
       p.matchDiff = bestMatch ? bestMatch.diff : null;
     });
 
-    const deconvComponents = deconvolveActiveMinerals(sample, activeMins, usePo);
+    const deconvComponents = deconvolveActiveMinerals(sample, activeMins, usePo, useSnr);
 
-    let totalWeight = 0;
+    let rawTotalWeight = 0;
     const phaseWeights = activeMins.map(min => {
       const comp = deconvComponents.find(c => c.min.id === min.id);
       const deconvolvedI100Area = comp ? (comp.areaScale * comp.poFactor) : 0;
       const poFactor = comp ? comp.poFactor : 1.0;
       const rir = min.rir || 1.2;
       const w = deconvolvedI100Area > 0 ? (deconvolvedI100Area / rir) : 0;
-      totalWeight += w;
+      rawTotalWeight += w;
       return { id: min.id, nameKo: min.nameKo, nameEn: min.name, color: min.color, rir, poFactor, weight: w };
     });
+
+    let totalWeight = 0;
+    if (rawTotalWeight > 0) {
+      phaseWeights.forEach(item => {
+        if ((item.weight / rawTotalWeight) * 100 < 0.2) item.weight = 0;
+        else totalWeight += item.weight;
+      });
+    }
 
     sample.phaseQuantList = [];
     if (totalWeight > 0) {
       let runningSum = 0;
       const sortedW = phaseWeights.sort((a, b) => b.weight - a.weight);
       sortedW.forEach(item => {
-        if (item.weight <= 0) {
-          sample.phaseQuantList.push({ ...item, pct: 0 });
-        } else {
+        if (item.weight <= 0) sample.phaseQuantList.push({ ...item, pct: 0 });
+        else {
           const pct = Math.round((item.weight / totalWeight) * 1000) / 10;
           sample.phaseQuantList.push({ ...item, pct });
           runningSum += pct;
@@ -1667,46 +1038,33 @@
   function autoFitSampleShift(sample, peaks) {
     const strongest = peaks.reduce((a, b) => b.net > a.net ? b : a, peaks[0]);
     let bestScore = -1, bestS0 = 0, bestS1 = 0;
-
     minerals.forEach(min => {
       min.peaks.forEach(([std2T, relI]) => {
         if (relI < 50) return;
         const approxShift = strongest.obs2T - std2T;
         if (Math.abs(approxShift) > 0.65) return;
-
         for (let ds1 = -0.15; ds1 <= 0.15; ds1 += 0.03) {
-          const rad = (std2T / 2) * Math.PI / 180;
-          const ds0 = approxShift - ds1 * Math.cos(rad);
+          const ds0 = approxShift - ds1 * Math.cos((std2T / 2) * Math.PI / 180);
           if (Math.abs(ds0) > 0.6) continue;
-
           let hits = 0;
           min.peaks.forEach(([p2T, pRel]) => {
-            const pRad = (p2T / 2) * Math.PI / 180;
-            const predObs = p2T + ds0 + ds1 * Math.cos(pRad);
+            const predObs = p2T + ds0 + ds1 * Math.cos((p2T / 2) * Math.PI / 180);
             const match = peaks.find(dp => Math.abs(dp.obs2T - predObs) <= 0.10);
             if (match) hits += pRel * (1 - Math.abs(match.obs2T - predObs) / 0.12);
           });
           hits -= Math.abs(ds1) * 5;
-          if (hits > bestScore) {
-            bestScore = hits;
-            bestS0 = ds0;
-            bestS1 = ds1;
-          }
+          if (hits > bestScore) { bestScore = hits; bestS0 = ds0; bestS1 = ds1; }
         }
       });
     });
-
     sample.s0 = Math.round(bestS0 * 1000) / 1000;
     sample.s1 = Math.round(bestS1 * 1000) / 1000;
   }
 
   function scoreSampleMinerals(sample) {
-    const tol = 0.16;
-    const sMin = sample.rawX[0], sMax = sample.rawX[sample.rawX.length - 1];
+    const tol = 0.16, sMin = sample.rawX[0], sMax = sample.rawX[sample.rawX.length - 1];
     return minerals.map(min => {
-      let stdWeightTotal = 0, matchedStdWeight = 0;
-      let hasDominantLine = false, dominantRequired = false;
-
+      let stdWeightTotal = 0, matchedStdWeight = 0, hasDominantLine = false, dominantRequired = false;
       min.peaks.forEach(([p2T, relI]) => {
         if (p2T < sMin || p2T > sMax) return;
         stdWeightTotal += relI;
@@ -1715,28 +1073,21 @@
           const diff = Math.abs(dp.corr2T - p2T);
           return diff < acc.diff ? { diff, dp } : acc;
         }, { diff: Infinity, dp: null });
-
         if (best.diff <= tol) {
-          const prox = Math.exp(-Math.pow(best.diff / 0.08, 2));
-          matchedStdWeight += relI * prox;
+          matchedStdWeight += relI * Math.exp(-Math.pow(best.diff / 0.08, 2));
           if (relI >= 80 && best.dp.rel >= 15) hasDominantLine = true;
         }
       });
-
       if (stdWeightTotal === 0) return { min, score: 0 };
       const recall = matchedStdWeight / stdWeightTotal;
-
       let obsExplained = 0, obsTotal = 0;
       sample.peaks.forEach(dp => {
         obsTotal += dp.rel;
-        const hit = min.peaks.some(([p2T]) => Math.abs(dp.corr2T - p2T) <= tol);
-        if (hit) obsExplained += dp.rel;
+        if (min.peaks.some(([p2T]) => Math.abs(dp.corr2T - p2T) <= tol)) obsExplained += dp.rel;
       });
       const precision = obsTotal > 0 ? (obsExplained / obsTotal) : 0;
-
       let f1 = (recall + precision) > 0 ? (2 * recall * precision) / (recall + precision) : 0;
       if (dominantRequired && !hasDominantLine) f1 *= 0.12;
-
       return { min, score: Math.min(100, Math.round(f1 * 100)) };
     }).sort((a, b) => b.score - a.score);
   }
@@ -1750,7 +1101,6 @@
   function syncActiveSampleUI() {
     const s = samples[activeSampleIdx];
     if (!s) return;
-
     document.getElementById("sliderS0").value = s.s0;
     document.getElementById("sliderS1").value = s.s1;
     document.getElementById("lblS0").textContent = (s.s0 >= 0 ? "+" : "") + s.s0.toFixed(3) + "°";
@@ -1760,23 +1110,17 @@
     document.getElementById("chipSampleInfo").textContent = `${s.name} [${activeSampleIdx + 1}/${samples.length}]`;
     document.getElementById("chipShiftInfo").textContent = `Δ2θ: ${(midShift >= 0 ? "+" : "") + midShift.toFixed(3)}°`;
 
-    const barEl = document.getElementById("multiPhaseBar");
-    const listEl = document.getElementById("multiPhaseList");
-    barEl.innerHTML = "";
-    listEl.innerHTML = "";
+    const barEl = document.getElementById("multiPhaseBar"), listEl = document.getElementById("multiPhaseList");
+    barEl.innerHTML = ""; listEl.innerHTML = "";
 
     const allActiveQuant = s.phaseQuantList || [];
     const nonZeroQuant = allActiveQuant.filter(item => item.pct > 0);
     if (nonZeroQuant.length > 0) {
       const topQ = nonZeroQuant[0];
-      document.getElementById("chipQuantTop").textContent =
-        `${lang === "ko" ? topQ.nameKo : topQ.nameEn} ${topQ.pct.toFixed(1)}%`;
-
+      document.getElementById("chipQuantTop").textContent = `${lang === "ko" ? topQ.nameKo : topQ.nameEn} ${topQ.pct.toFixed(1)}%`;
       nonZeroQuant.forEach(item => {
         const seg = document.createElement("div");
-        seg.style.width = item.pct + "%";
-        seg.style.background = item.color;
-        seg.title = `${item.nameEn}: ${item.pct.toFixed(1)}% (PO=${item.poFactor.toFixed(2)})`;
+        seg.style.width = item.pct + "%"; seg.style.background = item.color;
         barEl.appendChild(seg);
       });
     } else {
@@ -1785,32 +1129,13 @@
 
     if (allActiveQuant.length > 0) {
       allActiveQuant.forEach(item => {
-        const poTag = item.poFactor < 0.98
-          ? `<span class="po-badge" title="Preferred Orientation Attenuation Factor">PO×${item.poFactor.toFixed(2)}</span>`
-          : "";
+        const poTag = item.poFactor < 0.98 ? `<span class="po-badge">PO×${item.poFactor.toFixed(2)}</span>` : "";
         const r = document.createElement("div");
         r.className = "quant-row";
-        r.innerHTML = `
-          <span style="min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; display:flex; align-items:center; gap:3px;">
-            <span class="rank-dot" style="background:${item.color}; margin-right:1px;"></span>
-            <strong>${lang === "ko" ? item.nameKo : item.nameEn}</strong>
-            ${poTag}
-          </span>
-          <div style="display:flex; align-items:center; gap:3px; flex-shrink:0;">
-            <span style="font-size:9.5px; color:var(--muted);">RIR:</span>
-            <input type="number" class="rir-inline-inp" data-min-id="${item.id}" value="${item.rir.toFixed(2)}" step="0.05" min="0.1" max="20" title="Edit I/Ic RIR factor" />
-            <span class="mono" style="font-weight:700; width:44px; text-align:right; color:${item.pct > 0 ? 'var(--text)' : 'var(--muted)'};">${item.pct > 0 ? item.pct.toFixed(1) + '%' : 'trace'}</span>
-          </div>
-        `;
-        const inp = r.querySelector("input");
-        inp.onchange = e => {
-          const val = parseFloat(e.target.value);
-          const mObj = minerals.find(m => m.id === item.id);
-          if (mObj && !isNaN(val) && val > 0) {
-            mObj.rir = val;
-            saveRirOverrides();
-            reprocessAllSamples(false);
-          }
+        r.innerHTML = `<span style="min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; display:flex; align-items:center; gap:3px;"><span class="rank-dot" style="background:${item.color}; margin-right:1px;"></span><strong>${lang === "ko" ? item.nameKo : item.nameEn}</strong>${poTag}</span><div style="display:flex; align-items:center; gap:3px; flex-shrink:0;"><span style="font-size:9.5px; color:var(--muted);">RIR:</span><input type="number" class="rir-inline-inp" value="${item.rir.toFixed(2)}" step="0.05" min="0.1" max="20" /><span class="mono" style="font-weight:700; width:44px; text-align:right; color:${item.pct > 0 ? 'var(--text)' : 'var(--muted)'};">${item.pct > 0 ? item.pct.toFixed(1) + '%' : '—'}</span></div>`;
+        r.querySelector("input").onchange = e => {
+          const val = parseFloat(e.target.value), mObj = minerals.find(m => m.id === item.id);
+          if (mObj && !isNaN(val) && val > 0) { mObj.rir = val; saveRirOverrides(); reprocessAllSamples(false); }
         };
         listEl.appendChild(r);
       });
@@ -1818,11 +1143,7 @@
       listEl.innerHTML = `<div style="font-size:11px; color:var(--muted); text-align:center;">[2. 광물/프리셋] 탭에서 광물을 선택하세요.</div>`;
     }
 
-    renderSampleList();
-    renderRankList(s);
-    renderPeakTable(s);
-    renderBatchTable();
-    renderChart();
+    renderSampleList(); renderRankList(s); renderPeakTable(s); renderBatchTable(); renderChart();
   }
 
   function renderSampleList() {
@@ -1830,28 +1151,11 @@
     list.innerHTML = "";
     samples.forEach((s, idx) => {
       const topQ = (s.phaseQuantList || []).find(x => x.pct > 0);
-      const tag = topQ ? `${topQ.nameEn} ${topQ.pct.toFixed(0)}%` : "—";
       const row = document.createElement("div");
       row.className = "sample-row" + (idx === activeSampleIdx ? " active" : "");
-      row.innerHTML = `
-        <div style="display:flex; align-items:center; gap:5px; min-width:0; flex:1;">
-          <input type="checkbox" ${s.visible ? "checked" : ""} title="Show in Stack" />
-          <span class="sample-swatch" style="background:${s.color}"></span>
-          <span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${s.name}</span>
-        </div>
-        <span class="mono" style="font-size:10px; color:var(--muted);">${tag}</span>
-      `;
-      const chk = row.querySelector("input");
-      chk.onclick = e => {
-        e.stopPropagation();
-        s.visible = chk.checked;
-        renderChart();
-      };
-      row.onclick = () => {
-        activeSampleIdx = idx;
-        selectedPeakIdx = -1;
-        syncActiveSampleUI();
-      };
+      row.innerHTML = `<div style="display:flex; align-items:center; gap:5px; min-width:0; flex:1;"><input type="checkbox" ${s.visible ? "checked" : ""} /><span class="sample-swatch" style="background:${s.color}"></span><span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${s.name}</span></div><span class="mono" style="font-size:10px; color:var(--muted);">${topQ ? topQ.nameEn + " " + topQ.pct.toFixed(0) + "%" : "—"}</span>`;
+      row.querySelector("input").onclick = e => { e.stopPropagation(); s.visible = e.target.checked; renderChart(); };
+      row.onclick = () => { activeSampleIdx = idx; selectedPeakIdx = -1; syncActiveSampleUI(); };
       list.appendChild(row);
     });
   }
@@ -1862,21 +1166,13 @@
     const top4 = sample.ranked.slice(0, 4);
     if (top4.length) {
       const m1 = top4[0].min;
-      document.getElementById("chipTopMatch").textContent =
-        `Match: ${lang === "ko" ? m1.nameKo : m1.name} (${top4[0].score}%)`;
+      document.getElementById("chipTopMatch").textContent = `Match: ${lang === "ko" ? m1.nameKo : m1.name} (${top4[0].score}%)`;
     }
     top4.forEach(({ min, score }) => {
       const div = document.createElement("div");
       div.className = "rank-item";
-      div.innerHTML = `
-        <span><span class="rank-dot" style="background:${min.color}"></span><strong>${lang === "ko" ? min.nameKo : min.name}</strong></span>
-        <span class="mono" style="font-weight:700; color:${score >= 50 ? 'var(--primary)' : 'var(--muted)'}">${score}%</span>
-      `;
-      div.onclick = () => {
-        min.active = !min.active;
-        renderDbPills();
-        reprocessAllSamples(false);
-      };
+      div.innerHTML = `<span><span class="rank-dot" style="background:${min.color}"></span><strong>${lang === "ko" ? min.nameKo : min.name}</strong></span><span class="mono" style="font-weight:700; color:${score >= 50 ? 'var(--primary)' : 'var(--muted)'}">${score}%</span>`;
+      div.onclick = () => { min.active = !min.active; renderDbPills(); reprocessAllSamples(false); };
       box.appendChild(div);
     });
   }
@@ -1888,11 +1184,7 @@
       const btn = document.createElement("span");
       btn.className = "db-pill" + (min.active ? " active" : "");
       btn.innerHTML = `<span class="rank-dot" style="background:${min.color}; margin-right:0;"></span>${lang === "ko" ? min.nameKo : min.name}`;
-      btn.onclick = () => {
-        min.active = !min.active;
-        renderDbPills();
-        reprocessAllSamples(false);
-      };
+      btn.onclick = () => { min.active = !min.active; renderDbPills(); reprocessAllSamples(false); };
       wrap.appendChild(btn);
     });
   }
@@ -1900,27 +1192,11 @@
   function renderPeakTable(sample) {
     const tbody = document.getElementById("peakTableBody");
     tbody.innerHTML = "";
-    const sorted = [...sample.peaks].sort((a, b) => b.area - a.area);
-    sorted.forEach((p, idx) => {
+    [...sample.peaks].sort((a, b) => b.area - a.area).forEach((p, idx) => {
       const tr = document.createElement("tr");
       if (p.idx === selectedPeakIdx) tr.className = "selected";
-      const matchStyle = p.isUnassigned ? "color:#b45309; font-weight:700;" : "font-weight:600;";
-      tr.innerHTML = `
-        <td>${idx + 1}</td>
-        <td>${p.obs2T.toFixed(3)}</td>
-        <td>${p.corr2T.toFixed(3)}</td>
-        <td>${p.d.toFixed(4)}</td>
-        <td>${p.net.toFixed(1)}</td>
-        <td>${p.area.toFixed(2)}</td>
-        <td>${p.relArea.toFixed(1)}%</td>
-        <td style="font-family:var(--sans); ${matchStyle}">${p.matchLabel}</td>
-        <td>${p.matchDiff !== null ? (p.matchDiff >= 0 ? "+" : "") + p.matchDiff.toFixed(3) + "°" : "—"}</td>
-      `;
-      tr.onclick = () => {
-        selectedPeakIdx = p.idx;
-        renderPeakTable(sample);
-        renderChart();
-      };
+      tr.innerHTML = `<td>${idx + 1}</td><td>${p.obs2T.toFixed(3)}</td><td>${p.corr2T.toFixed(3)}</td><td>${p.d.toFixed(4)}</td><td>${p.net.toFixed(1)}</td><td>${p.area.toFixed(2)}</td><td>${p.relArea.toFixed(1)}%</td><td style="font-family:var(--sans); ${p.isUnassigned ? 'color:#b45309;font-weight:700;' : 'font-weight:600;'}">${p.matchLabel}</td><td>${p.matchDiff !== null ? (p.matchDiff >= 0 ? "+" : "") + p.matchDiff.toFixed(3) + "°" : "—"}</td>`;
+      tr.onclick = () => { selectedPeakIdx = p.idx; renderPeakTable(sample); renderChart(); };
       tbody.appendChild(tr);
     });
   }
@@ -1929,65 +1205,31 @@
     const tbody = document.getElementById("batchTableBody");
     tbody.innerHTML = "";
     samples.forEach((s, idx) => {
-      const top = s.ranked[0];
-      const topName = top ? `${lang === "ko" ? top.min.nameKo : top.min.name} (${top.score}%)` : "—";
-      const midShift = s.s0 + s.s1 * Math.cos(15 * Math.PI / 180);
-
-      const quantEntries = (s.phaseQuantList || [])
-        .filter(item => item.pct > 0)
-        .map(item => `${lang === "ko" ? item.nameKo : item.nameEn}: <strong>${item.pct.toFixed(1)}%</strong>`)
-        .join(" | ");
-
+      const top = s.ranked[0], midShift = s.s0 + s.s1 * Math.cos(15 * Math.PI / 180);
+      const quantEntries = (s.phaseQuantList || []).filter(item => item.pct > 0).map(item => `${lang === "ko" ? item.nameKo : item.nameEn}: <strong>${item.pct.toFixed(1)}%</strong>`).join(" | ");
       const tr = document.createElement("tr");
       if (idx === activeSampleIdx) tr.className = "selected";
-      tr.innerHTML = `
-        <td>${idx + 1}</td>
-        <td style="font-family:var(--sans); font-weight:600;">${s.name}</td>
-        <td style="font-family:var(--sans);">${topName}</td>
-        <td>${(midShift >= 0 ? "+" : "") + midShift.toFixed(3)}°</td>
-        <td style="font-size:11px;">${quantEntries || "—"}</td>
-      `;
-      tr.onclick = () => {
-        activeSampleIdx = idx;
-        syncActiveSampleUI();
-      };
+      tr.innerHTML = `<td>${idx + 1}</td><td style="font-family:var(--sans); font-weight:600;">${s.name}</td><td style="font-family:var(--sans);">${top ? (lang === "ko" ? top.min.nameKo : top.min.name) + " (" + top.score + "%)" : "—"}</td><td>${(midShift >= 0 ? "+" : "") + midShift.toFixed(3)}°</td><td style="font-size:11px;">${quantEntries || "—"}</td>`;
+      tr.onclick = () => { activeSampleIdx = idx; syncActiveSampleUI(); };
       tbody.appendChild(tr);
     });
   }
 
   function renderChart() {
-    const svg = document.getElementById("xrdSvg");
-    const W = 980, H = 560;
-    const padL = 62, padR = 24, padT = 26, padB = 46;
-    const plotW = W - padL - padR;
-    const plotH = H - padT - padB;
-
-    const activeSample = samples[activeSampleIdx];
+    const svg = document.getElementById("xrdSvg"), W = 980, H = 560, padL = 62, padR = 24, padT = 26, padB = 46;
+    const plotW = W - padL - padR, plotH = H - padT - padB, activeSample = samples[activeSampleIdx];
     if (!activeSample) return;
 
-    const showFit = document.getElementById("chkFitCurve").checked;
-    const showRes = document.getElementById("chkResidual").checked;
-    const showLabels = document.getElementById("chkLabels").checked;
-
+    const showFit = document.getElementById("chkFitCurve").checked, showRes = document.getElementById("chkResidual").checked, showLabels = document.getElementById("chkLabels").checked;
     const pal = THEME_CHART_PALETTE[currentTheme];
-    const bgColor = pubMode ? "#ffffff" : pal.bg;
-    const gridColor = pubMode ? "#e5e7eb" : pal.grid;
-    const frameColor = pubMode ? "#27272a" : pal.frame;
-    const textColor = pubMode ? "#18181b" : pal.text;
-
+    const bgColor = pubMode ? "#ffffff" : pal.bg, gridColor = pubMode ? "#e5e7eb" : pal.grid, frameColor = pubMode ? "#27272a" : pal.frame, textColor = pubMode ? "#18181b" : pal.text;
     const xToPx = x => padL + ((x - viewMin) / Math.max(0.1, viewMax - viewMin)) * plotW;
 
-    let html = `<rect x="0" y="0" width="${W}" height="${H}" fill="${bgColor}" />`;
-    html += `<rect x="${padL}" y="${padT}" width="${plotW}" height="${plotH}" fill="${bgColor}" stroke="${frameColor}" stroke-width="1.2" />`;
-
-    const span = viewMax - viewMin;
-    const tickStep = span <= 10 ? 1 : (span <= 25 ? 2 : 5);
-    const firstTick = Math.ceil(viewMin / tickStep) * tickStep;
-    for (let t = firstTick; t <= viewMax; t += tickStep) {
+    let html = `<rect x="0" y="0" width="${W}" height="${H}" fill="${bgColor}" /><rect x="${padL}" y="${padT}" width="${plotW}" height="${plotH}" fill="${bgColor}" stroke="${frameColor}" stroke-width="1.2" />`;
+    const span = viewMax - viewMin, tickStep = span <= 10 ? 1 : (span <= 25 ? 2 : 5);
+    for (let t = Math.ceil(viewMin / tickStep) * tickStep; t <= viewMax; t += tickStep) {
       const px = xToPx(t);
-      html += `<line x1="${px}" y1="${padT}" x2="${px}" y2="${padT + plotH}" stroke="${gridColor}" stroke-width="0.8" />`;
-      html += `<line x1="${px}" y1="${padT + plotH}" x2="${px}" y2="${padT + plotH - 5}" stroke="${frameColor}" stroke-width="1.1" />`;
-      html += `<text x="${px}" y="${padT + plotH + 17}" font-size="11" fill="${textColor}" text-anchor="middle" font-family="monospace">${t.toFixed(0)}°</text>`;
+      html += `<line x1="${px}" y1="${padT}" x2="${px}" y2="${padT + plotH}" stroke="${gridColor}" stroke-width="0.8" /><line x1="${px}" y1="${padT + plotH}" x2="${px}" y2="${padT + plotH - 5}" stroke="${frameColor}" stroke-width="1.1" /><text x="${px}" y="${padT + plotH + 17}" font-size="11" fill="${textColor}" text-anchor="middle" font-family="monospace">${t.toFixed(0)}°</text>`;
     }
     html += `<text x="${padL + plotW / 2}" y="${H - 8}" font-size="12" font-weight="700" fill="${textColor}" text-anchor="middle" font-family="Georgia, serif">Diffraction Angle 2θ (degrees)</text>`;
 
@@ -1996,57 +1238,39 @@
       min.peaks.forEach(([std2T, relI]) => {
         const obsPos = stdToObs2Theta(std2T, activeSample.s0, activeSample.s1);
         if (obsPos < viewMin || obsPos > viewMax) return;
-        const px = xToPx(obsPos);
-        const stickH = (relI / 100) * (plotH * 0.42);
-        const yBot = padT + plotH;
-        const yTop = yBot - stickH;
-        html += `<line x1="${px}" y1="${yBot}" x2="${px}" y2="${yTop}" stroke="${stickCol}" stroke-width="1.8" opacity="0.82" />`;
-        html += `<circle cx="${px}" cy="${yTop}" r="2.2" fill="${stickCol}" />`;
+        const px = xToPx(obsPos), yBot = padT + plotH, yTop = yBot - (relI / 100) * (plotH * 0.42);
+        html += `<line x1="${px}" y1="${yBot}" x2="${px}" y2="${yTop}" stroke="${stickCol}" stroke-width="1.8" opacity="0.82" /><circle cx="${px}" cy="${yTop}" r="2.2" fill="${stickCol}" />`;
       });
     });
 
-    const visibleSamples = viewMode === "stack"
-      ? samples.filter(s => s.visible)
-      : [activeSample];
-
-    const stackCount = Math.max(1, visibleSamples.length);
-    const bandH = (plotH * 0.85) / stackCount;
+    const visibleSamples = viewMode === "stack" ? samples.filter(s => s.visible) : [activeSample];
+    const stackCount = Math.max(1, visibleSamples.length), bandH = (plotH * 0.85) / stackCount;
 
     visibleSamples.forEach((samp, sIdx) => {
       const yBasePx = padT + plotH - (showRes ? 32 : 14) - (stackCount - 1 - sIdx) * bandH;
       const traceArr = document.getElementById("chkBaseline").checked ? samp.netY : samp.smoothY;
-
       let localMax = 10;
       const inViewIdx = [];
       for (let i = 0; i < samp.rawX.length; i++) {
-        if (samp.rawX[i] >= viewMin && samp.rawX[i] <= viewMax) {
-          inViewIdx.push(i);
-          if (traceArr[i] > localMax) localMax = traceArr[i];
-        }
+        if (samp.rawX[i] >= viewMin && samp.rawX[i] <= viewMax) { inViewIdx.push(i); if (traceArr[i] > localMax) localMax = traceArr[i]; }
       }
-      const stride = Math.max(1, Math.floor(inViewIdx.length / 1800));
-      const scaleY = (bandH * 0.84) / localMax;
+      const stride = Math.max(1, Math.floor(inViewIdx.length / 1800)), scaleY = (bandH * 0.84) / localMax;
 
       if (inViewIdx.length) {
         let pts = "";
         for (let k = 0; k < inViewIdx.length; k += stride) {
           const i = inViewIdx[k];
-          const py = yBasePx - traceArr[i] * scaleY;
-          pts += `${xToPx(samp.rawX[i]).toFixed(1)},${py.toFixed(1)} `;
+          pts += `${xToPx(samp.rawX[i]).toFixed(1)},${(yBasePx - traceArr[i] * scaleY).toFixed(1)} `;
         }
         const isCurrent = samp.id === activeSample.id;
-        const strokeCol = pubMode ? "#111827" : samp.color;
-        const strokeW = isCurrent ? "1.75" : "1.2";
-        const dashAttr = (pubMode && !isCurrent) ? `stroke-dasharray="${sIdx % 2 === 1 ? "5,3" : "2,2"}"` : "";
-        html += `<polyline fill="none" stroke="${strokeCol}" stroke-width="${strokeW}" ${dashAttr} points="${pts.trim()}" />`;
+        html += `<polyline fill="none" stroke="${pubMode ? '#111827' : samp.color}" stroke-width="${isCurrent ? '1.75' : '1.2'}" ${(pubMode && !isCurrent) ? `stroke-dasharray="${sIdx % 2 === 1 ? '5,3' : '2,2'}"` : ''} points="${pts.trim()}" />`;
       }
 
       if (showFit && samp.id === activeSample.id && samp.fitY && samp.fitY.length === samp.rawX.length && inViewIdx.length) {
         let ptsFit = "";
         for (let k = 0; k < inViewIdx.length; k += stride) {
           const i = inViewIdx[k];
-          const py = yBasePx - samp.fitY[i] * scaleY;
-          ptsFit += `${xToPx(samp.rawX[i]).toFixed(1)},${py.toFixed(1)} `;
+          ptsFit += `${xToPx(samp.rawX[i]).toFixed(1)},${(yBasePx - samp.fitY[i] * scaleY).toFixed(1)} `;
         }
         html += `<polyline fill="none" stroke="#0284c7" stroke-width="1.3" stroke-dasharray="4,2" opacity="0.85" points="${ptsFit.trim()}" />`;
       }
@@ -2057,192 +1281,103 @@
         let ptsRes = "";
         for (let k = 0; k < inViewIdx.length; k += stride) {
           const i = inViewIdx[k];
-          const py = resZeroY - samp.resY[i] * (scaleY * 0.45);
-          ptsRes += `${xToPx(samp.rawX[i]).toFixed(1)},${py.toFixed(1)} `;
+          ptsRes += `${xToPx(samp.rawX[i]).toFixed(1)},${(resZeroY - samp.resY[i] * (scaleY * 0.45)).toFixed(1)} `;
         }
         html += `<polyline fill="none" stroke="#16a34a" stroke-width="1.0" opacity="0.8" points="${ptsRes.trim()}" />`;
       }
 
       if (viewMode === "stack") {
         const topQ = (samp.phaseQuantList || []).find(x => x.pct > 0);
-        const tag = topQ ? ` (${topQ.nameEn} ${topQ.pct.toFixed(1)}%)` : "";
-        const safeName = (samp.name + tag).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        const safeName = (samp.name + (topQ ? ` (${topQ.nameEn} ${topQ.pct.toFixed(1)}%)` : "")).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
         html += `<text x="${padL + plotW - 8}" y="${yBasePx - 6}" font-size="10.5" font-weight="700" fill="${pubMode ? '#111827' : samp.color}" text-anchor="end" font-family="monospace">${safeName}</text>`;
       }
 
       if (samp.id === activeSample.id) {
         const placedBoxes = [];
-        const candidatePeaks = samp.peaks
-          .filter(p => p.obs2T >= viewMin && p.obs2T <= viewMax && (p.rel >= 8 || p.isUnassigned || p.idx === selectedPeakIdx))
-          .sort((a, b) => b.net - a.net);
-
-        candidatePeaks.forEach(p => {
-          const px = xToPx(p.obs2T);
-          const val = document.getElementById("chkBaseline").checked ? p.net : p.raw;
-          const py = yBasePx - val * scaleY;
-          const isSel = p.idx === selectedPeakIdx;
-
-          if (isSel) {
-            html += `<line x1="${px}" y1="${padT}" x2="${px}" y2="${padT + plotH}" stroke="#9f1239" stroke-width="1.2" stroke-dasharray="3,3" />`;
-          }
-
-          if (p.isUnassigned && !pubMode) {
-            html += `<polygon points="${px},${py - 4.5} ${px + 4.5},${py} ${px},${py + 4.5} ${px - 4.5},${py}" fill="#f59e0b" stroke="#78350f" stroke-width="0.9" />`;
-          } else {
-            html += `<circle cx="${px}" cy="${py}" r="${isSel ? 4.2 : 2.5}" fill="${isSel ? '#9f1239' : (pubMode ? '#111827' : samp.color)}" />`;
-          }
+        samp.peaks.filter(p => p.obs2T >= viewMin && p.obs2T <= viewMax && (p.rel >= 8 || p.isUnassigned || p.idx === selectedPeakIdx)).sort((a, b) => b.net - a.net).forEach(p => {
+          const px = xToPx(p.obs2T), val = document.getElementById("chkBaseline").checked ? p.net : p.raw, py = yBasePx - val * scaleY, isSel = p.idx === selectedPeakIdx;
+          if (isSel) html += `<line x1="${px}" y1="${padT}" x2="${px}" y2="${padT + plotH}" stroke="#9f1239" stroke-width="1.2" stroke-dasharray="3,3" />`;
+          if (p.isUnassigned && !pubMode) html += `<polygon points="${px},${py - 4.5} ${px + 4.5},${py} ${px},${py + 4.5} ${px - 4.5},${py}" fill="#f59e0b" stroke="#78350f" stroke-width="0.9" />`;
+          else html += `<circle cx="${px}" cy="${py}" r="${isSel ? 4.2 : 2.5}" fill="${isSel ? '#9f1239' : (pubMode ? '#111827' : samp.color)}" />`;
 
           if (showLabels) {
-            const labelStr = p.isUnassigned ? `◆${p.corr2T.toFixed(2)}°` : `${p.corr2T.toFixed(2)}°`;
-            const boxW = labelStr.length * 6.4;
-            const boxH = 13;
+            const labelStr = p.isUnassigned ? `◆${p.corr2T.toFixed(2)}°` : `${p.corr2T.toFixed(2)}°`, boxW = labelStr.length * 6.4;
             let lblY = Math.max(padT + 14, py - 8);
-
             for (let attempt = 0; attempt < 6; attempt++) {
-              const overlap = placedBoxes.some(b =>
-                Math.abs(b.x - px) < (b.w + boxW) * 0.55 && Math.abs(b.y - lblY) < boxH
-              );
-              if (!overlap) break;
+              if (!placedBoxes.some(b => Math.abs(b.x - px) < (b.w + boxW) * 0.55 && Math.abs(b.y - lblY) < 13)) break;
               lblY = Math.max(padT + 14, lblY - 14);
             }
             placedBoxes.push({ x: px, y: lblY, w: boxW });
-
-            if (py - lblY > 15) {
-              html += `<line x1="${px}" y1="${py - 3}" x2="${px}" y2="${lblY + 2}" stroke="#9ca3af" stroke-width="0.7" />`;
-            }
-            const lblFill = isSel ? "#9f1239" : (p.isUnassigned && !pubMode ? "#d97706" : textColor);
-            html += `<text x="${px}" y="${lblY}" font-size="9.5" font-weight="700" fill="${lblFill}" text-anchor="middle" font-family="monospace">${labelStr}</text>`;
+            if (py - lblY > 15) html += `<line x1="${px}" y1="${py - 3}" x2="${px}" y2="${lblY + 2}" stroke="#9ca3af" stroke-width="0.7" />`;
+            html += `<text x="${px}" y="${lblY}" font-size="9.5" font-weight="700" fill="${isSel ? '#9f1239' : (p.isUnassigned && !pubMode ? '#d97706' : textColor)}" text-anchor="middle" font-family="monospace">${labelStr}</text>`;
           }
         });
       }
     });
 
     html += `<text x="18" y="${padT + plotH / 2}" font-size="12" font-weight="700" fill="${textColor}" text-anchor="middle" font-family="Georgia, serif" transform="rotate(-90 18 ${padT + plotH / 2})">Normalized Intensity (a.u.)</text>`;
-    html += `<rect id="zoomRect" x="0" y="${padT}" width="0" height="${plotH}" fill="rgba(168,74,40,0.12)" stroke="${frameColor}" stroke-dasharray="3,2" visibility="hidden" />`;
-    html += `<line id="crossX" x1="0" y1="${padT}" x2="0" y2="${padT + plotH}" stroke="#94a3b8" stroke-width="0.9" stroke-dasharray="2,2" visibility="hidden" />`;
-
+    html += `<rect id="zoomRect" x="0" y="${padT}" width="0" height="${plotH}" fill="rgba(168,74,40,0.12)" stroke="${frameColor}" stroke-dasharray="3,2" visibility="hidden" /><line id="crossX" x1="0" y1="${padT}" x2="0" y2="${padT + plotH}" stroke="#94a3b8" stroke-width="0.9" stroke-dasharray="2,2" visibility="hidden" />`;
     svg.innerHTML = html;
   }
 
   function buildSyntheticSample(id, name, color, peaks, shiftDeg) {
-    const n = 2200, minT = 15, maxT = 65;
-    const x = [], y = [];
+    const n = 2200, minT = 15, maxT = 65, x = [], y = [];
     for (let i = 0; i < n; i++) {
       const t = minT + (maxT - minT) * (i / (n - 1));
       let val = 50 + 110 * Math.exp(-Math.pow((t - 23.5) / 6.5, 2));
-      for (const [pos, amp] of peaks) {
-        val += amp * Math.exp(-Math.pow((t - (pos + shiftDeg)) / 0.14, 2));
-      }
+      for (const [pos, amp] of peaks) val += amp * Math.exp(-Math.pow((t - (pos + shiftDeg)) / 0.14, 2));
       val += ((Math.sin(i * 12.9898 + shiftDeg * 100) * 43758.5453) % 1) * 7;
-      x.push(t);
-      y.push(Math.max(10, val));
+      x.push(t); y.push(Math.max(10, val));
     }
-    return {
-      id, name, color, visible: true, isDemo: true,
-      rawX: x, rawY: y, smoothY: [], baseY: [], netY: [], fitY: [], resY: [],
-      s0: 0, s1: 0, peaks: [], ranked: [], phaseQuantList: []
-    };
+    return { id, name, color, visible: true, isDemo: true, rawX: x, rawY: y, smoothY: [], baseY: [], netY: [], fitY: [], resY: [], s0: 0, s1: 0, peaks: [], ranked: [], phaseQuantList: [] };
   }
 
   function loadDemoPreset(mode) {
-    samples = [];
-    activeSampleIdx = 0;
-    selectedPeakIdx = -1;
+    samples = []; activeSampleIdx = 0; selectedPeakIdx = -1;
     const pal = THEME_CHART_PALETTE[currentTheme].traces;
-
     if (mode === "core_suite") {
-      samples.push(buildSyntheticSample("s1", "Core_05mm_Top (Aragonite)", pal[0], [
-        [26.21, 320], [45.85, 210], [27.22, 165], [33.13, 145], [37.88, 120], [36.12, 105], [48.31, 100]
-      ], 0.22));
-      samples.push(buildSyntheticSample("s2", "Core_42mm_Mid (Transition)", pal[1], [
-        [29.40, 290], [39.40, 52], [43.15, 52], [47.50, 48], [48.51, 48],
-        [26.21, 160], [45.85, 105], [27.22, 82], [33.13, 72]
-      ], 0.15));
-      samples.push(buildSyntheticSample("s3", "Core_88mm_Base (Calcite)", pal[2], [
-        [29.40, 480], [39.40, 86], [43.15, 86], [47.50, 82], [48.51, 82], [35.97, 68], [23.02, 58]
-      ], 0.35));
+      samples.push(buildSyntheticSample("s1", "Core_05mm_Top (Aragonite)", pal[0], [[26.21,320],[45.85,210],[27.22,165],[33.13,145],[37.88,120],[36.12,105],[48.31,100]], 0.22));
+      samples.push(buildSyntheticSample("s2", "Core_42mm_Mid (Transition)", pal[1], [[29.40,290],[39.40,52],[43.15,52],[47.50,48],[48.51,48],[26.21,160],[45.85,105],[27.22,82],[33.13,72]], 0.15));
+      samples.push(buildSyntheticSample("s3", "Core_88mm_Base (Calcite)", pal[2], [[29.40,480],[39.40,86],[43.15,86],[47.50,82],[48.51,82],[35.97,68],[23.02,58]], 0.35));
       viewMode = "stack";
     } else if (mode === "aragonite") {
-      samples.push(buildSyntheticSample("s1", "WDS2_170 (Aragonite)", pal[0], [
-        [26.21, 150], [27.22, 60], [33.13, 78], [36.12, 98], [37.88, 70], [38.41, 85], [42.90, 258], [45.85, 407]
-      ], 0.49));
+      samples.push(buildSyntheticSample("s1", "WDS2_170 (Aragonite)", pal[0], [[26.21,150],[27.22,60],[33.13,78],[36.12,98],[37.88,70],[38.41,85],[42.90,258],[45.85,407]], 0.49));
       viewMode = "single";
     } else if (mode === "mixture") {
-      samples.push(buildSyntheticSample("s1", "Mix_Cal75_Ara25", pal[1], [
-        [29.40, 360], [39.40, 65], [43.15, 65], [47.50, 60], [48.51, 60],
-        [26.21, 120], [45.85, 78], [27.22, 62], [33.13, 55]
-      ], 0.15));
+      samples.push(buildSyntheticSample("s1", "Mix_Cal75_Ara25", pal[1], [[29.40,360],[39.40,65],[43.15,65],[47.50,60],[48.51,60],[26.21,120],[45.85,78],[27.22,62],[33.13,55]], 0.15));
       viewMode = "single";
     } else {
-      samples.push(buildSyntheticSample("s1", "Speleothem_Calcite", pal[2], [
-        [29.40, 480], [39.40, 86], [43.15, 86], [47.50, 82], [48.51, 82], [35.97, 68], [23.02, 58]
-      ], 0.35));
+      samples.push(buildSyntheticSample("s1", "Speleothem_Calcite", pal[2], [[29.40,480],[39.40,86],[43.15,86],[47.50,82],[48.51,82],[35.97,68],[23.02,58]], 0.35));
       viewMode = "single";
     }
-
-    document.querySelectorAll("#viewModeGroup button").forEach(b => {
-      b.classList.toggle("active", b.dataset.mode === viewMode);
-    });
-
+    document.querySelectorAll("#viewModeGroup button").forEach(b => b.classList.toggle("active", b.dataset.mode === viewMode));
     fullMin = 15; fullMax = 65; viewMin = 15; viewMax = 65;
-    document.getElementById("inpMin2T").value = viewMin;
-    document.getElementById("inpMax2T").value = viewMax;
+    document.getElementById("inpMin2T").value = viewMin; document.getElementById("inpMax2T").value = viewMax;
     reprocessAllSamples(true);
   }
 
   function handleFiles(fileList) {
     if (!fileList || !fileList.length) return;
-    const files = Array.from(fileList);
-    const pal = THEME_CHART_PALETTE[currentTheme].traces;
+    const files = Array.from(fileList), pal = THEME_CHART_PALETTE[currentTheme].traces;
     let loaded = 0;
-
-    const isOnlyDemo = samples.length > 0 && samples.every(s => s.isDemo);
-    if (isOnlyDemo) {
-      samples = [];
-      activeSampleIdx = 0;
-    }
-
+    if (samples.length > 0 && samples.every(s => s.isDemo)) { samples = []; activeSampleIdx = 0; }
     files.forEach(file => {
       const reader = new FileReader();
       reader.onload = e => {
         const text = e.target.result;
-        let parsed = null;
-        if (text.trim().startsWith("<") || text.includes("<xrdMeasurements")) {
-          parsed = parseXrdmlText(text);
-        } else {
-          parsed = parseDelimitedText(text);
-        }
+        const parsed = (text.trim().startsWith("<") || text.includes("<xrdMeasurements")) ? parseXrdmlText(text) : parseDelimitedText(text);
         if (parsed && parsed.x.length > 10) {
-          const color = pal[samples.length % pal.length];
-          const newSample = {
-            id: "samp_" + Date.now() + "_" + Math.random().toString(36).slice(2, 6),
-            name: file.name,
-            color,
-            visible: true,
-            isDemo: false,
-            rawX: parsed.x,
-            rawY: parsed.y,
-            smoothY: [], baseY: [], netY: [], fitY: [], resY: [],
-            s0: 0, s1: 0, peaks: [], ranked: [], phaseQuantList: []
-          };
+          const newSample = { id: "samp_" + Date.now() + "_" + Math.random().toString(36).slice(2, 6), name: file.name, color: pal[samples.length % pal.length], visible: true, isDemo: false, rawX: parsed.x, rawY: parsed.y, smoothY: [], baseY: [], netY: [], fitY: [], resY: [], s0: 0, s1: 0, peaks: [], ranked: [], phaseQuantList: [] };
           analyzeSample(newSample, true);
-          samples.push(newSample);
-          activeSampleIdx = samples.length - 1;
+          samples.push(newSample); activeSampleIdx = samples.length - 1;
         }
         loaded++;
         if (loaded === files.length && samples.length) {
           fullMin = Math.floor(Math.min(...samples.map(s => s.rawX[0])));
           fullMax = Math.ceil(Math.max(...samples.map(s => s.rawX[s.rawX.length - 1])));
-          viewMin = fullMin;
-          viewMax = fullMax;
-          document.getElementById("inpMin2T").value = viewMin;
-          document.getElementById("inpMax2T").value = viewMax;
-          if (samples.length > 1) {
-            viewMode = "stack";
-            document.querySelectorAll("#viewModeGroup button").forEach(b => {
-              b.classList.toggle("active", b.dataset.mode === "stack");
-            });
-          }
+          viewMin = fullMin; viewMax = fullMax;
+          document.getElementById("inpMin2T").value = viewMin; document.getElementById("inpMax2T").value = viewMax;
+          if (samples.length > 1) { viewMode = "stack"; document.querySelectorAll("#viewModeGroup button").forEach(b => b.classList.toggle("active", b.dataset.mode === "stack")); }
           syncActiveSampleUI();
         }
       };
@@ -2251,86 +1386,48 @@
   }
 
   function parseXrdmlText(xmlText) {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(xmlText, "text/xml");
+    const doc = new DOMParser().parseFromString(xmlText, "text/xml");
     const kAlpha1Node = doc.getElementsByTagName("kAlpha1")[0];
     if (kAlpha1Node) {
       const wlVal = parseFloat(kAlpha1Node.textContent);
-      if (!isNaN(wlVal)) {
-        const sel = document.getElementById("wavelengthSelect");
-        sel.options[0].value = wlVal.toFixed(6);
-        sel.options[0].textContent = `Cu Kα1 (${wlVal.toFixed(6)} Å)`;
-        sel.selectedIndex = 0;
-      }
+      if (!isNaN(wlVal)) { const sel = document.getElementById("wavelengthSelect"); sel.options[0].value = wlVal.toFixed(6); sel.options[0].textContent = `Cu Kα1 (${wlVal.toFixed(6)} Å)`; sel.selectedIndex = 0; }
     }
     const posNodes = doc.getElementsByTagName("positions");
     let startPos = 15, endPos = 65;
     for (let i = 0; i < posNodes.length; i++) {
-      if (posNodes[i].getAttribute("axis") === "2Theta") {
-        startPos = parseFloat(posNodes[i].getElementsByTagName("startPosition")[0].textContent);
-        endPos = parseFloat(posNodes[i].getElementsByTagName("endPosition")[0].textContent);
-        break;
-      }
+      if (posNodes[i].getAttribute("axis") === "2Theta") { startPos = parseFloat(posNodes[i].getElementsByTagName("startPosition")[0].textContent); endPos = parseFloat(posNodes[i].getElementsByTagName("endPosition")[0].textContent); break; }
     }
     const countsNode = doc.getElementsByTagName("counts")[0] || doc.getElementsByTagName("intensities")[0];
     if (!countsNode) return null;
     const yVals = countsNode.textContent.trim().split(/\s+/).map(Number).filter(v => !isNaN(v));
-    const xVals = yVals.map((_, idx) => startPos + (endPos - startPos) * (idx / Math.max(1, yVals.length - 1)));
-    return { x: xVals, y: yVals };
+    return { x: yVals.map((_, idx) => startPos + (endPos - startPos) * (idx / Math.max(1, yVals.length - 1))), y: yVals };
   }
 
   function parseDelimitedText(text) {
-    const lines = text.split(/\r?\n/);
-    const x = [], y = [];
-    let posCol = -1;
-    let intCol = -1;
-    let isTabDelimited = false;
-
+    const lines = text.split(/\r?\n/), x = [], y = [];
+    let posCol = -1, intCol = -1, isTab = false;
     for (let i = 0; i < Math.min(40, lines.length); i++) {
       const rawLine = lines[i].trim();
-      if (!rawLine) continue;
-      if (rawLine.includes("\t")) {
+      if (rawLine && rawLine.includes("\t")) {
         const cols = rawLine.split("\t").map(c => c.trim());
-        const pIdx = cols.findIndex(c => /pos|2theta|2θ|angle/i.test(c));
-        const iIdx = cols.findIndex(c => /intensity|counts|iobs|yobs/i.test(c));
-        if (pIdx !== -1 && iIdx !== -1) {
-          posCol = pIdx;
-          intCol = iIdx;
-          isTabDelimited = true;
-          break;
-        }
+        const pIdx = cols.findIndex(c => /pos|2theta|2θ|angle/i.test(c)), iIdx = cols.findIndex(c => /intensity|counts|iobs|yobs/i.test(c));
+        if (pIdx !== -1 && iIdx !== -1) { posCol = pIdx; intCol = iIdx; isTab = true; break; }
       }
     }
-
     for (const line of lines) {
       if (!line.trim()) continue;
-      if (posCol !== -1 && intCol !== -1 && isTabDelimited) {
+      if (posCol !== -1 && intCol !== -1 && isTab) {
         const cols = line.split("\t");
-        if (cols.length > Math.max(posCol, intCol)) {
-          const a = parseFloat(cols[posCol]);
-          const b = parseFloat(cols[intCol]);
-          if (!isNaN(a) && !isNaN(b) && a > 0 && a < 180) {
-            x.push(a);
-            y.push(b);
-          }
-        }
+        if (cols.length > Math.max(posCol, intCol)) { const a = parseFloat(cols[posCol]), b = parseFloat(cols[intCol]); if (!isNaN(a) && !isNaN(b) && a > 0 && a < 180) { x.push(a); y.push(b); } }
       } else {
         const parts = line.trim().split(/[\s,;]+/);
         if (parts.length >= 2) {
           if (parts.length >= 3 && /^\d+$/.test(parts[0]) && parseFloat(parts[1]) > 0 && parseFloat(parts[1]) < 180) {
-            const a = parseFloat(parts[1]);
-            const b = parseFloat(parts[parts.length - 1]);
-            if (!isNaN(a) && !isNaN(b)) {
-              x.push(a);
-              y.push(b);
-              continue;
-            }
+            const a = parseFloat(parts[1]), b = parseFloat(parts[parts.length - 1]);
+            if (!isNaN(a) && !isNaN(b)) { x.push(a); y.push(b); continue; }
           }
           const a = parseFloat(parts[0]), b = parseFloat(parts[1]);
-          if (!isNaN(a) && !isNaN(b) && a > 0 && a < 180) {
-            x.push(a);
-            y.push(b);
-          }
+          if (!isNaN(a) && !isNaN(b) && a > 0 && a < 180) { x.push(a); y.push(b); }
         }
       }
     }
@@ -2345,41 +1442,24 @@
     const isExp = document.getElementById("mainWorkspace").classList.contains("expanded-chart");
     document.getElementById("btnToggleExpand").textContent = isExp ? dict.btnCollapseExpand : dict.btnExpand;
     document.getElementById("btnToggleTable").textContent = tableCollapsed ? dict.btnExpandTable : dict.btnCollapseTable;
-
-    document.querySelectorAll("[data-i18n]").forEach(el => {
-      const key = el.getAttribute("data-i18n");
-      if (["pubModeBtn", "btnExpand", "btnCollapseTable"].includes(key)) return;
-      if (dict[key]) el.textContent = dict[key];
-    });
-    document.querySelectorAll("[data-i18n-ph]").forEach(el => {
-      const key = el.getAttribute("data-i18n-ph");
-      if (dict[key]) el.setAttribute("placeholder", dict[key]);
-    });
-
-    renderGuideContent();
-    renderSuitePresets();
-    renderDbPills();
-    reprocessAllSamples(false);
+    document.querySelectorAll("[data-i18n]").forEach(el => { const k = el.getAttribute("data-i18n"); if (!["pubModeBtn", "btnExpand", "btnCollapseTable"].includes(k) && dict[k]) el.textContent = dict[k]; });
+    document.querySelectorAll("[data-i18n-ph]").forEach(el => { const k = el.getAttribute("data-i18n-ph"); if (dict[k]) el.setAttribute("placeholder", dict[k]); });
+    renderGuideContent(); renderSuitePresets(); renderDbPills(); reprocessAllSamples(false);
   }
 
-  // Left Sidebar 3-Tab Switcher
   document.querySelectorAll(".side-nav-btn").forEach(btn => {
     btn.onclick = () => {
       document.querySelectorAll(".side-nav-btn").forEach(b => b.classList.remove("active"));
       document.querySelectorAll(".side-pane").forEach(p => p.classList.remove("active"));
-      btn.classList.add("active");
-      document.getElementById(btn.dataset.sideTab).classList.add("active");
+      btn.classList.add("active"); document.getElementById(btn.dataset.sideTab).classList.add("active");
     };
   });
 
-  // Expand Chart / Collapse Table Toggles
   document.getElementById("btnToggleExpand").onclick = () => {
     const ws = document.getElementById("mainWorkspace");
     ws.classList.toggle("expanded-chart");
     const dict = I18N[lang];
-    document.getElementById("btnToggleExpand").textContent = ws.classList.contains("expanded-chart")
-      ? dict.btnCollapseExpand
-      : dict.btnExpand;
+    document.getElementById("btnToggleExpand").textContent = ws.classList.contains("expanded-chart") ? dict.btnCollapseExpand : dict.btnExpand;
   };
 
   document.getElementById("btnToggleTable").onclick = () => {
@@ -2390,153 +1470,62 @@
     document.getElementById("btnToggleTable").textContent = tableCollapsed ? dict.btnExpandTable : dict.btnCollapseTable;
   };
 
-  document.querySelectorAll("#themeSwitcher .theme-btn").forEach(btn => {
-    btn.onclick = () => setTheme(btn.dataset.themeVal, true);
-  });
+  document.querySelectorAll("#themeSwitcher .theme-btn").forEach(btn => { btn.onclick = () => setTheme(btn.dataset.themeVal, true); });
 
-  const dropzone = document.getElementById("dropzone");
-  const fileInput = document.getElementById("fileInput");
+  const dropzone = document.getElementById("dropzone"), fileInput = document.getElementById("fileInput");
   dropzone.onclick = () => fileInput.click();
   fileInput.onchange = e => { handleFiles(e.target.files); fileInput.value = ""; };
   dropzone.ondragover = e => { e.preventDefault(); dropzone.classList.add("dragover"); };
   dropzone.ondragleave = () => dropzone.classList.remove("dragover");
-  dropzone.ondrop = e => {
-    e.preventDefault();
-    dropzone.classList.remove("dragover");
-    handleFiles(e.dataTransfer.files);
-  };
+  dropzone.ondrop = e => { e.preventDefault(); dropzone.classList.remove("dragover"); handleFiles(e.dataTransfer.files); };
 
-  document.getElementById("btnClearSamples").onclick = () => {
-    samples = [];
-    document.getElementById("sampleList").innerHTML = "";
-    document.getElementById("peakTableBody").innerHTML = "";
-    document.getElementById("batchTableBody").innerHTML = "";
-    document.getElementById("xrdSvg").innerHTML = "";
-    document.getElementById("chipSampleInfo").textContent = "—";
-  };
-
+  document.getElementById("btnClearSamples").onclick = () => { samples = []; document.getElementById("sampleList").innerHTML = ""; document.getElementById("peakTableBody").innerHTML = ""; document.getElementById("batchTableBody").innerHTML = ""; document.getElementById("xrdSvg").innerHTML = ""; document.getElementById("chipSampleInfo").textContent = "—"; };
   document.getElementById("demoSelect").onchange = e => loadDemoPreset(e.target.value);
-
-  document.getElementById("btnAutoFit").onclick = () => {
-    const s = samples[activeSampleIdx];
-    if (!s) return;
-    analyzeSample(s, true);
-    syncActiveSampleUI();
-  };
+  document.getElementById("btnAutoFit").onclick = () => { const s = samples[activeSampleIdx]; if (s) { analyzeSample(s, true); syncActiveSampleUI(); } };
 
   document.getElementById("btnAutoSuggest").onclick = () => {
     const s = samples[activeSampleIdx];
     if (!s || !s.peaks || !s.peaks.length) return;
-
     const activeMins = minerals.filter(m => m.active);
-    const unexplainedPeaks = s.peaks.filter(dp => {
-      return !activeMins.some(min =>
-        min.peaks.some(([std2T]) => Math.abs(dp.corr2T - std2T) <= 0.16)
-      );
-    });
-
+    const unexplainedPeaks = s.peaks.filter(dp => !activeMins.some(min => min.peaks.some(([std2T]) => Math.abs(dp.corr2T - std2T) <= 0.16)));
     const targetPeaks = unexplainedPeaks.length > 0 ? unexplainedPeaks : s.peaks;
-
-    const candidates = minerals
-      .filter(m => !m.active)
-      .map(min => {
-        let hitScore = 0;
-        targetPeaks.forEach(dp => {
-          min.peaks.forEach(([std2T, relI]) => {
-            const diff = Math.abs(dp.corr2T - std2T);
-            if (diff <= 0.16) {
-              const prox = Math.exp(-Math.pow(diff / 0.08, 2));
-              hitScore += dp.rel * (relI / 100) * prox;
-            }
-          });
+    const candidates = minerals.filter(m => !m.active).map(min => {
+      let hitScore = 0;
+      targetPeaks.forEach(dp => {
+        min.peaks.forEach(([std2T, relI]) => {
+          const diff = Math.abs(dp.corr2T - std2T);
+          if (diff <= 0.16) hitScore += dp.rel * (relI / 100) * Math.exp(-Math.pow(diff / 0.08, 2));
         });
-        return { min, hitScore };
-      })
-      .filter(item => item.hitScore > 0)
-      .sort((a, b) => b.hitScore - a.hitScore)
-      .slice(0, 3);
-
-    if (candidates.length === 0) {
-      alert(lang === "ko"
-        ? "현재 검출된 미할당 피크와 추가로 일치하는 후보 광물이 DB에 없습니다."
-        : "No additional candidate phases in the DB match the remaining unexplained peaks.");
-      return;
-    }
-
-    candidates.forEach(c => {
-      c.min.active = true;
-    });
-
-    renderDbPills();
-    reprocessAllSamples(false);
+      });
+      return { min, hitScore };
+    }).filter(item => item.hitScore > 0).sort((a, b) => b.hitScore - a.hitScore).slice(0, 3);
+    if (!candidates.length) return alert(lang === "ko" ? "미할당 피크와 추가로 일치하는 후보 광물이 DB에 없습니다." : "No additional candidate phases match remaining peaks.");
+    candidates.forEach(c => { c.min.active = true; });
+    renderDbPills(); reprocessAllSamples(false);
   };
+
+  document.getElementById("btnClearAllPhases").onclick = () => { minerals.forEach(m => { m.active = false; }); renderDbPills(); reprocessAllSamples(false); };
+  document.getElementById("btnToggleAll").onclick = () => { minerals.forEach(m => { m.active = !m.active; }); renderDbPills(); reprocessAllSamples(false); };
+  document.getElementById("btnResetRir").onclick = () => { minerals.forEach(m => { m.rir = m.defaultRir || 1.2; }); saveRirOverrides(); reprocessAllSamples(false); };
 
   document.getElementById("btnSaveCustomSuite").onclick = () => {
     const activeIds = minerals.filter(m => m.active).map(m => m.id);
-    if (!activeIds.length) {
-      return alert(lang === "ko" ? "먼저 저장할 광물 알약을 하나 이상 선택해 주세요." : "Please select at least one mineral pill first.");
-    }
-    const promptMsg = lang === "ko" ? "저장할 광물 조합 프리셋 이름을 입력하세요 (예: 우리랩 석순 코어):" : "Enter a name for this mineral combination preset:";
-    const name = window.prompt(promptMsg);
+    if (!activeIds.length) return alert(lang === "ko" ? "먼저 저장할 광물 알약을 선택해 주세요." : "Please select at least one mineral pill first.");
+    const name = window.prompt(lang === "ko" ? "저장할 광물 조합 프리셋 이름:" : "Preset suite name:");
     if (!name || !name.trim()) return;
-    customSuites.push({
-      id: "custom_suite_" + Date.now(),
-      labelKo: name.trim(),
-      labelEn: name.trim(),
-      ids: activeIds
-    });
+    customSuites.push({ id: "custom_suite_" + Date.now(), labelKo: name.trim(), labelEn: name.trim(), ids: activeIds });
     safeSet("isoxrd_custom_suites_v4", JSON.stringify(customSuites));
     renderSuitePresets();
   };
 
-  document.getElementById("btnResetRir").onclick = () => {
-    minerals.forEach(m => { m.rir = m.defaultRir || 1.2; });
-    saveRirOverrides();
-    reprocessAllSamples(false);
-  };
-
-  document.getElementById("sliderS0").oninput = e => {
-    const s = samples[activeSampleIdx];
-    if (!s) return;
-    s.s0 = parseFloat(e.target.value);
-    analyzeSample(s, false);
-    syncActiveSampleUI();
-  };
-
-  document.getElementById("sliderS1").oninput = e => {
-    const s = samples[activeSampleIdx];
-    if (!s) return;
-    s.s1 = parseFloat(e.target.value);
-    analyzeSample(s, false);
-    syncActiveSampleUI();
-  };
-
-  document.getElementById("sliderProm").oninput = e => {
-    document.getElementById("lblProm").textContent = parseFloat(e.target.value).toFixed(1) + "%";
-    reprocessAllSamples(false);
-  };
-  document.getElementById("sliderSmooth").oninput = e => {
-    document.getElementById("lblSmooth").textContent = e.target.value + " pts";
-    reprocessAllSamples(false);
-  };
-  ["chkBaseline", "chkAutoPo", "chkFitCurve", "chkResidual", "chkLabels", "wavelengthSelect"].forEach(id => {
-    document.getElementById(id).onchange = () => reprocessAllSamples(false);
-  });
-
-  document.getElementById("btnToggleAll").onclick = () => {
-    const anyOn = minerals.some(m => m.active);
-    minerals.forEach(m => m.active = !anyOn);
-    renderDbPills();
-    reprocessAllSamples(false);
-  };
+  document.getElementById("sliderS0").oninput = e => { const s = samples[activeSampleIdx]; if (s) { s.s0 = parseFloat(e.target.value); analyzeSample(s, false); syncActiveSampleUI(); } };
+  document.getElementById("sliderS1").oninput = e => { const s = samples[activeSampleIdx]; if (s) { s.s1 = parseFloat(e.target.value); analyzeSample(s, false); syncActiveSampleUI(); } };
+  document.getElementById("sliderProm").oninput = e => { document.getElementById("lblProm").textContent = parseFloat(e.target.value).toFixed(1) + "%"; reprocessAllSamples(false); };
+  document.getElementById("sliderSmooth").oninput = e => { document.getElementById("lblSmooth").textContent = e.target.value + " pts"; reprocessAllSamples(false); };
+  ["chkBaseline", "chkSnrFilter", "chkAutoPo", "chkFitCurve", "chkResidual", "chkLabels", "wavelengthSelect"].forEach(id => { document.getElementById(id).onchange = () => reprocessAllSamples(false); });
 
   document.querySelectorAll("#viewModeGroup button").forEach(btn => {
-    btn.onclick = () => {
-      viewMode = btn.dataset.mode;
-      document.querySelectorAll("#viewModeGroup button").forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-      renderChart();
-    };
+    btn.onclick = () => { viewMode = btn.dataset.mode; document.querySelectorAll("#viewModeGroup button").forEach(b => b.classList.remove("active")); btn.classList.add("active"); renderChart(); };
   });
 
   document.querySelectorAll(".sub-tab-btn").forEach(btn => {
@@ -2553,213 +1542,98 @@
     };
   });
 
-  document.getElementById("btnApplyRange").onclick = () => {
-    const a = parseFloat(document.getElementById("inpMin2T").value);
-    const b = parseFloat(document.getElementById("inpMax2T").value);
-    if (!isNaN(a) && !isNaN(b) && b > a + 0.5) {
-      viewMin = a; viewMax = b;
-      renderChart();
-    }
-  };
-  document.getElementById("btnResetZoom").onclick = () => {
-    viewMin = fullMin; viewMax = fullMax;
-    document.getElementById("inpMin2T").value = viewMin;
-    document.getElementById("inpMax2T").value = viewMax;
-    renderChart();
-  };
-
-  document.getElementById("btnPubMode").onclick = () => {
-    pubMode = !pubMode;
-    const dict = I18N[lang];
-    document.getElementById("btnPubMode").textContent = pubMode ? dict.pubModeBtnActive : dict.pubModeBtn;
-    renderChart();
-  };
+  document.getElementById("btnApplyRange").onclick = () => { const a = parseFloat(document.getElementById("inpMin2T").value), b = parseFloat(document.getElementById("inpMax2T").value); if (!isNaN(a) && !isNaN(b) && b > a + 0.5) { viewMin = a; viewMax = b; renderChart(); } };
+  document.getElementById("btnResetZoom").onclick = () => { viewMin = fullMin; viewMax = fullMax; document.getElementById("inpMin2T").value = viewMin; document.getElementById("inpMax2T").value = viewMax; renderChart(); };
+  document.getElementById("btnPubMode").onclick = () => { pubMode = !pubMode; const dict = I18N[lang]; document.getElementById("btnPubMode").textContent = pubMode ? dict.pubModeBtnActive : dict.pubModeBtn; renderChart(); };
 
   const svgEl = document.getElementById("xrdSvg");
   let dragStartPx = null;
-  svgEl.onmousedown = e => {
-    const rect = svgEl.getBoundingClientRect();
-    dragStartPx = ((e.clientX - rect.left) / rect.width) * 980;
-  };
+  svgEl.onmousedown = e => { const rect = svgEl.getBoundingClientRect(); dragStartPx = ((e.clientX - rect.left) / rect.width) * 980; };
   svgEl.onmousemove = e => {
     const s = samples[activeSampleIdx];
     if (!s) return;
-    const rect = svgEl.getBoundingClientRect();
-    const px = ((e.clientX - rect.left) / rect.width) * 980;
-    const padL = 62, plotW = 894;
+    const rect = svgEl.getBoundingClientRect(), px = ((e.clientX - rect.left) / rect.width) * 980, padL = 62, plotW = 894;
     if (px >= padL && px <= padL + plotW) {
-      const t = viewMin + ((px - padL) / plotW) * (viewMax - viewMin);
-      const corrT = corr2Theta(t, s.s0, s.s1);
-      const wl = parseFloat(document.getElementById("wavelengthSelect").value);
+      const t = viewMin + ((px - padL) / plotW) * (viewMax - viewMin), corrT = corr2Theta(t, s.s0, s.s1), wl = parseFloat(document.getElementById("wavelengthSelect").value);
       const d = wl / (2 * Math.sin((corrT / 2) * Math.PI / 180));
-      document.getElementById("cursorReadout").textContent =
-        `Obs 2θ: ${t.toFixed(2)}° | Corr 2θ: ${corrT.toFixed(2)}° | d: ${d.toFixed(3)} Å`;
+      document.getElementById("cursorReadout").textContent = `Obs 2θ: ${t.toFixed(2)}° | Corr 2θ: ${corrT.toFixed(2)}° | d: ${d.toFixed(3)} Å`;
       const cx = document.getElementById("crossX");
       if (cx) { cx.setAttribute("x1", px); cx.setAttribute("x2", px); cx.setAttribute("visibility", "visible"); }
     }
     if (dragStartPx !== null) {
       const zr = document.getElementById("zoomRect");
-      if (zr) {
-        zr.setAttribute("x", Math.min(dragStartPx, px));
-        zr.setAttribute("width", Math.abs(px - dragStartPx));
-        zr.setAttribute("visibility", "visible");
-      }
+      if (zr) { zr.setAttribute("x", Math.min(dragStartPx, px)); zr.setAttribute("width", Math.abs(px - dragStartPx)); zr.setAttribute("visibility", "visible"); }
     }
   };
   svgEl.onmouseup = e => {
     if (dragStartPx === null) return;
-    const rect = svgEl.getBoundingClientRect();
-    const px = ((e.clientX - rect.left) / rect.width) * 980;
-    const padL = 62, plotW = 894;
+    const rect = svgEl.getBoundingClientRect(), px = ((e.clientX - rect.left) / rect.width) * 980, padL = 62, plotW = 894;
     if (Math.abs(px - dragStartPx) > 12) {
-      const x1 = Math.max(padL, Math.min(dragStartPx, px));
-      const x2 = Math.min(padL + plotW, Math.max(dragStartPx, px));
-      const newMin = viewMin + ((x1 - padL) / plotW) * (viewMax - viewMin);
-      const newMax = viewMin + ((x2 - padL) / plotW) * (viewMax - viewMin);
-      if (newMax - newMin > 0.4) {
-        viewMin = Math.round(newMin * 100) / 100;
-        viewMax = Math.round(newMax * 100) / 100;
-        document.getElementById("inpMin2T").value = viewMin;
-        document.getElementById("inpMax2T").value = viewMax;
-        renderChart();
-      }
+      const x1 = Math.max(padL, Math.min(dragStartPx, px)), x2 = Math.min(padL + plotW, Math.max(dragStartPx, px));
+      const newMin = viewMin + ((x1 - padL) / plotW) * (viewMax - viewMin), newMax = viewMin + ((x2 - padL) / plotW) * (viewMax - viewMin);
+      if (newMax - newMin > 0.4) { viewMin = Math.round(newMin * 100) / 100; viewMax = Math.round(newMax * 100) / 100; document.getElementById("inpMin2T").value = viewMin; document.getElementById("inpMax2T").value = viewMax; renderChart(); }
     }
-    dragStartPx = null;
-    const zr = document.getElementById("zoomRect");
-    if (zr) zr.setAttribute("visibility", "hidden");
+    dragStartPx = null; const zr = document.getElementById("zoomRect"); if (zr) zr.setAttribute("visibility", "hidden");
   };
   svgEl.ondblclick = () => document.getElementById("btnResetZoom").click();
 
   function buildStandaloneSvgString() {
     const svgNode = document.getElementById("xrdSvg").cloneNode(true);
-    svgNode.setAttribute("xmlns", "http://www.w3.org/2000/svg");
-    svgNode.setAttribute("width", "1960");
-    svgNode.setAttribute("height", "1120");
-    const zr = svgNode.querySelector("#zoomRect");
-    const cx = svgNode.querySelector("#crossX");
-    if (zr) zr.remove();
-    if (cx) cx.remove();
-    const serializer = new XMLSerializer();
-    let svgStr = serializer.serializeToString(svgNode);
-    if (!svgStr.startsWith("<?xml")) {
-      svgStr = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n' + svgStr;
-    }
-    return svgStr;
+    svgNode.setAttribute("xmlns", "http://www.w3.org/2000/svg"); svgNode.setAttribute("width", "1960"); svgNode.setAttribute("height", "1120");
+    const zr = svgNode.querySelector("#zoomRect"), cx = svgNode.querySelector("#crossX");
+    if (zr) zr.remove(); if (cx) cx.remove();
+    let svgStr = new XMLSerializer().serializeToString(svgNode);
+    return svgStr.startsWith("<?xml") ? svgStr : '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n' + svgStr;
   }
 
   document.getElementById("btnExportCsv").onclick = () => {
     const s = samples[activeSampleIdx];
     if (!s) return;
-    let csv = "\uFEFF";
-    csv += "# [100% 정규화 반정량 요약 / BATCH PO-CORRECTED RIR WEIGHT% SUMMARY]\r\n";
-    csv += "시료명 (Sample),1순위 광물 한글 (Primary_KO),1순위 광물 영문 (Primary_EN),적합도 (Score_%),보정변위 (Shift_deg),광물별 반정량 Weight% (Sum 100.0%)\r\n";
+    let csv = "\uFEFF# [BATCH PO-CORRECTED RIR WEIGHT% SUMMARY]\r\nSample,Primary_KO,Primary_EN,Score_%,Shift_deg,Weight%_Summary\r\n";
     samples.forEach(item => {
-      const top = item.ranked[0];
-      const sh = item.s0 + item.s1 * Math.cos(15 * Math.PI / 180);
-      const koName = top ? top.min.nameKo : "";
-      const enName = top ? top.min.name : "";
-      const quantStr = (item.phaseQuantList || [])
-        .filter(q => q.pct > 0)
-        .map(q => `${q.nameKo}/${q.nameEn}: ${q.pct.toFixed(1)}%`)
-        .join("; ");
-      csv += `"${item.name}","${koName}","${enName}",${top ? top.score : 0},${sh.toFixed(4)},"${quantStr}"\r\n`;
+      const top = item.ranked[0], sh = item.s0 + item.s1 * Math.cos(15 * Math.PI / 180);
+      const quantStr = (item.phaseQuantList || []).filter(q => q.pct > 0).map(q => `${q.nameKo}/${q.nameEn}: ${q.pct.toFixed(1)}%`).join("; ");
+      csv += `"${item.name}","${top ? top.min.nameKo : ""}","${top ? top.min.name : ""}",${top ? top.score : 0},${sh.toFixed(4)},"${quantStr}"\r\n`;
     });
-
-    csv += `\r\n# [활성 시료 피크 분석 / ACTIVE SAMPLE PEAKS]: ${s.name}\r\n`;
-    csv += "관측_2Theta,보정_2Theta,면간거리_d(A),순수높이_NetHeight,적분면적_Area,상대면적_RelArea(%),매칭광물_한영병기 (Matched_Phase_KO_EN),편차_Delta2Theta\r\n";
-    s.peaks.forEach(p => {
-      csv += `${p.obs2T.toFixed(4)},${p.corr2T.toFixed(4)},${p.d.toFixed(5)},${p.net.toFixed(2)},${p.area.toFixed(3)},${p.relArea.toFixed(2)},"${p.matchBilingual}",${p.matchDiff !== null ? p.matchDiff.toFixed(4) : ""}\r\n`;
-    });
-
-    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = "IsoXRD_v4_6_WeightPercent.csv";
-    a.click();
+    csv += `\r\n# [ACTIVE SAMPLE PEAKS]: ${s.name}\r\nObs_2Theta,Corr_2Theta,d(A),NetHeight,Area,RelArea(%),Matched_Phase,Delta2Theta\r\n`;
+    s.peaks.forEach(p => { csv += `${p.obs2T.toFixed(4)},${p.corr2T.toFixed(4)},${p.d.toFixed(5)},${p.net.toFixed(2)},${p.area.toFixed(3)},${p.relArea.toFixed(2)},"${p.matchBilingual}",${p.matchDiff !== null ? p.matchDiff.toFixed(4) : ""}\r\n`; });
+    const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8;" })); a.download = "IsoXRD_v4_6_1_WeightPercent.csv"; a.click();
   };
 
   document.getElementById("btnExportPng").onclick = () => {
-    const svgStr = buildStandaloneSvgString();
-    const svgBlob = new Blob([svgStr], { type: "image/svg+xml;charset=utf-8" });
-    const url = URL.createObjectURL(svgBlob);
+    const url = URL.createObjectURL(new Blob([buildStandaloneSvgString()], { type: "image/svg+xml;charset=utf-8" }));
     const img = new Image();
     img.onload = () => {
-      const canvas = document.createElement("canvas");
-      canvas.width = 1960;
-      canvas.height = 1120;
-      const ctx = canvas.getContext("2d");
-      ctx.fillStyle = "#ffffff";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-      URL.revokeObjectURL(url);
-
-      canvas.toBlob(pngBlob => {
-        const a = document.createElement("a");
-        a.href = URL.createObjectURL(pngBlob);
-        a.download = `IsoXRD_${currentTheme}_Figure.png`;
-        a.click();
-      }, "image/png");
+      const canvas = document.createElement("canvas"); canvas.width = 1960; canvas.height = 1120;
+      const ctx = canvas.getContext("2d"); ctx.fillStyle = "#ffffff"; ctx.fillRect(0, 0, 1960, 1120); ctx.drawImage(img, 0, 0, 1960, 1120); URL.revokeObjectURL(url);
+      canvas.toBlob(b => { const a = document.createElement("a"); a.href = URL.createObjectURL(b); a.download = `IsoXRD_${currentTheme}_Figure.png`; a.click(); }, "image/png");
     };
     img.src = url;
   };
 
   document.getElementById("btnExportSvg").onclick = () => {
-    const svgStr = buildStandaloneSvgString();
-    const blob = new Blob([svgStr], { type: "image/svg+xml;charset=utf-8" });
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = `IsoXRD_${currentTheme}_Figure.svg`;
-    a.click();
+    const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([buildStandaloneSvgString()], { type: "image/svg+xml;charset=utf-8" })); a.download = `IsoXRD_${currentTheme}_Figure.svg`; a.click();
   };
 
-  document.getElementById("btnLang").onclick = () => {
-    lang = lang === "ko" ? "en" : "ko";
-    applyLanguage();
-  };
+  document.getElementById("btnLang").onclick = () => { lang = lang === "ko" ? "en" : "ko"; applyLanguage(); };
 
   const guideModal = document.getElementById("guideModalBackdrop");
-  document.getElementById("btnOpenGuideModal").onclick = () => {
-    renderGuideContent();
-    guideModal.classList.add("open");
-  };
+  document.getElementById("btnOpenGuideModal").onclick = () => { renderGuideContent(); guideModal.classList.add("open"); };
   document.getElementById("btnCloseGuideModal").onclick = () => guideModal.classList.remove("open");
   guideModal.onclick = e => { if (e.target === guideModal) guideModal.classList.remove("open"); };
-
   document.querySelectorAll("[data-guide-tab]").forEach(btn => {
-    btn.onclick = () => {
-      document.querySelectorAll("[data-guide-tab]").forEach(b => b.classList.remove("active"));
-      guideModal.querySelectorAll(".tab-pane").forEach(p => p.classList.remove("active"));
-      btn.classList.add("active");
-      document.getElementById(btn.dataset.guideTab).classList.add("active");
-    };
+    btn.onclick = () => { document.querySelectorAll("[data-guide-tab]").forEach(b => b.classList.remove("active")); guideModal.querySelectorAll(".tab-pane").forEach(p => p.classList.remove("active")); btn.classList.add("active"); document.getElementById(btn.dataset.guideTab).classList.add("active"); };
   });
 
   const citeModal = document.getElementById("citeModalBackdrop");
-  document.getElementById("btnOpenCiteModal").onclick = () => {
-    renderCitationTexts();
-    citeModal.classList.add("open");
-  };
+  document.getElementById("btnOpenCiteModal").onclick = () => { renderCitationTexts(); citeModal.classList.add("open"); };
   document.getElementById("btnCloseCiteModal").onclick = () => citeModal.classList.remove("open");
   citeModal.onclick = e => { if (e.target === citeModal) citeModal.classList.remove("open"); };
-
-  document.getElementById("btnSaveDoi").onclick = () => {
-    const val = document.getElementById("inpZenodoDoi").value.trim();
-    if (val) {
-      savedDoi = val;
-      safeSet("isoxrd_zenodo_doi", savedDoi);
-      renderCitationTexts();
-    }
-  };
-
+  document.getElementById("btnSaveDoi").onclick = () => { const val = document.getElementById("inpZenodoDoi").value.trim(); if (val) { savedDoi = val; safeSet("isoxrd_zenodo_doi", savedDoi); renderCitationTexts(); } };
   document.querySelectorAll("[data-copy-target]").forEach(btn => {
     btn.onclick = () => {
       const targetEl = document.getElementById(btn.dataset.copyTarget);
-      if (!targetEl) return;
-      navigator.clipboard.writeText(targetEl.textContent).then(() => {
-        const dict = I18N[lang];
-        btn.textContent = dict.copiedBtn;
-        setTimeout(() => { btn.textContent = dict.copyBtn; }, 1600);
-      });
+      if (targetEl) navigator.clipboard.writeText(targetEl.textContent).then(() => { const dict = I18N[lang]; btn.textContent = dict.copiedBtn; setTimeout(() => { btn.textContent = dict.copyBtn; }, 1600); });
     };
   });
 
@@ -2767,124 +1641,68 @@
   document.getElementById("btnOpenDbModal").onclick = () => { modal.classList.add("open"); renderCustomDbList(); };
   document.getElementById("btnCloseDbModal").onclick = () => modal.classList.remove("open");
   modal.onclick = e => { if (e.target === modal) modal.classList.remove("open"); };
-
   document.querySelectorAll("#dbModalBackdrop .tab-btn").forEach(btn => {
-    btn.onclick = () => {
-      document.querySelectorAll("#dbModalBackdrop .tab-btn").forEach(b => b.classList.remove("active"));
-      document.querySelectorAll("#dbModalBackdrop .tab-pane").forEach(p => p.classList.remove("active"));
-      btn.classList.add("active");
-      document.getElementById(btn.dataset.tab).classList.add("active");
-    };
+    btn.onclick = () => { document.querySelectorAll("#dbModalBackdrop .tab-btn").forEach(b => b.classList.remove("active")); document.querySelectorAll("#dbModalBackdrop .tab-pane").forEach(p => p.classList.remove("active")); btn.classList.add("active"); document.getElementById(btn.dataset.tab).classList.add("active"); };
   });
 
   function persistCustomList() {
     const customOnly = minerals.filter(m => !CORE_MINERALS.some(c => c.id === m.id));
     safeSet("isoxrd_custom_minerals_v2", JSON.stringify(customOnly));
-    renderDbPills();
-    renderCustomDbList();
-    reprocessAllSamples(false);
+    renderDbPills(); renderCustomDbList(); reprocessAllSamples(false);
   }
 
   function renderCustomDbList() {
-    const el = document.getElementById("customDbList");
-    const customOnly = minerals.filter(m => !CORE_MINERALS.some(c => c.id === m.id));
-    const title = lang === "ko" ? `현재 로드된 확장 광물 (${customOnly.length}종): ` : `Loaded Extended Phases (${customOnly.length}): `;
-    el.innerHTML = `<strong>${title}</strong>` +
-      customOnly.map(m => `${m.nameKo}(${m.name}) [RIR=${m.rir || 1.2}]`).join(", ");
+    const el = document.getElementById("customDbList"), customOnly = minerals.filter(m => !CORE_MINERALS.some(c => c.id === m.id));
+    el.innerHTML = `<strong>${lang === "ko" ? `현재 로드된 확장 광물 (${customOnly.length}종): ` : `Loaded Extended Phases (${customOnly.length}): `}</strong>` + customOnly.map(m => `${m.nameKo}(${m.name}) [RIR=${m.rir || 1.2}]`).join(", ");
   }
 
   document.getElementById("btnSavePastedMin").onclick = () => {
-    const name = document.getElementById("newMinName").value.trim();
-    const nameKo = document.getElementById("newMinKo").value.trim() || name;
-    const formula = document.getElementById("newMinFormula").value.trim();
-    const rirVal = parseFloat(document.getElementById("newMinRir").value) || 1.2;
-    const color = document.getElementById("newMinColor").value;
-    const unit = document.querySelector('input[name="pasteUnit"]:checked').value;
-    const wl = parseFloat(document.getElementById("wavelengthSelect").value);
-    const lines = document.getElementById("pasteArea").value.split(/\r?\n/);
-
+    const name = document.getElementById("newMinName").value.trim(), nameKo = document.getElementById("newMinKo").value.trim() || name, formula = document.getElementById("newMinFormula").value.trim();
+    const rirVal = parseFloat(document.getElementById("newMinRir").value) || 1.2, color = document.getElementById("newMinColor").value;
+    const unit = document.querySelector('input[name="pasteUnit"]:checked').value, wl = parseFloat(document.getElementById("wavelengthSelect").value);
     const parsed = [];
-    for (const line of lines) {
+    for (const line of document.getElementById("pasteArea").value.split(/\r?\n/)) {
       const m = line.trim().match(/^([0-9.]+)[\s,;]+([0-9.]+)(?:[\s,;]+(.+))?$/);
       if (m) {
         const v1 = parseFloat(m[1]), v2 = parseFloat(m[2]), hkl = (m[3] || "").trim();
         let t2 = v1, d = 0;
-        if (unit === "d") {
-          d = v1;
-          t2 = 2 * Math.asin(Math.min(1, wl / (2 * d))) * 180 / Math.PI;
-        } else {
-          t2 = v1;
-          d = wl / (2 * Math.sin((t2 / 2) * Math.PI / 180));
-        }
+        if (unit === "d") { d = v1; t2 = 2 * Math.asin(Math.min(1, wl / (2 * d))) * 180 / Math.PI; }
+        else { t2 = v1; d = wl / (2 * Math.sin((t2 / 2) * Math.PI / 180)); }
         parsed.push([Math.round(t2 * 100) / 100, v2, Math.round(d * 1000) / 1000, hkl]);
       }
     }
-    if (!name || !parsed.length) {
-      return alert(lang === "ko" ? "광물 이름과 유효한 피크 데이터를 입력해 주세요." : "Please enter mineral name and valid peak data.");
-    }
+    if (!name || !parsed.length) return alert(lang === "ko" ? "광물 이름과 유효한 피크 데이터를 입력해 주세요." : "Please enter mineral name and valid peak data.");
     const maxI = Math.max(...parsed.map(p => p[1]), 1);
     parsed.forEach(p => p[1] = Math.round((p[1] / maxI) * 100));
-
-    mergeMinerals([{
-      id: name.toLowerCase().replace(/[^a-z0-9]/g, "_"),
-      name, nameKo, formula, rir: rirVal, defaultRir: rirVal, color, active: true, peaks: parsed
-    }], true);
-    persistCustomList();
-    modal.classList.remove("open");
+    mergeMinerals([{ id: name.toLowerCase().replace(/[^a-z0-9]/g, "_"), name, nameKo, formula, rir: rirVal, defaultRir: rirVal, color, active: true, peaks: parsed }], true);
+    persistCustomList(); modal.classList.remove("open");
   };
 
   document.getElementById("btnCaptureSpectrum").onclick = () => {
-    const s = samples[activeSampleIdx];
-    const name = document.getElementById("capMinName").value.trim();
-    if (!name || !s || !s.peaks.length) {
-      return alert(lang === "ko" ? "광물 영문명을 입력해 주세요." : "Please enter an English mineral name.");
-    }
-    const top12 = [...s.peaks].sort((a, b) => b.net - a.net).slice(0, 12)
-      .map(p => [Math.round(p.corr2T * 100) / 100, Math.round(p.rel), Math.round(p.d * 1000) / 1000, ""]);
-    mergeMinerals([{
-      id: name.toLowerCase().replace(/[^a-z0-9]/g, "_"),
-      name,
-      nameKo: document.getElementById("capMinKo").value.trim() || name,
-      formula: document.getElementById("capMinFormula").value.trim(),
-      rir: 1.5,
-      defaultRir: 1.5,
-      color: document.getElementById("capMinColor").value,
-      active: true,
-      peaks: top12
-    }], true);
-    persistCustomList();
-    modal.classList.remove("open");
+    const s = samples[activeSampleIdx], name = document.getElementById("capMinName").value.trim();
+    if (!name || !s || !s.peaks.length) return alert(lang === "ko" ? "광물 영문명을 입력해 주세요." : "Please enter an English mineral name.");
+    const top12 = [...s.peaks].sort((a, b) => b.net - a.net).slice(0, 12).map(p => [Math.round(p.corr2T * 100) / 100, Math.round(p.rel), Math.round(p.d * 1000) / 1000, ""]);
+    mergeMinerals([{ id: name.toLowerCase().replace(/[^a-z0-9]/g, "_"), name, nameKo: document.getElementById("capMinKo").value.trim() || name, formula: document.getElementById("capMinFormula").value.trim(), rir: 1.5, defaultRir: 1.5, color: document.getElementById("capMinColor").value, active: true, peaks: top12 }], true);
+    persistCustomList(); modal.classList.remove("open");
   };
 
   document.getElementById("btnDownloadJson").onclick = () => {
     const customOnly = minerals.filter(m => !CORE_MINERALS.some(c => c.id === m.id));
-    const blob = new Blob([JSON.stringify(customOnly, null, 2)], { type: "application/json" });
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = "lab_custom_minerals.json";
-    a.click();
+    const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([JSON.stringify(customOnly, null, 2)], { type: "application/json" })); a.download = "lab_custom_minerals.json"; a.click();
   };
 
   document.getElementById("jsonFileInput").onchange = e => {
-    const file = e.target.files[0];
-    if (!file) return;
+    const file = e.target.files[0]; if (!file) return;
     const reader = new FileReader();
     reader.onload = ev => {
-      try {
-        const arr = JSON.parse(ev.target.result);
-        mergeMinerals(arr, true);
-        persistCustomList();
-        alert(lang === "ko" ? `${arr.length}종의 광물 DB를 성공적으로 불러왔습니다.` : `Loaded ${arr.length} mineral phases.`);
-      } catch (err) {
-        alert(lang === "ko" ? "JSON 형식이 올바르지 않습니다." : "Invalid JSON format.");
-      }
+      try { const arr = JSON.parse(ev.target.result); mergeMinerals(arr, true); persistCustomList(); alert(lang === "ko" ? `${arr.length}종의 광물 DB를 불러왔습니다.` : `Loaded ${arr.length} phases.`); }
+      catch (err) { alert(lang === "ko" ? "JSON 형식이 올바르지 않습니다." : "Invalid JSON format."); }
     };
     reader.readAsText(file);
   };
 
   document.getElementById("btnReloadRemotePreset").onclick = loadExternalPresetJson;
 
-  // Safe Boot Sequence
   setTheme(currentTheme, false);
   mergeMinerals(LAB_PRESET_FALLBACK, false);
   applySavedRirOverrides();
